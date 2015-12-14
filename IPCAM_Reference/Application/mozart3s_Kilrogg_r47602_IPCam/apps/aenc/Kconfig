@@ -1,0 +1,61 @@
+# This is a sample of video encoder Kconfig. 
+# Here shows how to use "choice" in Kconfig. 
+
+menu "Audio Setting"
+
+config AUDIO_DEVICE_NUM
+	int "Audio DEVICE Num"
+	default 1
+
+config AUDIO_TACK_NUM
+	int "Audio Track Num"
+	default 1
+
+config G711
+	bool "Enable G711 codec"
+	default n
+
+config G726
+	bool "Enable G726 encoder"
+	default n
+
+config GAMR
+	bool "Enable GAMR encoder"
+	default n
+
+config AAC4
+	bool "Enable AAC4 encoder"
+	default y
+
+config SELECT_AUDIO_CODEC
+	string "Selected audio default setting encoder:AAC4, G726, G711 ,GAMR"
+	default "AAC4"
+	depends on G711 || G726 || GAMR || AAC4
+
+config  BIT_RATE
+	int  "Default bit-rate setting"
+	default 32000
+	depends on G711 || G726 || GAMR || AAC4
+
+config  SAMPLE_RATE
+	int  "Sample rate setting"
+	default 8000
+	depends on G711 || G726 || GAMR || AAC4
+
+
+
+config  AUDIO_ENC_MODE
+	string "Selected G.711 audio encoding laws:alaw, ulaw"
+	default "ulaw"
+	depends on G711
+
+
+
+endmenu
+
+
+
+
+
+
+    

@@ -1,0 +1,42 @@
+#!/bin/sh
+PATH="/sbin:/bin"
+udev_root="/dev"
+tmpfs_size=2m
+
+# verify 
+if [ -e "$udev_root/.udev/" ]; then
+	if mountpoint -q $udev_root/; then
+		echo "udev is already active on $udev_root. "
+		exit 0
+	else
+		echo ".udev/ already exists on the static $udev_root!"
+	fi
+fi
+
+# mount /sys
+if ! mountpoint -q /sys/; then
+	test -d /sys || mkdir /sys
+	mount sysfs -t sysfs /sys
+fi
+
+# mount /proc
+if ! mountpoint -q /proc/; then
+	test -d /proc || mkdir /proc
+	mount proc -t proc /proc
+fi
+
+# umount /dev/pts
+if mountpoint -q $udev_root/pts/; then 
+	umount -n -l $udev_root/pts/ 
+fi
+
+echo > /sys/kernel/uevent_helper
+mount -o size=$tmpfs_size,mode=0755 -t tmpfs udev $udev_root
+mkdir $udev_root/pts
+mount -t devpts devpts $udev_root/pts
+
+# start udev
+udevd --daemon
+# request device events
+udevadm trigger
+

@@ -1,0 +1,10 @@
+#!/bin/sh
+# stop all process
+
+mv /etc/rcK.d/K73network /etc/rcK.d/K73network~
+mv /etc/rcK.d/K50http /etc/rcK.d/K50http~
+mv /etc/rcK.d/K82inetd /etc/rcK.d/K82inetd~
+mv /etc/rcK.d/K66watchdog /etc/rcK.d/K66watchdog~
+mv /etc/rcK.d/K18sysmgr /etc/rcK.d/K18sysmgr~
+
+/bin/run-parts -a stop /etc/rcK.d

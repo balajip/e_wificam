@@ -1,0 +1,13 @@
+#!/bin/bash
+# This script will untar a openssl tarball from source and build it. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=openssl
+VERSION=0.9.8
+A_VERSION=${VERSION}i
+PACKAGE_DIR=$APP_NAME-$A_VERSION
+PKG_ROOT=${PWD}
+TMP_DIR=tmp
+
+#remove files
+rm -rf ${TMP_DIR} lib include  ${PACKAGE_DIR}
+

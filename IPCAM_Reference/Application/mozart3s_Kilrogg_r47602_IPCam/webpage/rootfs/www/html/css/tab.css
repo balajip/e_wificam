@@ -1,0 +1,264 @@
+/*
+
+bright: rgb(234,242,255);
+normal: rgb(120,172,255);
+dark:	rgb(0,66,174);
+
+*/
+
+/* scrollbar IE only*/
+
+*{
+	SCROLLBAR-FACE-COLOR: #ffffff;
+ 	SCROLLBAR-HIGHLIGHT-COLOR: #ffffff;
+ 	SCROLLBAR-SHADOW-COLOR: #999999;
+ 	SCROLLBAR-3DLIGHT-COLOR: #999999;
+ 	SCROLLBAR-ARROW-COLOR: #999999;
+ 	SCROLLBAR-TRACK-COLOR: #ffffff;
+ 	SCROLLBAR-DARKSHADOW-COLOR: #ffffff;
+ 	SCROLLBAR-BASE-COLOR: #ffffff
+}
+
+html,body{
+    width:              100%;
+    /* FF and compliant browsers should automatically size the body/html */
+    /*height:             auto !important;*/
+    /* ie will set the body/html to 100%, anything overflowing 
+       that will (incorrectly) resize it. go IE */
+    height:             100%; 
+    /* when FF/etc automatically size the body/html it should be AT LEAST 
+       the height of the entire browser window, but can expand based on content. */
+    min-height:         100%; 
+    margin:             0px;
+    padding:            0px;
+}
+
+body {
+    /*font: bold 11px/1.5em Verdana;*/
+    font-size:          large;/*medium;*/
+    background-color:   #fff;
+}
+
+
+.dynamic-tab-pane-control.tab-pane {
+	position:	        relative;
+	width:		        100%;
+	height:             100%;
+	background:         #F4F7FB;
+}
+
+.dynamic-tab-pane-control .tab-row .tab {
+    display:            block;
+    float:              left;
+    margin:             0;
+    padding:            0;
+    font-size:          large;/*medium;*/
+}
+
+.dynamic-tab-pane-control .tab-row .tab.selected {
+/*	border:			1px solid rgb(120,172,255);
+	border-bottom:	0;
+	z-index:		3;
+	padding:		2px 6px 5px 6px;
+	margin:			1px -6px -2px 0px;
+	top:			-2px;
+	background:		white;
+*/
+}
+/*
+.dynamic-tab-pane-control .tab-row .tab a {
+	color:				rgb(0,66,174);
+	text-decoration:	none;
+	cursor:			    hand;
+	cursor:			    pointer;	
+}
+*/
+
+.dynamic-tab-pane-control .tab-row .hover .tabL {
+    cursor:                 default; 
+    background-position:    0% 0px;
+    border-bottom:	        0;
+	margin:			        1px 0px -1px 0px;
+}
+
+.dynamic-tab-pane-control .tab-row .hover .tabL .tabR {
+    background-position:    100% 0px;
+	border-bottom:	        0;
+}
+
+/*
+.dynamic-tab-pane-control .tab-row .tab.selected a {
+	font-weight:	bold;
+}
+*/
+.dynamic-tab-pane-control .tab-page {
+/*	clear:			both;
+	border:			1px solid rgb(120,172,255);
+	background:		White;
+	z-index:		2;
+	position:		relative;
+	top:			-2px;
+	color:			Black;
+	font-family:	Verdana, Helvetica, Arial;
+	font-size:		13px;
+	padding:		10px;
+*/
+	clear:			    both;
+	border-top:         1px solid #BCD2E6;
+	border-bottom:      0;
+	border-left:        0;
+	border-right:       0;
+	background:		    White;
+	z-index:		    2;
+	position:		    relative;
+	top:			    -1px;
+    width:              100%;
+    height:             100%;
+    margin:             0;
+}
+
+.dynamic-tab-pane-control .tab-row {
+	z-index:		    1;
+	white-space:	    nowrap;
+	background:         #F4F7FB;
+	height:             100%;
+	width:			    auto;
+	padding:            10px 50px 0px 50px;
+    margin:             0 auto;
+    list-style-type:    none;
+    border:             0;
+}
+
+/* style the links to be 50px wide by 31px high with a right border 1px solid white. Set the background color and the font size. */
+.tabL, .tabL:visited {
+    float:              left;
+    background:         url("../pic/tableft1.gif") no-repeat left top;
+    background-position:0% -42px;
+    margin:             0;
+    padding:            0 0 0 4px;
+    text-decoration:    none;
+    text-align:         center; 
+	
+	cursor:			    hand;
+	cursor:			    pointer;
+	
+	z-index:		    1;
+	position:		    relative;
+	top:			    0;
+}
+
+.tabL .tabR {
+    float:left;
+    display:block;
+    background:url("../pic/tabright1.gif") no-repeat right top;
+    background-position:100% -42px;
+    padding:5px 15px 4px 6px;
+    color:#627EB7;
+}
+
+/* specific to non IE browsers */
+/* set the background and foreground color of the main tab-pane li link on hover */
+.tab:hover .tabL{
+    cursor:                 default; 
+    background-position:    0% 0px;
+    border-bottom:	        0;
+	margin:			        1px 0px -1px 0px;
+}
+
+.tab:hover .tabL .tabR {
+    background-position:    100% 0px;
+	border-bottom:	        0;
+}
+
+.dynamic-tab-pane-control .tab.selected .tabL{
+    cursor:                 default; 
+    background-position:    0% 0px;
+    border-bottom:	        0;
+	z-index:		        3;
+}
+
+.tab.selected .tabL .tabR {
+    background-position:    100% 0px;
+	border-bottom:	        0;
+}
+
+/*-------------------sub ----------------*/
+#tabPage2 .tab-row {
+	background:         #F4F4F4;
+}
+
+#tabPage2 .tab-page {
+	border:             0;
+	height:             0;
+}
+
+/* style the links to be 50px wide by 31px high with a right border 1px solid white. Set the background color and the font size. */
+.tabLSub, .tabLSub:visited {
+    float:              left;
+    background:         url("../pic/tableftB.gif") no-repeat left top;
+    background-position:0% 0px;
+    margin:             0;
+    padding:            0 0 0 4px;
+    text-decoration:    none;
+    text-align:         center; 
+	
+	cursor:			    hand;
+	cursor:			    pointer;
+	
+	z-index:		    1;
+	position:		    relative;
+	top:			    0;
+}
+
+.tabLSub .tabRSub {
+    float:left;
+    display:block;
+    background:url("../pic/tabrightB.gif") no-repeat right top;
+    background-position:100% 0px;
+    padding:5px 15px 4px 6px;
+    color:#666;
+    font-size:          medium;
+}
+
+/* specific to non IE browsers */
+/* set the background and foreground color of the main tab-pane li link on hover */
+.tab:hover .tabLSub{
+    cursor:                 default; 
+    background-position:    0% -42px;
+    border-bottom:	        0;
+	margin:			        1px 0px -1px 0px;
+	
+}
+
+.tab:hover .tabLSub .tabRSub {
+    background-position:    100% -42px;
+	border-bottom:	0;
+
+}
+
+.dynamic-tab-pane-control .tab-row .hover .tabLSub{
+    cursor:                 default; 
+    background-position:    0% -42px;
+    border-bottom:	        0;
+	margin:			        1px 0px -1px 0px;
+	
+}
+
+.dynamic-tab-pane-control .tab-row .hover .tabLSub .tabRSub {
+    background-position:    100% -42px;
+	border-bottom:	0;
+
+}
+
+.dynamic-tab-pane-control .tab.selected .tabLSub{
+    cursor:                 default; 
+    background-position:    0% -42px;
+    border-bottom:	0;
+	z-index:		3;
+}
+
+.tab.selected .tabLSub .tabRSub {
+    background-position:    100% -42px;
+	border-bottom:	0;
+	color:#000;
+}

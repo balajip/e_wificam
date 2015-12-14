@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- Load common JavaScript -->
+<script type="text/javascript" src="/include/jQuery/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="../include/common.js"></script>
+<script type="text/javascript" src="../include/security.js"></script>
+<link href="../css/default.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+	<div class="confContent" id="content">
+	<form>
+		<fieldset>
+			<legend><strong>Root password</strong></legend><br>
+			<dl>
+				<dt>* Blank root password will disable user authentication.</dt>
+				<dt>Root password &#58;  
+					<input id="security_user_i0_pass" type="password" class="text" size="16" maxlength="64"/>
+				</dt>
+				<dt>Confirm root password &#58; 
+					<input id="confirm" type="password" class="text" size="16" maxlength="64"/>
+				</dt>
+			</dl>
+
+		</fieldset> 
+		<input type="button" class="button" onclick="saveRoot()" value="Save"/>
+	</form>
+<!--
+<form method="post" action="/cgi-bin/admin/editaccount.cgi" name="AddUser">
+<fieldset>
+	<legend><strong><span title="symbol">add_user</span></strong></legend>
+<dl>
+		<dt><span title="symbol">user_name</span>&#58; 
+			<input type="text" name="username" class="text" size="16" maxlength="64"/>
+		</dt>
+		<dt><span title="symbol">user_password</span>&#58; 
+			<input type="password" name="userpass" class="text" size="16" maxlength="64"/>
+		</dt>
+		<dt><span title="symbol">authentication</span>&#58;</dt>
+		<dt>&nbsp;<span class="position">
+		  <input type="radio" name="privilege" value="admin" checked="true"/><span title="symbol">administrator</span> </span></dt>
+		<dt>&nbsp;<span class="position">
+			<input type="radio" name="privilege" value="operator"/><span title="symbol">operator</span></span></dt>
+		<dt>&nbsp;<span class="position">
+		<input type="radio" name="privilege" value="view"/><span title="symbol">viewer</span></span>		</dt>
+</dl>
+	</fieldset>
+	
+	<input type="hidden" name="method" value="add"/>
+	<input type="hidden" name="return" value="/setup/security.html"/>
+	<input type="button" class="button" title="symbol" onclick="addUserList()" value="add"/>
+	</form>
+	<form method="post" action="/cgi-bin/admin/editaccount.cgi" name="ManageUser">
+	<fieldset>
+	<legend><strong><span title="symbol">manage_user</span></strong></legend>
+	<dl>
+		<dt><span title="symbol">user_name</span>&#58; 
+		
+		  <span class="position">
+		  <select name="index" onchange="onchangeUserList()" class="select">
+	      </select> 
+	       <input type="hidden" name="username"/>
+	       <input type="hidden" name="method"/>
+	       <input type="hidden" name="return" value="/setup/security.html"/>
+		  </span></dt>
+		 <dt><span title="symbol">user_password</span>&#58; 
+			<input type="password" name="userpass" class="text" size="16" maxlength="64"/>
+		</dt>
+
+	<dt><span title="symbol">authentication</span>&#58;</dt>
+		<dt>&nbsp;<span class="position">
+		  <input type="radio" name="privilege" value="admin"/><span title="symbol">administrator</span> </span></dt>
+		<dt>&nbsp;<span class="position">
+			<input type="radio" name="privilege" value="operator"/><span title="symbol">operator</span></span></dt>
+		<dt>&nbsp;<span class="position">
+		<input type="radio" name="privilege" value="view"/><span title="symbol">viewer</span></span>		</dt>
+		
+		
+</dl>
+</fieldset>
+<input type="button" class="button" title="symbol" onclick="modUserList()" value="save"/>
+<input type="button" class="button" title="symbol" onclick="delUserList()" value="delete"/>
+</form>
+-->
+	</div>
+	<div id="ajaxMask"><span id="ajaxImg"></span></div>
+</body>
+</html>

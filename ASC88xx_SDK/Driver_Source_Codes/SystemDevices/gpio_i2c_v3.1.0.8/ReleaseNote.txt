@@ -1,0 +1,176 @@
+***********************************************
+* GPIO_I2C Linux Driver for EVM, Release Note *
+***********************************************
+[Version 3.1.0.8]
+Release at 2012.12.25
+1. MODIFICATION: remove VN string - DONE.
+
+[Version 3.1.0.7]
+Release at 2012.09.25
+1. MODIFICATION: Register GPIO pin to Linux Kernel by gpio_request, gpio_request will help to disable muxed AGPO pin when request pin is 0~7. - DONE
+
+[Version 3.1.0.6]
+Release at 2011.12.01
+1. BUGFIX: In ISR, GPIOI2C_INTR interrupt status should be only checked in Mozart V1. - FIXED.
+2. MODIFICATION: VIC_VSYNC_IRQ is dynamically enabled before writing and diabled when the writing is finished. - DONE.
+3. MODIFICATION: GPIO_I2C fast-mode always waits the v_sync high-to-low interrupt before reading. - DONE.
+
+[Version 3.1.0.5]
+Release at 2011.11.10
+1. MODIFICATION: GPIO_I2C ISR is registered on VIC_VSYNC_IRQ instead of GPIO_IRQ after Mozart V2. - DONE.
+2. MODIFICATION: The code related to the former version of Linux 2.6.24 is phased out. - DONE.
+
+[Version 3.1.0.4]
+Release at 2011.06.09
+1. BUG: The 8th write bit overlaps the ack from device. - FIXED.
+
+[Version 3.1.0.3]
+Release at 2010.04.30
+1. MODIFICATION: GPIO_I2C fast-mode always waits the v_sync high-to-low interrupt before writing. This may fix MN34030PL sensor broken issue. - DONE.
+
+[Version 3.1.0.2]
+Release at 2009.12.09
+1. FEATURE: GPIO I2C bus0 clock and common data pins could be dynamically assigned by module parameters "iSCL_bus0" and "iSDA_bus" when installing module - DONE.
+2. MODIFICATION: Modify GPIOI2C_SCL_0 and GPIOI2C_SDA for Mozart RDK and EVB ver. b - DONE.
+
+[Version 3.1.0.1]
+Release at 2009.12.03
+1. MODIFICATION: Replace __GPIO_I2C_IN_ISR__ with GPIOI2C_INTR. If GPIOI2C_INTR is defined, SPI will be done in ISR - DONE.
+2. BUG: Only check GPIOI2C_INTR to decide if the shared interrupt is for GPIO_I2C device driver - DONE.
+
+[Version 3.1.0.0]
+Release at 2009.11.22
+1. MODIFICATION: Add GPIOI2C_SCL_1 and GPIOI2C_SDA_1 for other I2C devices - DONE.
+2. MODIFICATION: GPIOI2C_NO_ACK is change to 0x0002 and add GPIOI2C_IGNORE_ACK (0x0008) - DONE.
+3. MODIFICATION: Only toggle GPIOI2C_SEN in the fast (SPI) mode and set to DIR_IN when not used - DONE.
+4. MODIFICATION: Use LINUX_VERSION_CODE to decide the related codes for Linux 2.6.24 and above - DONE.
+5. BUG: GPIO_I2C_ReadByte in ISR should use call by pointer, not value - FIXED.
+6. BUG: The dev_id of free_irq should be consistent with request_irq - FIXED.
+
+[Version 3.0.0.18]
+Release at 2009.11.14
+1. MODIFICATION: Modify GPIOI2C_SEN and GPIOI2C_INTR accodring to MOZART EVM  - DONE.
+2. MODIFICATION: Use g_GPIO_I2C_devices as the dev_id pointer in request_irq() - DONE.
+3. MODIFICATION: Add SPI Read support in ISR - DONE.
+
+[Version 3.0.0.17]
+Release at 2009.09.25
+1. FEATURE: Add read operation to the fast (SPI) mode including the interrupt mechanism in the write operation - DONE.
+
+[Version 3.0.0.16]
+Release at 2009.08.21
+1. OPTIMIZATION: To further shorten the config time for the fast (SPI) mode, move all GPIO MMR progrmming into ISR - DONE.
+2. MODIFICATION: Configure the sensor without waiting ISR if the VSYNC is already low - DONE.
+
+[Version 3.0.0.15]
+Release at 2009.08.18
+1. OPTIMIZATION: Increase the speed of the fast (SPI) mode to 1.3MHz clock rate - DONE.
+2. MODIFICATION: Change GPIOI2C_SEN and GPIOI2C_INTR to GPIO 14 and GPIO 5 for Haydn RDK - DONE.
+
+[Version 3.0.0.14]
+Release at 2009.05.12
+1. BUG: For get assign the dev_id when request IRQ. - FIXED.
+
+[Version 3.0.0.13]
+Release at 2009.05.12
+1. MODIFICATION: Use share IRQ, SA_SHIRQ, in both gpioc and gpio_i2c device driver
+
+[Version 3.0.0.12]
+Release at 2009.05.11
+1. BUG: Compile error for Mozart platform - FIXED.
+
+[Version 3.0.0.11]
+Release at 2009.05.05
+1. FEATURE: Integrate the interrup signal to GPIOI2C_FAST mode. The transfer would be started after the ISR. - DONE.
+2. MODIFICATION: For GPIOI2C_FAST mode, use udelay(0) instead of udelay(1) - DONE.
+
+[Version 3.0.0.10]
+Release at 2009.04.23
+1. FEATURE: Add the GPIOI2C_FAST mode to make the transfer faster than the transfer defined by I2C Spec. - DONE.
+
+[Version 3.0.0.9]
+Release at 2009.04.13
+1. MODIFICATION: Modify pin GPIOI2C_SDA_2 from GPIO 9 to GPIO 10 in Haydn. - DONE.
+2. MODIFICATION: Modify pin GPIOI2C_SEN from GPIO 10 to GPIO 9 in Haydn. - DONE.
+
+[Version 3.0.0.8]
+Release at 2009.04.01
+1. FEATURE: GPIO I2C bus1 clock and data pins could be dynamically assigned by module parameters "iSCL_bus1" and "iSDA_bus1" when installing module.
+( ex: "insmod gpio_i2c.ko iSCL_bus1=0x100 iSDA_bus1=0x800" : GPIO I2C bus1 clock is GPIO_8, GPIO I2C bus1 data is GPIO_11 )
+This modification is for Haydn RDK boards which have different audio/RTC/EEPROM clock and data pins from Haydn EVM boards. (RDK clk/data : GPIO_0/GPIO_1, EVM clk/data : GPIO_8/GPIO_11)
+If there's no assigned module parameters, bus1 clock and data are GPIO_8 and GPIO_11 by default in Haydn platform.
+ - DONE
+
+[Version 3.0.0.7]
+Release at 2009.03.19
+1. FEATURE: Add GPIO I2C bus 2 on Haydn platform for 3-wire AF lens motor control - DONE.
+
+[Version 3.0.0.6]
+Release at 2009.03.13
+1. FEATURE: Support independent data bits between different I2C buses - DONE.
+2. MODIFICATION: Add GPIO I2C bus 1 on Haydn platform for audio. - DONE.
+
+[Version 3.0.0.5]
+Release at 2008.12.10
+1. MODIFICATION: Add macro GPIOI2C_NO_ACK and GPIOI2C_ACK for no-ack data tansfer - DONE.
+2. MODIFICATION: Add GPIOI2C_SEN for Mozart SoC -DONE.
+3. MODIFICATION: When getting ack fails, GPIO_I2C_Stop would be called. - DONE.
+4. MODIFICATION: Modify GPIO_I2C_Write to support no-ack data tansfer. - DONE.
+
+[Version 3.0.0.4]
+Release at 2008.09.15
+1. MODIFICATION: Add __ASM_ARCH_PLATFORM_BACH_H__ for dwNum is 1~3 - DONE.
+2. MODIFICATION: Remove static in ID string declaration to prevent ID string being removed during compilation -DONE.
+
+[Version 3.0.0.3]
+Release at 2008.03.20
+1. FEATURE: Support Bach/Haydn SoC - DONE.
+2. BUG: Syntax error for different platform define in gpio_i2c_locals.h - FIXED.
+
+[Version 3.0.0.2]
+Release at 2008.01.08
+1. MODIFICATION: Free private_data and set filp->private_data = NULL - DONE.
+
+[Version 3.0.0.1]
+Release at 2007.12.31
+1. FEATURE: Suuport Linux 2.6.
+2. FEATURE: Support Bach/Haydn SoC.
+3. MODIFICATION: Remove custom function, sleep() and use udelay() instead - DONE.
+4. MODIFICATION: Remove the specific delay for 24C16 write cycle - DONE.
+
+[Version 3.0.0.0]
+Release at 2007.11.23
+1. FEATURE: Suuport Linux 2.6 - DONE.
+2. FEATURE: Support Bach/Haydn SoC - DONE.
+3. MODIFICATION: Set SDA and SCL as input in GPIO_I2C_Stop() - DONE.
+
+[Version 2.0.0.1]
+Release at 2006.05.15
+1. FEATURE: Add ID string in device driver - DONE.
+2. FEATURE: Support 4 I2C buses with shared data bit - DONE.
+3. FEATURE: Add an object information structure to handle multiple open - DONE.
+4. MODIFICATION: The private_data in file structure pointer stores object information rather than the device structure - DONE.
+
+[Version 2.0.0.0]
+Release at 2004.12.29
+1. FEATURE: Support non-stop bit read/write - DONE.
+
+[Version 1.0.0.4]
+Release at 2004.07.06
+1. MODIFICATION: Review and re-arrange the code.
+
+[Version 1.0.0.3]
+Release at 2004.07.06
+1. MODIFICATION: Modify debug message
+
+[Version 1.0.0.2]
+Release at 2004.07.06
+1. MODIFICATION: Export file operation
+
+[Version 1.0.0.1]
+Release at 2004.07.06
+1. MODIFICATION: Add version string GPIOI2C_DRIVER_VERSION in gpio_i2c.h
+
+[Version 1.0.0.0]
+Release at 2004.06.24
+

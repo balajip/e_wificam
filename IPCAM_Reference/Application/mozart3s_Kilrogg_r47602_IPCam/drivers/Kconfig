@@ -1,0 +1,113 @@
+# This is a sample of video encoder Kconfig. 
+# Here shows how to use "choice" in Kconfig. 
+
+menu "Device Driver"
+
+choice
+	prompt "Audio Codec"
+	default NONEAUDIO
+	help
+	  Choose with which audio codec you would like to build. 
+config SSM2603
+	bool "SSM2603 audio codec"
+config TW2866_AUDIO
+	bool "TW2866 audio codec"
+config NVP1114A_AUDIO
+	bool "NVP1114A audio codec"
+config WAU8822
+	bool "WAU8822 audio codec"
+config WM8978
+	bool "WM8978 audio codec"
+config CAT6011_HDMI_AUDIO
+	bool "HDMI aduio (for CAT6011)"
+config IT6604_HDMI_AUDIO
+	bool "HDMI aduio (for IT6604)"
+config NONEAUDIO
+	bool "No audio codec on the board"
+
+endchoice
+
+choice
+	prompt "VOC Clock Source"
+	default OSC_SRC
+	depends on VOC
+	help
+	  Choose with which clock source of VOC you would like to build. 
+	config XTAL_SRC
+	  bool "Crystal Clock Source"
+	config OSC_SRC 
+	  bool "External Oscillator Clock Source"
+endchoice
+
+menu "Wifi Drivers"
+
+choice
+	prompt "USB Wifi Device Support"
+	default USB_NONE
+	help
+	  Choose which USB Wifi Adapter support you would like to build. 
+	config USB_WIFI_DWA125
+	  bool "Dlink USB Wifi Adapter DWA-125 (N150)"
+	config USB_WIFI_NW362 
+	  bool "Net-Core USB Wifi Adapter NW362 (300M)"
+	config USB_WIFI_RT3070 
+		bool "RT3070 USB Wifi Adapter (150M)"
+	config USB_NONE
+	  bool "None"
+endchoice
+
+choice
+	prompt "PCIe Wifi Device Support"
+	default PCIE_NONE
+	help
+	  Choose which PCIe Wifi Adapter support you would like to build. 
+	config PCIE_WIFI_ATHEROS 
+	  bool "Atheros PCIe Wifi Adapter WPEA-110N/E[AR6BXB92]"
+	  help
+	    Note: Make CONFIG_CFG80211=m & CONFIG_MAC80211=m at linux kernel and recompile the kernel source.
+	config PCIE_NONE
+	  bool "None"
+endchoice
+
+comment "For Atheros PCIe Card. Make sure kernel compiled with option CONFIG_CFG80211=m & CONFIG_MAC80211=m"
+
+endmenu
+
+#config MEDIAMEMSIZE
+#	int "Memory Size allocation for Media Engines(VML)"
+#	default 192
+
+config MMC
+	bool "MMC/SDHC controller driver(vpl_mmc.ko)"
+	default y
+
+config OTG 
+	bool "USB OTG controller driver(dwc_otg.ko)"
+	default y
+
+config IRRC
+	bool "IRDA controller driver(irrc.ko)"
+	default y
+config TMRC
+	bool "Timer controller(vpl_tmrc.ko)"
+	default y
+config WDT
+	bool "Watch Dog Timer driver(wdt.ko)"
+	default y
+config DCE
+	bool "Data crypto engine driver(vma_dce.ko)"
+	default y
+config I2C_GPIO
+	bool "I2C_GPIO driver(i2c-gpio.ko)"
+	default y
+config IRCUTCONTROLMODE
+	bool "IR-Cut control mode(ircut.ko)"
+	default y
+
+config DISABLE_KERNEL_MSG
+	bool "Disable the installation message of drivers"
+	default n
+endmenu
+
+
+

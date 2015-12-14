@@ -1,0 +1,13 @@
+#!/bin/bash
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=stunnel
+VERSION=4.26
+PACKAGE_DIR=$APP_NAME-$VERSION
+UNTAR_ARG='-zxf'
+HOST='arm-linux'
+CC=$HOST-gcc
+PKG_ROOT=${PWD}
+
+#remove files
+rm -rf ${APP_NAME} ${PACKAGE_DIR}
+

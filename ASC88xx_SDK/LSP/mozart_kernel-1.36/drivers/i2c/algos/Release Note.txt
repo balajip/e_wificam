@@ -1,0 +1,13 @@
+************************************************************
+* I2C Algorithm bit-banging driver for Mozart Release Note *
+************************************************************
+[Version 1.0.0.2]
+add delay before read ack stage
+Release at 2010.05.17
+
+[Version 1.0.0.1]
+Release at 2010.01.14
+
+[Version 1.0.0.0]
+First release
+Release at 2009.11.12

@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=big5">
+    <title>Kilrogg Webpage Specification</title>
+    <link rel="stylesheet" type="text/css" href="../template/vivo_doc.css">
+</head>
+
+<body>
+	<!------ An intra link flag "top"------>
+    <a name="top"></a>
+    <!------ Document title ------>
+    <div class="title">
+        <p>Client Settings</p>
+    </div>
+    <!------ Layout ------>
+    <div class="banner">
+        <div class="spacer"></div>
+        <span class="left">Layout</span>
+        <span class="right"><a href="#top">[Top]</a></span>
+        <div class="spacer"></div>
+    </div>
+    <div class="content">
+        <p>This page set the client connection properties.</p>
+        <p>When connecting to web page by IE on window PC:
+        <ul>
+            <div class="subtitle">Stream Options</div>
+            <ul>
+                <li>Stream 1 (select button)</li>
+                <li>Stream 2 (select button)</li>
+            </ul>
+            <div class="subtitle">MPEG-4 Media Options</div>
+            <ul>
+                <li>Video and Audio (select button)</li>
+                <li>Video Only (select button)</li>
+                <li>Audio Only (select button)</li>
+            </ul>
+            <div class="subtitle">MPEG-4 Protocol Options</div>
+            <ul>
+                <li>UDP unicast (select button)</li>
+                <li>UDP unicast (select button)</li>
+                <li>TCP (select button)</li>
+                <li>HTTP (select button)</li>
+            </ul>
+        </ul>
+        </p>
+        <p>When connecting to web page other than IE:
+        <ul>       
+            <div class="subtitle">Stream Options</div>
+               <ul>
+                   <li>Stream 1 (select button)</li>
+                   <li>Stream 2 (select button)</li>
+               </ul>
+        </ul>
+        </p>
+        <div class="subtitle">Sample view</div>
+            <!--p><img src="dia/security.png" border="0" width="760" height="220"></p-->
+    </div>
+    <!------ Functions ------>
+    <div class="banner">
+        <div class="spacer"></div>
+        <span class="left">Functions</span>
+        <span class="right"><a href="#top">[Top]</a></span>
+        <div class="spacer"></div>
+    </div>
+    <div class="content">
+        <p>Since there are multi streamings, for IE or other browsers, 
+           the stream options set which stream to connect in the Display page.
+        </p>
+        <p>If the connection by IE browser, the MPEG-4 connection setting is display. Media options set
+        connect video only or audio only or both.</p>
+        <p>The protocol set the option set the connection protocol for MPEG-4 streaming.
+            <ul>
+                <li>UDP: RTSP over TCP for signaling, RTP/RTCP for media streaming.</li>
+                <li>TCP: RTP/RTCP over RTSP for media streaming.</li>
+                <li>HTTP: RTP/RTCP over RTSP, RTSP over HTTP for signaling and streaming.</li>
+            </ul>
+        </p>
+        <div class="notebox">
+            <font class="note">Note: </font>If the streaming setting is MJPEG, both media options and protocol options
+            are ignore.
+        </div>
+        <div class="notebox">
+            <font class="note">Note: </font>For other browsers, the QuickTime plug-in is used, since QuickTime didn't provide
+            the setting for connection protocol or media options, there are streaming options only.
+        </div>
+        <div class="notebox">
+            <font class="note">Note: </font>All these settings should be register as cookies in the client computer.
+        </div>
+	</div>
+</body>
+
+</html>

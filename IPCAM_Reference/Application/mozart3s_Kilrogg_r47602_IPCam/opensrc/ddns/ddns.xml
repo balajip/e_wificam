@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<root>
+    <ddns>
+        <enable>off</enable>
+	<username></username>
+	<password></password>
+	<update_period></update_period>
+	<hostname></hostname>
+    </ddns>
+</root>

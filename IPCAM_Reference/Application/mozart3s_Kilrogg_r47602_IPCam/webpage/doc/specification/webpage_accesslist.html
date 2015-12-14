@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=big5">
+    <title>Kilrogg Webpage Specification</title>
+    <link rel="stylesheet" type="text/css" href="../template/vivo_doc.css">
+</head>
+
+<body>
+	<!------ An intra link flag "top"------>
+    <a name="top"></a>
+    <!------ Document title ------>
+    <div class="title">
+        <p>Access List</p>
+    </div>
+    <!------ Layout ------>
+    <div class="banner">
+        <div class="spacer"></div>
+        <span class="left">Layout</span>
+        <span class="right"><a href="#top">[Top]</a></span>
+        <div class="spacer"></div>
+    </div>
+    <div class="content">
+        <p>This page includes four fields.</p>
+        <div class="subtitle">Allowed list</div>
+            <ul>
+                <li>Start IP adderss (text input)</li>
+                <li>End IP address (text input)</li>
+            </ul>
+        <div class="subtitle">Delete allowed list</div>
+            <ul>
+                <li>Allowed list (select list)</li>
+            </ul>
+        <div class="subtitle">Denied list</div>
+            <ul>
+                <li>Start IP adderss (text input)</li>
+                <li>End IP address (text input)</li>
+            </ul>
+        <div class="subtitle">Delete denied list</div>
+            <ul>
+                <li>Denied list (select list)</li>
+            </ul>
+        <div class="subtitle">Sample view</div>
+            <p><img src="dia/accesslist.png" border="0" width="760" height="690"></p>
+    </div>
+    <!------ Functions ------>
+    <div class="banner">
+        <div class="spacer"></div>
+        <span class="left">Functions</span>
+        <span class="right"><a href="#top">[Top]</a></span>
+        <div class="spacer"></div>
+    </div>
+    <div class="content">
+        <p>Access list is to control the access permission of clinets by check the IP address.</p>
+        <p> There are two IP lists, allow list and denied list. Only those client whose IP is in allow list and 
+        not in denied list can access server. Each list can have 10 entries. Type start and end adress in text 
+        and click add button to add a new list. To delect a exist list, select the list and click delete button. 
+        </p>
+	</div>
+</body>
+
+</html>

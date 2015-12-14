@@ -1,0 +1,23 @@
+#!/bin/bash
+# This script will untar a ppp tarball from Debian, patch it, and build it. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=inadyn
+VERSION=1.96
+DEB_ORIG_TARBALL=${APP_NAME}_${VERSION}.orig.tar.gz
+DEB_PATCH=${APP_NAME}_${VERSION}-1.diff.gz
+PACKAGE_DIR=$APP_NAME-$VERSION
+UNTAR_ARG='-zxf'
+HOST='arm-linux-'
+OBJDUMP=${HOST}objdump
+flashfs_etc_config=${APP_NAME}.conf
+DDNS_CONF=ddns.xml
+
+# check if you have the proper objdump
+which $OBJDUMP > /dev/null || exit 1
+
+install ${APP_NAME} $1/usr/sbin/
+install ${flashfs_etc_config} $1/etc/
+
+test -d $1/etc/conf.d/ || mkdir -p $1/etc/conf.d/
+install ${DDNS_CONF} $1/etc/conf.d/
+

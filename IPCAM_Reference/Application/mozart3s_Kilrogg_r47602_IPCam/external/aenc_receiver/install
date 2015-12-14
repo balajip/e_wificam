@@ -1,0 +1,14 @@
+#!/bin/bash
+# This script will install expat. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=aenc_receiver
+ROOTFS_DIR=$1
+
+
+
+
+cp  ${APP_NAME}.sh ${ROOTFS_DIR}/usr/sbin/
+chmod 755 ${ROOTFS_DIR}/usr/sbin/${APP_NAME}.sh
+
+install ${APP_NAME} ${ROOTFS_DIR}/usr/sbin/
+

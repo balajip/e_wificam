@@ -1,0 +1,27 @@
+$Id: TODO,v 1.6 2000/06/19 23:55:57 hpa Exp $
+
+autofs v3 TODO list
+-------------------
+* I am accepting minor changes to autofs v3 such as additional
+  modules.  No major changes.
+
+autofs v4 TODO list
+-------------------
+* autofs 4 is developed by Jeremy Fitzhardinge.  It supports
+  multimounts without being quite as radical a departure
+  architecturally.
+
+autofs v5 TODO list
+-------------------
+* Completely rewritten kernel protocol, using the new VFS features
+  introduced by Alexander Viro for the 2.4 kernel series.
+* Use multithreading rather than processes in the daemon.
+* Support multimount entries.  (Quite messy: can't unmount the
+  tree as a unit, probably needs locking while constructing the tree,
+  and needs scaffolding if no entry for /.  Appears *very* difficult
+  to do without threading!)
+* /net support: need hostname resolver module (easy) as well as mountd
+  query (easy) plus all the multimount entry stuff...
+* Direct mount support.
+* (Hopefully) some kind of inode spoofing to support browsable
+  directories.

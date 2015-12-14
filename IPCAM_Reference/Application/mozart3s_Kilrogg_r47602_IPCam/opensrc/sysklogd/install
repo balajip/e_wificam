@@ -1,0 +1,18 @@
+#!/bin/bash
+# This script will untar a ppp tarball from Debian, patch it, and build it. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=sysklogd
+VERSION=1.5
+DEB_ORIG_TARBALL=${APP_NAME}_${VERSION}.orig.tar.gz
+DEB_PATCH=${APP_NAME}_${VERSION}-5.diff.gz
+PACKAGE_DIR=$APP_NAME-$VERSION
+UNTAR_ARG='-zxf'
+HOST='arm-linux-'
+OBJDUMP=${HOST}objdump
+EXE_FILE=syslogd
+
+# check if you have the proper objdump
+which $OBJDUMP > /dev/null || exit 1
+
+install ${EXE_FILE} $1/sbin/
+

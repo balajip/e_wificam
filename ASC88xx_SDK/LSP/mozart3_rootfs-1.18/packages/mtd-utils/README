@@ -1,0 +1,48 @@
+== Description ==
+
+This project can generate mtd utilities of NAND, and ubi utilities.
+You just type "make", and a new directory "arm-linux" will be created.
+This directory "arm-linux" contains all executable files.
+ 
+The tree structure of dir "arm-linux" :
+arm-linux
+   |-- flash_eraseall
+   |-- mtd_debug
+   |-- nanddump
+   |-- nandwrite
+   `-- ubi-utils
+       |-- mtdinfo
+       |-- ubiattach
+       |-- ubicrc32
+       |-- ubidetach
+       |-- ubiformat
+       |-- ubimkvol
+       |-- ubinfo
+       |-- ubinize
+       |-- ubirename
+       |-- ubirmvol
+       `-- ubiupdatevol
+
+(1). mtd utilities
+mtd_debug
+flash_eraseall
+nanddump
+nandwrite
+
+(2). ubi utilities
+mtdinfo
+ubiattach
+ubicrc32
+ubidetach
+ubiformat
+ubimkvol
+ubinfo
+ubinize
+ubirename
+ubirmvol
+ubiupdatevol
+
+
+== Usage ==
+You can find the detailed usage on MTD official website.
+

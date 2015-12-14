@@ -1,0 +1,145 @@
+--------------------------------------------------------------------------
+Installation Guide of the Driver for Bach Godshand Module 
+
+    1.0 2006/10/13 Poplar
+
+Copyright 2000-2006 VN , Inc.  All rights reserved.
+--------------------------------------------------------------------------
+
+0. This guide introduce:
+    1. How to make the driver of Bach Godshand Module, "Godshand".
+    2. How to make the testing application.
+    3. How to install Godshand module.
+    4. How to test by the testing application.
+    5. How to remove Godshand module.
+
+1. How to make the driver of Bach Godshand Module, "Godshand".
+  1.1 envirnment
+       It should cross-compile for ARM Bach.
+
+       $ source $LSP/build/devel_lsp
+
+       It is only done once.
+       To see the envirenment:
+
+       $ env
+
+  1.2 build module
+       Change to the directory, Bach/Godshand_Driver
+
+       if you want to show debug messages, modify "LINUX_DEBUG" in Makefile.
+       LINUX_DEBUG = true
+
+       Then make it.
+
+       $ make
+
+2. How to make the testing application.
+  2.1 envirnment
+       The same as the step 1.1. It may be skiped because that it was done before.
+
+  2.2 build application
+       Change to the directory, Bach/Godshand_App
+
+       $ make
+
+  NOTE: this make can make both application(step 2.2) and module(step 1.2)
+
+3. How to install Godshand module.
+  3.1 connect to Bach
+  
+       $ telnet xxx.xxx.xxx.xxx
+
+       login to root and type password
+
+  3.2 build log file for debug
+
+       # klogd
+       # syslogd
+
+       The kernal messages can show thereafter by:
+
+       # dmesg
+
+  3.3 install module
+       # insmod  Godshand.o
+
+  3.4 check module
+
+       # lsmod
+       Module                  Size  Used by    Tainted: PF
+       Godshand                     2088   0 (unused)              <== this one
+       sound                  57324   0 (unused)
+       ymfpci                 40672   0 (unused)
+       ac97_codec             11440   0 [ymfpci]
+       soundcore               3696   4 [sound ymfpci]
+
+
+  3.5 make node
+       To see the device major number:
+
+       # cat /proc/devices
+         1 mem
+         2 pty
+         3 ttyp
+         5 ptmx
+        10 misc
+        14 sound
+       128 ptm
+       136 pts
+       162 raw
+       204 ttyAM
+       205 cuaam
+       254 Godshand     <== this one
+
+       # mknod /dev/Godshand c 254 0
+
+4. How to test with the testing application.
+  4.1 connect to Bach
+       
+
+  4.2 execute
+
+       # ./Godshand -h
+
+       Usage: ./Godshand.bin [[-r|-w]|[-a address|-v value]|[-b|-s|-h]]
+        -r                      read data
+        -w                      write data
+        -s                      the size of buffer
+        -b                      append byte data show
+        -a                      the address in memory
+        -v                      the data in the address
+        -h                      help message
+
+	if we want to read 0x99c00024 we can use follow:
+
+	# ./Godshand -r -a 99c00024
+
+	The data in 99c00024 is 584040
+
+	if we want to read a area its size is 0x30 and start at 0x99c00024, we can use
+
+	# ./Godshand -r -a 0x99c00024 -s 30 
+
+	0x99c00024      00584040  03030001  03030001  03030001
+	0x99c00034      03030001  03030001  03030001  03030001
+	0x99c00044      00000004  00000088  019fffff  0436db19
+
+	and if we want to write the data at somewhere, we can use
+
+	# ./Godshand -w -a 0x99c00024 -v 4e3838
+
+	The data in 99c00024 is 584040
+	The data in 99c00024 is 4e3838
+
+  4.3 Note
+      Every parameter`s size is 4 bytes(32 bits).
+
+5. How to remove Godshand module.
+  5.1 remove module
+
+       # rmmod Godshand
+
+  5.2 remove node
+
+       # rm /dev/Godshand

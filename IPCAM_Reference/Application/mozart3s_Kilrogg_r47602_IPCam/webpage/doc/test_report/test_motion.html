@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=big5">
+        <title>Kilrogg Webpage Test Report</title>        
+        <link rel="stylesheet" type="text/css" href="../template/vivo_doc.css">    
+    </head>    
+    <body>
+	<!------ An intra link flag "top"------>
+    <a name="top"></a>
+    <!------ Document title ------>
+    <div class="title">
+        Motion Detection
+    </div>
+    <!------ Layout ------>
+    <div class="banner">
+        <div class="spacer"></div>
+        <span class="left">Functionality Test</span>
+        <span class="right"><a href="#top">[Top]</a></span>
+        <div class="spacer"></div>
+    </div>
+    <div class="content">
+        <table border="1" bordercolor="#008000" cellspacing="0" width="80%">
+            <tbody>
+                <tr>
+                    <td bgcolor="#6495ed" width="20%"><b>Item</b></td>
+                    <td bgcolor="#6495ed" width="60%"><b>Description</b></td>
+                    <td bgcolor="#6495ed" width="20%"><b>Result</b></td>
+                </tr>
+                <tr>
+                    <td>1-1</td>
+                    <td>
+                        <ol>
+                            <li>Check "Enable motion detection".</li>
+                            <li>"New" a detection window. Adjust the window size, sensitivity and percentage 
+                            to appropriate value.</li>
+                            <li>Save the window.</li>
+                        </ol>
+                        While the motion is trigger, the red frame should display the window range.
+                    </td>
+                    <td><font color="red"></font></td>
+                </tr>
+                <tr>
+                    <td>1-2</td>
+                    <td><ol>
+                            <li>Leave the previous motion window.</li>
+                            <li>Uncheck "Enable motion detection".</li>
+                        </ol>
+                        The motion should not be trigger anymore.
+                    </td>
+                    <td><font color="red"></font></td>
+                </tr>
+                <tr>
+                    <td>1-3</td>
+                    <td><ol>
+                            <li>Check "Enable motion detection".</li>
+                            <li>Delete the previous motion window.</li>
+                        </ol>
+                        The motion should not be trigger anymore.
+                    </td>
+                    <td><font color="red"></font></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

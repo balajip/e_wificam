@@ -1,0 +1,19 @@
+#all object files.
+*.o
+
+#all static lib files.
+*.a
+
+#.depend files
+*.depend
+
+#.bin files
+*.bin
+
+#.srec/.map
+*.srec
+*.map
+
+#u-boot ELF file
+u-boot
+

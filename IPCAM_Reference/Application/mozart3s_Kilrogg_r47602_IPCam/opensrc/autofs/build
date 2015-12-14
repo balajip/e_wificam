@@ -1,0 +1,41 @@
+#!/bin/bash
+# This script will build expat. 
+# It will also copy the header files and the library to the current directory
+# in a VN conventional way, i.e., ./lib and ./src. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=automount
+VERSION=3.1.7
+SOVERSION=3.1.7
+PACKAGE_DIR=autofs-orig
+HOST='arm-linux-'
+CC=${HOST}gcc
+
+# check if you have the proper gcc
+which $CC > /dev/null || exit 1 
+
+#tar $UNTAR_ARG $TARBALL
+
+[ -d "$PACKAGE_DIR" ] || exit 1
+
+cd $PACKAGE_DIR
+
+#cat ../autofs.patch |  patch -p 1  > /dev/null 2>&1
+
+
+# configure it for $HOST
+./configure --host=${HOST%-} &> /dev/null
+
+# simply make it
+#make --quiet MAKEFLAGS= 
+MAKEFLAGS=
+make --quiet
+
+cd - > /dev/null
+
+
+# if i have the shared stripped library and it is newer than the original one, 
+# ignore it. 
+[ -f "${APP_NAME}" ] && [ "${PACKAGE_DIR}/daemon/${APP_NAME}" -ot "${APP_NAME}" ] && exit 0
+
+${HOST}strip -o ${APP_NAME} $PACKAGE_DIR/daemon/${APP_NAME}
+

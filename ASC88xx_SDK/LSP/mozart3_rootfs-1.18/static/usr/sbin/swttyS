@@ -1,0 +1,20 @@
+#!bin/sh
+if [ -f /proc/cmdline ]; then
+    # grab console from cmdline and use it..
+    tty=`cat /proc/cmdline|sed -e "s/ /\n/g"|grep console|cut -d '=' -f2|cut -d ',' -f1`
+    if [ -z "$tty" ]; then
+        echo `cat /proc/cmdline` "does'nt have console?"
+    else
+        if [ -e "/dev/ttyS"$tty ]; then
+            TTY=ttyS$tty
+        else
+            TTY=$tty
+        fi
+        # remove my previous one if it exists
+        rm -f /dev/ttyS
+        ln -s /dev/$TTY /dev/ttyS
+        echo "/dev/$TTY linked to /dev/ttyS - using as console"
+    fi
+else
+    echo "cmdline not found - no console?"
+fi

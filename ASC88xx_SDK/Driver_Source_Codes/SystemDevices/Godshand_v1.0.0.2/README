@@ -1,0 +1,30 @@
+------------------------------------------------------------------------
+README of the Driver for Bach Godshand Module  
+
+    1.0 2006/10/13 Poplar
+
+Copyright 2000-2006 VN , Inc.  All rights reserved.
+
+--------------------------------------------------------------------------
+
+1. file structure:
+     Bach/README              : this file
+         /INSTALL             : installation and testing guide
+         /Godshand_Driver     : folder of Godshand(Godshand) module
+         /Godshand_App        : folder of the testing application program
+
+2. installation and test
+    Read the file "INSTALL" for more detail.
+
+3. Functions of this module, 
+    - open
+       open the device, create memory disk with size 30 chars. 
+    - close
+       close the device
+    - ioctl
+       control this device
+       read the header file Godshand_Driver/Godshand.h for more
+    - read
+       read from memory disk of the device
+    - write
+       write to memory disk of the device

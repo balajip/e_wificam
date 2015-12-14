@@ -1,0 +1,21 @@
+#!/bin/sh
+
+INSMOD=/sbin/insmod
+RESOLV="/etc/resolv.conf"
+MODULE_PATH="/lib/modules/2.6.28.9-Mozart-8G/kernel/drivers/net"
+
+if echo $IFACE | grep -q "ppp"; then
+        $INSMOD ${MODULE_PATH}/slhc.ko
+        $INSMOD ${MODULE_PATH}/ppp_generic.ko
+        $INSMOD ${MODULE_PATH}/pppox.ko
+        $INSMOD ${MODULE_PATH}/pppoe.ko
+
+	/sbin/ifconfig eth0 up
+
+	if [ -e "$RESOLV" ]
+	then
+		rm $RESOLV
+	fi
+	ln -s /etc/ppp/resolv.conf $RESOLV
+fi
+

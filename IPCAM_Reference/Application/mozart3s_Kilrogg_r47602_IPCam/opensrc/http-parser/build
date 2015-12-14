@@ -1,0 +1,51 @@
+#!/bin/bash
+# This script will build libhttp_parser.so. 
+# It will also copy the header files and the library to the current directory
+# in a VN conventional way, i.e., ./lib and ./src. 
+PATH=/usr/bin:/bin:$PATH
+LIB_NAME=http-parser
+VERSION=2.1
+LIB_SO_NAME=libhttp_parser.so
+HEADER_FILES=http_parser.h
+HEADER_FOLER=include/http-parser
+TOP_FOLDER=${PWD}
+TARBALL=$LIB_NAME-$VERSION.tar.gz
+PACKAGE_DIR=$LIB_NAME
+LIB_DIR=lib
+UNTAR_ARG='-zxvf'
+HOST='arm-linux-'
+CC=${HOST}gcc
+
+# check if you have the proper gcc
+which $CC > /dev/null || exit 1 
+
+tar $UNTAR_ARG $TARBALL > /dev/null
+
+[ -d "$PACKAGE_DIR" ] || exit 1
+
+cd $PACKAGE_DIR
+
+
+
+# We build the library only.
+#make --quiet MAKEFLAGS= 
+MAKEFLAGS=
+make --quiet library
+
+# Copy the header file into include folder.
+mkdir -p ${TOP_FOLDER}/${HEADER_FOLER}
+[ -f "${HEADER_FILES}" ] || exit 1
+cp ${HEADER_FILES} ${TOP_FOLDER}/${HEADER_FOLER}
+
+cd - > /dev/null
+
+
+mkdir -p ${LIB_DIR}
+
+
+# if i have the shared stripped library and it is newer than the original one, 
+# ignore it. 
+[ -f "${LIB_DIR}/${LIB_SO_NAME}" ] && [ "${PACKAGE_DIR}/${LIB_SO_NAME}" -ot "${LIB_DIR}/${LIB_SO_NAME}" ] && exit 0
+
+${HOST}strip -o ${LIB_DIR}/${LIB_SO_NAME} $PACKAGE_DIR/${LIB_SO_NAME}
+

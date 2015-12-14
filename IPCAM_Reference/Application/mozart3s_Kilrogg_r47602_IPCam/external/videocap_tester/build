@@ -1,0 +1,67 @@
+#!/bin/bash
+
+PATH=/usr/bin:/bin:$PATH
+VERSION=0.0.1
+APP_NAME=videocap_tester
+PACKAGE_DIR=${APP_NAME}-${VERSION}
+HOST='arm-linux-'
+CC=${HOST}gcc
+
+# check if you have the proper gcc
+which $CC > /dev/null || exit 1 
+
+rm -f $PACKAGE_DIR/lib/*
+rm -f $PACKAGE_DIR/include/*
+
+cp  -f ../../libs/VideoCap/lib/libvideocap.so* $PACKAGE_DIR/lib/
+cp -f ../../libs/VideoCap/src/VideoCap.h $PACKAGE_DIR/include
+cp -f ../../libs/SharedBuffMgr/lib/libsharedbuffmgr.so* $PACKAGE_DIR/lib/
+cp  -f  ../../libs/MemMgr/lib/libmemmgr.so* $PACKAGE_DIR/lib/
+cp -f ../../libs/SharedBuffMgr/src/SharedBuffMgr.h $PACKAGE_DIR/include
+cp  -f  ../../libs/MemMgr/src/MemMgr.h $PACKAGE_DIR/include
+cp -f ../../include/*.h $PACKAGE_DIR/include
+
+[ -d "$PACKAGE_DIR" ] || exit 1
+
+cd $PACKAGE_DIR > /dev/null
+
+# configure it for $HOST
+[ -f "Makefile" ] || ./configure --host=${HOST%-} &> /dev/null
+
+# simply make it
+#make --quiet MAKEFLAGS= 
+MAKEFLAGS=
+cd - > /dev/null
+cd $PACKAGE_DIR/lib > /dev/null
+
+
+#find . -maxdepth  1 -name "lib*.so.*"  >  liblist.txt
+
+
+#cat liblist.txt | \
+#while read lib; do
+	  #echo
+#	  libname=`echo $lib | awk -F'.so' '{ print $1}'`
+	  #echo "lib: "$lib
+	  #echo "libname:"$libname
+#	  ln -s $lib $libname".so"
+#done 
+#rm -f liblist.txt
+
+cd - > /dev/null
+cd $PACKAGE_DIR > /dev/null
+
+if  cat $1/.config | grep -n "CONFIG_NVP1114A=y"  > /dev/null  2>&1;then
+	make --quiet PRODUCT_TYPE=__VideoServer__ > /dev/null
+elif  cat $1/.config | grep -n "CONFIG_TW2866=y" > /dev/null  2>&1;then
+	make --quiet PRODUCT_TYPE=__VideoServer__ > /dev/null
+else
+	make --quiet PRODUCT_TYPE=__IPCam__ > /dev/null
+fi
+
+
+cd - > /dev/null
+if [ -f  "${PACKAGE_DIR}/${APP_NAME}" ];then
+	${HOST}strip -o ${APP_NAME} $PACKAGE_DIR/${APP_NAME}
+fi
+

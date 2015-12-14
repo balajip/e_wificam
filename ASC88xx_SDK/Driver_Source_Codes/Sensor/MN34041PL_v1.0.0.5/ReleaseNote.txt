@@ -1,0 +1,28 @@
+*************************************************************
+* MN34041PL sensor device driver, Linux Device Driver, Release Note *
+*************************************************************
+[Version 1.0.0.5]
+Release at 2013.05.24
+1. MODIFICATION: Enable sensor OB - DONE.
+
+[Version 1.0.0.4]
+Release at 2012.12.26
+1. MODIFICATION: Update MODULE_AUTHOR - DONE.
+
+[Version 1.0.0.3]
+Release at 2012.09.04
+1. MODIFICATION: Add sensor Max gain call back function. - DONE.
+2. MODIFICATION: Disable output offset. - DONE.
+
+[Version 1.0.0.2] 
+Release at 2011.11.09
+1. Bug: Modify smallest shutter time to 8 lines - DONE
+2. MODIFICATION: Switch frame rate according to VIDEO_SIGNAL_OPTION_SET_FREQUENCY. - DONE
+
+[Version 1.0.0.1] 
+Release at 2011.08.17
+1. MODIFICATION: Add FPGA DPC enable in sensor reset - DONE
+
+[Version 1.0.0.0]
+Release at 2011.07.06
+1. FEATURE: First Released - DONE.

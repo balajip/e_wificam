@@ -1,0 +1,3 @@
+#INCLUDES = -Iinclude -I../UsageEnvironment/include -I../groupsock/include
+INCLUDES = -I../UsageEnvironment/include -I../groupsock/include -I../liveMedia/include -I../BasicUsageEnvironment/include -I/home/raghav/raghav/workdir/projects/NXP/RTSP_SERVER/SDK/ASC88xx_SDK5.1-v1.0_wk1210/NXP_ASC88xx_SDK.5.1/IPCAM_Reference/Application/Kilrogg_r42704/apps/rtsps/include -I/home/raghav/raghav/workdir/projects/NXP/RTSP_SERVER/SDK/ASC88xx_SDK5.1-v1.0_wk1210/NXP_ASC88xx_SDK.5.1/IPCAM_Reference/Application/Kilrogg_r42704/include
+#

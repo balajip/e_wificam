@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<ftp>
+		<HOST></HOST>
+		<USER_NAME></USER_NAME>
+		<PASSWD></PASSWD>
+		<REMOTE_FOLDER></REMOTE_FOLDER>
+		<PORT></PORT>
+		<FTP_MODE>PASV</FTP_MODE>
+	</ftp>
+</root>

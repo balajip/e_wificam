@@ -1,0 +1,9 @@
+<?xml version="1.0" standalone="yes"?>
+<root>
+    <adec>
+        <pidfile>/var/run/adec.0.pid</pidfile>
+        <device>hw:0,0</device>
+        <socket>/tmp/aenc/c0/twoway.sck</socket>
+        <sample_rate>8000</sample_rate>
+    </adec>
+</root>

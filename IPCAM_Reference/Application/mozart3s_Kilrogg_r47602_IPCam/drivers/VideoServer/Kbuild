@@ -1,0 +1,8 @@
+#
+# vim: syntax=make
+
+misc1-$(CONFIG_NVP1114A) += NVP1114A.ko
+misc1-$(CONFIG_TW2866) += TW2866.ko
+
+
+misc1dest-y = /drivers/

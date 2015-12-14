@@ -1,0 +1,1 @@
+subdir-y += aenc_receiver venc_receiver videocap_tester firmware_write

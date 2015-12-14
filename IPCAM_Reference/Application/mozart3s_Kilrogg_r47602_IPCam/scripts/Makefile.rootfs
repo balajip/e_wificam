@@ -1,0 +1,307 @@
+# ==========================================================================
+# Build root filesystem
+# ==========================================================================
+INSTALL := install
+ifdef CONFIG_FAKEROOT_PATH
+exec_by_fakeroot = $(CONFIG_FAKEROOT_PATH) -i $(CURDIR)/$(FAKEROOT_SESSION) -s $(CURDIR)/$(FAKEROOT_SESSION) 
+endif 
+src := $(obj)
+
+PHONY := __rootfs
+__rootfs:
+
+# Shorthand for $(Q)$(MAKE) scripts/Makefile.rootfs obj=dir
+# Usage:
+# $(Q)$(MAKE) $(rootfs)=dir
+rootfs := -f $(if $(KBUILD_SRC),$(srctree)/)scripts/Makefile.rootfs obj
+
+# Read auto.conf if it exists, otherwise ignore
+-include include/config/auto.conf
+
+include scripts/Kbuild.include
+
+# The filename Kbuild has precedence over Makefile
+kbuild-dir := $(if $(filter /%,$(src)),$(src),$(srctree)/$(src))
+include $(if $(wildcard $(kbuild-dir)/Kbuild), $(kbuild-dir)/Kbuild, $(kbuild-dir)/Makefile)
+
+# Figure out what we need to build from the various variables
+# ==========================================================================
+
+__subdir-y	:= $(patsubst %/,%,$(filter %/, $(obj-y)))
+subdir-y	+= $(__subdir-y)
+__subdir-m	:= $(patsubst %/,%,$(filter %/, $(obj-m)))
+subdir-m	+= $(__subdir-m)
+__subdir-n	:= $(patsubst %/,%,$(filter %/, $(obj-n)))
+subdir-n	+= $(__subdir-n)
+__subdir-	:= $(patsubst %/,%,$(filter %/, $(obj-)))
+subdir-		+= $(__subdir-)
+
+# Subdirectories we need to descend into
+
+subdir-ym	:= $(sort $(subdir-y) $(subdir-m))
+
+# Add subdir path
+
+subdir-ym	:= $(addprefix $(obj)/,$(subdir-ym))
+
+# Add shared libraries
+objname := $(basename $(notdir $(obj)))
+ifneq ($(strip $(lib-y) $(binlib-y)),)
+buildres := $(wildcard $(shell cat $(MODVERDIR)/$(objname)))
+def-destdir := /usr/lib
+endif
+
+ifneq ($(strip $(obj-y) $(obj-m) $(obj-n) $(obj-)),)
+buildres := $(wildcard $(obj)/$(objname))
+def-destdir := /usr/bin
+endif
+
+# user defined actions
+ifneq ($(strip $(userdef-y)),)
+include scripts/Makefile.userdef
+endif
+
+# install applications or libraries
+# ==========================================================================
+ifdef buildres
+ifneq ($(strip $(dest-y)),)
+ifneq ($(strip $(patsubst %/, , $(dest-y))),)
+	# ex: dest-y = /usr/bin/an-application
+__dest-y := $(dest-y)
+else
+	# ex: dest-y = /usr/bin/
+__dest-y := $(dest-y)$(objname)
+endif
+else # not def dest-y
+__dest-y := $(def-destdir)/$(notdir $(buildres))
+endif
+
+# Tell make how to install the main application or library. 
+$(ROOTFSDIR)$(__dest-y): $(buildres)
+	$(call cmd,modules_install, $@, $(installopt-y))
+
+# Libraries (generally *.so)
+buildres_soname := $(shell $(OBJDUMP) -p $(buildres) | awk '/SONAME/{print $$2;}')
+ifneq ($(strip $(buildres_soname)),)
+#$(warning $(buildres_soname))
+__dest-symlink := $(dir $(__dest-y))$(buildres_soname)
+
+# Tell make how to link soname and the library. 
+$(ROOTFSDIR)$(__dest-symlink): $(ROOTFSDIR)$(__dest-y)
+	$(call cmd,ln_bl_target)
+
+endif #this is not a .so file. 
+
+endif #def buildres
+
+# install init script(s)
+# ==========================================================================
+ifneq ($(strip $(init-y)),)
+__init-y := $(patsubst init.d-%,/etc/init.d/%, $(init-y))
+
+# Tell make how to install init scripts
+$(ROOTFSDIR)/etc/init.d/%: $(obj)/init.d-%
+	@rm -f $(ROOTFSDIR)/etc/rcS.d/S*$(notdir $@) $(ROOTFSDIR)/etc/rcK.d/K*$(notdir $@)
+	@ln -s /etc/init.d/$(notdir $@) $(ROOTFSDIR)/etc/rcS.d/S$(shell awk '/# +chkconfig:/{print $$4}' $<)$(notdir $@)
+	@ln -s /etc/init.d/$(notdir $@) $(ROOTFSDIR)/etc/rcK.d/K$(shell awk '/# +chkconfig:/{print $$5}' $<)$(notdir $@)
+	$(call cmd,modules_install, $@, -m0755)
+endif # def init-y
+
+# install miscX
+# ==========================================================================
+
+# installation of miscX has many constrains to reduce complexity. 
+# 1st, both miscX-y and miscXdest-y must present or Kbuild won't know how to install it. 
+# 2nd, miscXdest-y must only has one entry thus Kbuild can know exactly where is the destination. 
+# 3rd, there are two kind of installation method since we may have multiple miscX-y
+ifneq ($(strip $(misc1-y)),)
+ifneq ($(strip $(misc1dest-y)),)
+ifeq ($(words $(misc1dest-y)),1)
+
+ifneq ($(strip $(patsubst %/, , $(misc1dest-y))),)
+# ex: dest-y = /etc/xxx.conf
+__misc1dest-y := $(misc1dest-y)
+else
+# ex: dest-y = /etc/
+__misc1dest-y := $(addprefix $(misc1dest-y), $(notdir $(misc1-y)))
+VPATH += $(addprefix $(obj)/, $(dir $(misc1-y)))
+endif
+
+ifeq ($(words $(misc1-y)),1)
+	# only one misc1-y
+$(ROOTFSDIR)$(__misc1dest-y): $(wildcard $(obj)/$(misc1-y))
+	$(call cmd,modules_install, $@, $(misc1installopt-y))
+else
+	# multiple misc1-y
+$(addprefix $(ROOTFSDIR), $(__misc1dest-y)): $(ROOTFSDIR)$(misc1dest-y)%: %
+	$(call cmd,modules_install, $@, $(misc1installopt-y))
+endif # multiple misc1-y
+
+endif # only have one destination
+endif # has $(misc1dest-y)
+endif # has $(misc1-y)
+
+# For misc2
+
+ifneq ($(strip $(misc2-y)),)
+ifneq ($(strip $(misc2dest-y)),)
+ifeq ($(words $(misc2dest-y)),1)
+
+ifneq ($(strip $(patsubst %/, , $(misc2dest-y))),)
+# ex: dest-y = /etc/xxx.conf
+__misc2dest-y := $(misc2dest-y)
+else
+# ex: dest-y = /etc/
+__misc2dest-y := $(addprefix $(misc2dest-y), $(notdir $(misc2-y)))
+VPATH += $(addprefix $(obj)/, $(dir $(misc2-y)))
+endif
+
+ifeq ($(words $(misc2-y)),1)
+# only one misc2-y
+$(ROOTFSDIR)$(__misc2dest-y): $(wildcard $(obj)/$(misc2-y))
+	$(call cmd,modules_install, $@, $(misc2installopt-y))
+else
+# multiple misc2-y
+$(addprefix $(ROOTFSDIR), $(__misc2dest-y)): $(ROOTFSDIR)$(misc2dest-y)%: %
+	$(call cmd,modules_install, $@, $(misc2installopt-y))
+endif # multiple misc2-y
+
+endif # only have one destination
+endif # has $(misc2dest-y)
+endif # has $(misc2-y)
+
+# ==========================================================================
+
+__rootfs-files	:= $(__dest-y) $(__init-y) $(__misc1dest-y) $(__misc2dest-y) $(__dest-symlink) 
+# as rootfs-files is given relative to the current directory, this adds
+# a $(obj) prefix, except for absolute paths
+
+__rootfs-files := $(addprefix $(ROOTFSDIR)/, $(patsubst /%, %, $(__rootfs-files)))
+
+#__rootfs-files   := $(wildcard                                               \
+#                   $(addprefix $(obj)/, $(filter-out /%, $(__rootfs-files))) \
+#		   $(filter /%, $(__rootfs-files)))
+
+# as rootfs-dirs is given relative to the current directory, this adds
+# a $(obj) prefix, except for absolute paths
+
+__rootfs-dirs    := $(wildcard                                               \
+                   $(addprefix $(obj)/, $(filter-out /%, $(rootfs-dirs)))    \
+		   $(filter /%, $(rootfs-dirs)))
+
+# ==========================================================================
+# cmd_modules_install tips: call true to avoid make terminate due to 
+# 							strip returns non-zero. we don't care if there is any error returned by strip 
+quiet_cmd_modules_install = INSTALL $? -> $@
+      cmd_modules_install = mkdir -p $(dir $(2)); $(exec_by_fakeroot) $(INSTALL) $(3) $? $(2) ;\
+						   	if [ -f $@ ]; then \
+								if ! echo $@ | egrep "\.ko$$"; then\
+									$(mod_strip_cmd) $(2) 2> /dev/null; \
+									true; \
+								fi\
+	  						fi
+
+quiet_cmd_ln_bl_target = SYMLINK $@ -> $(notdir $<)
+      cmd_ln_bl_target = rm -f $@; ln -s $(notdir $<) $@;
+
+__rootfs: $(subdir-ym) $(__rootfs-files)
+ifneq ($(strip $(rootfs-rule)),)
+	+$(rootfs-rule)
+endif
+	@:
+
+# ===========================================================================
+# For pack & unpack
+# ===========================================================================
+# make rootfs & make sqfs-img
+
+# Modify release_file if you want put it in different place
+release_file := /usr/local/firmware/.firmware-release
+default_etc_tarball := /usr/local/firmware/default_flashfs_files.tar.gz
+build_config_file := /usr/local/firmware/.config
+__release_file := $(addprefix $(ROOTFSDIR)/, $(patsubst /%, %, $(release_file)))
+__default_etc_tarball := $(addprefix $(ROOTFSDIR)/, $(patsubst /%, %, $(default_etc_tarball)))
+__build_config_file := $(addprefix $(ROOTFSDIR)/, $(patsubst /%, %, $(build_config_file)))
+
+PHONY += basic_rootfs sqfs-img $(__release_file) $(ROOTFSIMG) $(__default_etc_tarball)
+
+ifdef CONFIG_FAKEROOT_PATH
+quiet_cmd_unsquashfs = UNSQ    [FAKEROOT] $@
+      cmd_unsquashfs = $(CONFIG_FAKEROOT_PATH) -s $(FAKEROOT_SESSION) $(CONFIG_UNSQUASHFS) -n -d $@ $(CONFIG_BASICROOTFS) > /dev/null 2>&1
+quiet_cmd_mksquashfs = MKSQ    [FAKEROOT] $@
+      cmd_mksquashfs = rm -f $@; $(CONFIG_FAKEROOT_PATH) -i $(FAKEROOT_SESSION) -s $(FAKEROOT_SESSION) $(CONFIG_MKSQUASHFS) $(ROOTFSDIR) $@ -all-root > /dev/null 2>&1
+else
+quiet_cmd_unsquashfs = UNSQ    $@
+      cmd_unsquashfs = $(CONFIG_UNSQUASHFS) -d $@ $(CONFIG_BASICROOTFS) > /dev/null 2>&1
+quiet_cmd_mksquashfs = MKSQ    $@
+      cmd_mksquashfs = rm -f $@; $(CONFIG_MKSQUASHFS) $(ROOTFSDIR) $@ -all-root > /dev/null 2>&1
+endif
+
+quiet_cmd_build_release_file = GEN     $@
+      cmd_build_release_file = mkdir -p $(dir $@);\
+							   svn info -r HEAD ${srctree} > $@; \
+							   echo -n "Create on: " >> $@; date >> $@; \
+							   echo "Firmware Version:" ${KERNELVERSION} >> $@
+
+
+quiet_cmd_build_etc_tarball = TAR     $@
+      cmd_build_etc_tarball = mkdir -p $(dir $@);\
+							  tar --numeric-owner -zcf $@ -C $(ROOTFSDIR) ./etc
+
+
+quiet_cmd_build_config_file = GEN     $@
+      cmd_build_config_file = mkdir -p $(dir $@);\
+							  cp -f  $(ROOTFSDIR)/../.config  $@
+
+$(__build_config_file):
+	$(call cmd,build_config_file)
+
+$(__release_file): 
+	$(call cmd,build_release_file)
+
+$(__default_etc_tarball): 
+	$(call cmd,build_etc_tarball)
+
+$(ROOTFSDIR): 
+	$(call cmd,unsquashfs)
+	@mkdir -p $(ROOTFSDIR)/etc/init.d $(ROOTFSDIR)/etc/rcS.d $(ROOTFSDIR)/etc/rcK.d
+
+$(ROOTFSIMG): $(__default_etc_tarball) $(__build_config_file)
+	$(call cmd,mksquashfs)
+
+basic_rootfs: $(ROOTFSDIR) $(__release_file)
+	@:
+
+sqfs-img: $(ROOTFSIMG)
+	@:
+
+# ===========================================================================
+# For pack & unpack
+# ===========================================================================
+# make deb-pkg
+PHONY += deb-pkg 
+
+deb-pkg: 
+	$(CONFIG_SHELL) $(srctree)/scripts/package/builddeb
+
+
+# ===========================================================================
+# Generic stuff
+# ===========================================================================
+
+# Descending
+# ---------------------------------------------------------------------------
+
+PHONY += $(subdir-ym)
+$(subdir-ym):
+	$(Q)$(MAKE) $(rootfs)=$@
+
+# If quiet is set, only print short version of command
+
+cmd = @$(if $($(quiet)cmd_$(1)),echo '  $($(quiet)cmd_$(1))' &&) $(cmd_$(1))
+
+
+# Declare the contents of the .PHONY variable as phony.  We keep that
+# information in a variable se we can use it in if_changed and friends.
+
+.PHONY: $(PHONY)

@@ -1,0 +1,57 @@
+# This is a sample of video encoder Kconfig. 
+# Here shows how to use "choice" in Kconfig. 
+
+menu "Opensource application selection"
+
+config APPS_LIGHTTPD
+	bool "lighttpd"
+	default y
+
+config APPS_LUA
+	bool "LUA"
+	default n
+
+config APPS_DDNS
+	bool "ddns"
+	default n
+
+
+config APPS_SYSKLOGD
+	bool "sysklogd"
+	default n
+
+config APPS_PPP
+	bool "ppp"
+	default n
+
+config APPS_MDNSRESPONDER
+	bool "mDNSResponder"
+	default n
+
+config APPS_MSNTP
+	bool "msntp"
+	default n
+
+config APPS_OPENSSL 
+	bool "openssl"
+	default n
+
+config APPS_STUNNEL 
+	bool "stunnel"
+	default n
+
+config APPS_LIVE555_RTSPS
+	bool "Live555 RTSP Server"
+	default n
+
+config APPS_DHCP_SERVER
+	bool "DHCP Server"
+	default n
+        help 
+          Enable DHCP server in case wifi support was enabled. 
+
+
+endmenu
+
+
+

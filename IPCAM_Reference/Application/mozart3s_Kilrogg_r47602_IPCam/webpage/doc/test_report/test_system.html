@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=big5">
+        <title>Kilrogg Webpage Test Report</title>        
+        <link rel="stylesheet" type="text/css" href="../template/vivo_doc.css">    
+    </head>    
+    <body>
+	<!------ An intra link flag "top"------>
+    <a name="top"></a>
+    <!------ Document title ------>
+    <div class="title">
+        System
+    </div>
+    <!------ Layout ------>
+    <div class="banner">
+        <div class="spacer"></div>
+        <span class="left">Functionality Test</span>
+        <span class="right"><a href="#top">[Top]</a></span>
+        <div class="spacer"></div>
+    </div>
+    <div class="content">
+        <table border="1" bordercolor="#008000" cellspacing="0" width="80%">
+            <tbody>
+                <tr>
+                    <td bgcolor="#6495ed" width="20%"><b>Item</b></td>
+                    <td bgcolor="#6495ed" width="60%"><b>Description</b></td>
+                    <td bgcolor="#6495ed" width="20%"><b>Result</b></td>
+                </tr>
+            <tr>
+                <td>1-1</td>
+                <td>
+                    <ol>
+                        <li>Type text on Host Name.</li>
+                        <li>Save.</li>
+                    </ol>
+                    The text should display on top of video frame in the "Display" page.
+                </td>
+                <td><font color="green">PASS (date: 11/12, Tester: acer)</font></td>
+            </tr>
+            <tr>
+                <td>1-2</td>
+                <td><ol>
+                        <li>Check "Turn off the LED indicator".</li>
+                        <li>Save.</li>
+                        <li>Uncheck "Turn off the LED indicator".</li>
+                        <li>Save.</li>
+                    </ol>
+                    Checked, the LED flasher light should be close.<br />
+                    Unchecked, the LED light should restart to flash.
+                </td>
+                <td><font color="red">No this item now(date: 11/12, Tester: acer)</font></td>
+            </tr>
+            </tbody>
+        </table>        
+        <table border="1" bordercolor="#008000" cellspacing="0" width="80%">
+            <tbody>
+                <tr>
+                    <td bgcolor="#6495ed" width="20%"><b>Item</b></td>
+                    <td bgcolor="#6495ed" width="60%"><b>Description</b></td>
+                    <td bgcolor="#6495ed" width="20%"><b>Result</b></td>
+                </tr>
+            <tr>
+                <td>2-1</td>
+                <td><ol>
+                        <li>Select Manual.</li>
+                        <li>Arbitrarily type date and time.</li>
+                        <li>Save.</li>
+                    </ol>
+                    Telnet to machine, use 'date' command to check the time is set.
+                </td>
+                <td><font color="green">PASS (date: 11/12, Tester: acer)</font></td>
+            </tr>
+            <tr>
+                <td>2-2</td>
+                <td><ol>
+                        <li>Select Manual.</li>
+                        <li>Arbitrarily type date and time which are different to client computer time.</li>
+                        <li>Save.</li>
+                        <li>Select Sync with computer time.</li>
+                        <li>Save.</li>
+                    </ol>
+                    Telnet to machine, use 'date' command to check the time is set.
+                    The time should be sync with client computer time.
+                </td>
+                <td><font color="green">PASS (date: 11/12, Tester: acer)</font></td>
+            </tr>
+            <tr>
+                <td>2-3</td>
+                <td><ol>
+                        <li>Select Manual.</li>
+                        <li>Arbitrarily type date and time which are different to client computer time.</li>
+                        <li>Save.</li>
+                        <li>Select Automatic.</li>
+                        <li>Fill NTP sever with "time.stdtime.gov.tw".</li>
+                        <li>Select Update interval as One hour.</li>
+                        <li>Save.</li>
+                    </ol>
+                    After an hour, the time should be sync to NTP sever.
+                </td>
+                <td><font color="red">FAIL (date: 11/12, Tester: acer)</font></td>
+            </tr>
+            <tr>
+                <td>2-4</td>
+                <td><ol>
+                        <li>Time zone.</li>
+                    </ol>
+                </td>
+                <td><font color="red">Unknown how to test yet</font></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

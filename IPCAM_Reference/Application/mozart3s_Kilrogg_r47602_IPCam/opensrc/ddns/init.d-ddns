@@ -1,0 +1,69 @@
+#!/bin/sh
+#
+# ddns: This starts and stops ddns client. 
+#
+# description: ddns updater
+# chkconfig: 2345 07 63
+#
+# processname: /usr/sbin/inadyn
+# config: /etc/inadyn.conf
+# pidfile: /var/run/inadyn.pid
+set -a
+
+PATH=/sbin:/bin:/usr/bin:/usr/sbin
+
+# Source function library.
+. /etc/init.d/functions
+
+prog="inadyn"
+args=""
+binpath="/usr/sbin/$prog"
+confpath="/etc/$prog.conf"
+pidfile="/var/run/$prog.pid"
+daemon_mode="-b"
+DDNS_CONF="/etc/conf.d/ddns.xml"
+
+[ -f "$binpath" ] || exit 1
+[ -f "$confpath" ] || exit 1
+
+start(){
+	enable=`cat $DDNS_CONF | grep enable | sed 's/[^a-z]*<[/_a-z]*>//g'`
+	if [ "$enable" = "on" ]; then
+		echo -n "Starting $prog: "
+		start-stop-daemon --start $daemon_mode --quiet -n $prog --exec $binpath -m -p $pidfile -- $args
+	fi
+	echo "."
+}
+
+stop(){
+	echo -n "Stopping $prog: "
+	start-stop-daemon --stop --quiet -n $prog --pidfile $pidfile
+	waittodie $pidfile $binpath
+	echo "."
+}
+
+reload(){
+	echo -n "Reloading configuration $prog: "	
+	start-stop-daemon --stop --signal 1 --quiet -n $prog --pidfile $pidfile
+	echo "."
+}
+
+# See how we were called.
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	restart)
+		stop
+		start
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 1
+esac
+
+exit 0
+

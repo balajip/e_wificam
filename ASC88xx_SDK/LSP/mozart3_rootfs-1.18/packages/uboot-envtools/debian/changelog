@@ -1,0 +1,38 @@
+uboot-envtools (20080520-4) unstable; urgency=low
+
+  * Changed the string "Das U-Boot" to simly "U-Boot" everywhere it existed,
+    this conforms to upstreams recommended naming policy.
+  * Removed config file from package and added it and example configuration
+    files in /usr/share/doc/uboot-envtools/examples/.
+
+ -- Per Andersson <avtobiff@gmail.com>  Fri, 08 Aug 2008 02:20:03 +0200
+
+uboot-envtools (20080520-3) unstable; urgency=low
+
+  * Removed unnecessary version specification on build-dependencies.
+  * Changed the Homepage: entry in debian/control to point to Das U-Boot's
+    homepage.
+
+ -- Per Andersson <avtobiff@gmail.com>  Thu, 07 Aug 2008 02:17:15 +0200
+
+uboot-envtools (20080520-2) unstable; urgency=low
+
+  * Uncommented dh_installman in debian/rules so man pages will be installed
+    and added dh_installchangelogs.
+  * Added formatting to n in section n-flag in fw_printenv.8 and removed note
+    about the man pages being written for Debian from the man pages.
+  * Changed Priority: to optional.
+  * Fixed typo of definitely in README.Debian.
+
+ -- Per Andersson <avtobiff@gmail.com>  Wed, 06 Aug 2008 14:31:58 +0200
+
+uboot-envtools (20080520-1) unstable; urgency=low
+
+  * Initial release (Closes: #493716).
+  * Patched crc32.c, changed function signature of crc32() to comply with
+    definition in zlib.h.
+  * Patched Makefile to better suit Debian packaging.
+  * Added note about configuration file (/etc/fw_env.config) in README.Debian.
+  * Wrote man pages for fw_printenv(8) and fw_setenv(8).
+
+ -- Per Andersson <avtobiff@gmail.com>  Mon, 04 Aug 2008 16:13:02 +0200

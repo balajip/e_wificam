@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<resizedstride>48</resizedstride>
+	<resizedwidth>48</resizedwidth>
+	<resizedheight>32</resizedheight>
+	<mode>indoor</mode> <!--outdoor,indoor,wdr,dwdr-->
+	<targetLuma>60</targetLuma>
+    <targetOffset>10</targetOffset>
+	<cmdfifo>/tmp/autoscenecmd.fifo</cmdfifo>
+	<triggertime>1000000</triggertime> <!--the unit is microseconds, for debug only-->
+	<pline_freq>60</pline_freq> <!--50/60 default : 60-->
+	<exposure_mode>0</exposure_mode> <!--auto:0, backlight:1, customer:2, default : 0-->
+	<exposure_lock>0</exposure_lock> <!--(exposure lock 1/no lock 0) default : 0-->
+	<exposure_level>100</exposure_level> <!--(50~200)default : 100-->
+	<exposure_min_shutter>1000000</exposure_min_shutter> <!--(1000000~30)default : 1000000-->
+	<exposure_max_shutter>30</exposure_max_shutter>
+	<exposure_min_gain>1000</exposure_min_gain> <!--(1000~512000) default:1000-->
+	<exposure_max_gain>1024000</exposure_max_gain> <!--(1000~512000) default:32000-->
+	<iris_mode>2</iris_mode> <!--Fixed to largest:0, Auto iris:1, Manual iris:2, default : 2-->
+	<iris_active_time>120</iris_active_time> <!--(1000000~30)default : 120-->
+	<ircut_mode>1</ircut_mode> <!--auto:0, Cut:1, No_cut:2, default : 1-->
+	<gamma_curve>0</gamma_curve> <!--(0~6) fine tune gamma:0, 1~6:Usr gamma, default : 0-->
+	<contrast_enhance_level>0</contrast_enhance_level> <!--(0~6)default : 0-->
+	<bright_level>100</bright_level> <!--(0~200)default : 100-->
+	<contrast_level>100</contrast_level> <!--(0~200)default : 100-->
+	<saturation>100</saturation> <!--(0~200)default : 100-->
+	<mono>0</mono> <!-- (0/1) default : 0-->
+	<nr_mode>1</nr_mode> <!--(3D NR On 1/Off 0) default : 1-->
+	<two_d_nr_level>100</two_d_nr_level> <!--(0~200) default : 100-->
+	<three_d_nr_level>100</three_d_nr_level> <!--(0~200) default : 100-->
+	<sharpness_level>100</sharpness_level> <!--(50~200) default : 100-->
+	<awb_mode>0</awb_mode> <!--auto:0, full:1, Usr:2,  default : 0-->
+	<awb_gainR>1024</awb_gainR> <!--(1~8191,  default : 1024)-->
+	<awb_gainB>1024</awb_gainB> <!--(1~8191,  default : 1024)-->
+	<awb_lock>0</awb_lock> <!--(awb lock 1/no lock 0) default : 0-->
+	<wdr_ratio>1</wdr_ratio> <!--1,2,4,8,16,32,64,128,256,  default : 1)-->
+	<referenceConfig>/etc/conf.d/autoscene_reference_config.xml</referenceConfig>
+</root>

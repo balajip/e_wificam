@@ -1,0 +1,15 @@
+#!/bin/bash
+# This script will install libhttp_parser.so. 
+PATH=/usr/bin:/bin:$PATH
+LIB_NAME=http-parser
+VERSION=2.1
+LIB_SO_NAME=libhttp_parser.so
+TARBALL=$LIB_NAME-$VERSION.tar.gz
+PACKAGE_DIR=$LIB_NAME-$VERSION
+LIB_DIR=lib
+UNTAR_ARG='-zxvf'
+HOST='arm-linux-'
+CC=${HOST}gcc
+
+install ${LIB_DIR}/${LIB_SO_NAME} $1/usr/lib/
+

@@ -1,0 +1,36 @@
+#!/bin/bash
+# This script will build expat. 
+# It will also copy the header files and the library to the current directory
+# in a VN conventional way, i.e., ./lib and ./src. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=i2c-tools
+VERSION=3.1.0
+TARBALL=$APP_NAME-$VERSION.tar.bz2
+PACKAGE_DIR=$APP_NAME-$VERSION
+UNTAR_ARG='-jxf'
+HOST='arm-linux-'
+export CC=${HOST}gcc
+
+# check if you have the proper gcc
+which $CC > /dev/null || exit 1 
+
+tar $UNTAR_ARG $TARBALL
+
+[ -d "$PACKAGE_DIR" ] || exit 1
+
+cd $PACKAGE_DIR
+
+# configure it for $HOST
+[ -f "Makefile" ] || ./configure --host=${HOST%-} &> /dev/null
+
+# simply make it
+#make --quiet MAKEFLAGS= 
+MAKEFLAGS=
+make --quiet
+
+cd - > /dev/null
+
+${HOST}strip -o i2cdetect  $PACKAGE_DIR/tools/i2cdetect
+${HOST}strip -o i2cset  $PACKAGE_DIR/tools/i2cset
+${HOST}strip -o i2cget  $PACKAGE_DIR/tools/i2cget
+${HOST}strip -o i2cdump  $PACKAGE_DIR/tools/i2cdump

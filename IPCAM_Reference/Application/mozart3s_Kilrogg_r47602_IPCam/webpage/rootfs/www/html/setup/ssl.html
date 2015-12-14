@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>SSL</title>
+        <!-- Load common JavaScript -->
+        <script type="text/javascript" src="/include/jQuery/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="../include/common.js"></script>
+        <script type="text/javascript" src="../include/ajaxcommon.js"></script>
+        <script type="text/javascript" src="../include/ssl.js"></script>
+        <link href="../css/default.css" rel="stylesheet" type="text/css" />
+        <style>
+            .dialogDiv {
+                position: absolute;  
+                top: 50%;
+                left: 50%;
+                vertical-align: middle;
+                width: 600px;
+                height: 400px;
+                border: 1px solid #BCD2E6;
+                margin-left:-300px;
+                margin-top:-200px;
+                padding: 10px;
+                background: #FFFFFF;
+                z-index: 100;
+            }
+            th {
+                text-align: left;
+            }
+            th, td {
+                padding: 5px;
+            }
+
+            .font_mono {
+                font-family: "Courier New"
+                             Courier
+                             monospace;
+            }
+
+            .th_banner {
+                background-color: #f1f5f9;
+                border: 1px solid #6c90b4;
+                padding: 5px;
+            }
+            .tr_banner {
+                margin: 30px;
+            }
+            #div_property {
+                width: 750px;
+                height: 500px;
+                margin-left:-375px;
+                margin-top:-250px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="div_mask" style="display:none;"></div>
+        <div class="confContent" id="content">
+            <fieldset>
+                <legend><strong>HTTPS Policy</strong></legend><br>
+                <dl>
+                    <dt>Certificate must be installed before enabling HTTPS option!
+                    </dt>
+                    <dd>
+                        <input id="https_enable_checkbox" type="checkbox" class="cert"/>
+                        Enable HTTPS secure connection
+                    </dd>
+                    <input type="button" class="button cert" value="Apply" onClick="applyPolicy();" id="btnApply">
+                </dl>
+            </fieldset>
+
+            <fieldset>
+                <legend><strong>Create and Install Certificate</strong></legend><br>
+                <p>
+                <input type="button" class="button noCert" value="Create self-signed certificate..." onclick="openDlg_selfCert()" id="btnSelfSig">
+                    -----> Certificate installed
+                </p>
+                <p>
+                <input type="button" class="button noCert" value="Create certificate request..." onclick="openDlg_cert()" id="btnCert">
+                ----->
+                <input type="button" class="button noCert" value="Install signed certificate..." onClick="openDlg_install()" id="btnIns">
+                -----> Certificate installed
+                </p>
+            </fieldset>
+            <fieldset>
+                <legend><strong>Installed Certificate</strong></legend>
+                <br /><br />
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>state</th>
+                            <td id="certState"></td>
+                        </tr>
+                        <tr id="trSubject" style="display:none;">
+                            <th>Subject Name</th>
+                            <td id="certSubject"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="button" class="button cert" value="Properties..." onClick="openDlg_property()" id="btnProperty">
+                            <td><input type="button" class="button cert" value="Remove" onClick="removeCert
+();" id="btnRemove">
+                            <td><span id="spanRemove" style="display:none; color:red;">* Disable HTTPS before removing the certificate</span>
+                        <tr>
+                    </tbody>
+                </table>
+            </fieldset>    
+        </div>
+        <div class="dialogDiv" id="div_selfCert" style="display:none;">
+            <div>
+                <fieldset>
+                    <legend><strong>Create Self-signed Certificate</strong></legend>
+                    <br /><br />
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>Country
+                                <td><input id="selfCertCountry" type="text" class="text" maxlength="2" size="2"/> <span style="color:red">*</span>
+                            <tr>
+                                <th>State or province
+                                <td><input id="selfCertState" type="text" class="text"/>
+                            <tr>
+                                <th>Locality
+                                <td><input id="selfCertLocation" type="text" class="text"/>
+                            <tr>
+                                <th>Organization
+                                <td><input id="selfCertOrganization" type="text" class="text"/>
+                            <tr>
+                                <th>Organization unit
+                                <td><input id="selfCertUnit" type="text" class="text"/>
+                            <tr>
+                                <th>Common name
+                                <td><input id="selfCertName" type="text" class="text"/>
+                            <tr>
+                                <th>E-mail
+                                <td><input id="selfCertEmail" type="text" class="text"/>
+                            <tr>
+                                <th>Validity
+                                <td><input id="selfCertDays" type="text" class="text" size="4" value="365"/> days <span style="color:red">*</span>
+                        </tbody>
+                    </table>
+                    <p style="color:red">* indicates a required field</p>
+                </fieldset>
+                <input type="button" class="button" value="Ok" onClick="submitSelfCertReq()" id="selfCertBtnSubmit">
+                <input type="button" class="button" value="Cancel"  onClick="close_dialog()">
+            </div>
+        </div>
+        <div class="dialogDiv" id="div_cert" style="display:none;">
+            <div>
+                <fieldset>
+                    <legend><strong>Create Certificate Request</strong></legend>
+                    <br /><br />
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>Country
+                                <td><input id="certCountry" type="text" class="text" maxlength="2" size="2"/> <span style="color:red">*</span>
+                            <tr>
+                                <th>State or province
+                                <td><input id="certState" type="text" class="text"/>
+                            <tr>
+                                <th>Locality
+                                <td><input id="certLocation" type="text" class="text"/>
+                            <tr>
+                                <th>Organization
+                                <td><input id="certOrganization" type="text" class="text"/>
+                            <tr>
+                                <th>Organization unit
+                                <td><input id="certUnit" type="text" class="text"/>
+                            <tr>
+                                <th>Common name
+                                <td><input id="certName" type="text" class="text"/>
+                            <tr>
+                                <th>E-mail
+                                <td><input id="certEmail" type="text" class="text"/>
+                        </tbody>
+                    </table>
+                    <p style="color:red">* indicates a required field</p>
+                </fieldset>            
+                <input type="button" class="button" value="Ok" onClick="submitCertReq();" id="certBtnSubmit" >
+                <input type="button" class="button" value="Cancel"  onClick="close_dialog()">
+            </div>
+        </div>
+        <div id="div_install" class="dialogDiv" style="display:none;">
+            <form id="formUpload" action="/cgi-bin/admin/SslInstall.lua" enctype="multipart/form-data" method="post" target="upload_target">
+                <fieldset>
+                    <legend><strong>Install Signed Certificate</strong></legend><br>
+                    <p>
+                    <span>Certificate</span>
+                    <input id="fileCert" type="file" size="40"/>
+                    </p>
+                </fieldset>
+                <input type="button" class="button" value="Install" onClick="uploadCert();">
+                <input type="button" class="button" value="Cancel"  onClick="close_dialog();">
+            </form>
+
+        </div>
+        <div id="div_property" class="dialogDiv" style="display:none;">
+            <div>
+                <fieldset>
+                    <legend><strong>Certificate Properties</strong></legend>
+                    <br /><br />
+                    <div style="overflow: auto; height: 400px; margin-top:10px">
+                    <table width=97%>
+                        <tbody>
+                            <tr class="tr_banner"><th colspan="2" class="th_banner">Certificate
+                            <tr><th>Version
+                                <td id="certVer">
+                            <tr><th>Serial Number
+                                <td id="certSN">
+                            <tr><th>Signature Algorithm
+                                <td id="certSigAlgo">
+                            <tr><th>Issuer
+                                <td id="certIssuer">
+                            <tr class="tr_banner"><th colspan="2" class="th_banner">Validity
+                            <tr><th>Not Valid Before
+                                <td id="certNValidBefore">
+                            <tr><th>Not Valid After
+                                <td id="certNValidAfter">
+                            <tr><th>Subject
+                                <td id="certValidSubject">
+                            <tr class="tr_banner"><th colspan="2" class="th_banner">Subject Public Key Information
+                            <tr><th>Public Key Algorithm
+                                <td id="certPubKey"> 
+                            <tr class="tr_banner"><th colspan="2" class="th_banner">RSA Public Key
+                            <tr><th>Modulus (1024 bits)
+                                <!--<td><pre id="certModules"></pre>-->
+                                <td id="certModules" class="font_mono">
+                            <tr><th>Exponent
+                                <td id="certExp">
+                            <tr class="tr_banner"><th colspan="2" class="th_banner">Signature
+                            <tr><th>Algorithm
+                                <td id="certAlgo">
+                            <tr><th>Signature
+                                <!--<td><pre id="certSig"></pre>-->
+                                <td id="certSig" class="font_mono">
+                            <tr class="tr_banner"><th colspan="2" class="th_banner">Certificate (PEM format)
+                            <tr><!--<td colspan="2"><pre id="certPEM"></pre>-->
+                                <td colspan="2"  id="certPEM" class="font_mono">
+                        </tbody>
+                    </table>
+                    </div>
+                </fieldset>
+                <input type="button" class="button" value="Close"  onClick="close_dialog()">
+              </div>
+        </div>
+        <div id="div_response" class="dialogDiv" style="display:none;">
+            <div>
+            <fieldset>
+                <legend><strong>Result</strong></legend><br>
+                <div id="div_hint" style="display:none;">
+                    <p><strong>Generate Certificate Request</strong><br />Please copy the request below and send it to a CA for signing. After the signed certificate is returned, then install the certificate.</p>
+                    <textarea id="reqout_code" rows="10" style="overflow: auto; width:100%;">aaa</textarea>
+                    <input type="button" class="button" value="Copy"  onClick="copy_code()" style="border:#999999 1px solid; color:#666666; background-color:#EEEEEE;">
+                </div>
+                <!--<pre id="reqout_text"></pre>-->
+                <p id="reqout_text"></p>                
+                <iframe id="upload_target" name="upload_target" src="#" style="display:none; border:0px; height: 50px;"></iframe>
+            </fieldset>
+            <input type="button" class="button" value="Close"  onClick="close_dialog()">
+            </div>
+        </div>
+        <div id="ajaxMask"><span id="ajaxImg"></span></div>
+        <iframe name="ret_page" style="display:none"></iframe>
+    </body>
+</html>
+
+

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ROI</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="/include/jQuery/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="/include/jQuery/jquery-ui-1.8.6.custom.min.js"></script>
+    <script type="text/javascript" src="/include/common.js"></script>
+    <script type="text/javascript" src="/include/plugindef.js"></script>  
+    <script type="text/javascript" src="/include/roi.js"></script>
+    <link type="text/css" rel="stylesheet" href="/include/jQuery/jquery-ui-1.8.6.custom.css" />
+    <link type="text/css" rel="stylesheet" href="/css/default.css" />
+    <style type="text/css">
+        .textRight {
+          margin: 3px 0px 2px 0px;
+          text-align:right;
+        } 
+        iframe {
+        }
+        .popInfo {
+          background-color: #f5f8a7;
+          position:absolute;
+          display:none;
+          z-index:10;
+          width: 150px;
+          height: 50px;
+        } 
+        .popSet, .popSetBack {
+          background-color: #f5f8a7;
+          position:absolute;
+          display:none;
+          z-index:100;
+          width: 350px;
+          height: 100px;
+        } 
+        #Dean {
+          z-index:5;
+        }
+        #setBack, #set, #info {
+          padding-top:15px;
+          padding-left:5px;
+        }
+    </style>
+</head>
+
+<body> 
+  <select class="select" id="stream" onchange="changeStream()"></select>&nbsp;
+  <input type="checkbox" id="roiSwitch" onclick="switchROI()"/>
+  <span> Enable different quality with ROI</span>&nbsp;&nbsp;
+  <input type="button" class="button" id="new_win" value="New" onClick="addROI()"/>
+  <input type="button" class="button" value="Apply" onClick="apply()"/> 
+  <br /><br />
+  <object classid="CLSID:D3EABA3F-AFE4-4849-BD9C-DFB981B17055" id="Dean" 
+style="width:640px;height:480px;"
+CODEBASE="/vtcs_player.cab#Version=2,3,0,8" onmouseover="pop('info',255)" onmouseout="resetPop()"></object><br />
+  <span id="currM"></span>                                                                                         
+  <iframe class="popInfo" id="objInfo" scrolling="no" frameborder="0"></iframe>
+  <div class="popInfo" id="info" onmouseout="keepPop()"></div>
+  <iframe class="popSet popSetBack" id="objSet" scrolling="no" frameborder="0"></iframe>
+  <div class="popSet" id="set" onmouseout="keepPop()">  
+    <span class="textRight">Window Name:&nbsp;</span>
+    <input type="text" id="winName" size="12" /><br />
+    <span class="textRight">Quality:&nbsp;</span>
+    <input type="text" id="quality" size="5" maxlength="2" /><br />  
+    <span class="textRight">Encoding frame Interval:&nbsp;</span>
+    <input type="text" id="period" size="5" maxlength="3" /><br />              
+    <input type="button" class="button" value="Save" onClick="saveSetting()"/> 
+    <input type="button" class="button" value="Cancel" onClick="closeDiag()"/>            
+  </div>
+  <div class="popSetBack" id="setBack" onmouseout="keepPop()">  
+    <span class="textRight">Window Name: Background window</span><br />
+    <span class="textRight" id="qBack"></span><br /> 
+    <span class="textRight">Encoding frame Interval:&nbsp;</span>
+    <input type="text" id="periodBack" size="5" maxlength="3" /><br />              
+    <input type="button" class="button" value="Save" onClick="saveBack()"/> 
+    <input type="button" class="button" value="Cancel" onClick="closeBackDiag()"/>            
+  </div>
+  <div id="ajaxMask"><span id="ajaxImg"></span></div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+subdir-$(CONFIG_APPS_MSGCTRL) += msgctrl
+subdir-$(CONFIG_APPS_RTSPS) += rtsps
+subdir-$(CONFIG_APPS_SERVERPUSH) += serverpush
+subdir-$(CONFIG_APPS_SYSMGR) += sysmgr
+subdir-$(CONFIG_APPS_SIPUAS) += sipuas
+subdir-$(CONFIG_APPS_CGIS) += cgis
+subdir-$(CONFIG_APPS_ADEC) += adec 
+subdir-$(CONFIG_APPS_EVENTD) += eventd
+subdir-$(CONFIG_APPS_GETLLADDR) += getlladdr 
+subdir-$(CONFIG_APPS_OPENSSLAPP) += opensslapp 
+subdir-$(CONFIG_APPS_INITSCRIPTS) += initscripts
+subdir-$(CONFIG_APPS_PTZCTRL) += ptzctrl
+subdir-$(CONFIG_APPS_WATCHDOG) += watchdog
+subdir-$(CONFIG_APPS_SETPASSWD) += setpasswd
+
+subdir-$(CONFIG_RECORD) +=vrec 
+subdir-$(CONFIG_RECORD) += namedsem
+subdir-$(CONFIG_RECORD) += sdmgr
+subdir-$(CONFIG_APPS_AENC) += aenc
+subdir-y += venc
+subdir-$(CONFIG_PSIA) += psiad
+subdir-$(CONFIG_AUTOSCENE) += autoscene
+subdir-y += encctrl
+subdir-$(CONFIG_ONVIF) += onvif

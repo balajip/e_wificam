@@ -1,0 +1,4 @@
+# Set path
+PATH=/bin:/sbin:/usr/bin:/usr/sbin
+export PATH
+export TZ=CST-8

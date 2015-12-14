@@ -1,0 +1,8 @@
+* ____ AUDIO DRIVER
+** Codec : NVP1114A
+
+[ATTENTION]
+1. You must install video driver at first, then install audio driver.
+2. You must copy alsa.conf and alsa libirary to the proper locations.
+3. Please follow the command format to install the driver :
+	insmod TW2866_AUDIO.ko CodecNum=2

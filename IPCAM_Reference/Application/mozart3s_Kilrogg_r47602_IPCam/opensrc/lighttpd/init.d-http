@@ -1,0 +1,73 @@
+#!/bin/sh
+#
+# This starts and stops lighttpd.
+#
+# chkconfig: 2345 18 50
+# description: lighttpd
+#
+# processname: /usr/sbin/lighttpd
+# config: /etc/conf.d/lighttpd/lighttpd.conf
+# pidfile:
+
+# automatically export variables to the environment
+set -a
+
+PATH=/sbin:/bin:/usr/bin:/usr/sbin
+
+# Source function library.
+. /etc/init.d/functions
+
+# Get config.
+
+#RETVAL=0
+
+prog="lighttpd"
+binpath="/usr/sbin/lighttpd"
+args="-f /etc/conf.d/lighttpd/lighttpd.conf"
+pidfile="/var/run/http.pid"
+
+[ -f $binpath ] || exit
+
+start(){
+    echo -n "Starting $prog ... "
+	start-stop-daemon --start --quiet -n $prog --exec $binpath -- $args
+    echo "."
+}
+
+#default --stop send signal 15 (SIGTERM)
+stop(){
+    echo -n "Stopping $prog ... "
+    start-stop-daemon --stop --quiet -n $prog
+    sleep 1
+    echo "."
+}
+
+restart(){
+	start-stop-daemon --stop --signal INT --quiet --pidfile $pidfile --exec $binpath
+	start-stop-daemon --start --quiet --pidfile $pidfile --exec $binpath -- $args
+}
+                
+reload(){
+	start-stop-daemon --stop --signal INT --quiet --pidfile $pidfile --exec $binpath
+	start-stop-daemon --start --quiet --pidfile $pidfile --exec $binpath -- $args
+}
+# See how we are called.
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+    	restart
+        ;;
+    reload)
+    	reload
+    	;;
+    *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+esac
+
+exit 0

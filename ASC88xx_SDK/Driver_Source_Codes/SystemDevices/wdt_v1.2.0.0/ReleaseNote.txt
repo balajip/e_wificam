@@ -1,0 +1,20 @@
+Version: 1.2.0.0
+Release Date: 2013.11.04
+1. Introduce a new paramter 'refclk' which is set to the referece clock
+   in Hz of watchdog.
+
+Version: 1.1.1.1
+Release Date: 2013.10.18
+1. Limit max. timeout by real clock frequency.
+
+Version: 1.1.1.0
+Release Date: 2013.03.25
+1. Fix clk calculation.
+
+Version: 1.1.0.0
+Release Date: 2013.02.22
+1. Increase the minimum tick unit from 1x APB clock to 64x APB clock.
+
+Version: 1.0.0.2
+Release Date: 2013.01.03
+1. [MODIFICATION]: a minor modification

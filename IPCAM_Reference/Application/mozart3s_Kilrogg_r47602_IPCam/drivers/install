@@ -1,0 +1,646 @@
+
+#!/bin/bash
+ 
+PATH=/usr/bin:/bin:$PATH
+MOD_ROOT=$PWD
+TARGET_ROOT=`readlink -f $1`
+
+cp -f $MOD_ROOT/rtc.sh  $TARGET_ROOT/drivers
+cp -f $MOD_ROOT/drivers.sh  $TARGET_ROOT/drivers
+cp -f $MOD_ROOT/vpl_vic.sh  $TARGET_ROOT/drivers
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_VOC=y"  > /dev/null  2>&1;then
+
+cp -f $MOD_ROOT/vpl_voc.sh  $TARGET_ROOT/drivers
+cp -f $MOD_ROOT/vpl_voc.ko  $TARGET_ROOT/drivers
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_DISABLE_KERNEL_MSG=y"  > /dev/null  2>&1;then
+sed -i 's/#DISABLE_KERNEL_MSG#//g'  $TARGET_ROOT/drivers/drivers.sh
+fi
+
+if cat $TARGET_ROOT/../.config | grep -n "OSC_SRC=y"  > /dev/null  2>&1;then
+
+sed -i 's/#CLK_SRC#/gsdwClkSrc=1/g' $TARGET_ROOT/drivers/vpl_voc.sh
+
+else
+
+sed -i 's/#CLK_SRC#/gsdwClkSrc=0/g' $TARGET_ROOT/drivers/vpl_voc.sh
+
+fi
+
+fi
+
+#Wifi directory creation and firmware copy.
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_USB_WIFI_DWA125=y"  > /dev/null  2>&1;then #CONFIG_USB_WIFI_DWA125 for DWA-125
+
+mkdir -p $TARGET_ROOT/etc/Wireless/RT2870STA/
+cp $MOD_ROOT/Wifi/DWA-125/RT2870STA.dat $TARGET_ROOT/etc/Wireless/RT2870STA/
+cp $MOD_ROOT/Wifi/DWA-125/dwa_125_wifi.sh   $TARGET_ROOT/drivers/wifi.sh
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_USB_WIFI_NW362=y"  > /dev/null  2>&1;then #CONFIG_USB_WIFI_NW362 for NW362
+
+mkdir -p $TARGET_ROOT/etc/Wireless/RT2860STA/
+cp $MOD_ROOT/Wifi/NW362/8192cu.ko $TARGET_ROOT/etc/Wireless/RT2860STA/
+cp $MOD_ROOT/Wifi/NW362/nw362_wifi.sh   $TARGET_ROOT/drivers/wifi.sh
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_PCIE_WIFI_ATHEROS=y"  > /dev/null  2>&1;then #CONFIG_PCIE_WIFI_ATHEROS for PCIe wifi card
+
+cp $MOD_ROOT/Wifi/AT9280_PCIe/atheros_pcie_wifi.sh   $TARGET_ROOT/drivers/wifi.sh
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_USB_WIFI_RT3070=y"  > /dev/null  2>&1;then #CONFIG_USB_WIFI_RT3070 for USB wifi card
+
+mkdir -p $TARGET_ROOT/etc/Wireless/RT2870STA/
+cp -f $MOD_ROOT/Wifi/RT3070_USB/RT2870STA.dat $TARGET_ROOT/etc/Wireless/RT2870STA/
+cp -f $MOD_ROOT/Wifi/RT3070_USB/rt3070_usb_wifi.sh  $TARGET_ROOT/drivers/wifi.sh
+
+fi
+
+#The OV2710, IMX035, MN34030PL, and MT9P031 are applied the AE function and auto iris function on the chip.
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_AUTOIRIS=y"  > /dev/null  2>&1;then
+
+
+sed -i 's/#bIrisEn#/bIrisEn=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+
+else
+
+sed -i 's/#bIrisEn#/bIrisEn=0/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+fi 
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_AE=y"  > /dev/null  2>&1;then
+
+
+sed -i 's/#bAEEn#/bAEEn=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+else
+
+sed -i 's/#bAEEn#/bAEEn=0/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+fi 
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_AWB=y"  > /dev/null  2>&1;then
+
+
+sed -i 's/#bAWBEn#/bAWBEn=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+else
+
+
+sed -i 's/#bAWBEn#/bAWBEn=0/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+fi 
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_AF=y"  > /dev/null  2>&1;then
+
+
+sed -i 's/#bAFEn#/bAFEn=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+#sed -i "s/#insmod nagano.ko/insmod nagano.ko/g" $TARGET_ROOT/drivers/drivers.sh
+#sed -i "s/#insmod autofocus.ko/insmod autofocus.ko/g" $TARGET_ROOT/drivers/drivers.sh
+#sed -i "s/#sh openiris.sh/sh openiris.sh/g" $TARGET_ROOT/drivers/drivers.sh
+
+else
+
+sed -i 's/#bAFEn#/bAFEn=0/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+
+fi
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_AUTOIRIS0=y"  > /dev/null  2>&1;then #CONFIG_AUTOIRIS0 for ad5602
+sed -i 's/#dwIrisCtlType#/dwIrisCtlType=0/g' $TARGET_ROOT/drivers/vpl_vic.sh
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_AUTOIRIS1=y"  > /dev/null  2>&1;then #CONFIG_AUTOIRIS1 for ap1513
+sed -i 's/#dwIrisCtlType#/dwIrisCtlType=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+else #CONFIG_AUTOIRIS3 for PWM
+sed -i 's/#dwIrisCtlType#/dwIrisCtlType=3/g' $TARGET_ROOT/drivers/vpl_vic.sh
+fi
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX036=y"  > /dev/null  2>&1;then
+
+sed -i 's/#dwIOPadVoltageLevel#/dwIOPadVoltageLevel=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX122=y"  > /dev/null  2>&1;then
+
+sed -i 's/#dwIOPadVoltageLevel#/dwIOPadVoltageLevel=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_MN34030PL=y"  > /dev/null  2>&1;then
+
+sed -i 's/#dwIOPadVoltageLevel#/dwIOPadVoltageLevel=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+else
+
+sed -i 's/#dwIOPadVoltageLevel#/dwIOPadVoltageLevel=0/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+fi
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX122=y"  > /dev/null  2>&1;then
+
+sed -i 's/#bIICSyncVsyncFallingEn#/bIICSyncVsyncFallingEn=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX222=y"  > /dev/null  2>&1;then
+
+sed -i 's/#bIICSyncVsyncFallingEn#/bIICSyncVsyncFallingEn=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX035=y"  > /dev/null  2>&1;then
+
+sed -i 's/#bIICSyncVsyncFallingEn#/bIICSyncVsyncFallingEn=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX036=y"  > /dev/null  2>&1;then
+
+sed -i 's/#bIICSyncVsyncFallingEn#/bIICSyncVsyncFallingEn=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX104=y"  > /dev/null  2>&1;then
+
+sed -i 's/#bIICSyncVsyncFallingEn#/bIICSyncVsyncFallingEn=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX138=y"  > /dev/null  2>&1;then
+
+sed -i 's/#bIICSyncVsyncFallingEn#/bIICSyncVsyncFallingEn=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX238=y"  > /dev/null  2>&1;then
+
+sed -i 's/#bIICSyncVsyncFallingEn#/bIICSyncVsyncFallingEn=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_MN34030PL=y"  > /dev/null  2>&1;then
+
+sed -i 's/#bIICSyncVsyncFallingEn#/bIICSyncVsyncFallingEn=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_MN34030PL_60FPS=y"  > /dev/null  2>&1;then
+
+sed -i 's/#bIICSyncVsyncFallingEn#/bIICSyncVsyncFallingEn=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_MN34041PL=y"  > /dev/null  2>&1;then
+
+sed -i 's/#bIICSyncVsyncFallingEn#/bIICSyncVsyncFallingEn=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_AR0130=y"  > /dev/null  2>&1;then
+
+sed -i 's/#bIICSyncVsyncFallingEn#/bIICSyncVsyncFallingEn=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_AR0330=y"  > /dev/null  2>&1;then
+
+sed -i 's/#bIICSyncVsyncFallingEn#/bIICSyncVsyncFallingEn=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_AR0331=y"  > /dev/null  2>&1;then
+
+sed -i 's/#bIICSyncVsyncFallingEn#/bIICSyncVsyncFallingEn=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_MT9M034=y"  > /dev/null  2>&1;then
+
+sed -i 's/#bIICSyncVsyncFallingEn#/bIICSyncVsyncFallingEn=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_OV5658=y"  > /dev/null  2>&1;then
+
+sed -i 's/#bIICSyncVsyncFallingEn#/bIICSyncVsyncFallingEn=1/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+else
+
+sed -i 's/#bIICSyncVsyncFallingEn#/bIICSyncVsyncFallingEn=0/g' $TARGET_ROOT/drivers/vpl_vic.sh
+
+fi
+
+chmod +x  $TARGET_ROOT/drivers/vpl_vic.sh
+
+
+SENSOR_ARG=""
+RRKO_TIME_INTERVAL="0"
+SENSORTYPE=""
+I2CGPIO_ARG=""
+AUDIO_DRIVER=""
+MAX_STREAM_NUM=`cat $TARGET_ROOT/../.config |  grep CONFIG_MAXVIDEOSTREAMNUM | cut -d'=' -f 2`
+MAX_VIDEO_CHANNEL_NUM=`cat $TARGET_ROOT/../.config |  grep CONFIG_MAXVIDEOCHANNELNUM | cut -d'=' -f 2`
+#MediaMemSize=`cat $TARGET_ROOT/../.config |  grep CONFIG_MEDIAMEMSIZE | cut -d'=' -f 2`
+IRCutControlMode=`cat $TARGET_ROOT/../.config |  grep CONFIG_IRCUTCONTROLMODE | cut -d'=' -f 2`
+
+
+#The max number of reader for each shared buffer is 8 now. Because the sharedbuffer for video captaured data is read by 1 motion process, 3 readers of video display process + 4 encoder threads. 
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_JPEG_SNAPSHOT=y"  > /dev/null  2>&1;then
+	if cat $TARGET_ROOT/../.config | grep -n "CONFIG_VOC=y"  > /dev/null  2>&1;then
+		BUFMGR_ARG="gsdwMaxReaderNum=$((MAX_STREAM_NUM+1+3))  gsdwNumNodes=$((2*MAX_STREAM_NUM*MAX_VIDEO_CHANNEL_NUM+MAX_VIDEO_CHANNEL_NUM))"
+	else
+		BUFMGR_ARG="gsdwMaxReaderNum=$((MAX_STREAM_NUM+1))  gsdwNumNodes=$((2*MAX_STREAM_NUM*MAX_VIDEO_CHANNEL_NUM+MAX_VIDEO_CHANNEL_NUM))"
+	fi
+else
+	if cat $TARGET_ROOT/../.config | grep -n "CONFIG_VOC=y"  > /dev/null  2>&1;then
+		BUFMGR_ARG="gsdwMaxReaderNum=$((MAX_STREAM_NUM+1+3))  gsdwNumNodes=$((1*MAX_STREAM_NUM*MAX_VIDEO_CHANNEL_NUM+MAX_VIDEO_CHANNEL_NUM))"
+	else
+		BUFMGR_ARG="gsdwMaxReaderNum=$((MAX_STREAM_NUM+1))  gsdwNumNodes=$((1*MAX_STREAM_NUM*MAX_VIDEO_CHANNEL_NUM+MAX_VIDEO_CHANNEL_NUM))"
+	fi
+fi
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_OV5653=y"  > /dev/null  2>&1;then
+
+#1. Set SENSORTYPE for drivers.sh
+SENSORTYPE="OV5653"
+#2. Set the installing parameters of sensor driver for drivers.sh
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_R1920x1080FROM5M=y"  > /dev/null  2>&1;then
+    #SENSOR_ARG="video_sensor_width=1920 video_sensor_height=1080"
+    SENSOR_ARG="video_sensor_width=2560 video_sensor_height=1920"
+    RRKO_TIME_INTERVAL="4"
+#    MediaMemSize="192"
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_R2560x1920=y"  > /dev/null  2>&1;then
+    SENSOR_ARG="video_sensor_width=2560 video_sensor_height=1920"
+    RRKO_TIME_INTERVAL="3"
+#    MediaMemSize="192"
+fi
+#3. Set the installing parameters of buff_mgr driver for drivers.sh
+#BUFMGR_ARG="gsdwMaxReaderNum=$((MAX_STREAM_NUM+1)) gsdwNumNodes=$((MAX_STREAM_NUM+1))"
+#4. Set the installing parameters of i2c-gpio driver for drivers.sh
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+#5. Set the audio driver installation 
+#AUDIO_DRIVER="SSM2603.ko"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_OV5658=y" > /dev/null 2>&1;then
+
+#1. Set SENSORTYPE for drivers.sh
+SENSORTYPE="OV5658"
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+RRKO_TIME_INTERVAL="3"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_MT9P031=y"  > /dev/null  2>&1;then
+
+#1. Set SENSORTYPE for drivers.sh
+SENSORTYPE="MT9P031"
+#2. Set the installing parameters of sensor driver for drivers.sh
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_R1920x1080FROM5M=y"  > /dev/null  2>&1;then
+   SENSOR_ARG="video_sensor_width=2560 video_sensor_height=1920"
+RRKO_TIME_INTERVAL="4"
+#    MediaMemSize="192"
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_R2560x1920=y"  > /dev/null  2>&1;then
+   SENSOR_ARG="video_sensor_width=2560 video_sensor_height=1920"
+RRKO_TIME_INTERVAL="4"
+#    MediaMemSize="192"
+fi
+#3. Set the installing parameters of buff_mgr driver for drivers.sh
+#BUFMGR_ARG="gsdwMaxReaderNum=$((MAX_STREAM_NUM+1)) gsdwNumNodes=$((MAX_STREAM_NUM+1))"
+#4. Set the installing parameters of i2c-gpio driver for drivers.sh
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+#5. Set the audio driver installation 
+#AUDIO_DRIVER="SSM2603.ko"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX122=y"  > /dev/null  2>&1;then
+
+SENSORTYPE="IMX122"
+#BUFMGR_ARG="gsdwMaxReaderNum=$((MAX_STREAM_NUM+1)) gsdwNumNodes=$((MAX_STREAM_NUM+1))"
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+RRKO_TIME_INTERVAL="4"
+#AUDIO_DRIVER="SSM2603.ko"
+#MediaMemSize="64"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX222=y"  > /dev/null  2>&1;then
+
+SENSORTYPE="IMX222"
+#BUFMGR_ARG="gsdwMaxReaderNum=$((MAX_STREAM_NUM+1)) gsdwNumNodes=$((MAX_STREAM_NUM+1))"
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+RRKO_TIME_INTERVAL="4"
+#AUDIO_DRIVER="SSM2603.ko"
+#MediaMemSize="64"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX035=y"  > /dev/null  2>&1;then
+
+SENSORTYPE="IMX035"
+#BUFMGR_ARG="gsdwMaxReaderNum=$((MAX_STREAM_NUM+1)) gsdwNumNodes=$((MAX_STREAM_NUM+1))"
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+RRKO_TIME_INTERVAL="4"
+#AUDIO_DRIVER="SSM2603.ko"
+#MediaMemSize="64"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX036=y"  > /dev/null  2>&1;then
+
+SENSORTYPE="IMX036"
+#BUFMGR_ARG="gsdwMaxReaderNum=$((MAX_STREAM_NUM+1)) gsdwNumNodes=$((MAX_STREAM_NUM+1))"
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+RRKO_TIME_INTERVAL="4"
+#AUDIO_DRIVER="SSM2603.ko"
+#MediaMemSize="64"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX104=y" > /dev/null 2>&1;then
+
+SENSORTYPE="IMX104"
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+RRKO_TIME_INTERVAL="4"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX138=y" > /dev/null 2>&1;then
+
+SENSORTYPE="IMX138"
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+RRKO_TIME_INTERVAL="4"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX238=y" > /dev/null 2>&1;then
+
+SENSORTYPE="IMX238"
+SENSOR_ARG="sckEnSPIIF=1"
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+RRKO_TIME_INTERVAL="4"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_OV2710=y"  > /dev/null  2>&1;then
+
+SENSORTYPE="OV2710"
+#BUFMGR_ARG="gsdwMaxReaderNum=$((MAX_STREAM_NUM+1)) gsdwNumNodes=$((MAX_STREAM_NUM+1))"
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+RRKO_TIME_INTERVAL="5"
+#AUDIO_DRIVER="SSM2603.ko"
+#MediaMemSize="64"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_MN34030PL=y"  > /dev/null  2>&1;then
+
+SENSORTYPE="MN34030PL"
+SENSOR_ARG="iEnSerialIF=0"
+#BUFMGR_ARG="gsdwMaxReaderNum=$((MAX_STREAM_NUM+1)) gsdwNumNodes=$((MAX_STREAM_NUM+1))"
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+RRKO_TIME_INTERVAL="5"
+#AUDIO_DRIVER="SSM2603.ko"
+#MediaMemSize="64"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_MN34041PL=y"  > /dev/null  2>&1;then
+
+SENSORTYPE="MN34041PL"
+SENSOR_ARG="iEnSerialIF=1"
+#BUFMGR_ARG="gsdwMaxReaderNum=$((MAX_STREAM_NUM+1)) gsdwNumNodes=$((MAX_STREAM_NUM+1))"
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+RRKO_TIME_INTERVAL="2"
+#AUDIO_DRIVER="SSM2603.ko"
+#MediaMemSize="64"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_OV9710=y"  > /dev/null  2>&1;then
+
+SENSORTYPE="OV9710"
+SENSOR_ARG="iEnDSP=1 iEnAE=0"
+#BUFMGR_ARG="gsdwMaxReaderNum=$((MAX_STREAM_NUM+1)) gsdwNumNodes=$((MAX_STREAM_NUM+1))"
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+RRKO_TIME_INTERVAL="9"
+#AUDIO_DRIVER="SSM2603.ko"
+#MediaMemSize="64"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_CAT6011=y"  > /dev/null  2>&1;then
+
+SENSORTYPE="CAT6011"
+#BUFMGR_ARG="gsdwMaxReaderNum=$((MAX_STREAM_NUM+1)) gsdwNumNodes=$((MAX_STREAM_NUM+1))"
+I2CGPIO_ARG="bus_num=2 scl0=6 sda0=7 scl1=12 sda1=13"
+RRKO_TIME_INTERVAL="4"
+#AUDIO_DRIVER="SSM2603.ko"
+#MediaMemSize="64"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IT6604=y"  > /dev/null  2>&1;then
+
+SENSORTYPE="IT6604"
+#BUFMGR_ARG="gsdwMaxReaderNum=$((MAX_STREAM_NUM+1)) gsdwNumNodes=$((MAX_STREAM_NUM+1))"
+I2CGPIO_ARG="bus_num=2 scl0=6 sda0=7 scl1=12 sda1=13"
+RRKO_TIME_INTERVAL="4"
+#AUDIO_DRIVER="SSM2603.ko"
+#MediaMemSize="64"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_MN34030PL_60FPS=y"  > /dev/null  2>&1;then
+
+SENSORTYPE="MN34030PL"
+SENSOR_ARG="iEnSerialIF=1"
+#BUFMGR_ARG="gsdwMaxReaderNum=$((MAX_STREAM_NUM+1)) gsdwNumNodes=$((MAX_STREAM_NUM+1))"
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+RRKO_TIME_INTERVAL="2"
+#AUDIO_DRIVER="SSM2603.ko"
+#MediaMemSize="64"
+
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_NULLSensor=y"  > /dev/null  2>&1;then
+
+
+
+#1. Set SENSORTYPE for drivers.sh
+SENSORTYPE="NULLSensor"
+#2. Set the installing parameters of sensor driver for drivers.sh
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_NR1920x1080=y"  > /dev/null  2>&1;then
+    SENSOR_ARG="video_sensor_width=1920 video_sensor_height=1080"
+    if cat $TARGET_ROOT/../.config | grep -n "CONFIG_1DRAM_VERSION=y"  > /dev/null  2>&1;then
+      RRKO_TIME_INTERVAL="5"
+    else
+      RRKO_TIME_INTERVAL="6"
+    fi
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_NR720x480=y"  > /dev/null  2>&1;then
+    SENSOR_ARG="video_sensor_width=720 video_sensor_height=480"
+    if cat $TARGET_ROOT/../.config | grep -n "CONFIG_1DRAM_VERSION=y"  > /dev/null  2>&1;then    
+      RRKO_TIME_INTERVAL="5"   	    
+    else
+      RRKO_TIME_INTERVAL="6"
+    fi
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_NR640x480=y"  > /dev/null  2>&1;then
+    SENSOR_ARG="video_sensor_width=640 video_sensor_height=480"
+    if cat $TARGET_ROOT/../.config | grep -n "CONFIG_1DRAM_VERSION=y"  > /dev/null  2>&1;then    
+      RRKO_TIME_INTERVAL="5"   	    
+    else
+      RRKO_TIME_INTERVAL="6"
+    fi
+fi
+
+
+
+#BUFMGR_ARG="gsdwMaxReaderNum=$((MAX_STREAM_NUM+1)) gsdwNumNodes=$((MAX_STREAM_NUM+1))"
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+#AUDIO_DRIVER="SSM2603.ko"
+#MediaMemSize="64"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_TW2866=y"  > /dev/null  2>&1;then
+
+SENSORTYPE="TW2866"
+#BUFMGR_ARG="gsdwMaxReaderNum=4 gsdwNumNodes=32"
+I2CGPIO_ARG="bus_num=2 scl0=6 sda0=7 scl1=12 sda1=13"
+#AUDIO_DRIVER="TW2866_AUDIO.ko CodecNum=2"
+#MediaMemSize="64"
+RRKO_TIME_INTERVAL="6"
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_NVP1114A=y"  > /dev/null  2>&1;then
+
+SENSORTYPE="NVP1114A"
+#BUFMGR_ARG="gsdwMaxReaderNum=4 gsdwNumNodes=32"
+I2CGPIO_ARG="bus_num=2 scl0=6 sda0=7 scl1=12 sda1=13"
+#AUDIO_DRIVER="NVP1114A_AUDIO.ko CodecNum=2"
+#MediaMemSize="64"
+RRKO_TIME_INTERVAL="6"
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_OV10630=y"  > /dev/null  2>&1;then
+
+SENSORTYPE="OV10630"
+#BUFMGR_ARG="gsdwMaxReaderNum=$((MAX_STREAM_NUM+1)) gsdwNumNodes=$((MAX_STREAM_NUM+1))"
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+RRKO_TIME_INTERVAL="3"
+#AUDIO_DRIVER="SSM2603.ko"
+#MediaMemSize="64"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_OV10633=y"  > /dev/null  2>&1;then
+
+SENSORTYPE="OV10633"
+#BUFMGR_ARG="gsdwMaxReaderNum=$((MAX_STREAM_NUM+1)) gsdwNumNodes=$((MAX_STREAM_NUM+1))"
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+#AUDIO_DRIVER="SSM2603.ko"
+#MediaMemSize="64"
+RRKO_TIME_INTERVAL="3"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_AR0331=y"  > /dev/null  2>&1;then
+
+#1. Set SENSORTYPE for drivers.sh
+SENSORTYPE="AR0331"
+#2. Set the installing parameters of sensor driver for drivers.sh
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_R1920x1080FROM3M=y"  > /dev/null  2>&1;then
+	if cat $TARGET_ROOT/../.config | grep -n "CONFIG_SERIAL_SRC=y"  > /dev/null  2>&1;then
+		SENSOR_ARG="video_sensor_width=1920 video_sensor_height=1080 sckEnSerialIF=1 sckHasOTPMCode=1"
+	fi
+#	if cat $TARGET_ROOT/../.config | grep -n "CONFIG_SERIAL_SRC=y"  > /dev/null  2>&1;then
+#		if cat $TARGET_ROOT/../.config | grep -n "CONFIG_ENABLE_LINEAR_MODE=y"  > /dev/null  2>&1;then
+#			SENSOR_ARG="video_sensor_width=1920 video_sensor_height=1080 sckEnSerialIF=1 sckHasOTPMCode=1"
+#		fi
+#	fi
+#	if cat $TARGET_ROOT/../.config | grep -n "CONFIG_PARALLEL_SRC=y"  > /dev/null  2>&1;then
+#		if cat $TARGET_ROOT/../.config | grep -n "CONFIG_DISABLE_LINEAR_MODE=y"  > /dev/null  2>&1;then
+#			SENSOR_ARG="video_sensor_width=1920 video_sensor_height=1080 sckEnSerialIF=0 sckHasOTPMCode=0"
+#		fi
+#	fi
+#	if cat $TARGET_ROOT/../.config | grep -n "CONFIG_SERIAL_SRC=y"  > /dev/null  2>&1;then
+#		if cat $TARGET_ROOT/../.config | grep -n "CONFIG_DISABLE_LINEAR_MODE=y"  > /dev/null  2>&1;then
+#			SENSOR_ARG="video_sensor_width=1920 video_sensor_height=1080 sckEnSerialIF=1 sckHasOTPMCode=0"
+#		fi
+#	fi
+	if cat $TARGET_ROOT/../.config | grep -n "CONFIG_PARALLEL_SRC=y"  > /dev/null  2>&1;then
+		SENSOR_ARG="video_sensor_width=1920 video_sensor_height=1080 sckEnSerialIF=0 sckHasOTPMCode=1"
+	fi
+#	if cat $TARGET_ROOT/../.config | grep -n "CONFIG_PARALLEL_SRC=y"  > /dev/null  2>&1;then
+#		if cat $TARGET_ROOT/../.config | grep -n "CONFIG_ENABLE_LINEAR_MODE=y"  > /dev/null  2>&1;then
+#			SENSOR_ARG="video_sensor_width=1920 video_sensor_height=1080 sckEnSerialIF=0 sckHasOTPMCode=1"
+#		fi
+#	fi
+#	if cat $TARGET_ROOT/../.config | grep -n "CONFIG_SERIAL_SRC=y"  > /dev/null  2>&1;then
+#		if cat $TARGET_ROOT/../.config | grep -n "CONFIG_DISABLE_LINEAR_MODE=y"  > /dev/null  2>&1;then
+#			SENSOR_ARG="video_sensor_width=1920 video_sensor_height=1080 sckEnSerialIF=1 sckHasOTPMCode=0"
+#		fi
+#	fi
+RRKO_TIME_INTERVAL="4"
+#    MediaMemSize="192"
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_R2048x1536=y"  > /dev/null  2>&1;then
+	if cat $TARGET_ROOT/../.config | grep -n "CONFIG_SERIAL_SRC=y"  > /dev/null  2>&1;then
+		SENSOR_ARG="video_sensor_width=2048 video_sensor_height=1536 sckEnSerialIF=1 sckHasOTPMCode=1"
+	fi
+#	if cat $TARGET_ROOT/../.config | grep -n "CONFIG_SERIAL_SRC=y"  > /dev/null  2>&1;then
+#		if cat $TARGET_ROOT/../.config | grep -n "CONFIG_ENABLE_LINEAR_MODE=y"  > /dev/null  2>&1;then
+#			SENSOR_ARG="video_sensor_width=2048 video_sensor_height=1536 sckEnSerialIF=1 sckHasOTPMCode=1"
+#		fi
+#	fi
+#	if cat $TARGET_ROOT/../.config | grep -n "CONFIG_PARALLEL_SRC=y"  > /dev/null  2>&1;then
+#		if cat $TARGET_ROOT/../.config | grep -n "CONFIG_DISABLE_LINEAR_MODE=y"  > /dev/null  2>&1;then
+#			SENSOR_ARG="video_sensor_width=2048 video_sensor_height=1536 sckEnSerialIF=0 sckHasOTPMCode=0"
+#		fi
+#	fi
+#	if cat $TARGET_ROOT/../.config | grep -n "CONFIG_SERIAL_SRC=y"  > /dev/null  2>&1;then
+#		if cat $TARGET_ROOT/../.config | grep -n "CONFIG_DISABLE_LINEAR_MODE=y"  > /dev/null  2>&1;then
+#			SENSOR_ARG="video_sensor_width=2048 video_sensor_height=1536 sckEnSerialIF=1 sckHasOTPMCode=0"
+#		fi
+#	fi
+	if cat $TARGET_ROOT/../.config | grep -n "CONFIG_PARALLEL_SRC=y"  > /dev/null  2>&1;then
+		SENSOR_ARG="video_sensor_width=2048 video_sensor_height=1536 sckEnSerialIF=0 sckHasOTPMCode=1"
+	fi
+#	if cat $TARGET_ROOT/../.config | grep -n "CONFIG_PARALLEL_SRC=y"  > /dev/null  2>&1;then
+#		if cat $TARGET_ROOT/../.config | grep -n "CONFIG_ENABLE_LINEAR_MODE=y"  > /dev/null  2>&1;then
+#			SENSOR_ARG="video_sensor_width=2048 video_sensor_height=1536 sckEnSerialIF=0 sckHasOTPMCode=1"
+#		fi
+#	fi
+#	if cat $TARGET_ROOT/../.config | grep -n "CONFIG_SERIAL_SRC=y"  > /dev/null  2>&1;then	
+#		if cat $TARGET_ROOT/../.config | grep -n "CONFIG_DISABLE_LINEAR_MODE=y"  > /dev/null  2>&1;then
+#			SENSOR_ARG="video_sensor_width=2048 video_sensor_height=1536 sckEnSerialIF=1 sckHasOTPMCode=0"
+#		fi
+#	fi
+RRKO_TIME_INTERVAL="4"
+#    MediaMemSize="192"
+fi
+#3. Set the installing parameters of buff_mgr driver for drivers.sh
+#BUFMGR_ARG="gsdwMaxReaderNum=$((MAX_STREAM_NUM+1)) gsdwNumNodes=$((MAX_STREAM_NUM+1))"
+#4. Set the installing parameters of i2c-gpio driver for drivers.sh
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_MT9M033=y" > /dev/null 2>&1;then
+
+#1. Set SENSORTYPE for drivers.sh
+SENSORTYPE="MT9M033"
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+RRKO_TIME_INTERVAL="4"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_MT9M034=y" > /dev/null 2>&1;then
+
+#1. Set SENSORTYPE for drivers.sh
+SENSORTYPE="MT9M034"
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+RRKO_TIME_INTERVAL="4"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_AR0130=y" > /dev/null 2>&1;then
+
+#1. Set SENSORTYPE for drivers.sh
+SENSORTYPE="AR0130"
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+RRKO_TIME_INTERVAL="4"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_AR0330=y" > /dev/null 2>&1;then
+
+#1. Set SENSORTYPE for drivers.sh
+SENSORTYPE="AR0330"
+I2CGPIO_ARG="bus_num=2 scl0=255 sda0=255 scl1=12 sda1=13"
+RRKO_TIME_INTERVAL="4"
+
+
+fi
+
+
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_WM8978=y"  > /dev/null  2>&1;then
+
+AUDIO_DRIVER_NAME="WM8978.ko"
+AUDIO_DRIVER="WM8978.ko;insmod vaudio-i2s.ko;insmod vaudio.ko;insmod vaudio-evm.ko"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_WAU8822=y"  > /dev/null  2>&1;then
+
+AUDIO_DRIVER_NAME="WAU8822.ko"
+AUDIO_DRIVER="WAU8822.ko;insmod vaudio-i2s.ko;insmod vaudio.ko;insmod vaudio-evm.ko"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_TW2866_AUDIO=y"  > /dev/null  2>&1;then
+
+AUDIO_DRIVER_NAME="TW2866_AUDIO.ko"
+AUDIO_DRIVER="TW2866_AUDIO.ko CodecNum=2"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_CAT6011_HDMI_AUDIO=y"  > /dev/null  2>&1;then
+
+AUDIO_DRIVER_NAME="CAT6011_Audio.ko"
+AUDIO_DRIVER="CAT6011_Audio.ko"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IT6604_HDMI_AUDIO=y"  > /dev/null  2>&1;then
+
+AUDIO_DRIVER_NAME="IT6604_Audio.ko"
+AUDIO_DRIVER="IT6604_Audio.ko"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_NVP1114A_AUDIO=y"  > /dev/null  2>&1;then
+
+AUDIO_DRIVER_NAME="NVP1114A_AUDIO.ko"
+AUDIO_DRIVER="NVP1114A_AUDIO.ko CodecNum=2"
+
+else
+
+AUDIO_DRIVER_NAME="SSM2603.ko"
+AUDIO_DRIVER="SSM2603.ko  i2sClkSrc=1"  #CONFIG_SSM2603=y
+
+fi
+
+
+
+sed -i "s/#IRCutControlMode#/$IRCutControlMode/g" $TARGET_ROOT/drivers/ircut.sh
+
+sed -i "s/#SENSORTYPE#/$SENSORTYPE/g" $TARGET_ROOT/drivers/drivers.sh
+sed -i "s/#SENSOR_ARG#/$SENSOR_ARG/g" $TARGET_ROOT/drivers/drivers.sh
+
+NodeNum=`echo  $BUFMGR_ARG | grep "gsdwNumNodes" | awk -F" " '{ print $2 }' | awk -F"=" '{ print $2 }'`
+
+sed -i "s/#BUFMGR_ARG#/$BUFMGR_ARG/g" $TARGET_ROOT/drivers/buff_mgr.sh
+sed -i "s/#BUFMGR_NODE_NUM#/$NodeNum/g" $TARGET_ROOT/drivers/buff_mgr.sh
+
+sed -i "s/#I2CGPIO_ARG#/$I2CGPIO_ARG/g" $TARGET_ROOT/drivers/drivers.sh
+sed -i "s/#AUDIO_DRIVER#/$AUDIO_DRIVER/g" $TARGET_ROOT/drivers/drivers.sh
+sed -i "s/#AUDIO_DRIVER_NAME#/$AUDIO_DRIVER_NAME/g" $TARGET_ROOT/drivers/drivers.sh
+#sed -i "s/#MediaMemSize#/$MediaMemSize/g" $TARGET_ROOT/drivers/vpl_edmc.sh

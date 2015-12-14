@@ -1,0 +1,12 @@
+#!/bin/bash
+PATH=/usr/bin:/bin:$PATH
+PKG_ROOT=${PWD}
+
+install ${PKG_ROOT}/lib/libpcrecpp.so.0.0.0 $1/usr/lib/
+ln -s libpcrecpp.so.0.0.0 $1/usr/lib/libpcrecpp.so.0
+
+install ${PKG_ROOT}/lib/libpcreposix.so.0.0.1 $1/usr/lib/
+ln -s libpcreposix.so.0.0.1 $1/usr/lib/libpcreposix.so.0
+
+install ${PKG_ROOT}/lib/libpcre.so.1.0.1 $1/usr/lib/
+ln -s libpcre.so.1.0.1 $1/usr/lib/libpcre.so.1

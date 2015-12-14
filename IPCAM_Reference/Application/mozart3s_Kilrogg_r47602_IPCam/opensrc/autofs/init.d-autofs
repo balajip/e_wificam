@@ -1,0 +1,105 @@
+#!/bin/sh
+#
+# httpd: This starts and stops http server.
+#
+# chkconfig: 2345 23 35
+# description: http server (boa)
+#
+# processname: /usr/sbin/boa
+# config: /etc/conf.d/boa.conf
+# pidfile: /var/run/boa.pid
+set -a
+
+PATH=/sbin:/bin:/usr/bin:/usr/sbin
+
+# Source function library.
+. /etc/init.d/functions
+#/usr/sbin/automount /usr/share/www/html file /etc/auto.videoclips
+prog="automount"
+#args="-c /usr/share/www -f /etc/conf.d/boa/boa.conf"
+binpath="/usr/sbin/automount"
+pidfile="/var/run/automount.pid"
+
+[ -f $binpath ] || exit 1
+
+getmounts(){
+
+if [ -f /etc/auto.master ]
+then
+    cat /etc/auto.master | sed -e '/^#/d' -e '/^$/d'| (
+	while read dir map options
+	do
+	    if [ ! -z "$dir" -a ! -z "$map" \
+			-a x`echo "$map" | cut -c1` != 'x-' ]
+	    then
+		map=`echo "/etc/$map" | sed -e 's:^/etc//:/:'`
+		options=`echo "$options" | sed -e 's/\(^\|[ \t]\)-/\1/g'`
+		if [ -x $map ]; then
+		    echo "$DAEMON $dir program $map $options $localoptions"
+		elif [ -f $map ]; then
+		    echo "$DAEMON $dir file $map $options $localoptions"
+		else
+		    echo "$DAEMON $dir `basename $map` $options $localoptions"
+		fi
+	    fi
+	done
+    )
+fi
+
+}
+
+
+start(){
+	echo -n "Starting $prog: "
+	getmounts | while read cmd mnt rest
+	do
+	echo "mnt=$mnt rest=$rest cmd=$cmd"
+	start-stop-daemon --start --quiet -n $prog  --exec $binpath -- $cmd file  $rest
+	done
+	echo
+}
+
+stop(){
+	echo -n "Stopping $prog: "
+	pid=`pidof $prog`
+	#start-stop-daemon  --stop -s 2  --quiet  -n $prog --pidfile $pidfile
+	echo "pid=$pid"
+	kill -2 $pid
+	sleep 1
+	#waittodie $pidfile $binpath
+	echo "."
+}
+
+umountall(){
+	echo -n "Umount all mounting points: "
+	pid=`pidof $prog`
+	echo "pid=$pid"
+	kill -10 $pid
+	echo "."	
+}
+
+# See how we were called.
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	restart|reload)
+		stop
+		start
+		;;
+	status)
+		status
+		;;
+	umountall)
+		umountall
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart|reload|umountall}"
+		exit 1
+esac
+
+exit 0
+

@@ -1,0 +1,13 @@
+<?xml version="1.0" standalone="yes"?>
+<root>
+	<sipua>
+		<local_uri>sip:alice@172.17.4.18:5060</local_uri>
+		<contact_uri></contact_uri>
+		<!-- 2 supported codec: PCMU(g711-ulaw), AMR, default is PCMU-->
+		<audio_codec>PCMU</audio_codec>
+		<ua_server>
+			<tx_unix_sock>/tmp/aenc/c0/twoway.sck</tx_unix_sock>
+		</ua_server>
+        <client_timeout>30</client_timeout>
+	</sipua>
+</root>

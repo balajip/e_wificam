@@ -1,0 +1,9 @@
+#!/bin/bash
+# This script will install expat. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=firmware_write
+ROOTFS_DIR=$1
+
+
+install ${APP_NAME} ${ROOTFS_DIR}/usr/sbin/
+

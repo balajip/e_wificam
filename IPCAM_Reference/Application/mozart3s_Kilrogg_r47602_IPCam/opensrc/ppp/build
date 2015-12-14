@@ -1,0 +1,97 @@
+#!/bin/bash
+# This script will untar a ppp tarball from Debian, patch it, and build it. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=ppp
+VERSION=2.4.4rel
+DEB_ORIG_TARBALL=${APP_NAME}_${VERSION}.orig.tar.gz
+DEB_PATCH=${APP_NAME}_${VERSION}-10.1.diff.gz
+PACKAGE_DIR=$APP_NAME-$VERSION
+UNTAR_ARG='-zxf'
+HOST='arm-linux'
+CC=$HOST-gcc
+PKG_ROOT=${PWD}
+
+#let Makefile can execute successfully
+unset MFLAGS MAKEFLAGS
+
+# check if you have proper gcc
+which $CC > /dev/null || exit 1
+
+# untar the tarball
+tar $UNTAR_ARG $DEB_ORIG_TARBALL
+mv ${APP_NAME}-${VERSION}.orig ${PACKAGE_DIR}
+
+cd ${PACKAGE_DIR}
+
+# apply Debian's patchs
+gunzip -c ${PKG_ROOT}/$DEB_PATCH | patch -p1 --silent
+patch -p1 --silent < ../sys-build.mk.patch
+make -f debian/sys-build.mk source.make > /dev/null 2>&1
+
+# apply VN's patch
+patch -Np1 --silent << "PPPD_MAKEFILE"
+diff -Nur ppp-2.4.4rel/build-tree/ppp-2.4.4/pppd/Makefile.linux ppp-2.4.4rel-modified/build-tree/ppp-2.4.4/pppd/Makefile.linux
+--- ppp-2.4.4rel/build-tree/ppp-2.4.4/pppd/Makefile.linux	2009-04-21 19:25:43.000000000 +0800
++++ ppp-2.4.4rel-modified/build-tree/ppp-2.4.4/pppd/Makefile.linux	2009-04-21 17:38:48.000000000 +0800
+@@ -37,18 +37,18 @@
+ 
+ # Uncomment the next 2 lines to include support for Microsoft's
+ # MS-CHAP authentication protocol.  Also, edit plugins/radius/Makefile.linux.
+-CHAPMS=y
+-USE_CRYPT=y
++#CHAPMS=y
++#USE_CRYPT=y
+ # Don't use MSLANMAN unless you really know what you're doing.
+ #MSLANMAN=y
+ # Uncomment the next line to include support for MPPE.  CHAPMS (above) must
+ # also be enabled.  Also, edit plugins/radius/Makefile.linux.
+-MPPE=y
++#MPPE=y
+ 
+ # Uncomment the next line to include support for PPP packet filtering.
+ # This requires that the libpcap library and headers be installed
+ # and that the kernel driver support PPP packet filtering.
+-FILTER=y
++#FILTER=y
+ 
+ # Uncomment the next line to enable multilink PPP (enabled by default)
+ # Linux distributions: Please leave multilink ENABLED in your builds
+@@ -61,14 +61,14 @@
+ USE_TDB=y
+ 
+ HAS_SHADOW=y
+-USE_PAM=y
++#USE_PAM=y
+ HAVE_INET6=y
+ 
+ # Enable plugins
+ PLUGIN=y
+ 
+ # Enable Microsoft proprietary Callback Control Protocol
+-CBCP=y
++#CBCP=y
+ 
+ # Enable EAP SRP-SHA1 authentication (requires libsrp)
+ #USE_SRP=y
+PPPD_MAKEFILE
+
+cd build-tree/ppp-2.4.4
+
+# configure 
+./configure --prefix=/usr > /dev/null
+
+# simply make it
+make CC=$HOST-gcc --quiet > /dev/null 2>&1
+
+cd $PKG_ROOT
+
+mkdir -p root/usr/sbin root/usr/bin root/usr/lib/pppd/2.4.4
+cp -dR $PACKAGE_DIR/build-tree/ppp-2.4.4/pppd/pppd root/usr/sbin
+cp -dR $PACKAGE_DIR/build-tree/ppp-2.4.4/pppd/plugins/rp-pppoe/rp-pppoe.so root/usr/lib/pppd/2.4.4/rp-pppoe.so
+cp -dR $PACKAGE_DIR/extra/pon root/usr/bin
+cp -dR $PACKAGE_DIR/extra/poff root/usr/bin
+chmod +x root/usr/bin/*
+$HOST-strip root/usr/sbin/pppd 
+$HOST-strip root/usr/lib/pppd/2.4.4/rp-pppoe.so
+
+patch -p0 --silent < poff.patch

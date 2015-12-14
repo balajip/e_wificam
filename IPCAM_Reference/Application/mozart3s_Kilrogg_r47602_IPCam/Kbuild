@@ -1,0 +1,13 @@
+#
+# Kbuild for top-level directory of the kernel
+
+quiet_cmd_finddir = FIND    $@
+      cmd_finddir = find -H ./libs ./opensrc -name '.?*' -prune -o \
+					-name 'scripts' -prune -o -type d \
+					! -name 'src' ! -name 'lib' ! -name 'include' \
+					! -name 'obj' ! -name 'doc' ! -name 'dep' \
+					! -name 'app' \
+					-print > $@
+
+.dir-list: FORCE
+	$(call cmd,finddir)

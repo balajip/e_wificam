@@ -1,0 +1,415 @@
+# General Options
+menu "General Options"
+
+config DEBUG
+	bool "Building Kilrogg with extra Debugging symbols"
+	default	n
+	help
+	  Say Y here if you wish to examine Kilrogg internals while applications are
+	  running. This increases the size of the binary considerably, and
+	  should only be used when doing development. If you are doing
+	  development and want to debug Kilrogg, answer Y.
+
+	  Most people should answer N.
+
+comment "Root file-system image"
+config MKSQUASHFS
+	string "The path of mksquashfs"
+	default "/sbin/mksquashfs"
+
+config UNSQUASHFS
+	string "The path of unsquashfs"
+	default "/usr/sbin/unsquashfs"
+
+config BASICROOTFS
+	string "The basic root file system"
+	default "usr/basic_rootfs.sqfs"
+	help
+	  The basic root file system is a squashfs image which contains basic utilities and libraries, 
+	  such as Busybox and uClibc. 
+
+config FAKEROOT
+	bool "Use fakeroot to build or unpack squashfs images" 
+	default y
+	help
+	  Root file system images usually contain some files that should be made by root, e.g. /dev/null. 
+	  Fakeroot is a package which can let general users "run a command in an environment faking root privileges for file manipulation." 
+	  It can help embedded system developers building root file systems without root's privilege. 
+	  We strongly recommend you use this tool to build root file system images. 
+
+config FAKEROOT_PATH
+	depends on FAKEROOT
+	string "The path of fakeroot"
+	default "/usr/bin/fakeroot"
+
+#config UARTCONSOLE
+#	string "Uart console name"
+#	default "ttyS1"
+
+endmenu
+
+menu "Network Setting"
+
+config DYNAMICNETWOK
+       bool "Dynamic network address setting"
+       default y
+
+config MANUALNETWOK
+	bool "Manual network address setting"
+	default n
+	depends on !DYNAMICNETWOK 
+      
+config MANUALNETWOK_IP_ADDRESS
+       string "IP adress"
+       default "172.17.207.11"
+       depends on  MANUALNETWOK
+
+config MANUALNETWOK_NETMASK
+       string "Netmask"
+       default "255.255.0.0"
+       depends on  MANUALNETWOK
+
+config MANUALNETWOK_GW_ADDRESS
+       string "Default gateway address"
+       default "172.17.0.1"
+       depends on  MANUALNETWOK
+
+config MANUALNETWOK_DNS_ADDRESS
+       string "Default DNS address"
+       default "192.168.0.20"
+       depends on  MANUALNETWOK
+
+config UBOOTNETWOK
+	bool "Access network address setting from UBOOT"
+	default n
+	depends on !MANUALNETWOK && !DYNAMICNETWOK
+
+endmenu
+
+
+comment "Applications"
+menu "Web Page"
+config WEBPAGE
+  bool "Installation of web pages" 
+  default y
+endmenu
+
+
+menu "Sensor/Video Input Setting"
+
+choice
+	prompt "Image sensors"
+	default NOSENSOR
+	help
+	  Choose with which sensor you would like to build. 
+config MT9P031
+	bool "Aptina MT9P031"
+config AR0330
+        bool "Aptina AR0330 Sensor"
+config AR0331
+	bool "Aptina AR0331 Sensor"
+#config MT9M033
+#        bool "Aptina MT9M033 Sensor"
+config MT9M034
+        bool "Aptina MT9M034 Sensor"
+config AR0130
+	bool "Aptina AR0130 Sensor"
+config IMX122 
+        bool "Sony IMX122"
+config IMX222 
+        bool "Sony IMX222"
+config IMX035
+	bool "Sony IMX035"
+#config IMX036
+#	bool "Sony IMX036"
+config IMX104
+	bool "Sony IMX104"
+config IMX138
+        bool "Sony IMX138"
+config IMX238
+        bool "Sony IMX238"
+config OV2710
+	bool "OmniVision OV2710"
+config OV9710
+	bool "OmniVision OV9710"
+#config OV10630
+#	bool "OmniVision OV10630"
+config OV10633
+	bool "OmniVision OV10633"
+config OV5653
+	bool "OmniVision OV5653"
+config OV5658
+        bool "OmniVision OV5658"
+config MN34030PL
+	bool "Panasonic MN34030PL"
+config MN34030PL_60FPS
+	bool "Panasonic MN34030PL 60fps@720p"
+config MN34041PL
+	bool "Panasonic MN34041PL"
+config CAT6011
+	bool "ITE CAT6011"
+config IT6604
+	bool "ITE IT6604"
+config NULLSensor
+	bool "NULL Sensor"
+config NVP1114A
+	bool "NVP1114A 4-Channels Analog Video Decoder"
+config TW2866 
+	bool "TW2866 4-Channels Analog Video Decoder"
+config NOSENSOR
+	bool "No Select Sensor"
+endchoice
+
+#comment "resolution"
+choice
+depends on MT9P031 || OV5653
+                prompt "Max supported resolution"
+                default R1920x1080FROM5M
+                config R2560x1920
+                bool "5M (2560x1920)"
+                config R1920x1080FROM5M
+                bool "Full HD (1920x1080)"
+endchoice
+
+
+choice
+depends on AR0331
+                prompt "Max supported resolution"
+                default R1920x1080FROM3M
+				config R2048x1536
+                bool "3M (2048x1536)"
+                config R1920x1080FROM3M
+                bool "Full HD (1920x1080)"
+endchoice
+
+choice
+        prompt "Sensor Input Format Source"
+        default SERIAL_SRC
+        depends on AR0331
+        help
+          Choose with which video input source of AR0331 you would like to build.
+        config PARALLEL_SRC
+          bool "Parallel Input Source"
+        config SERIAL_SRC
+          bool "Serial Input Source"
+endchoice
+
+# Pure Linear Mode option(Aptinal 2011 09 after shipping default:sckHasOTPMCode=1)
+#choice
+#        prompt "Pure Linear Mode"
+#        default ENABLE_LINEAR_MODE
+#        depends on AR0331
+#        help
+#          Choose with which pure linear mode of AR0331 you would like to build.
+#        config DISABLE_LINEAR_MODE
+#          bool "IMPURE_LINEAR_MODE"
+#        config ENABLE_LINEAR_MODE
+#          bool "PURE_LINEAR_MODE"
+#endchoice
+
+
+config 5M2MSWITCH
+	bool "Support 2M and 5M resolution dynamic switch"
+	depends on R2560x1920
+
+config 3M2MSWITCH
+	bool "Support 2M and 3M resolution dynamic switch"
+	depends on R2048x1536
+
+choice
+depends on NULLSensor 
+                prompt "Max supported resolution"
+                default NR720x480
+                config NR1920x1080
+                bool "1920x1080"
+                config NR720x480
+                bool "720x480"
+		config NR640x480
+		bool "640x480"
+endchoice
+
+choice
+depends on NULLSensor 
+                prompt "Input format"
+                default INPUTCCIR656I
+                config INPUTRAW
+		bool "RAW"
+		config INPUTCCIR656I
+		bool "CCIR656i"
+	        config INPUTCCIR656P
+		bool "CCIR656p"
+		config INPUTBAYER 
+                bool "Bayer"		
+		config INPUT16RAW
+		bool "16-bits RAW"
+		config INPUTBT1120P
+		bool "BT1120p"
+		config INPUTBT1120I
+		bool "BT1120i"
+endchoice
+
+
+config 	VIDEO_SERVER
+	depends on TW2866 || NVP1114A
+	bool "Video Decoder(DVS)"
+	default n
+
+
+config 	WDR
+	depends on AR0331 || OV10630 || OV10633
+	bool "Enable the WDR Sensors"
+	default n
+
+endmenu 
+
+
+menu "Lens Control Setting"
+
+config AUTOIRIS
+	bool "Enable the Auto Iris function of lens"
+	default n
+choice
+depends on AUTOIRIS
+		prompt "Iris control type"
+		default AUTOIRIS0
+		config AUTOIRIS0
+		bool "ad5602 control IC"
+		config AUTOIRIS1
+		bool "ap1513 control IC"
+#		config AUTOIRIS2
+#		bool "md124 control IC"
+                config AUTOIRIS3
+                bool "PWM control"
+endchoice
+
+#config AF
+#	bool "Enable the AF function of lens"
+#	default n
+#	depends on AUTOIRIS && AE 
+#choice
+#depends on AF
+#                prompt "Focus motor control type"
+#                default AUTOFOCUS1
+#                config AUTOFOCUS1
+#                bool "lv8044lp control IC"
+#endchoice
+
+
+endmenu 
+
+
+
+source apps/venc/Kconfig
+
+
+source apps/vrec/Kconfig
+
+
+menu "Video Display"
+config VOC
+	bool "Support Video Display"
+	default n
+config VOC_ENABLE
+	string  "Enable Display Output (on:enable, off:disable)"
+	default "off"
+	depends on VOC
+choice
+	depends on VOC
+        prompt "External Display Device"
+        default ADV7391
+        config ADV7391
+        bool "ADV7391"
+        config CAT6612
+        bool "CAT6612"
+        config GV7600
+        bool "GV7600"
+endchoice
+
+menu "SD Video(ADV7391): CVBS Video Encoder"
+	depends on VOC && ADV7391
+config VOF_1 
+	string "Select Mozart Video Output Format"
+	default "BT.656"
+#choice
+#	prompt "CVBS Signal Format"
+#	default NTSC
+#        config NTSC
+#        bool "NTSC"
+#        config PAL
+#        bool "PAL"
+#endchoice
+config VOC_FORMAT_1
+	string "CVBS Signal Format(NTSC, PAL)"
+	default "NTSC"	
+endmenu
+
+menu "HD Video(CAT6612): HDMI Transmitter"
+        depends on VOC && CAT6612
+config VOF_2
+        string "Select Mozart Video Output Format"
+        default "RGB24"
+#choice
+#        prompt ""
+#        default HDMI
+#        config HDMI
+#        bool "HDMI"
+#endchoice
+config VOC_FORMAT_2
+	string "Signal Format(HDMI)"
+        default "HDMI"
+endmenu
+
+menu "HD Video(GV7600): HD-SDI Transmitter"
+        depends on VOC && GV7600
+config VOF_3
+        string "Select Mozart Video Output Format"
+        default "BT.1120"
+#choice
+#        prompt ""
+#        default HDSDI
+#        config HDSDI
+#        bool "HDSDI"
+#endchoice
+config VOC_FORMAT_3
+	string "Signal Format(HDSDI)"
+        default "HDSDI"
+endmenu
+
+#config VOC_FORMAT
+#        string "Dispaly Output Format (NTSC, PAL, HDMI, HDSDI)"
+#        default "NTSC"
+#        depends on VOC
+
+#choice
+#	prompt ""
+#	depends on VOF_1
+#        config VOC_FORMAT_1
+#        bool "VOC_FORMAT_1"
+#	depends on VOF_2
+#        config VOC_FORMAT_2
+#        bool "VOC_FORMAT_2"
+#	depends on VOF_3
+#        config VOC_FORMAT_3
+#        bool "VOC_FORMAT_3"
+#endchoice
+
+	
+config VOC_RESOLUTION
+	string "Display Output Resolution(720x480,720x576,1920x1080)"
+	default "720x480"
+	depends on VOC
+config VOC_FREQ
+	int "Display Output Frequency(24,60,30)" 
+	default 60
+	depends on VOC
+endmenu
+
+source apps/psiad/Kconfig
+source apps/onvif/Kconfig
+source drivers/Kconfig
+source apps/aenc/Kconfig
+source opensrc/Kconfig
+source apps/Kconfig
+
+
+

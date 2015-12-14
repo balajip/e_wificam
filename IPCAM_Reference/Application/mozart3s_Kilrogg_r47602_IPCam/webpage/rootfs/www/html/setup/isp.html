@@ -1,0 +1,543 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>ISP</title>
+        <script type="text/javascript" src="/include/jQuery/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="/include/jQuery/jquery-ui-1.8.6.custom.min.js"></script>
+        <script type="text/javascript" src="/include/common.js"></script>
+        <script type="text/javascript" src="/include/isp.js"></script>
+        <link type="text/css" rel="stylesheet" href="/css/default.css"  />
+        <link type="text/css" rel="stylesheet" href="/include/jQuery/jquery-ui-1.8.6.custom.css" />
+        <style>
+            th, td {
+                padding: 5px;
+            }
+            .div_banner {
+                width:   100%;
+                background-color: #BCD2E6;
+                padding: 3px;
+                margin-top: 20px;
+                font-size: large;
+            }
+            .div_drawer {
+                padding-left: 10px;
+                margin: 10px 3px 5px 5px;
+                width:   100%;
+            }
+            .div_subtitle {
+                margin: 20px 3px 10px 3px;
+                border-bottom:  1px dotted #BCD2E6;
+                font-weight: bold;
+                font-size: medium;
+            }
+            .div_enable {
+                font-weight: normal;
+                font-size: small;
+                display: inline;
+                margin-left: 20px;
+            }
+            .sValue {
+                 display:-moz-inline-box;
+                 display:inline-block;
+                 width:32px;
+                 height:20px;
+                 text-align:left;
+                 margin: 7px 3px 0px 6px;
+            }
+            .ui-slider {
+                width:260px;
+            }
+            .textR, .coeff {
+                text-align:right;
+            }
+            .rgb {
+                text-align:center;
+                font-weight: bold;
+            }       
+            #wbTable td, #aeTable td  {
+                border: 1px solid #BCD2E6;
+                margin: 0px;
+            }  
+            #wbTable, #aeTable  {
+                background-image:url('1920_1080.jpg');
+            } 
+            .wbSelected, .aeSelected  {
+                opacity:0.6;
+                filter:alpha(opacity=60); /* For IE8 and earlier */
+            }
+        </style>
+    </head>
+    <body>
+        <div id="asOptions">
+            <span>Scene: </span>
+            <select id="asMode" class="select"/>
+                <option value="indoor">Indoor</option>
+                <option value="outdoor">Outdoor</option>
+                <option value="wdr">WDR</option>
+            </select>
+            <input type="button" class="button" id="ispm" value="Manual" onclick="onASMode('disable')" />
+            <input type="button" class="button" value="Apply" onclick="saveISPMode()" />
+        </div>
+        <div id="div_options">
+            <div>
+                <span>Template: </span>
+                <select id="custom_template" class="select"
+                    onchange="templateChange(this.options[this.options.selectedIndex].value);">
+                    <option value="general">General</option>
+                    <option value="indoor">Indoor</option>
+                    <option value="indoorlowlux">Indoor lowlux</option>
+                    <option value="outdoor">Outdoor</option>
+                    <option value="entrance">Entrance</option>
+                    <option value="template6">Template 6</option>
+                    <option value="template7">Template 7</option>
+                    <option value="template8">Template 8</option>
+                </select>
+                <input type="button" class="button" id="ispa" value="Auto Scene" onclick="onASMode('enable')" />
+                <input type="button" class="button" value="Apply" onclick="saveNApply()" />
+            </div>
+            <div class="div_banner" onclick="treeview('child1')">
+               <span class="child1">&#9658;</span> Image Grids Setting
+            </div>
+            <div class="div_drawer" id="child1" style="display:none">
+                  <table><tbody>
+                    <tr>
+                      <td class="textR"><span>X</span></td>
+                      <td>
+                        <input id="aeWin_x" type="text" class="text" size="4" maxlength="4" onchange="imgGridChange('x');" />
+                        &nbsp;&nbsp;<span class="ae_x_range"></span></td>
+                    </tr>
+                    <tr>
+                      <td class="textR"><span>Y</span></td>
+                      <td>
+                        <input id="aeWin_y" type="text" class="text" size="4" maxlength="4" onchange="imgGridChange('y');" />
+                        &nbsp;&nbsp;<span class="ae_y_range"></span></td>
+                    </tr>
+                    <tr>
+                      <td class="textR"><span>Width</span></td>
+                      <td>
+                        <input id="aeWinWidth" type="text" class="text" size="4" maxlength="4" />
+                        &nbsp;&nbsp;<span>(1~<span id="aeWinMax_x"></span>)</span></td>
+                    </tr>
+                    <tr>
+                      <td class="textR"><span>Height</span></td>
+                      <td>
+                        <input id="aeWinHeight" type="text" class="text aeWin6" size="4" maxlength="4" />
+                        &nbsp;&nbsp;<span>(1~<span id="aeWinMax_y"></span>)</span></td>
+                    </tr>
+                  </tbody></table>
+                <input type="button" class="button" value="Apply" onclick="saveOption('imgGrid');"/>
+            </div>
+            <div class="div_banner" onclick="treeview('exposureCtrl')">
+                <span class="exposureCtrl">&#9658;</span> Exposure</div>
+            <div class="div_drawer" id="exposureCtrl" style="display:block">
+              <div id="autoIris">
+                <div class="div_subtitle">Auto Iris</div>
+                <label><input type="radio" value="on" name="iris"/>
+                <span>On</span></label>
+                <label><input type="radio" value="off" name="iris"/>
+                <span>Off</span></label>
+              </div>
+                <div class="div_subtitle">Auto-Exposure Mode</div>
+                <label><input type="radio" name="ae" value="0" onclick="aeModeChange(0)"/>
+                <span>Auto</span></label>
+                <label><input type="radio" name="ae" value="1" onclick="aeModeChange(1)"/>
+                <span>Backlight</span></label>
+                <label><input type="radio" name="ae" value="2" onclick="aeModeChange(2)"/>
+                <span>Customized</span></label>
+                <div id="aeT">
+                  <br /><br />     
+                  <input type="button" class="button" value="Select All" onclick="selectAll('ae')"/>  
+                  <input type="button" class="button" value="Center" onclick="center('ae')"/>
+                  <input type="button" class="button" value="Clear All" onclick="clearAll('ae')"/><br /> 
+                  <table id="aeTable"></table>                                      
+                </div>
+                <div class="div_subtitle">Exposure Control</div>
+                <table><tbody>
+                  <tr>
+                      <td class="textR">Target Luminance</td>
+                      <td><div id="lumi"></div></td>
+                      <td><span id="lumiValue" class="sValue"></span></td>
+                  </tr>
+                  <tr>
+                      <td class="textR">Offset</td>
+                      <td><div id="offset"></div></td>
+                      <td><span id="offsetValue" class="sValue"></span></td>
+                  </tr>
+                  <tr>
+                      <td class="textR">Gain</td>
+                      <td><div id="gain"></div></td>
+                      <td><span id="gainValue" class="sValue"></span></td>
+                  </tr>
+                  <tr>
+                      <td class="textR">Shutter Speed</td>
+                      <td align="center"><!--div id="shutter"></div-->
+                          1/
+                          <input id="shutterMin" type="text" class="text" size="4" maxlength="7"/>
+                          <span> ~ 1/</span>
+                          <input id="shutterMax" type="text" class="text" size="4" maxlength="7"/>
+                      </td>
+                      <td><span>( 1/1000000 ~ 1/1 )</span></td>
+                  </tr>                 
+                </tbody></table>
+                <br />
+                <input type="button" class="button" value="Apply" onclick="saveOption('exposureCtrl');"/>
+            </div>
+            <div id="wdrArea">
+            <div class="div_banner" onclick="treeview('wdrCtrl')">
+                <span class="wdrCtrl">&#9658;</span> WDR</div>
+            <div class="div_drawer" id="wdrCtrl" style="display:block">
+                <div class="div_subtitle">WDR</div>
+                <table><tbody>
+                  <tr>
+                      <td class="textR">WDR Level: </td>
+                      <td>
+                        <select id="wdr" class="select" onchange="wdrChange()"/>
+                            <option value="disable">Disable</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">Customize</option>
+                        </select>
+                      </td>
+                      <td>
+                        <input id="wdrVal" type="text" class="text" size="4" maxlength="4"/>
+                      </td>
+                  </tr>                 
+                </tbody></table>
+                <br>
+                <input type="button" class="button" value="Apply" onclick="saveOption('wdrCtrl');"/>
+            </div>
+            </div>
+            <div class="div_banner" onclick="treeview('whiteBalance')">
+                <span class="whiteBalance">&#9658;</span> White Balance</div>
+            <div class="div_drawer" id="whiteBalance" style="display:block">
+                <div class="div_subtitle">White Balance Window</div>
+                <label><input type="radio" name="wb" value="true" onclick="wbWinChange('none')"/>
+                <span>Full frame</span></label>
+                <label><input type="radio" name="wb" value="false" onclick="wbWinChange('block')"/>
+                <span>Customized</span></label><br />  
+                <div width="100%" class="wbT">
+                  <br />
+                  <input type="button" class="button" value="Select All" onclick="selectAll('wb')"/>  
+                  <input type="button" class="button" value="Center" onclick="center('wb')"/>
+                  <input type="button" class="button" value="Clear All" onclick="clearAll('wb')"/>                  
+                  <table id="wbTable"></table>
+                </div>
+                <br />
+                <span>Mode</span>&#58;
+                <select class="select" id="wbMode"
+                        onchange="wbModeChange(this.options[this.options.selectedIndex].value);">                    
+                    <option value="Auto">Auto</option>
+                    <option value="Simple">Simple</option>
+                    <option value="Manual">Manual</option>
+                </select>
+                <input type="button" id="keepWB" class="button" value="Keep" onclick="keepWB()"/>                
+                <table id="wbGain"><tbody>
+                  <tr>
+                    <td class="textR"><span>Red Gain</span></td>
+                    <td>
+                      <input id="redGain" type="text" class="text" size="5" maxlength="5"/>
+                    </td>  
+                    <td><span>0.000 ~ 7.999 (x)</span></td>
+                  </tr>
+                  <tr>
+                    <td class="textR"><span>Blue Gain</span></td>
+                    <td>
+                      <input id="blueGain" type="text" class="text" size="5" maxlength="5"/>
+                    </td>  
+                    <td><span>0.000 ~ 7.999 (x)</span></td>
+                  </tr>                
+                </tbody></table> 
+                <p>               
+                <input type="button" class="button" value="Apply" onclick="saveOption('whiteBalance');"/>
+            </div>
+<!--
+            <div class="div_banner" onclick="treeview('child4')">
+                <span>&#9658;</span> Tone Mapping</div>
+            <div class="div_drawer" id="child4" style="display:none">
+                <span>Tone Curve</span>&#58;
+                <select class="select">
+                    <option value="0">Tone 0</option>
+                    <option value="1">Tone 1</option>
+                    <option value="2">Tone 2</option>
+                    <option value="3">Tone 3</option>
+                    <option value="4">Tone 4</option>
+                </select>
+
+                <br /><br />
+                <input type="button" class="button" value="Save Tone Mapping" />
+            </div>
+-->
+            <div class="div_banner" onclick="treeview('colorCorrection')">
+                <span class="colorCorrection">&#9658;</span> Color Correction</div>
+            <div class="div_drawer" id="colorCorrection" style="display:none">
+                <div class="div_subtitle">Color Matrix</div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th><span class="rgb">R</span></th>
+                      <th><span class="rgb">G</span></th>
+                      <th><span class="rgb">B</span></th>
+                      <th><span class="rgb">Offset</span></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span class="rgb">R</span></td>
+                      <td><input id="coeff_RR" type="text" class="text coeff" size="4"/>
+                      <td><input id="coeff_GR" type="text" class="text coeff" size="4"/>
+                      <td><input id="coeff_BR" type="text" class="text coeff" size="4"/>
+                      <td><input id="offset_R" type="text" class="text coeff" size="4"/>
+                    </tr>
+                    <tr>
+                      <td><span class="rgb">G</span></td>
+                      <td><input id="coeff_RG" type="text" class="text coeff" size="4"/>
+                      <td><input id="coeff_GG" type="text" class="text coeff" size="4"/>
+                      <td><input id="coeff_BG" type="text" class="text coeff" size="4"/>
+                      <td><input id="offset_G" type="text" class="text coeff" size="4"/>
+                    </tr>
+                    <tr>
+                      <td><span class="rgb">B</span></td>
+                      <td><input id="coeff_RB" type="text" class="text coeff" size="4"/>
+                      <td><input id="coeff_GB" type="text" class="text coeff" size="4"/>
+                      <td><input id="coeff_BB" type="text" class="text coeff" size="4"/>
+                      <td><input id="offset_B" type="text" class="text coeff" size="4"/>
+                    </tr>
+                  </tbody>
+                </table>
+                <br />
+                <input type="button" class="button" value="Apply" onclick="saveOption('colorCorrection');"/>
+            </div>
+
+            <div class="div_banner" onclick="treeview('imageAdjustment')">
+                <span class="imageAdjustment">&#9658;</span> Image Adjustment</div>
+            <div class="div_drawer" id="imageAdjustment" style="display:block">
+                <!--div class="div_subtitle">Dynamic Range</div>
+                <span>Tone Curve</span>&#58;
+                <select class="select" id="toneCurve" >
+                    <option value="off">Disable</option>
+                    <option value="0">Tone 1</option>
+                    <option value="1">Tone 2</option>
+                    <option value="2">Tone 3</option>
+                    <option value="3">Tone 4</option>
+                    <option value="4">Tone 5</option>
+                </select-->
+
+                <div class="div_subtitle">Image Adjustment</div>
+                <div style="display:none;">
+                  <label><input type="radio" value="day" name="imgAdjMode" />
+                  <span>Normal/Day</span></label>
+                  <label><input type="radio" value="night" name="imgAdjMode" />
+                  <span>Night</span></label>
+                  <label><input type="radio" value="auto" name="imgAdjMode" />
+                  <span>Auto</span></label>
+                  <br /><br />
+                </div>
+                <table><tbody>
+                  <tr>
+                      <td class="textR">Brightness</td>
+                      <td><div id="bright"></div></td>
+                      <td><span id="brightValue" class="sValue"></span></td>
+                  </tr>
+                  <tr>
+                      <td class="textR">Saturation</td>
+                      <td><div id="sat"></div></td>
+                      <td><span id="satValue" class="sValue"></span></td>
+                  </tr>
+                  <tr>
+                      <td class="textR">Contrast</td>
+                      <td><div id="con"></div></td>
+                      <td><span id="conValue" class="sValue"></span></td>
+                  </tr>                  
+                </tbody></table>
+
+                <!--div class="div_subtitle">Enhancement Mode</div>
+                <span>Contrast</span>&#58;
+                <select class="select" id="enhanceContrast" >
+                    <option value="off">Disable</option>
+                    <option value="Auto">Auto</option>
+                    <option value="0">Contrast 1 (Default 0)</option>
+                    <option value="1">Contrast 2 (Default 1)</option>
+                    <option value="2">Contrast 3 (Default 2)</option>
+                    <option value="3">Contrast 4 (Default 3)</option>
+                    <option value="User">User Defined</option>
+                </select-->
+                <br />
+                <input type="button" class="button" value="Apply" onclick="saveOption('imgAdj');"/>
+
+            </div>
+            <div class="div_banner" onclick="treeview('noiseReduction')">
+                <span class="noiseReduction">&#9658;</span> Noise Reduction</div>
+            <div class="div_drawer" id="noiseReduction" style="display:block">
+                <div class="div_subtitle preNR">
+                    Pre-NR
+                    <div class="div_enable"><input id="preNREable" type="checkbox" onclick="preNREnableChange(this.checked)" />Enable</div>
+                </div>
+                <table class="preNR"><tbody>
+                  <tr class="preNRStr">
+                      <td class="textR" width="150px">Strength</td>
+                      <td><div id="preNRStr"></div></td>
+                      <td><span id="preNRStrValue" class="sValue"></span></td>
+                  </tr>  
+                </tbody></table>                                          
+                <div class="div_subtitle">
+                    2D/3D-NR
+                    <div class="div_enable"><input id="deNoiseEable" type="checkbox" onclick="deNoiseEnableChange(this.checked)" />Enable</div>
+                </div>
+                <!--label class="deNoise"><input type="radio" value="0" name="deNoiseMode" checked="true"/>
+                <span>Manual</span></label-->
+<!-- Dynamic adjusting according lum. This feature will be in Kilrogg 1.1 -->
+                <!--label class="deNoise"><input type="radio" value="1" name="deNoistMode" disabled="false"/>
+                <span  style="color:#999999;" >Auto</span></label-->
+                <table class="deNoise"><tbody>
+                  <tr>
+                      <td class="textR" width="150px">Mode</td>
+                      <td>                
+                        <select class="select" id="deNoiseMode"
+                            onchange="deNoiseChange(this.options[this.options.selectedIndex].value);">
+                            <option value="0">2D</option>
+                            <option value="1">2D 1-ref</option>
+                            <option value="2">2D 2-ref</option>
+                            <option value="3">3D</option>
+                            <option value="4">Blend</option>
+                        </select>
+                      </td>
+                      <td><span id="deNoiseModeValue" class="sValue"></span></td>
+                  </tr>
+                  <tr class="deNoiseStr">
+                      <td class="textR">Normal Strength</td>
+                      <td><div id="deNoiseStr"></div></td>
+                      <td><span id="deNoiseStrValue" class="sValue"></span></td>
+                  </tr>
+                  <tr class="threeD">
+                      <td class="textR">Motion Adaptive</td>
+                      <td colspan="2">
+                        <label><input name="motion" type="radio" value="true"/>
+                        <span>ON</span></label>
+                        <label><input name="motion" type="radio" value="false"/>
+                        <span>OFF</span></label>
+                      </td>
+                  <tr class="threeD">
+                      <td class="textR">Current Weight</td>
+                      <td><div id="CurrWeight"></div></td>
+                      <td><span id="CurrWeightValue" class="sValue"></span></td>
+                  </tr>  
+                  <tr class="threeD">
+                      <td class="textR">Reference Strength</td>
+                      <td><div id="deNoiseStr2"></div></td>
+                      <td><span id="deNoiseStr2Value" class="sValue"></span></td>
+                  </tr>                
+                </tbody></table>
+                <div class="div_subtitle">
+                    <span>De-Impulse</span>
+                    <div class="div_enable"><input id="deImpulseEable" type="checkbox" onclick="deImpulseChange(this.checked)" />Enable</div>
+                </div>
+                <table class="deImpulse"><tbody>
+                  <tr>
+                      <td class="textR">Sensitivity</td>
+                      <td><div id="deImSen"></div></td>
+                      <td><span id="deImSenValue" class="sValue"></span></td>
+                  </tr>                 
+                </tbody></table>
+                <br />
+                <input type="button" class="button" value="Apply" onclick="saveOption('deNoise');"/>
+            </div>
+
+            <div class="div_banner" onclick="treeview('edgeEnhance')">
+                <span class="edgeEnhance">&#9658;</span> Edge Enhancement</div>
+            <div class="div_drawer" id="edgeEnhance" style="display:block">
+                <div class="div_subtitle">
+                    Enhance
+                    <div class="div_enable"><input id="edgeEnhanceEable" type="checkbox" onclick="edgeEnhanceEnableChange(this.checked)" />Enable</div>
+                </div>
+                <table class="eeArea"><tbody>
+                  <tr>
+                      <td class="textR">Edge Sensitivity</td>
+                      <td><div id="eeSen"></div></td>
+                      <td><span id="eeSenValue" class="sValue"></span></td>
+                  </tr>  
+                  <tr>
+                      <td class="textR">Noise Sensitivity</td>
+                      <td><div id="enSen"></div></td>
+                      <td><span id="enSenValue" class="sValue"></span></td>
+                  </tr>
+                  <tr>
+                      <td class="textR">Edge Strength</td>
+                      <td><div id="eeStr"></div></td>
+                      <td><span id="eeStrValue" class="sValue"></span></td>
+                  </tr>   
+                  <tr>
+                      <td class="textR">Edge Strength Clip</td>
+                      <td><div id="clip"></div></td>
+                      <td><span id="clipValue" class="sValue"></span></td>
+                  </tr>                   
+                </tbody></table>
+                <br />
+                <input type="button" class="button" value="Apply" onclick="saveOption('edgeEnhance');"/>
+            </div>
+            <div class="div_banner" onclick="treeview('child9')">
+                <span class="child9">&#9658;</span> Lens Correction</div>
+            <div class="div_drawer" id="child9" style="display:none;">
+                <span>Geometric</span>&#58;
+                <select class="select" id="geoMode"
+                    onchange="geoChange(this.options[this.options.selectedIndex].value);">
+                    <option value="disable">Disable</option>
+                    <option value="barrel1">Barrel 1</option>
+                    <option value="barrel2">Barrel 2</option>
+                    <option value="pincushion1">Pincushion 1</option>
+                    <option value="pincushion2">Pincushion 2</option>
+                    <option value="userdefine">User Defined</option>
+                </select>
+                <div id="geoLdc"></div>
+
+                <br />
+                <span>Photometric</span>&#58;
+                <select class="select" id="photoMode"
+                    onchange="photoChange(this.options[this.options.selectedIndex].value);">
+                    <option value="disable">Disable</option>
+                    <option value="photometric1">Photometric 1</option>
+                    <option value="photometric2">Photometric 2</option>
+                    <option value="userdefine1">User Defined 1</option>
+                    <option value="userdefine2">User Defined 2</option>
+                </select>
+                <div id="photoUD" style="display:none;">
+                  <br />&nbsp;&nbsp;&nbsp;
+                  <span>LSCRatio (0-100): </span>&nbsp;
+                  <input id="lsc" type="text" class="text" value="0" size="4"/>
+                  <input type="button" class="button" id="btnUsrDefPhoto" value="Push to Define" onclick="definePhoto();"/>
+                </div>
+                <br /><br />
+                <input type="button" class="button" value="Apply" onclick="saveOption('lensCorrect');"/>
+            </div>
+
+            <div class="div_banner" onclick="treeview('deInter')">
+                <span class="deInter">&#9658;</span> De-interlacing</div>
+            <div class="div_drawer" id="deInter" style="display:block;">
+                &nbsp;<input id="diEnable" type="checkbox" onclick="diEnableChange(this.checked)" />Enable
+                <table class="deInterlace"><tbody>
+                  <tr> 
+                    <td class="textR">Mode:</td>
+                    <td>
+                      <label><input type="radio" name="deMode" value="0" />
+                      <span>Weave</span></label>
+                      <label><input type="radio" name="deMode" value="1" />
+                      <span>Blend</span></label>
+                      <label><input type="radio" name="deMode" value="2" />
+                      <span>Basic adaptive</span></label>
+                      <label><input type="radio" name="deMode" value="3" />
+                      <span>Advanced adaptive</span></label>
+                    </td>
+                  </tr>
+                </tbody></table>
+                <br />
+                <input type="button" class="button" value="Apply" onclick="saveOption('deInterlace');"/>
+            </div>
+        </div>
+        <div id="ajaxMask"><span id="ajaxImg"></span></div>
+        <iframe name="ret_page" style="display:none"></iframe>
+    </body>
+</html>
+
+

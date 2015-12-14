@@ -1,0 +1,79 @@
+#!/bin/sh
+#
+# psiad: This starts and stops psiad.
+#
+# chkconfig: 2345 80 80
+# description: psiad
+#
+# processname: /usr/sbin/serverpush
+# config: /etc/conf.d/serverpush_conf.xml
+# pidfile: /var/run/serverpush.pid
+
+# automatically export variables to the environment
+set -a
+
+PATH=/sbin:/bin:/usr/bin:/usr/sbin
+
+# Source function library.
+. /etc/init.d/functions
+
+# Get config.
+
+#RETVAL=0
+
+prog="psiad"
+binpath="/usr/sbin/psiad"
+pidfile="/var/run/psiad.pid"
+#configfile="/etc/conf.d/psiad/psiad_conf.xml"
+#args="-c $configfile"
+
+[ -f $binpath ] || exit
+
+start(){
+    echo -n "Starting $prog ... "
+    #start-stop-daemon --start -m -p $pidfile -n $prog --exec $binpath --background -- $args
+    $binpath -D -p $pidfile > /dev/null 2>&1
+     echo
+}
+
+#default --stop send signal 15 (SIGTERM)
+stop(){
+    echo -n "Stopping $prog ... "
+#    start-stop-daemon --stop --quiet -n $prog --pidfile $pidfile
+#    waittodie $pidfile $binpath
+    pid=`ps aux |  grep $binpath  | awk -F' '  '{print $1 }'`
+    echo -n "pid=$pid"
+    kill -TERM $pid
+    echo "."
+}
+
+reload(){
+    echo -n "Reloading $prog ... "
+#    start-stop-daemon --stop --signal 1 -n $prog --pidfile $pidfile
+    pid=`ps aux |  grep $binpath  | awk -F' '  '{print $1 }'`
+    echo -n "pid=$pid"
+    kill -HUP  $pid
+    echo "."
+}
+
+# See how we are called.
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    reload)
+        reload
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|reload}"
+        exit 1
+esac
+
+exit 0

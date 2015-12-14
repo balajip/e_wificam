@@ -1,0 +1,707 @@
+**********************************************
+* ______ Video Capture Library, Release Note *
+**********************************************
+[Version 13.0.0.3]
+Release at 2013.12.24
+1. FEATURE: Add sensor direct access setting in set options "VIDEO_SIGNAL_OPTION_SENSOR_DIRECT_ACCESS" - DONE.
+2. FEATURE: Synchronized with VPL_VIC version 12.0.0.3.
+
+[Version 13.0.0.2]
+Release at 2013.12.09
+1. FEATURE: Enable LSC function for all Mozart V3 models - DONE.
+
+[Version 13.0.0.1]
+Release at 2013.08.19
+1. FEATURE: Add RGB2YCbCr color transform setting in set options "VIDEO_SIGNAL_OPTION_SET_COLOR_TRANSFORM" - DONE.
+2. BUGFIX : Memory buffer not release when Master call "VideoCap_Release" - DONE
+3. Synchronize with VPL_VIC device driver version 12.0.0.2.
+
+[Version 13.0.0.0]
+Release at 2013.04.19
+1. MODIFICATION: Modify auto scene setting in SetOption "VIDEO_SIGNAL_OPTION_SET_AUTO_SCENE" - DONE.
+2. Synchronize with VPL_VIC device driver version 12.0.0.0.
+
+[Version 12.1.0.0]
+Release at 2013.03.06
+1. FEATURE: Add a input param. "dwLSCRatio" into SetOption "VIDEO_SIGNAL_OPTION_PHOTO_LDC_CALIBRATE" and Modify calibration flow. - DONE.
+
+[Version 12.0.0.4]
+Release at 2013.01.23
+1. FEATURE: Disable some error message. - DONE.
+
+[Version 12.0.0.3]
+Release at 2013.01.16
+1. FEATURE: Replace S_FAIL with error code and refine error message. - DONE.
+
+[Version 12.0.0.2]
+Release at 2012.11.22
+1.	BUGFIX: Incorrect black clamp param. in SetOption "VIDEO_SIGNAL_OPTION_SET_AUTO_SCENE" - FIXED.
+2.	BUGFIX: Incorrect lens photometric correction in SetOption "VIDEO_SIGNAL_OPTION_PHOTO_LDC_CALIBRATE" - DONE.
+
+[Version 12.0.0.1]
+Release at 2012.11.02
+1.	BUGFIX: Some param. data type is incorrect in TVideoCapInfo. - FIXED
+2.	FEATURE: Modify auto scene setting for V3 - DONE.
+
+[Version 12.0.0.0]
+Release at 2012.08.07
+1.	FEATURE: Modify interface for support Mozart V3. - DONE.
+2.	FEATURE: Synchronize with VPL_VIC device driver version 11.0.0.0 - DONE.
+
+[Version 11.1.0.0]
+Release at 2012.06.12
+1.	FEATURE: Support Power Frequency in TVideoCapState - DONE.
+2.	BUGFIX: VideoCap can not reinit(Add munmap in VideoCap_CloseVIC). - FIXED
+
+[Version 11.0.0.3]
+Release at 2012.03.29
+1.	FEATURE: Synchronize with VPL_VIC device driver version 10.0.0.5 - DONE.
+
+[Version 11.0.0.2]
+Release at 2012.02.22
+1.	BUGFIX: "AWB After CC" makes AE unworkable. - FIXED
+2.	BUGFIX: chose user defined function in Photometric of Lens Correction (LSC) cause venc stop. - FIXED
+
+[Version 11.0.0.1]
+Release at 2012.01.13
+1. FEATURE: Add AE param. into AutoScene set option. - DONE.
+2. FEATURE: Synchronize with VPL_VIC device driver version 10.0.0.4.
+
+[Version 11.0.0.0]
+Release at 2011.11.03
+1.	FEATURE: Synchronize with VPL_VIC device driver version 10.0.0.0 - DONE.
+2.	FEATURE: Support AE stable info. in TVideoCapState - DONE.
+3.	FEATURE: Add "VIDEO_SIGNAL_OPTION_SET_AUTO_EXPOSURE_SPEED" in VIC_SetOptions() - DONE.
+4.	FEATURE: Add "VIDEO_SIGNAL_OPTION_SET_AUTO_IRIS_ACTIVE_TIME" in VIC_SetOptions() - DONE.
+5.	FEATURE: Add "VIDEO_SIGNAL_OPTION_SET_AUTO_SCENE" in VIC_SetOptions() - DONE.
+
+[Version 10.0.0.5]
+Release at 2011.10.25
+1.	FEATURE: Synchronize with VPL_VIC device driver version 9.0.0.6 - DONE.
+2.	FEATURE: Synchronize with VPL_EDMC device driver version 6.0.0.0.
+3.	FEATURE: Synchronize with MemMgr_Lib version 4.0.0.7.
+4.	FEATURE: Detect if the setting for SET_AF_WINDOW is valid - DONE.
+
+[Version 10.0.0.4]
+Release at 2011.10.21
+1.	FEATURE: Synchronize with VPL_VIC device driver version 9.0.0.5 - DONE.
+2.	FEATURE: Synchronize with VPL_EDMC device driver version 6.0.0.0.
+3.	FEATURE: Synchronize with MemMgr_Lib version 4.0.0.7.
+4.	BUGFIX: Fix the multi-channel system hang issue - DONE.
+
+[Version 10.0.0.3]
+Release at 2011.09.21
+1.	FEATURE: Synchronize with VPL_VIC device driver version 9.0.0.4
+2.	FEATURE: Add "VIDEO_SIGNAL_OPTION_SET_ANTI_ALIASING" in VIC_SetOptions() for reduce false-color on moire pattern - DONE.
+
+[Version 10.0.0.2]
+Release at 2011.08.29
+1.	FEATURE: Synchronize with VPL_VIC device driver version 9.0.0.3
+2.	FEATURE: Support AF calibration flow - DONE
+
+[Version 10.0.0.1]
+Release at 2011.08.05
+1.	FEATURE: Synchronize with VPL_VIC device driver version 9.0.0.0
+2.	BUGFIX: Multi-channel fail workaround. - FIXED
+
+[Version 10.0.0.0]
+Release at 2011.07.15
+1.	FEATURE: Synchronize with VPL_VIC device driver version 9.0.0.0 - DONE.
+2.	FEATURE: Support AF optical zoom ratio values in TVideoCapState - DONE.
+3.	MODIFICATION: Add VIDEO_SIGNAL_OPTION_SET_AUTO_FOCUS_WINDOW option - DONE.
+4.	MODIFICATION: Add VIDEO_SIGNAL_OPTION_SET_FOCUS_POSITION option - DONE.
+5.	MODIFICATION: Add VIDEO_SIGNAL_OPTION_SET_FOCUS_SPEED option - DONE.
+6.	MODIFICATION: Add VIDEO_SIGNAL_OPTION_SET_ZOOM_POSITION option - DONE.
+7.	MODIFICATION: Add VIDEO_SIGNAL_OPTION_SET_ZOOM_SPEED option - DONE.
+8.	MODIFICATION: Add VIDEO_SIGNAL_OPTION_SET_FOCUS_NOISE_THRES option - DONE.
+9.	MODIFICATION: Add VIDEO_SIGNAL_OPTION_SET_ZOOMTRACKING_FOCUS_EN option - DONE.
+
+[Version 9.0.0.0]
+Release at 2011.07.04
+1.	FEATURE: Synchronize with VPL_VIC device driver version 8.0.0.0 - DONE.
+2.	FEATURE: Support AE shutter and gain value in TVideoCapState - DONE.
+
+[Version 8.1.0.1]
+Release at 2011.06.22
+1.	FEATURE: Synchronize with VPL_VIC device driver version 7.0.0.13.
+2.	FEATURE: AWB is configurable to be done before CFA or after CC in config file - DONE.
+
+[Version 8.1.0.0]
+Release at 2011.06.21
+1.	FEATURE: Synchronize with VPL_VIC device driver version 7.0.0.13. - DONE.
+2.	FEATURE: Support R/B gain read back - DONE.
+3.	FEATURE: Support R/G/B/Cb/Cr statistics read back - DONE.
+4.	FEATURE: Support GAMMA overflow slope - DONE.
+5.	FEATURE: Support R/G/B offset value in color correction matrix - DONE.
+6.	FEATURE: AWB is configured to be done before CFA - DONE.
+7.	FEATURE: AE if configured to be done before gamma correction - DONE.
+8.	FEATURE: Support 3 separate gamma tables for R, G, B in VIDEO_SIGNAL_OPTION_SET_GAMMA_TABLE option - DONE.
+
+[Version 8.0.0.14]
+Release at 2011.02.08
+1.	FEATURE: Synchronize with VPL_VIC device driver version 7.0.0.13. - DONE.
+2.	FEATURE: Support dynamic auto-iris switch. - DONE.
+
+[Version 8.0.0.13]
+Release at 2011.01.12
+1.	FEATURE: Synchronize with VPL_VIC device driver version 7.0.0.12. - DONE.
+2.	FEATURE: Synchronize with VPL_EDMC device driver version 6.0.0.0.
+3.	FEATURE: Synchronize with MemMgr_Lib version 4.0.0.7.
+4.	FEATURE: Support AutoExposure mode setting ¡V DONE.
+
+[Version 8.0.0.12]
+Release at 2010.12.16
+1.	FEATURE: Synchronize with VPL_VIC device driver version 7.0.0.10.
+2.	FEATURE: Synchronize with VPL_EDMC device driver version 6.0.0.0.
+3.	FEATURE: Synchronize with MemMgr_Lib version 4.0.0.7.
+4.	FEATURE: Enable focus value calculation with AFEn in config file ¡V DONE.
+
+[Version 8.0.0.11]
+Release at 2010.12.15
+1.	FEATURE: Synchronize with VPL_VIC device driver version 7.0.0.10 ¡V DONE.
+2.	FEATURE: Synchronize with VPL_EDMC device driver version 6.0.0.0
+3.	FEATURE: Synchronize with MemMgr_Lib version 4.0.0.7
+4.	FEATURE: Support WDR switch. ¡V DONE.
+
+[Version 8.0.0.10]
+Release at 2010.12.07
+1. FEATURE: Synchronize with VPL_VIC device driver version 7.0.0.9
+2. FEATURE: Synchronize with VPL_EDMC device driver version 5.0.0.14
+3. FEATURE: Synchronize with MemMgr_Lib version 4.0.0.6
+4. BUGFIX: "dwCapHeight" of ptInfo should be the high 16 bits of adwUserData[0] - FIXED.
+
+[Version 8.0.0.9]
+Release at 2010.11.15
+1. FEATURE: Synchronize with VPL_VIC device driver version 7.0.0.4
+2. FEATURE: Synchronize with VPL_EDMC device driver version 5.0.0.14
+3. FEATURE: Synchronize with MemMgr_Lib version 4.0.0.6
+4. BUGFIX: Fix the "stop-restart" hang problem - FIXED.
+
+[Version 8.0.0.8]
+Release at 2010.11.01
+1. FEATURE: Synchronize with VPL_VIC device driver version 7.0.0.4
+2. FEATURE: Synchronize with VPL_EDMC device driver version 5.0.0.14
+3. FEATURE: Synchronize with MemMgr_Lib version 4.0.0.6
+4. BUGFIX: Implement "VIDEO_SIGNAL_OPTION_SET_CONTRAST_ENHANCEMENT" SetOption - FIXED.
+
+[Version 8.0.0.7]
+Release at 2010.09.09
+1. FEATURE: Synchronize with VPL_VIC device driver version 7.0.0.4
+2. FEATURE: Synchronize with VPL_EDMC device driver version 5.0.0.14
+3. FEATURE: Synchronize with MemMgr_Lib version 4.0.0.6
+4. BUG: When setting contrast, the saturation should be zero if bMono is TRUE - FIXED.
+
+[Version 8.0.0.6]
+Release at 2010.09.09
+1. FEATURE: Synchronize with VPL_VIC device driver version 7.0.0.4 - DONE.
+2. FEATURE: Synchronize with VPL_EDMC device driver version 5.0.0.14
+3. FEATURE: Synchronize with MemMgr_Lib version 4.0.0.6
+4. BUG: Incorrect height for VIDEO_SIGNAL_OPTION_SET_SIZE - FIXED.
+
+[Version 8.0.0.5]
+Release at 2010.08.18
+1. BUG: Add VIDEO_SIGNAL_OPTION_SET_FREQUENCY set option - FIXED.
+
+[Version 8.0.0.4]
+Release at 2010.08.13
+1. FEATURE: Support auto-detect NTSC/PAL standard - DONE.
+
+[Version 8.0.0.3]
+Release at 2010.06.04
+1. MODIFICATION: Refine VideoCap_App.c - DONE.
+2. MODIFICATION: forget to add __ASM_ARCH_PLATFORM_MOZART_H__ - DONE.
+
+[Version 8.0.0.2]
+Release at 2010.05.17
+1. FEATURE: Synchronized with VPL_VIC device driver version 6.0.0.1.
+2. MODIFICATION: Disable VIDEO_SIGNAL_OPTION_SET_TONE_MAPPING and VIDEO_SIGNAL_OPTION_PHOTO_LDC_CALIBRATE for M325 - DONE.
+
+[Version 8.0.0.1]
+Release at 2010.05.13
+1. FEATURE: Synchronized with VPL_VIC device driver version 6.0.0.1.
+2. BUG: The VIDEO_SIGNAL_OPTION_SET_GAMMA_TABLE can't work if GammaEn is default off - FIXED.
+
+[Version 8.0.0.0]
+Release at 2010.04.30
+1. MODIFICATION: Remove all sensor and auto-exposure control
+
+[Version 7.3.0.5]
+Release at 2010.05.17
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.2.0.15.
+2. BUG: The VIDEO_SIGNAL_OPTION_SET_GAMMA_TABLE can't work if GammaEn is default off - FIXED.
+3. MODIFICATION: Disable VIDEO_SIGNAL_OPTION_SET_TONE_MAPPING and VIDEO_SIGNAL_OPTION_PHOTO_LDC_CALIBRATE for M325 - DONE.
+
+[Version 7.3.0.4]
+Release at 2010.03.05
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.2.0.5.
+2. MODIFICATOIN: Add sdwBrightness and sdwContrast in ptInfo for SBC operations - DONE.
+2. BUG: The saturation will be wrong if the contrast is negative - FIXED.
+3. BUG: The AE window start position should be adjusted according to the start position of the captured frame for Haydn platform - FIXED.
+
+[Version 7.3.0.3]
+Release at 2010.01.12
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.2.0.5.
+2. MODIFICATION: Support multi-channel capture - DONE.
+
+[Version 7.3.0.2]
+Release at 2010.01.10
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.2.0.5.
+2. MODIFICATION: Change #if defined () || () to be #if defined() || defined() - DONE.
+
+[Version 7.3.0.1]
+Release at 2009.12.10
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.2.0.5.
+2. BUG: The AE window start position should be adjusted according to the start position of the captured frame - FIXED.
+
+[Version 7.3.0.0]
+Release at 2009.11.24
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.2.0.5.
+2. MODIFICATION: Decide AWB after CC or before CC in config file - DONE.
+
+[Version 7.2.0.4]
+Release at 2009.11.23
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.2.0.5.
+2. BUG: The HShift anv VShift is assigned in the wrong order - FIXED.
+3. BUG: The parameter of color suppression is not initialized - FIXED.
+
+[Version 7.2.0.3]
+Release at 2009.11.10
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.2.0.5.
+2. FEATURE: Add hysteresis to the color suppression mechanism to be insensitive to tiny luminance change - DONE.
+3. MODIFICATION: The step size of the color suppression is changed to 8 - DONE.
+4. BUG: Wrong average luminance calculation - FIXED.
+
+[Version 7.2.0.2]
+Release at 2009.11.09
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.2.0.5 - DONE.
+2. BUG: Fix the update CE table problem - FIXED.
+
+[Version 7.2.0.1]
+Release at 2009.11.09
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.2.0.4 - DONE.
+2. BUG: The color suppresion functions is incorrect when disabled - DONE.
+3. MODIFICATION: The Start and Range MMRs of the AE windows are prepared by the library and no action is required in the driver - DONE.
+4. BUG: The user data in VIDEO_SIGNAL_OPTION_SET_TONE_MAPPING is wrong - FIXED.
+5. MODIFICATION: The parameter check of VIDEO_SIGNAL_OPTION_SET_AUTO_COLOR_SUPPRESSION is only done when enabled - DONE.
+
+[Version 7.2.0.0]
+Release at 2009.11.04
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.2.0.2 - DONE.
+2. MODIFICATION: Add VIDEO_SIGNAL_OPTION_SET_PHOTO_LDC_EN option - DONE.
+
+[Version 7.1.0.0]
+Release at 2009.10.16
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.2.0.3 - DONE.
+2. MODIFICATION: Calculate the photometric LDC table size inside the option VIDEO_SIGNAL_OPTION_PHOTO_LDC_CALIBRATE - DONE.
+3. BUG: The counter of photometric LDC table calculation is wrong - FIXED.
+
+[Version 7.0.0.1]
+Release at 2009.10.16
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.2.0.3 - DONE.
+2. MODIFICATION: Change win8's luminance for automatic color suppression - DONE.
+3. MODIFICATION: Set AE Windows' start location from 1 - DONE.
+
+[Version 7.0.0.0]
+Release at 2009.10.08
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.2.0.1 - DONE.
+2. FEATURE: Add automatic color suppression mechanism in the low-lux environment - DONE.
+3. MODIFICATION: Change dwAEWin[0-7]Luminance to qwAEWin[0-7]Luminance and remove dwAEWinsMsbLuminance, dwAEStatus and dwAEPixel for MOZART - DONE.
+4. MODIFICATION: The OUT_EN is set to 0 in VideoCap_InitVIC() for HAYDN - DONE.
+5. BUG: The condition for bNoSignal and bFifoFull is wrong - FIXED.
+
+[Version 6.4.0.1]
+Release at 2009.10.07
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.2.0.1 - DONE.
+2. BUG: Fix the TM and CE options - DONE.
+
+[Version 6.4.0.0]
+Release at 2009.10.06
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.2.0.0 - DONE.
+2. MODIFICATION: Support AWB R/B gain read in TVideoCapState - DONE.
+
+[Version 6.3.0.1]
+Release at 2009.10.06
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.1.0.1 - DONE.
+2. MODIFICATION: Change the start position of AE window's coordinate from 1 to 0 - DONE.
+
+[Version 6.3.0.0]
+Release at 2009.10.05
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.1.0.0 - DONE.
+2. MODIFICATION: Add VIDEO_SIGNAL_OPTION_PHOTO_LDC_CALIBRATE and VIDEO_SIGNAL_OPTION_SET_PHOTO_LDC_TABLE options - DONE.
+
+[Version 6.2.0.0]
+Release at 2009.09.29
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.1.0.0 - DONE.
+2. MODIFICATION: Add VIDEO_SIGNAL_OPTION_SET_TONE_MAPPING and VIDEO_SIGNAL_OPTION_SET_CONTRAST_ENHANCEMENT options - DONE.
+
+[Version 6.1.0.0]
+Release at 2009.09.28
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.1.0.0 - DONE.
+2. MODIFICATION: Use table of AE nine measure windows to support setting at one time - DONE.
+
+[Version 6.0.0.5]
+Release at 2009.08.21
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.0.0.25 - DONE.
+2. MODIFICATION: Call ioctl in VIDEO_SIGNAL_OPTION_SET_EXPOSURE_TIME option even the frame rate is unchanged for
+                 VIC driver to avoid AE compensation failure, like IMX035 - DONE.
+
+[Version 6.0.0.4]
+Release at 2009.08.13
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.0.0.24.
+2. MODIFICATION: Check current physical address before mapping it in VideoCap_Initial() - DONE.
+
+[Version 6.0.0.3]
+Release at 2009.07.28
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.0.0.23.
+2. MODIFICATION: The buffer number of initialization is supported to the arbitrary number. - DONE.
+
+[Version 6.0.0.2]
+Release at 2009.06.23
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.0.0.22.
+2. MODIFICATION: The mechanism of frame control is modified. - DONE.
+
+[Version 6.0.0.1]
+Release at 2009.06.19
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.0.0.22.
+2. MODIFICATION: The mechanism of frame control is modified. It would not drop a wanted frame when the target frame rate and the sensor's frame rate are the same - DONE.
+
+[Version 6.0.0.0]
+Release at 2009.06.09
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.0.0.9.
+2. MODIFICATION: The option VIDEO_SIGNAL_OPTION_SET_AUTO_EXPOSURE_CTRL is renamed VIDEO_SIGNAL_OPTION_SET_AUTO_EXPOSURE_WINDOWS - DONE.
+
+[Version 5.10.0.7]
+Release at 2009.06.06
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.0.0.9.
+2. MODIFICATION: Enable No-signal counter in channel control MMR in VideoCap_InitVIC() in Mozart platform - DONE.
+
+[Version 5.10.0.6]
+Release at 2009.06.03
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.0.0.9 - DONE.
+2. MODIFICATION: NOSIG_ERR_ACK, FIFO_FULL_ACK, OP_CMPT_ACK should not be set in VideoCap_InitVIC() in Mozart platform - DONE.
+3. BUG: LoadTbl_en in dwCMOSCtrl should not be set in VideoCap_InitVIC() - FIXED.
+
+[Version 5.10.0.5]
+Release at 2009.05.26
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.0.0.9 - DONE.
+2. MODIFICATION: Remove the redundant CE load table enable assignment - DONE.
+3. MODIFICATION: Use a new variable dwCETblAddr instead of ptChnInfo->dwCETblAddr as a temporal storage of CE table addresses - DONE.
+
+[Version 5.10.0.4]
+Release at 2009.05.23
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.0.0.8 - DONE.
+
+[Version 5.10.0.3]
+Release at 2009.05.15
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.0.0.7.
+2. MODIFICATION: Turn on VideoCap_LoadCETblVIC() function - DONE.
+
+[Version 5.10.0.2]
+Release at 2009.05.09
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.0.0.7.
+2. MODIFICATION: For Mozart platform, output enable signal for each channel input is used in VideoCap_StartVIC() to decide whether it has been enabled or not - DONE.
+3. MODIFICATION: For Mozart platform, output enable signal for each channel input should be disabled in VideoCap_InitVIC() and enabled in VideoCap_StartVIC() - DONE.
+
+[Version 5.10.0.1]
+Release at 2009.05.05
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.0.0.2.
+2. MODIFICATION: Modify the option VIDEO_SIGNAL_OPTION_SET_EXPOSURE_TIME. If the number of skipped frames is not changed, do not call ioctl - DONE.
+
+[Version 5.10.0.0]
+Release at 2009.05.05
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.0.0.2.
+2. MODIFICATION: Support VIDEO_SIGNAL_FORMAT_PROGRESSIVE_BT1120 and VIDEO_SIGNAL_FORMAT_INTERLACE_BT1120 in Mozart platform - DONE.
+3. MODIFICATION: Set bus number in Mozart platform as 0.
+4. BUG: Not update ClockRate in dwCtrl MMR for Mozart platform - FIXED.
+
+[Version 5.9.0.0]
+Release at 2009.04.23
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.0.0.2.
+2. MODIFICATION: Modify the option VIDEO_SIGNAL_OPTION_SET_EXPOSURE_TIME for AE library
+				 adwUserData[0] - Bit 0 : Enable the mechanism of skipping frame
+				 adwUserData[1] - the number of skipped frames - DONE.
+
+[Version 5.8.0.3]
+Release at 2009.04.21
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.0.0.2.
+2. MODIFICATION: Do not print the debug message  tVICState.dwYFrameAddr - DONE
+
+[Version 5.8.0.2]
+Release at 2009.04.21
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.0.0.2.
+2. MODIFICATION: Do not directly assign pdwSBC MMR on library - DONE
+
+[Version 5.8.0.1]
+Release at 2009.04.21
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.0.0.2.
+2. FEATURE: Add option for AE to set measure windows - DONE.
+3. FEATURE: Add an option VIDEO_SIGNAL_OPTION_SET_EXPOSURE_TIME for long exposure time(it would skip the frames) - DONE.
+4. BUG : When the option VIDEO_SIGNAL_OPTION_SET_CONTRAST is set, the saturation does not restore to the previous value. - FIXED.
+
+[Version 5.8.0.0]
+Release at 2009.04.15
+1. FEATURE: Synchronized with VPL_VIC device driver version 5.0.0.0.
+2. FEATURE: Support Mozart platform - DONE.
+
+[Version 5.7.0.3]
+Release at 2009.03.16
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.4.0.3.
+2. BUG : When enlarge the size of image, VIC would get wrong image  - FIXED.
+
+[Version 5.7.0.2]
+Release at 2009.03.16
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.4.0.3.
+2. FEATURE: When using the option VIDEO_SIGNAL_OPTION_SET_SIZE, the width and stride can both be changed - DONE.
+3. FEATURE: Return the new width and stride and the pixels HW AE measured - DONE.
+
+[Version 5.7.0.1]
+Release at 2009.03.11
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.4.0.2.
+2. FEATURE: VIC SCI will be enable only when the hardware AE is enable - DONE.
+
+[Version 5.7.0.0]
+Release at 2009.02.23
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.4.0.0.
+2. FEATURE: Add the option VIDEO_SIGNAL_OPTION_SET_GAMMA_TABLE, which is allowed VIC to use a user-defined gamma curve - DONE.
+
+[Version 5.6.0.2]
+Release at 2009.02.20
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.3.0.3.
+2. MODIFICATION: Modify MCI Step MMR - DONE.
+3. MODIFICATION: Add profiles of VIC - DONE.
+
+[Version 5.6.0.1]
+Release at 2009.02.11
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.3.0.3.
+2. BUG: The settings of option VIDEO_SIGNAL_OPTION_SET_COLOR_CORRECTION are wrong - FIXED.
+
+[Version 5.6.0.0]
+Release at 2009.01.20
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.3.0.3.
+2. FEATURE: Add dwAFMaxReturnNum and dwAFFineTuneFinishThrsh to TVideoCapInfo structure to configure the termination conditions of AF fine-tune state - DONE.
+3. FEATURE: Add AF FSM op enable bit to AF ctrl MMR and set to 1 at frame 16 - DONE.
+
+[Version 5.5.0.1]
+Release at 2009.01.09
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.3.0.1.
+2. MODIFICATION: Add ID string declaration - DONE.
+
+[Version 5.5.0.0]
+Release at 2008.12.29
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.3.0.1. - DONE
+2. FEATURE: If a sensor supports a option which is also supported by VIC, then uses sensor function istead of VIC function. - DONE
+3. FEATURE: Support options which VideoCap does not support but the sensor library does. - DONE
+
+[Version 5.4.0.0]
+Release at 2008.12.23
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.3.0.0. - DONE
+2. FEATURE: Support the option VIDEO_SIGNAL_OPTION_SET_COLOR_CORRECTION - DONE
+3. FEATURE: Support the option VIDEO_SIGNAL_OPTION_SET_AUTO_WHITE_BALANCE_CTRL, which can set VIC to use manual white balance or auto-white balance - DONE.
+4. FEATURE: Setting the option VIDEO_SIGNAL_OPTION_SET_START_PIXEL option using the external devices is no longer supported - DONE.
+5. BUG: Get AF information directly from MMR, which may cause errors due to the delay of timing. - FIXED.
+
+[Version 5.3.0.2]
+Release at 2008.12.05
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.2.0.11. - DONE
+2. BUG: When format is not VIDEO_SIGNAL_FORMAT_BAYER_PATTERN, ioctl VPL_VIC_IOC_IIC_EN and VPL_VIC_IOC_IIC_DE will also be called. - FIXED.
+
+[Version 5.3.0.1]
+Release at 2008.12.01
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.2.0.9. - DONE
+2. BUG: dwDiffTicks is always zero in VideoCap_GetBuf() - FIXED.
+
+[Version 5.3.0.0]
+Release at 2008.11.27
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.2.0.8. - DONE
+2. MODIFICATION: Update the version number from 5.2.0.5 to 5.3.0.0 - DONE
+
+[Version 5.2.0.5]
+Release at 2008.11.27
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.2.0.8. - DONE
+2. BUG: Reset S/W frame rate control each time when dwFrameCount is equal to 0 to prevent frame accumulation - FIXED.
+3. BUG: Add VIDEO_SIGNAL_OPTION_RESET_FRAME_RATE_CTRL to reset S/W frame rate control when the video signal recovers from no signal state - DONE.
+4. MODIFICATION: Reset software frame rate control when driver time stamp is updated according to the system time (bTimeStampCal) - DONE.
+5. BUG: dwPrevTicks should be initialized to the counter in VIC, otherwise the frame rate would settle very slow - FIXED.
+6. BUG: Forget to add defined (__ASM_ARCH_PLATFORM_HAYDN_H__) || (__ASM_ARCH_PLATFORM_MOZART_H__) for ioctl VPL_VIC_IOC_IIC_EN and VPL_VIC_IOC_IIC_DE - FIXED.
+
+[Version 5.2.0.4]
+Release at 2008.11.27
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.2.0.8. - DONE
+2. FEATURE: Add VIDEO_SIGNAL_OPTION_SET_START_PIXEL option in VideoCap_Initial() to support setting options with the external devices - DONE.
+3. MODIFICATION: Disable IICtrl using by VIC before setting options with the external devices - DONE.
+4. MODIFICATION: Enable IICtrl using by VIC after setting options with the external devices - DONE.
+5. MODIFICATION: Add video_cap_info member bEnSSP to check if the external device has the option VIDEO_SIGNAL_OPTION_SET_START_PIXEL - DONE.
+
+[Version 5.2.0.3]
+Release at 2008.11.18
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.2.0.4. - DONE
+2. MODIFICATION: Add microsecond field in TVideoCapState - DONE.
+
+[Version 5.2.0.2]
+Release at 2008.11.18
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.2.0.3. - DONE
+2. MODIFICATION: Move "AF frame interval" from dwAFCtrl to dwAFWindowStartPosition1 - DONE.
+
+[Version 5.2.0.1]
+Release at 2008.11.10
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.2.0.3. - DONE
+2. MODIFICATION: Using system time with calibration as time stamp of buffers. -DONE
+3. MODIFICATION: Add state member bTimeStampCal to see if driver is calibrating for time stamp - DONE
+
+[Version 5.2.0.0]
+Release at 2008.10.29
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.2.0.2.
+2. MODIFICATION: Add frame interval to AF ctrl MMR for mozart - DONE.
+
+[Version 5.1.0.2]
+Release at 2008.10.27
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.2.0.2.
+2. BUG: Release gamma table buffer by master only - FIXED.
+
+[Version 5.1.0.1]
+Release at 2008.10.20
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.2.0.2.
+2. MODIFICATION: Refine the gamma table to enhance the contrast. - DONE
+
+[Version 5.1.0.0]
+Release at 2008.10.20
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.2.0.2.
+2. MODIFICATION: Saperate AF and MCI configurations for Haydn and Mozart - DONE.
+3. MODIFICATION: Move VIC master/slave check of VideoCap_Initial() before initializations of other functions to saperate individual master/slave execution - DONE.
+
+[Version 5.0.0.0]
+Release at 2008.10.16
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.2.0.2.
+2. MODIFICATION: Sensor-dependent configurations are stored in adwConfig[] to simplify the library interface - DONE.
+3. REFINEMENT: Modify Makefile to compile dynamic library for profile and debug - DONE.
+
+[Version 4.0.0.2]
+Release at 2008.10.06
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.2.0.1.
+2. MODIFICATION: Add auto CE function in library - DONE.
+
+[Version 4.0.0.1]
+Release at 2008.10.06
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.2.0.1.
+2. MODIFICATION: Do not get AE information on BACH platform - DONE.
+3. BUG: Incorrect input format for Haydn platform - FIXED.
+
+[Version 4.0.0.0]
+Release at 2008.09.30
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.2.0.1.
+2. MODIFICATION: Remove EVideoCapFormat and use EVideoSignalFormat as the input format - DONE.
+
+[Version 3.4.0.0]
+Release at 2008.09.24
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.2.0.0 - DONE.
+2. MODIFICATION: AE luminance and status are read in GET_BUF ioctl - DONE.
+
+[Version 3.3.0.1]
+Release at 2008.09.22
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.1.0.0 - DONE.
+2. MODIFICATION: Use ioctl to read AE luminance and status - DONE.
+3. MODIFICATION: Remove IS - DONE.
+
+[Version 3.3.0.0]
+Release at 2008.09.19
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.1.0.0 - DONE.
+2. FEATURE: Photometric lens distortion correction is supported - DONE.
+3. MODIFICATION: Modify MMR of AF and MCI - DONE.
+4. FEATURE: Add "__ASM_ARCH_PLATFORM_MOZART_H__" macro definition to support Mozart platform - DONE.
+
+[Version 3.2.0.0]
+Release at 2008.04.30
+1. FEATURE: Synchronized with VPL_VIC device driver version 4.0.0.7 - DONE.
+
+[Version 3.1.0.5]
+Release at 2008.03.14
+1. FEATURE: Synchronize with VPL_VIC device driver version 4.0.0.5 - DONE.
+2. FEATURE: Synchronize with MemMgr_Lib version 4.0.0.5 - DONE.
+3. BUG: tVICOptions.adwUserData[0] is not assigned before call the ioctl function in the options VIDEO_SIGNAL_OPTION_SET_HALF_SIZED_OUTPUT and  VIDEO_SIGNAL_OPTION_SET_MONO - FIXED.
+
+[Version 3.1.0.4]
+Release at 2008.03.04
+1. FEATURE: Synchronize with VPL_VIC device driver version 4.0.0.3 - DONE.
+2. FEATURE: Synchronize with MemMgr_Lib version 4.0.0.5 - DONE.
+3. MODIFICATION: Wrong conditions for error state from device driver - DONE.
+4. MODIFICATION: VideoCap_SetOptions() and VideoCap_Stop() will do loop-whil until S_OK is returned - DONE.
+
+[Version 3.1.0.3]
+Release at 2008.02.26
+1. FEATURE: Synchronize with VPL_VIC device driver version 4.0.0.1 - DONE.
+2. FEATURE: Synchronize with MemMgr_Lib version 4.0.0.5 - DONE.
+3. BUG: The library does not check if ioctl, VIDEO_SIGNAL_OPTION_SET_HALF_SIZED_OUTPUT, returns S_FAIL - FIXED.
+
+[Version 3.1.0.2]
+Release at 2008.02.22
+1. FEATURE: Synchronize with VPL_VIC device driver version 4.0.0.1 - DONE.
+2. FEATURE: Synchronize with MemMgr_Lib version 4.0.0.5 - DONE.
+3. BUG: VIDEO_SIGNAL_OPTION_SET_MONO shoudl be set through VIDEO_SIGNAL_OPTION_SET_SATURATION - FIXED.
+4. MODIFICATION: Modify VideoCap_App.c to test options - DONE.
+
+[Version 3.1.0.1]
+Release at 2008.02.21
+1. FEATURE: Synchronize with VPL_VIC device driver version 4.0.0.1 - DONE.
+2. FEATURE: Synchronize with MemMgr_Lib version 4.0.0.5 - DONE.
+3. MODIFICATION: Disable VIC OUT_EN field when initializing and device driver will enable it later - DONE.
+
+[Version 3.1.0.0]
+Release at 2008.02.04
+1. FEATURE: Synchronize with VPL_VIC device driver version 4.0.0.0 - DONE.
+2. FEATURE: Synchronize with MemMgr_Lib version 4.0.0.5 - DONE.
+3. MODIFICATION: Move the frame rate control of the master process to driver level by HW.
+                 The slave process still could use SW frame rate control - DONE.
+4. MODIFICATION: Add bIsMaster flag for the software frame rate control - DONE.
+5. MODIFICATION: Remove dwCurrTicks in TVideoCapInfo structure - DONE.
+6. MODIFICATION: Support VIDEO_SIGNAL_OPTION_SET_HALF_SIZED_OUTPUT option to save bandwidth - DONE.
+
+[Version 3.0.0.2]
+Release at 2008.01.07
+1. FEATURE: Synchronize with VPL_VIC device driver version 3.2.0.0 - DONE.
+2. FEATURE: Synchronize with MemMgr_Lib version 4.0.0.3.
+3. MODIFICATION: Change AE MMR - DONE.
+4. MODIFICATION: Wrong conditions for error state from device driver - DONE.
+5. REFINEMENT: Remove __ASM_ARCH_PLATFORM_[SOC_CHIP_ID]_H__ macro definition in header file and move it to Makefile - DONE.
+
+[Version 3.0.0.1]
+Release at 2007.12.18
+1. FEATURE: Synchronize with VPL_VIC device driver version 3.1.0.0.
+2. FEATURE: Synchronize with MemMgr_Lib version 4.0.0.3.
+3. BUG: Add missed VideoCap_Release() when initialization is failed - FIXED.
+
+[Version 3.0.0.0]
+Release at 2007.12.18
+1. FEATURE: Synchronize with VPL_VIC device driver version 3.1.0.0 - DONE.
+2. FEATURE: Synchronize with MemMgr_Lib version 4.0.0.3.
+3. MODIFICATION: Support both Bach and Haydn platform - DONE.
+4. MODIFICATION: MMRs for front-end processing are added - DONE.
+
+[Version 2.0.0.2]
+Release at 2006.08.24
+1. FEATURE: Synchronize with VPL_VIC device driver version 2.0.0.3 - DONE.
+2. FEATURE: Synchronize with MemMgr_Lib version 4.0.0.0.
+3. BUG: No assignment to tVICOptions.eOptionFlags in VideoCap_SetOptions() - FIXED.
+4. BUG: dwPrevTicks should be initialized to the timestamp in VIC, otherwise the frame rate would settle very slow - FIXED.
+5. MODIFICATION: Flip/Mirror functions are provided by VIC, not sensor - DONE.
+6. MODIFICATION: Change VideoCap_SetOptions() scheme; only frame rate is configurable if hVideoSignalObject is NULL - DONE.
+
+[Version 2.0.0.1]
+Release at 2006.07.11
+1. FEATURE: Synchronize with VPL_VIC device driver version 2.0.0.2 - DONE.
+2. FEATURE: Synchronize with MemMgr_Lib version 4.0.0.0 - DONE.
+
+[Version 2.0.0.0]
+Release at 2006.06.21
+1. FEATURE: Synchronize with VPL_VIC device driver version 2.0.0.1 - DONE.
+2. FEATURE: Synchronize with MemMgr_Lib version 3.3.0.0 - DONE.
+3. MODIFICATION: Split VideoCap_OpenVIC() to VideoCap_OpenVIC() and VideoCap_InitVIC() - DONE.
+4. MODIFICATION: Check if VIC driver has been initialized in VideoCap_Setup() - DONE.
+5. MODIFICATION: VideoCap_GetBuf() and VideoCap_ReleaseBuf() must be paired - DONE.
+6. MODIFICATION: The application could run under three modes, server-only, client-only and server-client modes - DONE.
+7. MODIFICATION: Change DBPRINT macro to printf() in VideoCape_Initial() and VideoCape_Release() - DONE.
+8. MODIFICATION: Add version check procedure for device driver - DONE.
+
+[Version 1.0.0.0]
+Release at 2005.11.29
+1. FEATURE: Synchronize with VPL_VIC device driver version 1.0.0.0 - DONE.
+2. FEATURE: Synchronize with MemMgr_Lib version 2.0.0.0 - DONE.

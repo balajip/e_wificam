@@ -1,0 +1,159 @@
+<?xml version="1.0" standalone="yes"?>
+<root>
+    <venc_encoder>
+		<codec>#codec#</codec> <!--h264,mjpeg,mpeg4,svc-->
+		<resolution>#enc_resolution#</resolution>
+		<converting_method>#converting_method#</converting_method> <!--cropping,squeezing,randomcropping-->
+		<crop>
+		  <top>#crop_top#</top>
+		  <left>#crop_left#</left>
+		  <width>#crop_width#</width>
+		  <height>#crop_height#</height>
+		</crop>
+        <frame_rate>#frame_rate#</frame_rate>
+        <mpeg4_key_interval>#mpeg4_key_interval#</mpeg4_key_interval>
+        <mpeg4_quality_type>#mpeg4_quality_type#</mpeg4_quality_type>    <!-- NONE, VQCB, CQCB, CVBR-->
+        <mpeg4_quant_value>#mpeg4_quant_value#</mpeg4_quant_value>
+        <mpeg4_bitrate>#mpeg4_bitrate#</mpeg4_bitrate>
+        <mjpeg_quant_value>#mjpeg_quant_value#</mjpeg_quant_value>
+        <h264_key_interval>#h264_key_interval#</h264_key_interval>
+        <h264_quality_type>#h264_quality_type#</h264_quality_type>    <!-- NONE, VQCB, CQCB, CVBR, ADPT-->
+        <h264_quant_value>#h264_quant_value#</h264_quant_value>
+		<h264_max_quant_value>#h264_max_quant_value#</h264_max_quant_value>
+		<h264_min_quant_value>#h264_min_quant_value#</h264_min_quant_value>
+        <h264_bitrate>#h264_bitrate#</h264_bitrate>
+		<h264_max_frame_rate>#h264_max_frame_rate#</h264_max_frame_rate>
+		<h264_min_frame_rate>#h264_min_frame_rate#</h264_min_frame_rate>
+		<h264_ref_frame_num>#h264_ref_frame_num#</h264_ref_frame_num>
+		<h264_search_range_x>#h264_search_range_x#</h264_search_range_x>
+		<h264_search_range_y>#h264_search_range_y#</h264_search_range_y>
+		<h264_deblock>on</h264_deblock> <!--on:enable, off:disable-->
+		<h264_profile>2</h264_profile> <!--0: baseline, 1: main profile, 2: high profile-->
+		<svc_key_interval>#svc_key_interval#</svc_key_interval>
+        <svc_quality_type>#svc_quality_type#</svc_quality_type>    <!-- NONE, VQCB, CQCB, CVBR-->
+        <svc_quant_value>#svc_quant_value#</svc_quant_value>
+        <svc_bitrate>#svc_bitrate#</svc_bitrate>
+		<svc_hdr_enable>#svc_hdr_enable#</svc_hdr_enable> <!--off:without svc specific header, on:with svc specific header-->
+		<svc_layer_num>1</svc_layer_num> <!--1,2,3,4 (1:means that svn is disabled.)-->
+		<svc_max_layer_num>#svc_max_layer_num#</svc_max_layer_num><!--The field means the max value of svc layer num. If setting as 4, the svc_layer_num could be 1,2,3,4 .-->
+        <roi>
+	  <enable>#roi_enable#</enable> <!--on,off-->
+	  <!--The view resolution of ROI selection is 320x240. (2.0/0.00625=320,2.0/0.00833333=240)-->
+	  <Transformation>
+        	<Translate>
+        		<x>-1.0</x>
+        		<y>1.0</y>
+        	</Translate>
+        	<scale>
+        		<x>0.00625</x>
+        		<y>-0.00833333</y>
+        	</scale>
+	  </Transformation>
+	  <win id="0">
+		<active>off</active> 
+		<name>Window0</name> 
+		<left>60</left> 
+		<top>80</top> 
+		<width>160</width> 
+		<height>120</height>
+		<QP>0</QP>
+		<interval>1</interval>
+	  </win>
+	  <win id="1">
+		<active>off</active> 
+		<name>Window1</name> 
+		<left>0</left> 
+		<top>0</top> 
+		<width>80</width> 
+		<height>60</height>
+		<QP>0</QP>
+		<interval>1</interval>
+	  </win>
+	  <win id="2">
+		<active>off</active> 
+		<name>Window2</name> 
+		<left>120</left> 
+		<top>100</top> 
+		<width>40</width> 
+		<height>30</height>
+		<QP>0</QP>
+		<interval>1</interval>
+	  </win>
+	  <win id="3">
+		<active>off</active> 
+		<name>Window3</name> 
+		<left>120</left> 
+		<top>100</top> 
+		<width>40</width> 
+		<height>30</height>
+		<QP>0</QP>
+		<interval>1</interval>
+	  </win>
+	  <win id="4">
+		<active>off</active> 
+		<name>Window4</name> 
+		<left>120</left> 
+		<top>100</top> 
+		<width>40</width> 
+		<height>30</height>
+		<QP>0</QP>
+		<interval>1</interval>
+	  </win>
+	  <win id="5">
+		<active>off</active> 
+		<name>Window5</name> 
+		<left>0</left> 
+		<top>0</top> 
+		<width>160</width> 
+		<height>120</height>
+		<QP>0</QP>
+		<interval>1</interval>
+	  </win>
+	  <win id="6">
+		<active>off</active> 
+		<name>Window6</name> 
+		<left>280</left> 
+		<top>210</top> 
+		<width>40</width> 
+		<height>30</height>
+		<QP>0</QP>
+		<interval>1</interval>
+	  </win>
+	  <win id="7">
+		<active>off</active> 
+		<name>Window7</name> 
+		<left>120</left> 
+		<top>100</top> 
+		<width>40</width> 
+		<height>30</height>
+		<QP>0</QP>
+		<interval>1</interval>
+	  </win>
+	  <win id="8"><!--The window is the backgroud window of ROI. So we enable it defaultly.--> 
+		  <active>on</active>
+		<name>Window8</name> 
+		<left>120</left> 
+		<top>100</top> 
+		<width>40</width> 
+		<height>30</height>
+		<QP>0</QP>
+		<interval>1</interval>
+	  </win>
+	</roi>
+	<text_overlay>
+        	<enable>#text_overlay#</enable>
+			<font>/usr/share/fonts/helvR24-ISO8859-1.pcf.gz</font> <!-- file path -->
+        	<format>
+				<custom_text>VN %F %H:%M:%S%z</custom_text>
+        		<enable_millisec>off</enable_millisec>
+        	</format>
+        </text_overlay>
+        <output_sharebuffer>
+            <path>/dev/buff_mgr##</path>
+        </output_sharebuffer>
+		<snapshot_sharebuffer>
+ 	  	    <path>/dev/#snapshot_buff_mgr#</path>
+			<buff_num>2</buff_num>
+		</snapshot_sharebuffer>
+    </venc_encoder>
+</root>

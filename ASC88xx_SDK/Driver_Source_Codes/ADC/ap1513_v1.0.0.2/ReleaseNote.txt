@@ -1,0 +1,15 @@
+*************************************************************
+* AP1513 device driver, Linux Device Driver, Release Note *
+*************************************************************
+[Version 1.0.0.2]
+Release at 2012.12.26
+1. FEATURE: Update MODULE_AUTHOR - DONE.
+
+[Version 1.0.0.1]
+Release at 2012.10.24
+1. FEATURE: Fix Ref. voltage(VBRC) - DONE.
+
+[Version 1.0.0.0]
+Release at 2012.09.21
+1. FEATURE: First Released - DONE.
+2. FEATURE: Synchronized with VPL_VIC version 11.0.0.1.

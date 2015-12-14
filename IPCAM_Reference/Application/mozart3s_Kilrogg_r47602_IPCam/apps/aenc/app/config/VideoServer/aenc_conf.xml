@@ -1,0 +1,73 @@
+<?xml version="1.0" standalone="yes"?>
+<root>
+    <audio_encoder>
+	<devices>
+            <device id="d0" node="hw:0,0">
+				<read_type>0</read_type><!--0:NONINTERLEAVED PCM, 1:INTERLEAVED PCM-->
+				<channel_number>4</channel_number> 
+                <sample_format>S16</sample_format>
+		<input_selection>1</input_selection> <!--1 : Line-in, 2 : Mic-in-->
+		<mute>0</mute> <!--0:not mute,1:mute-->
+		<volume>15</volume> <!--1~15-->
+                <codec>
+		    <support_codectype>#support_codectype#</support_codectype>
+                    <type>#codec#</type>
+                    <bitrate>#bitrate#</bitrate>
+                    <sample_rate>#sample_rate#</sample_rate>
+                    <mode>#mode#</mode>
+					<channel_number>1</channel_number> <!--1:mono 2:stereo (the configuration is just for AAC)-->
+                </codec>
+            </device>
+	    <device id="d1" node="hw:0,1">
+				<read_type>0</read_type><!--0:NONINTERLEAVED PCM, 1:INTERLEAVED PCM-->
+                <channel_number>4</channel_number>
+                <sample_format>S16</sample_format>
+		<input_selection>1</input_selection> <!--1 : Line-in, 2 : Mic-in-->
+		<mute>0</mute> <!--0:not mute,1:mute-->
+		<volume>15</volume> <!--1~46-->
+                <codec>
+		    <support_codectype>#support_codectype#</support_codectype>
+                    <type>#codec#</type>
+                    <bitrate>#bitrate#</bitrate>
+                    <sample_rate>#sample_rate#</sample_rate>
+                    <mode>#mode#</mode>
+					<channel_number>1</channel_number> <!--1:mono 2:stereo (the configuration is just for AAC)-->
+                </codec>
+            </device>
+        </devices>
+        <ios>
+           <io id="0">
+                <input device="d0"> 0 </input><!--0:L channel, 1:R channel, 0 1:LR channel(stereo)-->
+                <output>/tmp/aenc/c0/audio0.sck</output>
+            </io>
+	    <io id="1">
+                <input device="d0"> 0 </input><!--0:L channel, 1:R channel, 0 1:LR channel(stereo)-->
+                <output>/tmp/aenc/c0/audio1.sck</output>
+            </io>
+	    <io id="2">
+                <input device="d0"> 0 </input><!--0:L channel, 1:R channel, 0 1:LR channel(stereo)-->
+                <output>/tmp/aenc/c0/audio2.sck</output>
+            </io>
+	    <io id="3">
+                <input device="d0"> 0 </input><!--0:L channel, 1:R channel, 0 1:LR channel(stereo)-->
+                <output>/tmp/aenc/c0/audio3.sck</output>
+            </io>
+	     <io id="4">
+                <input device="d1"> 0 </input><!--0:L channel, 1:R channel, 0 1:LR channel(stereo)-->
+                <output>/tmp/aenc/c0/audio4.sck</output>
+            </io>
+	    <io id="5">
+                <input device="d1"> 0 </input><!--0:L channel, 1:R channel, 0 1:LR channel(stereo)-->
+                <output>/tmp/aenc/c0/audio5.sck</output>
+            </io>
+	    <io id="6">
+                <input device="d1"> 0 </input><!--0:L channel, 1:R channel, 0 1:LR channel(stereo)-->
+                <output>/tmp/aenc/c0/audio6.sck</output>
+            </io>
+	    <io id="7">
+                <input device="d1"> 0 </input><!--0:L channel, 1:R channel, 0 1:LR channel(stereo)-->
+                <output>/tmp/aenc/c0/audio7.sck</output>
+            </io>
+        </ios>
+    </audio_encoder>
+</root>

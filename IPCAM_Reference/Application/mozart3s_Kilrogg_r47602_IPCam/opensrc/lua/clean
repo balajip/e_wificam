@@ -1,0 +1,126 @@
+#!/bin/bash
+# This script will build expat.
+# It will also copy the header files and the library to the current directory
+# in a VN conventional way, i.e., ./lib and ./src.
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=lua
+VERSION=1.95.8
+SOVERSION=0.5.0
+TARBALL=$APP_NAME-$VERSION.tar.bz2
+PACKAGE_DIR=$APP_NAME-5.1.2
+UNTAR_ARG='-jxf'
+HOST='arm-linux-'
+CC=${HOST}gcc
+
+# check if you have the proper gcc
+which $CC > /dev/null || exit 1 
+
+#tar $UNTAR_ARG $TARBALL
+
+[ -d "$PACKAGE_DIR" ] || exit 1
+
+cd $PACKAGE_DIR
+
+# configure it for $HOST
+#[ -f "Makefile" ] || ./configure --host=$HOST &> /dev/null
+
+# simply make it
+make --quiet clean
+
+cd - > /dev/null
+
+rm -rf ${APP_NAME}
+
+#clean luaexpat-1.1
+PATH=/usr/bin:/bin:$PATH
+LIB_NAME=luaexpat
+VERSION=1.95.8
+SOVERSION=1.1.0
+TARBALL=$LIB_NAME-$VERSION.tar.bz2
+PACKAGE_DIR=$LIB_NAME-1.1
+UNTAR_ARG='-jxf'
+HOST='arm-linux-'
+CC=${HOST}gcc
+
+# check if you have the proper gcc
+which $CC > /dev/null || exit 1
+
+#tar $UNTAR_ARG $TARBALL
+
+[ -d "$PACKAGE_DIR" ] || exit 1
+
+cd $PACKAGE_DIR
+
+# configure it for $HOST
+#[ -f "Makefile" ] || ./configure --host=$HOST &> /dev/null
+
+# simply make it
+make --quiet clean
+
+cd - > /dev/null
+
+LIB_SO="lxp.so.${SOVERSION}"
+
+#rm -rf lxp.so
+rm -rf ${LIB_SO}
+
+#clean luasocket-2.0.1
+PATH=/usr/bin:/bin:$PATH
+LIB_NAME=luasocket
+VERSION=1.95.8
+MIME_SOVERSION=1.0.1
+SOCKET_SOVERSION=2.0.1
+TARBALL=$LIB_NAME-$VERSION.tar.bz2
+PACKAGE_DIR=$LIB_NAME-2.0.1
+UNTAR_ARG='-jxf'
+HOST='arm-linux-'
+CC=${HOST}gcc
+
+# check if you have the proper gcc
+which $CC > /dev/null || exit 1
+
+#tar $UNTAR_ARG $TARBALL
+
+[ -d "$PACKAGE_DIR" ] || exit 1
+
+cd $PACKAGE_DIR
+
+# configure it for $HOST
+#[ -f "Makefile" ] || ./configure --host=$HOST &> /dev/null
+
+# simply make it
+make --quiet clean
+
+cd - > /dev/null
+
+LIB_SO="mime.so.${MIME_SOVERSION}"
+
+rm -rf ${LIB_SO}
+
+LIB_SO="socket.so.${SOCKET_SOVERSION}"
+
+rm -rf ${LIB_SO}
+
+
+#### clean luafilesystem-1.6.2 Start ####
+LIB_NAME=luafilesystem
+PACKAGE_DIR=$LIB_NAME-1.6.2
+HOST='arm-linux-'
+CC=${HOST}gcc
+
+# check if you have the proper gcc
+which $CC > /dev/null || exit 1
+
+[ -d "$PACKAGE_DIR" ] || exit 1
+
+cd $PACKAGE_DIR
+
+# clean it
+make --quiet clean
+
+cd - > /dev/null
+
+LIB_SO="lfs.so"
+rm -f ${LIB_SO}
+#### clean luafilesystem-1.6.2 End ####
+

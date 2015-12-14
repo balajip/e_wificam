@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Email and FTP</title>
+        <!-- Load common JavaScript -->
+        <script type="text/javascript" src="/include/jQuery/jquery-1.7.1.min.js"></script>        
+        <script type="text/javascript" src="/include/common.js"></script>
+        <script type="text/javascript" src="/include/ajaxcommon.js"></script>
+        <script type="text/javascript" src="/include/emailftp.js"></script>
+        <link href="/css/default.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <div id="div_mask" style="display:none;"></div>
+        <div class="confContent" id="content">
+        <form>
+            <fieldset>
+                <legend><strong>Email</strong></legend>
+                <br /><br />
+                <table>
+                    <tbody>
+                        <tr><td>Authentication</td>
+                            <td><select class="select" id="mailAuthMode" style="width:100%;" onchange="authModeChange();"/>
+                                <option value="0">Anonymous</option>
+                                <option value="1">SMTP account</option>
+                                </select></td></tr>
+                        <tr><td>SMTP Server Address&nbsp;&nbsp;
+                            <td><input type="text" class="text" id="mailServAddr" style="width:99%;"/></td></tr>
+                        <tr id="mailUserTr"><td>User Name&nbsp;&nbsp;
+                            <td><input type="text" class="text" id="mailUser" style="width:99%;"/></td></tr>
+                        <tr id="mailPwTr"><td id="mailPwTitle">Password&nbsp;&nbsp;
+                            <td><input type="password" class="text" id="mailPw" style="width:99%;"/></td></tr>
+                        <tr><td>Sender Email Address&nbsp;&nbsp;
+                            <td><input type="text" class="text" id="mailSendAddr" size="40"/></td></tr>
+                        <tr><td>Recipient Email Address&nbsp;&nbsp;
+                            <td><input type="text" class="text" id="mailRcvAddr" style="width:99%;"/></td></tr>
+                        <tr><td>CC Email Address&nbsp;&nbsp;
+                            <td><input type="text" class="text" id="mailCCAddr" style="width:99%;"/></td></tr>
+                        <tr><td>Mail Subject&nbsp;&nbsp;
+                            <td><input type="text" class="text" id="mailSubject" style="width:99%;"/></td></tr>
+                        <tr><td>Mail Content&nbsp;&nbsp;
+                            <td><textarea id="mailContent" rows="8" style="overflow: auto; width:99%"></textarea></td></tr>
+                    </tbody>
+                </table>
+            </fieldset>
+            <input type="button" class="button" onclick="submitSmtp()"     value="Save" />
+            <input type="button" class="button" onclick="submitSmtp('on')" value="Save & test" />
+            <fieldset>
+                <legend><strong>FTP</strong></legend>
+                <br /><br />
+                <table>
+                    <tbody>
+                        <tr><td>FTP Server Address&nbsp;&nbsp;</td>
+                            <td><input type="text" class="text" id="ftpHost" size="40"/></td></tr>
+                        <tr><td>FTP Server Port&nbsp;&nbsp;</td>
+                            <td><input type="text" class="text" id="ftpPort" style="width:99%;" maxlength="5"/></td></tr>
+                        <tr><td>User Name&nbsp;&nbsp;</td>
+                            <td><input type="text" class="text" id="ftpUserName" style="width:99%;"/></td></tr>
+                        <tr><td>Password&nbsp;&nbsp;</td>
+                            <td><input type="password" class="text" id="ftpPW" style="width:99%;"/></td></tr>
+                        <tr><td>Remote Folder Path&nbsp;&nbsp;</td>
+                            <td><input type="text" class="text" id="ftpRemoteFloder" style="width:99%;"/></td></tr>
+                        <tr><td>FTP Mode&nbsp;&nbsp;</td>
+                            <td><label><input name="ftpMode" type="radio" value="PASV"/>
+                                <span title="symbol">PASV</span></label>
+                                <label><input name="ftpMode" type="radio" value="PORT"/>
+                                <span title="symbol">PORT</span></label></td></tr>
+                    </tbody>
+                </table>
+            </fieldset>
+            
+            <input type="button" class="button" onclick="submitFtp()"     value="Save" />
+            <input type="button" class="button" onclick="submitFtp('on')" value="Save & test" />
+        </form>
+        </div>
+        <div id="ajaxMask"><span id="ajaxImg"></span></div>      
+    </body>
+</html>

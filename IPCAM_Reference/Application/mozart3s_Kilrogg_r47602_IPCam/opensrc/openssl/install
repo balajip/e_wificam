@@ -1,0 +1,19 @@
+#!/bin/bash
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=openssl
+VERSION=0.9.8
+A_VERSION=${VERSION}i
+LIB_NAME1=libcrypto.so.${VERSION}
+LIB_NAME2=libssl.so.${VERSION}
+ORIG_TARBALL=${APP_NAME}-${A_VERSION}.tar.gz
+PACKAGE_DIR=$APP_NAME-$A_VERSION
+PKG_ROOT=${PWD}
+HOST='arm-linux-'
+OBJDUMP=${HOST}objdump
+
+# check if you have the proper objdump
+which $OBJDUMP > /dev/null || exit 1
+
+install ${PACKAGE_DIR}/${LIB_NAME1} $1/usr/lib/
+install ${PACKAGE_DIR}/${LIB_NAME2} $1/usr/lib/
+

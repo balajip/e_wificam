@@ -1,0 +1,189 @@
+#!/bin/bash
+PATH=/usr/bin:/bin:$PATH
+MOD_ROOT=$PWD
+TARGET_ROOT=`readlink -f $1`
+echo "TARGET_ROOT="$TARGET_ROOT
+
+cd $TARGET_ROOT
+
+find . -name ".svn" | xargs rm -fr
+
+cd -
+
+find -H bin etc lib sbin sys tmp usr var -name '.svn' -prune -o -print0 | cpio --quiet -upmd0 $1 
+chmod -R +x $TARGET_ROOT/bin
+chmod -R +x $TARGET_ROOT/lib
+chmod -R +x $TARGET_ROOT/sbin
+chmod -R +x $TARGET_ROOT/sys
+chmod -R +x $TARGET_ROOT/tmp
+chmod -R +x $TARGET_ROOT/usr
+chmod -R +x $TARGET_ROOT/var
+chmod -R +x $TARGET_ROOT/etc/init.d/
+chmod -R +x $TARGET_ROOT/etc/iptables/
+
+chmod 666 $TARGET_ROOT/etc/pmaskpic/pmask.png
+chmod 777 $TARGET_ROOT/usr/bin/dos2unix.sh
+chmod 777 $TARGET_ROOT/usr/bin/mktemp.sh
+#MAX_STREAM_NUM=`cat $TARGET_ROOT/../.config |  grep CONFIG_MAXVIDEOSTREAMNUM | cut -d'=' -f 2`
+#MSGCTRL_STR=""
+#for (( i=0; i<MAX_STREAM_NUM; i=i+1 ))
+#do
+
+
+#STR="\\n\/usr\/bin\/msgctrl  -f \/tmp\/venc\/c0\/command.fifo  -h encoder$i -c start\\n"
+#STR=$STR"\/usr\/bin\/msgctrl  -f \/tmp\/venc\/c0\/command.fifo  -h encoder$i -c forceCI\\n" 
+#STR=$STR"\/usr\/bin\/msgctrl  -f \/tmp\/venc\/c0\/command.fifo  -h encoder$i -c stop\\n"       
+#MSGCTRL_STR=$MSGCTRL_STR""$STR
+
+
+#done
+
+
+#sed -i "s/##msgctrl_for_c0##/$MSGCTRL_STR/g" $TARGET_ROOT/etc/rc.local
+
+
+
+#auto eth0
+#iface eth0 inet dhcp
+
+
+
+ipaddrsss=""
+netmask=""
+gwaddress=""
+dnsaddress=""
+net_type=""
+config_eth0_str=""
+str="auto eth0"
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_MANUALNETWOK=y"  > /dev/null  2>&1;then
+
+net_type="static"
+ipaddrsss=`cat $TARGET_ROOT/../.config |  grep CONFIG_MANUALNETWOK_IP_ADDRESS |  cut -d'=' -f2 | cut -d'"' -f2`
+netmask=`cat $TARGET_ROOT/../.config |  grep CONFIG_MANUALNETWOK_NETMASK |  cut -d'=' -f2 | cut -d'"' -f2`
+gwaddress=`cat $TARGET_ROOT/../.config |  grep CONFIG_MANUALNETWOK_GW_ADDRESS |  cut -d'=' -f2 | cut -d'"' -f2`
+dnsaddress=`cat $TARGET_ROOT/../.config |  grep CONFIG_MANUALNETWOK_DNS_ADDRESS |  cut -d'=' -f2 | cut -d'"' -f2`
+
+
+
+
+#auto eth0
+#iface eth0 inet static
+#    address 172.17.205.71
+#    netmask 255.255.0.0
+#    gateway 172.17.0.1
+#    up      /usr/sbin/setdns  192.168.0.20
+#    up      /usr/sbin/parsenetif eth0
+
+
+config_eth0_str=$config_eth0_str"\\n"$str
+str="iface eth0 inet static"
+config_eth0_str=$config_eth0_str"\\n"$str
+str="address $ipaddrsss"
+config_eth0_str=$config_eth0_str"\\n\\t"$str
+str="netmask $netmask"
+config_eth0_str=$config_eth0_str"\\n\\t"$str
+str="gateway $gwaddress"
+config_eth0_str=$config_eth0_str"\\n\\t"$str
+str="up      \/usr\/sbin\/setdns  $dnsaddress"
+config_eth0_str=$config_eth0_str"\\n\\t"$str
+str="up      \/usr\/sbin\/parsenetif eth0"
+config_eth0_str=$config_eth0_str"\\n\\t"$str
+
+
+sed -i "s/#net_type#/$net_type/g" $TARGET_ROOT/etc/network/network_conf.xml
+sed -i "s/#static_ip_address#/$ipaddrsss/g" $TARGET_ROOT/etc/network/network_conf.xml
+sed -i "s/#newmask#/$netmask/g" $TARGET_ROOT/etc/network/network_conf.xml
+sed -i "s/#default_gateway_address#/$gwaddress/g" $TARGET_ROOT//etc/network/network_conf.xml
+sed -i "s/#dnsaddress#/$dnsaddress/g" $TARGET_ROOT//etc/network/network_conf.xml
+
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_DYNAMICNETWOK=y"  > /dev/null  2>&1;then
+
+net_type="dhcp"
+
+#auto eth0
+#iface eth0 inet dhcp
+config_eth0_str=$config_eth0_str"\\n"$str
+str="iface eth0 inet dhcp"
+config_eth0_str=$config_eth0_str"\\n"$str
+
+ipaddrsss="172.17.255.111"
+netmask="255.255.0.0"
+gwaddress="172.17.0.1"
+dnsaddress="192.168.0.20"
+
+
+
+sed -i "s/#net_type#/$net_type/g" $TARGET_ROOT/etc/network/network_conf.xml
+sed -i "s/#static_ip_address#/$ipaddrsss/g" $TARGET_ROOT/etc/network/network_conf.xml
+sed -i "s/#newmask#/$netmask/g" $TARGET_ROOT/etc/network/network_conf.xml
+sed -i "s/#default_gateway_address#/$gwaddress/g" $TARGET_ROOT/etc/network/network_conf.xml
+sed -i "s/#dnsaddress#/$dnsaddress/g" $TARGET_ROOT/etc/network/network_conf.xml
+
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_UBOOTNETWOK=y"  > /dev/null  2>&1;then
+
+
+net_type="static"
+ipaddrsss="#ipaddrsss#"
+netmask="#netmask#"
+gwaddress="#gwaddress#"
+dnsaddress="#dnsaddress#"
+
+config_eth0_str=$config_eth0_str"\\n"$str
+str="iface eth0 inet static"
+config_eth0_str=$config_eth0_str"\\n"$str
+str="address $ipaddrsss"
+config_eth0_str=$config_eth0_str"\\n\\t"$str
+str="netmask $netmask"
+config_eth0_str=$config_eth0_str"\\n\\t"$str
+str="gateway $gwaddress"
+config_eth0_str=$config_eth0_str"\\n\\t"$str
+str="up      \/usr\/sbin\/setdns  $dnsaddress"
+config_eth0_str=$config_eth0_str"\\n\\t"$str
+str="up      \/usr\/sbin\/parsenetif eth0"
+config_eth0_str=$config_eth0_str"\\n\\t"$str
+
+sed -i "s/#net_type#/$net_type/g" $TARGET_ROOT/etc/network/network_conf.xml
+
+#The following item must be read from uboot.
+#sed -i "s/#static_ip_address#/$ipaddrsss/g" $TARGET_ROOT/etc/network/network_conf.xml
+#sed -i "s/#newmask#/$netmask/g" $TARGET_ROOT/etc/network/network_conf.xml
+#sed -i "s/#default_gateway_address#/$gwaddress/g" $TARGET_ROOT//etc/network/network_conf.xml
+#sed -i "s/#dnsaddress#/$dnsaddress/g" $TARGET_ROOT//etc/network/network_conf.xml
+
+fi
+
+
+#echo "config_eth0_str:"
+#echo $config_eth0_str
+#echo
+
+
+
+sed -i "s/#config_eth0_str#/$config_eth0_str/g" $TARGET_ROOT/etc/network/interfaces
+
+
+
+#if cat $TARGET_ROOT/../.config | grep -n "CONFIG_UARTCONSOLE="  > /dev/null  2>&1;then
+#
+#	TTY_1=`cat $TARGET_ROOT/../.config |  grep  "CONFIG_UARTCONSOLE="`
+#	TTY_2=`echo $TTY_1 | awk -F'=' '{ print $2 }' | awk -F'"' '{ print $2 }'`
+#	echo "CONFIG_UARTCONSOLE="$TTY_2
+#	sed -i "s/CONFIG_UARTCONSOLE/$TTY_2/" $TARGET_ROOT/etc/inittab
+#	INC=`echo $TTY_2 |  awk -F'ttyS' '{ print $2 }'`
+#	MINOR=$((64+INC))
+#	#mkdir $TARGET_ROOT/dev
+#	rm -f $TARGET_ROOT/dev/ttyS*
+#	mknod $TARGET_ROOT/dev/$TTY_2 c 4 $MINOR
+#fi
+#chmod -R +x $1
+
+#if [ -f ext2.tar.gz ];then
+#  cp -f ext2.tar.gz $TARGET_ROOT/
+#  cd $TARGET_ROOT/
+#  tar zxvf ext2.tar.gz > /dev/null 2>&1
+#  rm  ext2.tar.gz > /dev/null 2>&1
+#  cd - > /dev/null
+#fi

@@ -1,0 +1,33 @@
+******************************************************************
+*                                                                *
+* Kilrogg Sipua Server Process, Release Note                     *
+*                                                                *
+******************************************************************
+
+==================================================================
+[Version 0.0.0.6] 
+------------------------------------------------------------------
+Release at 2010.05.25 [Acer.Tsai]
+------------------------------------------------------------------
+Libraries List:
+
+expat                version 0.5.0
+ortp                 version 5.0.0
+osip2                version 2.2.0
+osipparser2          version 2.2.0
+rtprtcp              version 0.0.1
+sipua                version 0.0.0.5
+vivostrcodec         version unversiond
+xmlmgr               version 1.1.0.3
+
+------------------------------------------------------------------
+
+
+Release Note
+==================================================================
+version 0.0.0.6
+1.Second release
+[Enhancement] remove xmlwrapper library, that is useless.
+------------------------------------------------------------------
+version 0.0.0.5
+1.First release

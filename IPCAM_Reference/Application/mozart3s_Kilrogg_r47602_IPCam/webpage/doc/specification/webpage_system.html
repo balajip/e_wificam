@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=big5">
+    <title>Kilrogg Webpage Specification</title>
+    <link rel="stylesheet" type="text/css" href="../template/vivo_doc.css">
+</head>
+
+<body>
+	<!------ An intra link flag "top"------>
+    <a name="top"></a>
+    <!------ Document title ------>
+    <div class="title">
+        <p>System</p>
+    </div>
+    <!------ Layout ------>
+    <div class="banner">
+        <div class="spacer"></div>
+        <span class="left">Layout</span>
+        <span class="right"><a href="#top">[Top]</a></span>
+        <div class="spacer"></div>
+    </div>
+    <div class="content">
+        <p>The system page includes two field, system and system time</p>
+        <div class="subtitle">System</div>
+        <ul>
+            <li>Host name (text input)</li>
+            <li>Turn off the LED indicator (check box)</li>
+        </ul>
+        <div class="subtitle">System time</div>
+        <ul>
+            <li>Time zone (select list)</li>
+            <li>four adjust time method:
+            <ul>
+                <li>Keep current date and time (select button)</li>
+                <li>Sync with computer time  (select button)
+                    <ul>
+                        <li>PC date (display only)</li>
+                        <li>PC time (display only)</li>
+                    </ul>
+                </li>
+                <li>Manual (select button)
+                    <ul>
+                        <li>Date:[yy/mm/dd] (text input)</li>
+                        <li>Time:[hh:mm:ss] (text input)</li>
+                    </ul>
+                </li>
+                <li>Automatic (select button)
+                    <ul>
+                        <li>NTP server (text input)</li>
+                        <li>Update interval: One hour/One day/One Week/One Month (select list)</li>
+                    </ul>
+                </li>
+            </ul>
+            </li>
+        </ul>
+        <div class="subtitle">Sample view</div>
+            <p><img src="dia/system.png" border="0" width="760" height="540"></p>
+    </div>
+    <!------ Functions ------>
+    <div class="banner">
+        <div class="spacer"></div>
+        <span class="left">Functions</span>
+        <span class="right"><a href="#top">[Top]</a></span>
+        <div class="spacer"></div>
+    </div>
+    <div class="content">
+        <p>
+            The system field set the host name and LED indicator. The host name will display on "Dispaly" page.
+            User can sync the time with local PC, specification by manual or set to sync with NTP server.
+            If select sync with NTP server the sync interval one hour, one day, one week and one month are available.
+        </p>
+	</div>
+</body>
+
+</html>
+

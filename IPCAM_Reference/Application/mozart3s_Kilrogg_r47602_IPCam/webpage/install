@@ -1,0 +1,151 @@
+#!/bin/bash
+# This script will untar a ppp tarball from Debian, patch it, and build it. 
+PATH=/usr/bin:/bin:$PATH
+MOD_ROOT=$PWD
+TARGET_ROOT=`readlink -f $1`
+R5M2MSWITCH="n"
+R3M2MSWITCH="n"
+
+cd $MOD_ROOT/rootfs/www/html
+find -H . -name '.svn' -prune -o -print0 | cpio --quiet -upmd0 $TARGET_ROOT/usr/share/www/html
+
+cd $MOD_ROOT/rootfs/www
+find -H ./cgi-bin -name '.svn' -prune -o -print0 | cpio --quiet -upmd0 $TARGET_ROOT/usr/share/www
+chmod -R +x $TARGET_ROOT/usr/share/www/cgi-bin
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_9PCONFSWITCH=y"  > /dev/null  2>&1;then
+echo
+else
+rm -f  $TARGET_ROOT/usr/share/www/html/setup/memFootprint.html
+rm -f  $TARGET_ROOT/usr/share/www/cgi-bin/admin/venc_res_change.sh
+fi
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_5M2MSWITCH=y"  > /dev/null  2>&1;then
+
+R5M2MSWITCH="y"
+
+fi
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_3M2MSWITCH=y"  > /dev/null  2>&1;then
+
+R3M2MSWITCH="y"
+
+fi
+
+if [ "$R5M2MSWITCH" = "y" ] || [ "$R3M2MSWITCH" = "y" ];then
+echo
+else
+rm -f  $TARGET_ROOT/usr/share/www/cgi-bin/admin/ResSwitch.sh
+fi
+
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_CHINESE=y"  > /dev/null  2>&1;then
+	mv $TARGET_ROOT/usr/share/www/html/setup/audiovideo-chinese.html $TARGET_ROOT/usr/share/www/html/setup/audiovideo.html
+else
+	rm -rf $TARGET_ROOT/usr/share/www/html/setup/audiovideo-chinese.html
+fi
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_AUTOSCENE=y"  > /dev/null  2>&1;then
+    echo   
+else
+   rm -f $TARGET_ROOT/usr/share/www/cgi-bin/admin/isp_autoscene.lua
+fi
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_APPS_LIGHTTPD=y"  > /dev/null  2>&1;then
+	mv $TARGET_ROOT/usr/share/www/cgi-bin/admin/http_lighttpd.lua $TARGET_ROOT/usr/share/www/cgi-bin/admin/http.lua
+fi
+
+#The following script is for modifying the audiovideo.lua for supporting 
+#the determination of stream number at the buiding time.
+
+#MAX_STREAM_NUM=`cat $TARGET_ROOT/../.config |  grep CONFIG_MAXVIDEOSTREAMNUM | cut -d'=' -f 2`
+
+#PRIFIX_STR1="_, _, venc_master_config,"
+#MID_STR1="aenc_config = string.find(input, \\\".*(<venc_master>.-<\\/venc_master>)."
+#POST_STR1="*(<audio_encoder>.-<\\/audio_encoder>).*\\\")"
+
+
+
+#for (( i=0; i<MAX_STREAM_NUM; i=i+1 ))
+#do
+
+#PRIFIX_STR1=$PRIFIX_STR1" venc_"$i"_config, "
+#MID_STR1=$MID_STR1"*(<venc_encoder>.-<\\/venc_encoder>)."
+#done
+
+#STR1=$PRIFIX_STR1""$MID_STR1""$POST_STR1
+
+#echo "STR1="$STR1
+
+#STR2="\n\t"
+#for (( i=0; i<MAX_STREAM_NUM; i=i+1 ))
+#do
+
+#STR2_1="VENC_CONF = VENC_CONF_PREFIX ..\\\"$i.xml\\\"\\n\\t"
+#STR2_2="fpXml = io.open(VENC_CONF, \"w\")\\n\\t"
+#STR2_3="fpXml:write(\\\"<?xml version=\\\\\"1.0\\\\\" encoding=\\\\\"UTF-8\\\\\"?>\\\")\\n\\t"
+#STR2_4="fpXml:write(\\\"<root>\\\n    \\\")\\n\\t"
+#STR2_5="fpXml:write(venc_"$i"_config)\\n\\t"
+#STR2_6="fpXml:write(\\\"\\\n<\\/root>\\\n\\\")\\n\\t"
+#STR2_7="fpXml:close()\\n\\t"
+
+#STR2=$STR2""$STR2_1$STR2_2$STR2_3$STR2_4$STR2_5$STR2_6$STR2_7
+
+#done
+
+#STR3="\n\t"
+#STR3_1="_, _, encoder_head"
+#for (( i=0; i<MAX_STREAM_NUM; i=i+1 ))
+#do
+
+#if [ $i -eq $((MAX_STREAM_NUM - 1)) ];then
+#STR3_2=$STR3_2", switch$i "
+#else
+#STR3_2=$STR3_2", switch$i, interval_$i"
+#fi
+
+
+#STR3_4=$STR3_4"(.*)(<switch>.-<\\/switch>)"
+
+#done
+
+#STR3_3=", encoder_tail = string.find(venc_encoder, \\\""
+#STR3_5="(.*)\\\")"
+
+#STR3_6=$STR3_1""$STR3_2""$STR3_3""$STR3_4""$STR3_5"\\n\\t"
+
+#echo "STR3_6="$STR3_6
+
+#STR3_7="\\n\\t"
+#for (( i=0; i<MAX_STREAM_NUM; i=i+1 ))
+#do
+
+#STR3_7=$STR3_7"_, value$i, _ =  string.match(switch$i, \\\"(<%w+>)(%w+)(<\\/%w+>)\\\")\\n\\tvalue$i = (value$i+1)%2\\n\\t"
+#done
+
+#STR3_8="venc_encoder = encoder_head"
+#for (( i=0; i<MAX_STREAM_NUM; i=i+1 ))
+#do
+#if [ $i -eq $((MAX_STREAM_NUM - 1)) ];then
+#STR3_8=$STR3_8"..\\\"<switch>\\\"..value$i..\\\"<\\/switch>\\\".."
+#else
+#STR3_8=$STR3_8"..\\\"<switch>\\\"..value$i..\\\"<\\/switch>\\\"..interval_$i"
+#fi
+#done
+
+
+#STR3_9="encoder_tail"
+
+#STR3_10=$STR3_8""$STR3_9"\\n\\t"
+
+#echo "STR3_10="$STR3_10
+
+
+#STR3=$STR3$STR3_6$STR3_7$STR3_10
+
+
+#sed -i "s/#STR1#/$STR1/g" $TARGET_ROOT/usr/share/www/cgi-bin/admin/audiovideo.lua
+#sed -i "s/#STR2#/$STR2/g" $TARGET_ROOT/usr/share/www/cgi-bin/admin/audiovideo.lua
+#sed -i "s/#STR3#/$STR3/g" $TARGET_ROOT/usr/share/www/cgi-bin/admin/audiovideo.lua

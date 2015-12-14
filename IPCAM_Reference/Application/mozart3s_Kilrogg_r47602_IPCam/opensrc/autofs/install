@@ -1,0 +1,13 @@
+#!/bin/bash
+# This script will install expat. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=automount
+VERSION=3.1.7
+PACKAGE_DIR=autofs-orig
+
+mkdir $1/usr/lib/autofs
+
+cp -f  ${PACKAGE_DIR}/modules/*.so $1/usr/lib/autofs
+
+install ${APP_NAME} $1/usr/sbin/
+

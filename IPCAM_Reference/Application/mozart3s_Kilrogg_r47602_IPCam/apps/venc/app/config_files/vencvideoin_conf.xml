@@ -1,0 +1,680 @@
+<?xml version="1.0" standalone="yes"?>
+<root>
+	<venc_videoin>
+		  <ibpe_initial>
+		    <bInitStaticMapBuff>#bInitStaticMapBuff#</bInitStaticMapBuff>
+		    <bInitNrStrongBuff>#bInitNrStrongBuff#</bInitNrStrongBuff>
+			<map_mem_rank_num>0</map_mem_rank_num>
+			<ref_mem_rank_num>0</ref_mem_rank_num>
+		  </ibpe_initial>
+		  <ibpe_ctrl>
+		      <YCmpntEn>true</YCmpntEn>
+		      <CCmpntEn>true</CCmpntEn>
+		      <YOutEn>true</YOutEn>
+		      <COutEn>true</COutEn>
+		  </ibpe_ctrl>
+		<frame_ctrl>
+		     <enable>#frame_ctrl_enable#</enable>
+		    <frame_rate>#frame_rate#</frame_rate>
+		</frame_ctrl>
+		<motion>
+			<enable>off</enable> 
+			<MDPMaskEn>false</MDPMaskEn><!--true:enable,false:disable-->
+        	<Transformation>
+        		<Translate>
+        			<x>-1.0</x>
+        			<y>1.0</y>
+        		</Translate>
+        		<scale>
+        			<x>0.00625</x>
+        			<y>-0.00833333</y>
+        		</scale>
+        	</Transformation>
+  			<!-- windows infos--> 
+  			<win id="0">
+			  	<active>off</active> 
+			  	<name>Window0</name> 
+			  	<left>0</left> 
+			  	<top>0</top> 
+			  	<width>160</width> 
+			  	<height>120</height> 
+			  	<sensitivity>70</sensitivity> 
+				<!--  percentage --> 
+			  	<objsize>10</objsize> 
+	  		</win>
+			<win id="1">
+				<active>off</active> 
+				<name>Window1</name> 
+				<left>280</left> 
+				<top>210</top> 
+				<width>40</width> 
+				<height>30</height> 
+				<sensitivity>75</sensitivity> 
+				<objsize>15</objsize> 
+			</win>
+			<win id="2">
+				<active>off</active> 
+				<name>Window2</name> 
+				<left>120</left> 
+				<top>100</top> 
+				<width>40</width> 
+				<height>30</height> 
+				<sensitivity>80</sensitivity> 
+				<objsize>20</objsize> 
+			</win>
+			<win id="3">
+				<active>off</active> 
+				<name>Window3</name> 
+				<left>120</left> 
+				<top>100</top> 
+				<width>40</width> 
+				<height>30</height> 
+				<sensitivity>80</sensitivity> 
+				<objsize>20</objsize> 
+			</win>
+			<win id="4">
+				<active>off</active> 
+				<name>Window4</name> 
+				<left>120</left> 
+				<top>100</top> 
+				<width>40</width> 
+				<height>30</height> 
+				<sensitivity>80</sensitivity> 
+				<objsize>20</objsize> 
+			</win>
+  			<win id="5">
+			  	<active>off</active> 
+			  	<name>Window5</name> 
+			  	<left>0</left> 
+			  	<top>0</top> 
+			  	<width>160</width> 
+			  	<height>120</height> 
+			  	<sensitivity>70</sensitivity> 
+				<!--  percentage --> 
+			  	<objsize>10</objsize> 
+	  		</win>
+			<win id="6">
+				<active>off</active> 
+				<name>Window6</name> 
+				<left>280</left> 
+				<top>210</top> 
+				<width>40</width> 
+				<height>30</height> 
+				<sensitivity>75</sensitivity> 
+				<objsize>15</objsize> 
+			</win>
+			<win id="7">
+				<active>off</active> 
+				<name>Window7</name> 
+				<left>120</left> 
+				<top>100</top> 
+				<width>40</width> 
+				<height>30</height> 
+				<sensitivity>80</sensitivity> 
+				<objsize>20</objsize> 
+			</win>
+			<win id="8">
+				<active>off</active> 
+				<name>Window8</name> 
+				<left>120</left> 
+				<top>100</top> 
+				<width>40</width> 
+				<height>30</height> 
+				<sensitivity>80</sensitivity> 
+				<objsize>20</objsize> 
+			</win>
+			<win id="9">
+				<active>off</active> 
+				<name>Window9</name> 
+				<left>120</left> 
+				<top>100</top> 
+				<width>40</width> 
+				<height>30</height> 
+				<sensitivity>80</sensitivity> 
+				<objsize>20</objsize> 
+			</win>
+  			<win id="10">
+			  	<active>off</active> 
+			  	<name>Window10</name> 
+			  	<left>0</left> 
+			  	<top>0</top> 
+			  	<width>160</width> 
+			  	<height>120</height> 
+			  	<sensitivity>70</sensitivity> 
+				<!--  percentage --> 
+			  	<objsize>10</objsize> 
+	  		</win>
+			<win id="11">
+				<active>off</active> 
+				<name>Window11</name> 
+				<left>280</left> 
+				<top>210</top> 
+				<width>40</width> 
+				<height>30</height> 
+				<sensitivity>75</sensitivity> 
+				<objsize>15</objsize> 
+			</win>
+			<win id="12">
+				<active>off</active> 
+				<name>Window12</name> 
+				<left>120</left> 
+				<top>100</top> 
+				<width>40</width> 
+				<height>30</height> 
+				<sensitivity>80</sensitivity> 
+				<objsize>20</objsize> 
+			</win>
+			<win id="13">
+				<active>off</active> 
+				<name>Window13</name> 
+				<left>120</left> 
+				<top>100</top> 
+				<width>40</width> 
+				<height>30</height> 
+				<sensitivity>80</sensitivity> 
+				<objsize>20</objsize> 
+			</win>
+			<win id="14">
+				<active>off</active> 
+				<name>Window14</name> 
+				<left>120</left> 
+				<top>100</top> 
+				<width>40</width> 
+				<height>30</height> 
+				<sensitivity>80</sensitivity> 
+				<objsize>20</objsize> 
+			</win>
+			<win id="15">
+				<active>off</active> 
+				<name>Window15</name> 
+				<left>120</left> 
+				<top>100</top> 
+				<width>40</width> 
+				<height>30</height> 
+				<sensitivity>80</sensitivity> 
+				<objsize>20</objsize> 
+			</win>
+  		</motion>
+		<isp>
+			<pre_nr>
+				<enable>#venc_videoin_pre_nr_enable#</enable> <!--on:enable, off:disable-->
+			</pre_nr>
+			<deinterlacer>
+				<enable>#venc_videoin_deinterlacer_enable#</enable><!--on, off-->
+				<picformat>#venc_videoin_deinterlacer_picformat#</picformat><!--0:INTERLEAVE,1:PLANAR-->
+				<mode>#venc_videoin_deinterlacer_mode#</mode><!--0:weave,1:blend,2:basic adaptive,3:advanced adaptive-->
+			</deinterlacer>
+			<edge_enhancement>
+				<pre>
+					<enable>#venc_videoin_edge_enhancement_enable#</enable> <!-- on, off -->
+					<edge_sensitivity>#venc_videoin_edge_enhancement_edge_sensitivity#</edge_sensitivity><!-- 0~7 -->
+					<noise_sensitivity>#venc_videoin_edge_enhancement_noise_sensitivity#</noise_sensitivity><!-- 0~63 -->
+					<clip>#venc_videoin_edge_enhancement_clip#</clip><!-- 0~31 -->
+					<strength>#venc_videoin_edge_enhancement_strength#</strength> <!-- 0~4 -->
+				</pre>
+				<post>
+						<enable>#venc_videoin_second_phase_edge_enhancement_enable#</enable> <!-- on, off -->
+						<edge_sensitivity>#venc_videoin_second_phase_edge_enhancement_edge_sensitivity#</edge_sensitivity><!-- 0~7 -->
+						<noise_sensitivity>#venc_videoin_second_phase_edge_enhancement_noise_sensitivity#</noise_sensitivity><!-- 0~63 -->
+						<clip>#venc_videoin_second_phase_edge_enhancement_clip#</clip><!-- 0~31 -->
+						<strength>#venc_videoin_second_phase_edge_enhancement_strength#</strength> <!-- 0~4 -->
+				</post>
+			</edge_enhancement>
+			<denoise>
+				<pre>
+					<enable>#venc_videoin_denoise_enable#</enable> <!-- on, off -->
+					<mode>#venc_videoin_denoise_mode#</mode> <!--0:normal 2d,1:normal 3d 1 ref,2:nomal 3d 2 ref,3:strong,4:blend-->
+					<normal_mode_strength>#venc_videoin_denoise_normal_strength#</normal_mode_strength> <!--0~63-->
+					<strong_ref_strength>#venc_videoin_denoise_strong_ref_strength#</strong_ref_strength><!-- 0~9 -->
+					<strong_curr_weight>#venc_videoin_denoise_strong_curr_weight#</strong_curr_weight><!-- 0~9 -->
+					<strong_motion_adaptive_enable>#venc_videoin_denoise_strong_motion_adaptive_enable#</strong_motion_adaptive_enable><!--true, false-->
+				</pre>
+				<post>
+					<enable>#venc_videoin_second_phase_denoise_enable#</enable> <!-- on, off -->
+					<mode>#venc_videoin_second_phase_denoise_mode#</mode> <!--0:normal 2d,1:normal 3d 1 ref,2:nomal 3d 2 ref,3:strong,4:blend-->
+					<normal_mode_strength>#venc_videoin_second_phase_denoise_normal_strength#</normal_mode_strength> <!--0~168-->
+					<strong_ref_strength>#venc_videoin_second_phase_denoise_strong_ref_strength#</strong_ref_strength><!-- 0~9 -->
+					<strong_curr_weight>#venc_videoin_second_phase_denoise_strong_curr_weight#</strong_curr_weight><!-- 0~9 -->
+					<strong_motion_adaptive_enable>#venc_videoin_second_phase_denoise_strong_motion_adaptive_enable#</strong_motion_adaptive_enable><!--true, false-->
+				</post>	
+			</denoise>
+			<geometric>
+				<select_mode>disable</select_mode> <!-- barrel1, barrel2, pincushion1, pincushion2, userdefine, disable -->
+				<mode id="barrel1" resolution="640x480">
+					<FwdMpgParam1Y>990</FwdMpgParam1Y>
+					<FwdMpgParam2Y>153</FwdMpgParam2Y>
+					<FwdMpgParam3Y>253</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>1</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>968</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>538</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>375</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>1</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="barrel1" resolution="1280x720">
+					<FwdMpgParam1Y>1007</FwdMpgParam1Y>
+					<FwdMpgParam2Y>31</FwdMpgParam2Y>
+					<FwdMpgParam3Y>115</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>1</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>996</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>90</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>493</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>1</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="barrel1" resolution="1280x800">
+					<FwdMpgParam1Y>1004</FwdMpgParam1Y>
+					<FwdMpgParam2Y>63</FwdMpgParam2Y>
+					<FwdMpgParam3Y>58</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>1</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>997</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>154</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>208</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>1</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="barrel1" resolution="1280x1024">
+					<FwdMpgParam1Y>995</FwdMpgParam1Y>
+					<FwdMpgParam2Y>13</FwdMpgParam2Y>
+					<FwdMpgParam3Y>90</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>1</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>978</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>123</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>195</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>1</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="barrel1" resolution="1920x1080">
+					<FwdMpgParam1Y>1004</FwdMpgParam1Y>
+					<FwdMpgParam2Y>11</FwdMpgParam2Y>
+					<FwdMpgParam3Y>58</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>1</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>997</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>48</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>204</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>1</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="barrel1" resolution="2560x1920">
+					<FwdMpgParam1Y>1014</FwdMpgParam1Y>
+					<FwdMpgParam2Y>11</FwdMpgParam2Y>
+					<FwdMpgParam3Y>19</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>1</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>1012</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>20</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>82</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>1</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="barrel2" resolution="640x480">
+					<FwdMpgParam1Y>972</FwdMpgParam1Y>
+					<FwdMpgParam2Y>27</FwdMpgParam2Y>
+					<FwdMpgParam3Y>863</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>1</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>947</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>385</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>2134</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>1</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="barrel2" resolution="1280x720">
+					<FwdMpgParam1Y>998</FwdMpgParam1Y>
+					<FwdMpgParam2Y>38</FwdMpgParam2Y>
+					<FwdMpgParam3Y>202</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>1</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>983</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>172</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>634</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>1</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="barrel2" resolution="1280x800">
+					<FwdMpgParam1Y>1007</FwdMpgParam1Y>
+					<FwdMpgParam2Y>31</FwdMpgParam2Y>
+					<FwdMpgParam3Y>183</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>1</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>997</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>118</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>587</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>1</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="barrel2" resolution="1280x1024">
+					<FwdMpgParam1Y>978</FwdMpgParam1Y>
+					<FwdMpgParam2Y>30</FwdMpgParam2Y>
+					<FwdMpgParam3Y>128</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>1</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>968</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>107</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>446</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>1</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="barrel2" resolution="1920x1080">
+					<FwdMpgParam1Y>989</FwdMpgParam1Y>
+					<FwdMpgParam2Y>13</FwdMpgParam2Y>
+					<FwdMpgParam3Y>105</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>1</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>983</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>42</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>408</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>1</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="barrel2" resolution="2560x1920">
+					<FwdMpgParam1Y>1002</FwdMpgParam1Y>
+					<FwdMpgParam2Y>26</FwdMpgParam2Y>
+					<FwdMpgParam3Y>28</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>1</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>1002</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>52</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>112</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>1</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="pincushion1" resolution="640x480">
+					<FwdMpgParam1Y>1085</FwdMpgParam1Y>
+					<FwdMpgParam2Y>171</FwdMpgParam2Y>
+					<FwdMpgParam3Y>790</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>0</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>1078</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>274</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>2480</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>0</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="pincushion1" resolution="1280x720">
+					<FwdMpgParam1Y>1074</FwdMpgParam1Y>
+					<FwdMpgParam2Y>11</FwdMpgParam2Y>
+					<FwdMpgParam3Y>98</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>0</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>1057</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>144</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>652</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>0</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="pincushion1" resolution="1280x800">
+					<FwdMpgParam1Y>1051</FwdMpgParam1Y>
+					<FwdMpgParam2Y>114</FwdMpgParam2Y>
+					<FwdMpgParam3Y>186</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>0</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>1064</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>155</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>670</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>0</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="pincushion1" resolution="1280x1024">
+					<FwdMpgParam1Y>1063</FwdMpgParam1Y>
+					<FwdMpgParam2Y>28</FwdMpgParam2Y>
+					<FwdMpgParam3Y>86</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>0</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>1046</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>152</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>498</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>0</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="pincushion1" resolution="1920x1080">
+					<FwdMpgParam1Y>1068</FwdMpgParam1Y>
+					<FwdMpgParam2Y>12</FwdMpgParam2Y>
+					<FwdMpgParam3Y>48</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>0</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>1061</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>51</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>219</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>0</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="pincushion1" resolution="2560x1920">
+					<FwdMpgParam1Y>1062</FwdMpgParam1Y>
+					<FwdMpgParam2Y>13</FwdMpgParam2Y>
+					<FwdMpgParam3Y>22</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>0</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>1059</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>28</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>86</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>0</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="pincushion2" resolution="640x480">
+					<FwdMpgParam1Y>1172</FwdMpgParam1Y>
+					<FwdMpgParam2Y>160</FwdMpgParam2Y>
+					<FwdMpgParam3Y>1130</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>0</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>1138</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>847</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>6857</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>0</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="pincushion2" resolution="1280x720">
+					<FwdMpgParam1Y>1120</FwdMpgParam1Y>
+					<FwdMpgParam2Y>44</FwdMpgParam2Y>
+					<FwdMpgParam3Y>244</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>0</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>1110</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>133</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>1048</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>0</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="pincushion2" resolution="1280x800">
+					<FwdMpgParam1Y>1085</FwdMpgParam1Y>
+					<FwdMpgParam2Y>183</FwdMpgParam2Y>
+					<FwdMpgParam3Y>339</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>0</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>1085</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>374</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>1401</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>0</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="pincushion2" resolution="1280x1024">
+					<FwdMpgParam1Y>1101</FwdMpgParam1Y>
+					<FwdMpgParam2Y>34</FwdMpgParam2Y>
+					<FwdMpgParam3Y>163</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>0</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>1088</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>150</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>784</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>0</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="pincushion2" resolution="1920x1080">
+					<FwdMpgParam1Y>1148</FwdMpgParam1Y>
+					<FwdMpgParam2Y>4</FwdMpgParam2Y>
+					<FwdMpgParam3Y>93</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>0</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>1143</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>22</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>378</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>0</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="pincushion2" resolution="2560x1920">
+					<FwdMpgParam1Y>1114</FwdMpgParam1Y>
+					<FwdMpgParam2Y>4</FwdMpgParam2Y>
+					<FwdMpgParam3Y>36</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>0</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>1104</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>40</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>169</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>0</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="userdefine" resolution="640x480">
+					<FwdMpgParam1Y>1024</FwdMpgParam1Y>
+					<FwdMpgParam2Y>0</FwdMpgParam2Y>
+					<FwdMpgParam3Y>0</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>1</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>1024</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>0</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>0</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>1</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="userdefine" resolution="1280x720">
+					<FwdMpgParam1Y>1024</FwdMpgParam1Y>
+					<FwdMpgParam2Y>0</FwdMpgParam2Y>
+					<FwdMpgParam3Y>0</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>1</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>1024</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>0</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>0</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>1</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="userdefine" resolution="1280x800">
+					<FwdMpgParam1Y>1024</FwdMpgParam1Y>
+					<FwdMpgParam2Y>0</FwdMpgParam2Y>
+					<FwdMpgParam3Y>0</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>1</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>1024</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>0</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>0</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>1</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="userdefine" resolution="1280x1024">
+					<FwdMpgParam1Y>1024</FwdMpgParam1Y>
+					<FwdMpgParam2Y>0</FwdMpgParam2Y>
+					<FwdMpgParam3Y>0</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>1</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>1024</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>0</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>0</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>1</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="userdefine" resolution="1920x1080">
+					<FwdMpgParam1Y>1024</FwdMpgParam1Y>
+					<FwdMpgParam2Y>0</FwdMpgParam2Y>
+					<FwdMpgParam3Y>0</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>1</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>1024</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>0</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>0</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>1</PosFwdMpgParam3CbCr>
+				</mode>
+				<mode id="userdefine" resolution="2560x1920">
+					<FwdMpgParam1Y>1024</FwdMpgParam1Y>
+					<FwdMpgParam2Y>0</FwdMpgParam2Y>
+					<FwdMpgParam3Y>0</FwdMpgParam3Y>
+					<PosFwdMpgParam1Y>1</PosFwdMpgParam1Y>
+					<PosFwdMpgParam2Y>1</PosFwdMpgParam2Y>
+					<PosFwdMpgParam3Y>1</PosFwdMpgParam3Y>
+					<FwdMpgParam1CbCr>1024</FwdMpgParam1CbCr>
+					<FwdMpgParam2CbCr>0</FwdMpgParam2CbCr>
+					<FwdMpgParam3CbCr>0</FwdMpgParam3CbCr>
+					<PosFwdMpgParam1CbCr>1</PosFwdMpgParam1CbCr>
+					<PosFwdMpgParam2CbCr>1</PosFwdMpgParam2CbCr>
+					<PosFwdMpgParam3CbCr>1</PosFwdMpgParam3CbCr>
+				</mode>
+				<buf_shift>
+				    <LDCBuffStartShiftY>0</LDCBuffStartShiftY>
+				    <LDCBuffStartShiftCbCr>0</LDCBuffStartShiftCbCr>
+				</buf_shift>
+			</geometric>
+			<photometric>
+				<mode>disable</mode> <!-- disable, photometric1, photometric2, userdefine1, userdefine2 -->
+				<lsc_ratio>80</lsc_ratio> <!-- for userdefine, 0~200, default: 80 -->
+			</photometric>
+		</isp>
+        <pmask>
+        	<enable>off</enable>
+        	<switch>0</switch>
+        	<color>0</color>	<!-- 0:black, 1:white, 2:Red, 3:Green, 4:Blue -->
+        	<file_path>/etc/pmaskpic/pmask.png</file_path>
+        </pmask>
+    </venc_videoin>
+</root>

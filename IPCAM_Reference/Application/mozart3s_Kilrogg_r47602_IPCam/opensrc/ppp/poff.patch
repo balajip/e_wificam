@@ -1,0 +1,18 @@
+--- root/usr/bin/poff	2011-04-06 16:18:41.000000000 +0800
++++ root/usr/bin/poff.new	2011-04-06 16:18:52.000000000 +0800
+@@ -92,7 +92,8 @@
+ 
+ # There is an argument, so kill the pppd started on that provider.
+ PEER=$(echo $1 | sed -e 's#/#\\/#g')
+-PID=$(ps -o pid,cmd axw | awk "/^ *[0-9]* *(\/usr\/sbin\/)?pppd call $PEER( |\$)/ {print \$1}")
++#PID=$(ps -o pid,cmd axw | awk "/^ *[0-9]* *(\/usr\/sbin\/)?pppd call $PEER( |\$)/ {print \$1}")
++PID=$(pidof pppd)
+ 
+ if [ "$PID" ]; then
+     $KILL -$SIG $PID || {
+@@ -104,4 +105,5 @@
+    exit 1
+ fi
+ 
++sleep 1
+ exit 0

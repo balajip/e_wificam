@@ -1,0 +1,9 @@
+To install this on Haydn, do 
+
+# mkdir /lib/udev
+# cp -dR rules.d /lib/udev/
+# cp vtcs-mod-udev /sbin
+# cp udevd udevadm /sbin
+# cp start-udev /sbin
+# start-udev
+

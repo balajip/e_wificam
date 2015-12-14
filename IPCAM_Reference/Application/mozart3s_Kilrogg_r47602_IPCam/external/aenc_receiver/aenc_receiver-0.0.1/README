@@ -1,0 +1,29 @@
+This sample code shows how to get the encoded bitstream form aenc process through Unix domain socket and FIFO IPCs.
+
+The aenc uses FIFO to receive command from other process such as rtsp server and
+use Unix domain socket to send encoded bitstream to other process.
+
+FILES:
+
+aenc_receiver.c  -- sample code to get bitstream and dump to file.
+
+SockSrc.c        -- A module which provide some API to establish socket and fifo
+UnixSockUtil.c   
+
+These two file also be used in rtsp app.
+
+
+Build:
+    make clean
+    make
+
+Usage:
+    1. Stop rtsp and aenc
+      /etc/init.d/rtspsd stop
+      /etc/init.d/aencd stop
+    2. execute sample code
+       ./aenc_receiver
+    3. telnet to EVM/RDK by another session and restart aenc
+       /etc/init.d/aencd start
+    The aenc_receiver will dump the encoded bitstream to file,
+    please make sure that you have the write permission at executing folder.

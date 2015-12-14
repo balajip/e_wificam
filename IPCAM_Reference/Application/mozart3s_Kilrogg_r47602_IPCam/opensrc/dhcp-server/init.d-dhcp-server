@@ -1,0 +1,81 @@
+#!/bin/sh
+# /etc/init.d/dhcpd: start the mdnsd daemon.
+# config file: /etc/dhcpd.conf
+# chkconfig: 2345 44 44
+
+set -a
+PATH=/sbin:/bin:/usr/bin
+
+RETVAL=0
+
+prog="dhcpd"
+binpath="/usr/sbin/dhcpd"
+conffile="/etc/dhcpd.conf"
+pidfile="/var/run/dhcpd.pid"
+
+test -x $binpath || exit 0
+
+start(){
+	[ -f $conffile ] || echo "Generate new conf!";
+	echo -n "Starting $prog: "
+#start-stop-daemon --start --quiet --exec $binpath -- $options
+#echo "."
+	for i in $(ifconfig -a | grep  -m3 'encap:' | cut -d' ' -f1) ; do
+		if [ "$i" = "wlan0" ]
+		then
+			echo "Configuring interface wlan0"
+		elif [ "$i" = "ra0" ]
+		then
+			echo "Configuring interface ra0"
+		fi
+	done
+
+	if [ "$i" = "lo" ]
+	then
+		echo "Wifi Adapter not found"
+		exit 0
+	fi
+
+ifconfig $i 192.168.1.1
+iwconfig $i mode "Ad-hoc"
+iwconfig $i essid "ASC88xx_Wifi_Demo"
+
+	$binpath $i
+	echo "$binpath started." 
+}
+
+stop(){
+    echo -n "Stopping $prog: "
+	start-stop-daemon --stop --quiet --pidfile $pidfile --signal 2 --exec $binpath
+	echo "."
+}
+
+reload(){
+    echo -n "Reloading configuration $prog: "
+	start-stop-daemon --stop --quiet --pidfile $pidfile --signal 1 --exec $binpath
+	echo "."
+}
+
+# See how we were called.
+case "$1" in
+    start)
+	start
+	;;
+    stop)
+	stop
+	;;
+	reload)
+	reload
+	;;
+    restart)
+    stop
+    start
+	;;
+
+    *)
+	echo "Usage: $0 {start|stop|restart|reload}"
+	exit 1
+esac
+
+exit 0
+

@@ -1,0 +1,10 @@
+#!/bin/bash
+PATH=/usr/bin:/bin:$PATH
+MOD_ROOT=$PWD
+TARGET_ROOT=`readlink -f $1`
+
+
+
+cp -f $MOD_ROOT/lib/libonvif.so  $TARGET_ROOT/usr/lib/
+
+

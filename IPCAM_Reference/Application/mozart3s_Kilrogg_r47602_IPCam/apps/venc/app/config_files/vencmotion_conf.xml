@@ -1,0 +1,14 @@
+<?xml version="1.0" standalone="yes"?>
+<root>
+	<venc_motion>
+		<send_sck>##</send_sck>
+		<socket_path>#motion_socket_path#</socket_path>
+		<send_event>##</send_event>
+		<event_path>#event_path#</event_path>
+		<roi>
+			<duration>60</duration><!--the unit is second-->
+			<deltaQp>-40</deltaQp>
+			<encodingInterval>30</encodingInterval>
+		</roi>
+	</venc_motion>
+</root>

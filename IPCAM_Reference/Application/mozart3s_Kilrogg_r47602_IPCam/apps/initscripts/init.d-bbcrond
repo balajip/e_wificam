@@ -1,0 +1,63 @@
+#!/bin/sh
+# Run the busybox crond
+# /etc/init.d/crond: start crond
+# chkconfig: 2345 16 75
+
+set -a
+PATH=/sbin:/bin:/usr/bin
+#[ -f /etc/conf.d/timezone ] && . /etc/conf.d/timezone
+unset TZ
+
+RETVAL=0
+
+prog="crond"
+binpath="/usr/sbin/crond"
+pidfile="/var/run/crond.pid"
+rootcrontabs="/var/spool/cron/root-crontabs"
+options=" -l 0"
+
+test -x $binpath || exit 0
+
+start(){
+    echo -n "Starting $prog: "
+    [ -d $rootcrontabs ] || mkdir $rootcrontabs
+    start-stop-daemon --start -n $prog -p $pidfile --exec $binpath
+    cat $rootcrontabs/* | crontab - 
+    echo 
+}
+
+stop(){
+    echo -n "Stopping $prog: "
+    start-stop-daemon --stop --quiet -n $prog --exec $binpath
+    echo "."
+}
+
+reload(){
+    echo -n "Reloading configuration $prog: "
+    cat $rootcrontabs/* | crontab - 
+    echo "."
+}
+
+
+# See how we were called.
+case "$1" in
+    start)
+	start
+	;;
+    stop)
+	stop
+	;;
+	reload)
+	reload
+	;;
+    restart)
+    stop
+    start
+	;;
+
+    *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit 0

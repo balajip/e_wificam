@@ -1,0 +1,6 @@
+******************************************************************
+* OV5658 sensor device driver, Linux Device Driver, Release Note *
+******************************************************************
+[Version 1.0.0.0]
+Release at 2013.09.23
+1. FEATURE: First Released - DONE.

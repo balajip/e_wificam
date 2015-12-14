@@ -1,0 +1,48 @@
+*********************************************************
+* ImageGenerator, Release Note
+*********************************************************
+
+[Version 2.0.0.2]
+Release at 2012.12.28
+1. Add option -v to show version number.
+
+[Version 2.0.0.1]
+Release at 2012.09.26
+1. Add option -p to assign the preloader of NAND.
+
+[Version 2.0.0.0]
+Release at 2011.10.12, James Lin
+1. Add "command line mode".
+2. Add support for NF refined boot-flow.
+   Now NF loader can skip bad blocks to move Uboot from valid blocks to DRAM.
+
+[Version 1.0.0.8]
+1. Use the default NFC timing.
+
+[Version 1.0.0.7]
+1. Released at 2010.12.28, James Lin
+2. Add nand flash page 2KB.
+
+[Version 1.0.0.6]
+1. Released at 2010.06.23, James Lin
+2. Fix some bugs and remove some useless limitations.
+
+[Version 1.0.0.5]
+Released at 2010.06.04, James Lin
+
+[Version 1.0.0.4]
+Released at 2010.05.28, James Lin
+
+[Version 1.0.0.3]
+Released at 2010.05.14, James Lin
+
+[Version 1.0.0.2]
+1. Change the name of output image file.
+
+[Version 1.0.0.1]
+1. Refine Readme.
+2. Release at 2009.12.08, James Lin
+
+[Version 1.0.0.0]
+Release at 2009.12.04, James Lin
+

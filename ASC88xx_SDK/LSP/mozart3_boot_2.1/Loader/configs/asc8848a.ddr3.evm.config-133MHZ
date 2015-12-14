@@ -1,0 +1,82 @@
+#
+# ASC8848A AHB 133MHz
+# DDR3
+# EVM
+#
+
+CONFIG_V3 = 1
+
+##### Configuration Version #####
+CONFIG_VERSION = 0x14031801
+
+##### DDR Data Training #####
+CONFIG_1_PUB_BUILTIN_TRAINING = n
+
+##### DDR_TYPE #####
+# values:
+#	DDR2
+#	DDR3
+CONFIG_DDR_TYPE = DDR3
+
+##### DDR Ports #####
+CONFIG_DDR_PORT_0 = 0   # no DDR 0
+
+##### 2Gb DDR Capacity #####
+# internal banks
+CFG_BANK_NUM = BANKS_8
+# row address bit width
+CFG_ROW_WIDTH = 14
+# column address bit width
+CFG_COl_WIDTH = 10
+
+##### Write ODT #####
+# values:
+#	20/30/40/60/120 ohm
+#CONFIG_WRITE_ODT = 0
+
+##### Timing Parameters ######
+CFG_T_MOD = 0xC
+CFG_T_WTR = 0x4
+CFG_T_RTP = 0x4
+CFG_T_RCD = 0x4
+CFG_T_RRD = 0x4
+CFG_T_MRD = 0x4
+CFG_T_RP = 0x4
+CFG_T_RFC = 0x2B
+CFG_T_FAW = 0
+CFG_T_RC = 0xE
+CFG_T_RAS = 0xA
+CFG_T_IDLE = 0x2E
+CFG_T_REF_NORMAL = 0x81F
+CFG_T_REF_EXTENDED = 0x410
+CFG_T_DLLRST = 0x209
+CFG_T_PWRON = 0xD056
+CFG_CL = 5
+CFG_0_CL = 6
+CFG_1_CL = 5
+CFG_CWL = 5
+
+
+
+##### CFG_BYP_PUB_EN #####
+# Bypass or through PUB
+# values:
+#	THROUGH_PUB
+#	BYPASS_PUB
+CFG_BYP_PUB_EN = BYPASS_PUB
+
+# disable VT drift PHY update
+CFG_PUREN = 0
+
+# disable these delay VT compensations
+CFG_WLLVT = 0
+CFG_WDLVT = 1
+CFG_RDLVT = 0
+CFG_RGLVT = 0
+CFG_RDBVT = 0
+CFG_WDBVT = 0
+
+# Enable Controller-initiate PHY updates mechanism
+CFG_MCI_IOPHY_UPDATE_EN = 1
+
+CFG_MON_CLK_1 = 0x12

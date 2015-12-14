@@ -1,0 +1,25 @@
+#!/bin/bash
+PATH=/usr/bin:/bin:$PATH
+MOD_ROOT=$PWD
+TARGET_ROOT=`readlink -f $1`
+INIT_D_VENC="init.d-venc"
+#INIT_D_KEEPCURRENTWB="init.d-keepcurrentwb"
+MAX_VIDEO_CHANNEL_NUM=`cat $TARGET_ROOT/../.config |  grep CONFIG_MAXVIDEOCHANNELNUM | cut -d'=' -f 2`
+STAR_ORDER_NUM=`cat $MOD_ROOT/$INIT_D_VENC  | awk '/# +chkconfig:/{print $4}'`
+STOP_ORDER_NUM=`cat $MOD_ROOT/$INIT_D_VENC  | awk '/# +chkconfig:/{print $5}'`
+
+#STAR_ORDER_NUM_OF_KEEPCURRENTWB=`cat $MOD_ROOT/$INIT_D_KEEPCURRENTWB  | awk '/# +chkconfig:/{print $4}'`
+
+for (( k=0; k<MAX_VIDEO_CHANNEL_NUM; k=k+1 ))
+do
+
+cp -f $MOD_ROOT/$INIT_D_VENC  $TARGET_ROOT/etc/init.d/venc-$k
+sed -i "s/#channel_number#/$k/g"  $TARGET_ROOT/etc/init.d/venc-$k
+
+ln -s /etc/init.d/venc-$k  $TARGET_ROOT/etc/rcS.d/S$STAR_ORDER_NUM""venc-$k
+ln -s /etc/init.d/venc-$k  $TARGET_ROOT/etc/rcK.d/K$STOP_ORDER_NUM""venc-$k
+done
+
+
+#cp -f $MOD_ROOT/$INIT_D_KEEPCURRENTWB  $TARGET_ROOT/etc/init.d/keepcurrentwb
+#ln -s /etc/init.d/keepcurrentwb  $TARGET_ROOT/etc/rcS.d/S$STAR_ORDER_NUM_OF_KEEPCURRENTWB""keepcurrentwb

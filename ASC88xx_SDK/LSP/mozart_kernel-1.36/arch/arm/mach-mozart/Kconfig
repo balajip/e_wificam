@@ -1,0 +1,146 @@
+if ARCH_MOZART
+
+menu "MOZART Options"
+
+#config ARCH_BACH
+#	bool "Support Bach platforms"
+#	help
+#	  Include support for the VN Bach platforms.
+
+# ----------------------------------------------------------
+comment "clock/oscillator"
+
+config SYS_CLK
+    int "System (AHB) clock"
+    default "200000000"
+    help
+        Set system clock in Hz.
+
+menu "UART Options"
+config UART_CLK
+    int "UART clock"
+    default "18432000"
+    help
+        Set External UART clock in Hz.
+
+config UART_BAUDRATE_VALUE
+    int "UART baudrate value setting"
+    default "38400"
+
+choice
+    prompt "UART Console Port number"
+    default UART_PORT_NUM_2
+
+config UART_PORT_NUM_0
+        bool "Port#0"
+
+config UART_PORT_NUM_1
+        bool "Port#1"
+
+config UART_PORT_NUM_2
+        bool "Port#2"
+
+config UART_PORT_NUM_3
+        bool "Port#3"
+
+endchoice
+endmenu
+
+
+# ----------------------------------------------------------
+comment "timer"
+
+	choice
+    		prompt "System timer"
+    		default MOZART_TMR0
+    		config MOZART_TMR0
+        	bool "timer 0"
+    		config MOZART_TMR1
+        	bool "timer 1"
+    		config MOZART_TMR2
+        	bool "timer 2"
+    		config MOZART_TMR3
+        	bool "timer 3"
+
+	endchoice
+# ----------------------------------------------------------
+comment "gpio/agpo"
+
+config MOZART_GPIO
+	tristate "GPIOC"
+	depends on GENERIC_GPIO
+	help
+		This is Mozart GPIOC driver
+
+# ----------------------------------------------------------
+
+config MOZART_AGPO
+	tristate "AGPOC"
+	depends on MOZART_GPIO
+	depends on GENERIC_GPIO
+	help
+		This is Mozart AGPOC driver
+
+# ----------------------------------------------------------
+
+config RR_PATCH
+	bool "RR patch"
+	help
+		Patch for Round-Robin issue
+
+# ----------------------------------------------------------
+
+menu "PCIe Devices"
+	depends on PCI
+
+config PCIEDEV_E1000E
+	bool "Intel E1000E Ethernet Controller"
+	default y
+	help
+		Intel E1000E PCIe card.
+		82572EI Gigabit Ethernet Controller.
+config PCIEDEV_JMB363
+	bool "JMicron JMB363 SATA Controller"
+	default y
+	help
+		JMicron JMB363 Serial ATA Controller.
+config PCIEDEV_SII3132
+	bool "Silicon Image SiI3132 SATA Controller"
+	default y
+	help
+		Silicon Image SiI 3132 Serial ATA RaidII Controller.
+config PCIEDEV_RT3092
+	bool "RaLink RT3092 Wireless Controller"
+	default y
+	help
+		RaLink RT3092 Wireless 802.11n 2T/2R.
+config PCIEDEV_RT3090
+	bool "RaLink RT3090 Wireless Controller"
+	default y
+	help
+		RaLink RT3090 Wireless 802.11n 1T/1R.
+config PCIEDEV_RT5390
+	bool "RaLink RT5390 Wireless Controller"
+	default y
+	help
+		RaLink RT5390 Wireless 802.11n.
+config PCIEDEV_RTL8192
+	bool "RealTek RTL8192 Wireless Controller"
+	default y
+	help
+		RealTek RTL8192 Wireless 802.11n.
+config PCIEDEV_RTL8176
+	bool "RealTek RTL8176 Wireless Controller"
+	default y
+	help
+		RealTek RTL8176 Wireless 802.11n.
+config PCIEDEV_AR9280
+	bool "Atheros AR9280 Wireless Controller"
+	default y
+	help
+		Atheros AR9280 Wireless 802.11n.
+endmenu
+
+endmenu
+
+endif

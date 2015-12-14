@@ -1,0 +1,12 @@
+# /etc/fstab
+#proc		/proc		proc	defaults
+#devpts		/dev/pts	devpts	gid=5,mode=622  0 0
+tmpfs		/tmp		tmpfs	size=16m
+#tmpfs		/var		tmpfs	size=8m
+tmpfs		/root		tmpfs	size=4m
+tmpfs           /dev/shm        tmpfs   size=1m
+tmpfs		/usr/share/www/html/vrecord  tmpfs  size=4k
+#sysfs		/sys		sysfs	
+/dev/mtdblock3	/mnt/flash	jffs2
+#172.17.0.3:/share /home nfs noauto,nolock,tcp
+172.17.0.10:/home_3 /home nfs noauto,nolock,tcp

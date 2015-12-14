@@ -1,0 +1,50 @@
+#!/bin/sh
+# /etc/init.d/stunnel: start the stunnel daemon.
+# config file: /etc/conf.d/stunnel.conf
+
+set -a
+PATH=/sbin:/bin:/usr/bin
+
+RETVAL=0
+
+prog="stunnel"
+binpath="/sbin/stunnel"
+conffile="/etc/conf.d/ssl/stunnel.conf"
+options=" "$conffile
+pidfile="/var/run/stunnel.pid"
+
+test -x $binpath || exit 0
+
+start(){
+    echo "Starting $prog: "
+    start-stop-daemon --start --quiet --exec $binpath -- $options
+    echo "."
+}
+
+stop(){
+    echo -n "Stopping $prog: "
+        start-stop-daemon --stop --quiet --exec $binpath
+#start-stop-daemon --stop --quiet --pidfile $pidfile --exec $binpath
+        echo "."
+}
+
+# See how we were called.
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+esac
+
+exit 0
+
+

@@ -1,0 +1,69 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=big5">
+    <title>Kilrogg Webpage Specification</title>
+    <link rel="stylesheet" type="text/css" href="../template/vivo_doc.css">
+    <style type="text/css" media="screen">
+        iframe {
+            width:100%;
+            height:100%;                
+        }
+        div.best_view{
+            position:absolute;
+            left:0px;
+            bottom:0px;
+            width:99%
+            text-align: center;
+            font-size: 11px;
+        }
+    </style>
+    <script type="text/javascript">
+    <!--
+        function treeview(childID) {
+            document.getElementById(childID).style.display
+                =(document.getElementById(childID).style.display =='none')?'block':'none';
+        }
+    //-->
+    </script>
+</head>
+<body style= "margin:0px; overflow:hidden;">
+    <!------ Menu ------>
+    <div id="left">
+        <!------ Document title ------>
+        <div class="title">
+            <p>&nbsp;Kilrogg Webpage</p>
+        </div>
+        <ul>
+            <!------ Document list ------>
+            <li><p><a href="webpage_spec.html" target="docs">Overview</a></p></li>
+            <li><p><a href="webpage_display.html" target="docs">Display</a></p></li>
+            <li>
+                <a href="#" class="treeview" onclick="treeview('configuration')">
+                <p>Configuration</p></a>
+            </li>
+            <ul><div id="configuration" style="display:none">
+                <a href="webpage_system.html" target="docs"><li><p>System</p></li></a>
+                <a href="webpage_security.html" target="docs"><li><p>Security</p></li></a>
+                <a href="webpage_network.html" target="docs"><li><p>Network</p></li></a>
+                <a href="webpage_accesslist.html" target="docs"><li><p>Access List</p></li></a>
+                <a href="webpage_audiovideo.html" target="docs"><li><p>Audio and Video</p></li></a>
+                <a href="webpage_motion.html" target="docs"><li><p>Motion Detection</p></li></a>
+                <a href="webpage_syslog.html" target="docs"><li><p>System Log</p></li></a>
+                <a href="webpage_viewparam.html" target="docs"><li><p>View parameters</p></li></a>
+                <a href="webpage_maintains.html" target="docs"><li><p>Maintains</p></li></a>
+                </div>
+            </ul>
+            <li><p><a href="webpage_clientsetting.html" target="docs">Client Setting</a></p></li>
+            <li><p><a href="webpage_info.html" target="docs">Info.</a></p></li>
+        </ul>
+        <div class="best_view">
+            Best viewed with Firefox 1.5+
+        </div>
+    </div>
+
+    <!------ Document content ------>
+    <div id="right">
+        <iframe name=docs frameborder=0 src="webpage_spec.html"></iframe>
+    </div>
+</body>
+</html>

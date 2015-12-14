@@ -1,0 +1,20 @@
+#!/bin/sh
+# dumpnetif
+
+STATUS_FILE="/var/run/netstatus"
+
+echo -n > $STATUS_FILE
+echo IP_ADDR=\'$ip\' >> $STATUS_FILE
+#echo MAC_ADDR=$ip >> $STATUS_FILE
+echo SUBNET_MASK=\'$subnet\' >> $STATUS_FILE
+temp_var=`echo $router | awk '{print $1}'`
+echo ROUTER=\'$temp_var\' >> $STATUS_FILE
+temp_var=`echo $dns | awk '{print $1}'`
+echo DNS1=\'$temp_var\' >> $STATUS_FILE
+temp_var=`echo $dns | awk '{print $2}'`
+echo DNS2=\'$temp_var\' >> $STATUS_FILE
+echo NET_TYPE=\'$NET_TYPE\' >> $STATUS_FILE
+echo NET_INTERFACE=\'$interface\' >> $STATUS_FILE
+
+#echo 'export IP_ADDR SUBNET_MASK ROUTER DNS1 DNS2' >> $STATUS_FILE
+

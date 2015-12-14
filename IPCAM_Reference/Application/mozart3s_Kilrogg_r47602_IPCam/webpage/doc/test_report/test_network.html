@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=big5">
+        <title>Kilrogg Webpage Test Report</title>        
+        <link rel="stylesheet" type="text/css" href="../template/vivo_doc.css">    
+    </head>    
+    <body>
+	<!------ An intra link flag "top"------>
+    <a name="top"></a>
+    <!------ Document title ------>
+    <div class="title">
+        Network
+    </div>
+    <!------ Layout ------>
+    <div class="banner">
+        <div class="spacer"></div>
+        <span class="left">Functionality Test</span>
+        <span class="right"><a href="#top">[Top]</a></span>
+        <div class="spacer"></div>
+    </div>
+    <div class="content">
+        <table border="1" bordercolor="#008000" cellspacing="0" width="80%">
+            <tbody>
+                <tr>
+                    <td bgcolor="#6495ed" width="20%"><b>Item</b></td>
+                    <td bgcolor="#6495ed" width="60%"><b>Description</b></td>
+                    <td bgcolor="#6495ed" width="20%"><b>Result</b></td>
+                </tr>
+                <tr>
+                    <td>1-1</td>
+                    <td>
+                        <ol>
+                            <li>Select "Use fixed IP address".</li>
+                            <li>Set the appropriate IP address, Subnet mask etc.</li>
+                            <li>Save the setting.</li>
+                        </ol>
+                        Browser should reload the webpage on new IP address.
+                    </td>
+                    <td><font color="red"></font></td>
+                </tr>
+            </tbody>
+        </table>
+        <table border="1" bordercolor="#008000" cellspacing="0" width="80%">
+            <tbody>
+                <tr>
+                    <td bgcolor="#6495ed" width="20%"><b>Item</b></td>
+                    <td bgcolor="#6495ed" width="60%"><b>Description</b></td>
+                    <td bgcolor="#6495ed" width="20%"><b>Result</b></td>
+                </tr>
+                <tr>
+                    <td>2-1</td>
+                    <td><ol>
+                            <li>Chang HTTP port.</li>
+                            <li>Save.</li>
+                        </ol>
+                        Browser should connect to URL with the port.
+                    </td>
+                    <td><font color="red"></font></td>
+                </tr>
+                <tr>
+                    <td>2-2</td>
+                    <td><ol>
+                            <li>Set stream 1 to MJPEG.</li>
+                            <li>Change new access name for stream 1.</li>
+                            <li>Save.</li>
+                        </ol>
+                        The stream 1 could be connect by VLC at URL http://IP_ADDR/AccessName.
+                    </td>
+                    <td><font color="gray"><br /></font></td>
+                </tr>
+            </tbody>
+        </table>
+        <table border="1" bordercolor="#008000" cellspacing="0" width="80%">
+            <tbody>
+                <tr>
+                    <td bgcolor="#6495ed" width="20%"><b>Item</b></td>
+                    <td bgcolor="#6495ed" width="60%"><b>Description</b></td>
+                    <td bgcolor="#6495ed" width="20%"><b>Result</b></td>
+                </tr>
+                <tr>
+                    <td>3-1</td>
+                    <td><ol>
+                            <li>Change FTP port.</li>
+                            <li>Save.</li>
+                        </ol>
+                        Unknown how to test yet.
+                    </td>
+                    <td><font color="red"></font></td>
+                </tr>            
+            </tbody>
+        </table>
+        <table border="1" bordercolor="#008000" cellspacing="0" width="80%">
+            <tbody>
+                <tr>
+                    <td bgcolor="#6495ed" width="20%"><b>Item</b></td>
+                    <td bgcolor="#6495ed" width="60%"><b>Description</b></td>
+                    <td bgcolor="#6495ed" width="20%"><b>Result</b></td>
+                </tr>
+                <tr>
+                    <td>4-1</td>
+                    <td><ol>
+                            <li>Set stream 1 to MPEG.</li>
+                            <li>Change new access name for stream 1.</li>
+                            <li>Save.</li>
+                        </ol>
+                        The stream 1 could be connect by VLC or QuickTime at URL rtsp://IP_ADDR/AccessName.
+                    </td>
+                    <td><font color="green"></font></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

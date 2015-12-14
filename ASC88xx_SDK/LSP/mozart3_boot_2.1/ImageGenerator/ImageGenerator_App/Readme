@@ -1,0 +1,332 @@
+$ =============== Preface =============== $
+In the following sections, we use %% to represent the storage devices.
+%% : can be SF(serial flash) or SD(sd card).
+ 
+ Required data :
+  1. Mozart_%%.config under %%/ directory.(We provide the default file, user can modify it. See the detail in chapter 3.)
+  2. Image file of L1 Loader under %%/ .(We provide the default loader : %%_Loader.bin under the dir.)
+  3. Image file of U-Boot under %%/ .(We provide the default u-boot.bin : %%_Uboot.bin under the dir.)
+ Generate the runnable file :
+  1. $>make clean
+  2. $>make
+  3. If there is no compile error, you can see that there is a "imagegenerator" execution file in the same directory.
+ Generate the output image file :
+  1. Modify the necessary settings.
+  2. Enter the paths of L1 Loader and U-Boot.
+  3. Choose the option "Output the File" in console.
+  4. You can see that there is "%%_output.img" in the %%/ directory.
+
+$ =============== 1. Brief =============== $
+ If we want to use the chip Mozart3, we should boot the system and then enter its kernel.
+ At the booting stage, we should access some setting information, and execute the existed code to 
+ do some booting operations. These setting information and code usually be integrated into a 
+ default 128KB image file, and this file will be written to a sector(or few sectors) of Serial-Flash/SD Card/NAND-Flash-Page2KB of Mozart3. 
+ ImageGenerator is a tool that help user to generate a default 128KB image file.
+ This tool can generate Serial-Flash/SD-Card/NAND-Flash-Page2KB boot-image.
+
+Image Generator provides TWO modes to build the boot image : "command line mode" and "text-based GUI mode".
+You can use either of these modes. Their final results are the same.
+Here are some suggestions of usage :
+ -- If you want to modify the configuration file(ex : Mozart_SF.config), please use "text-based GUI mode".
+    This mode will help you to configure your configuration file easily and also output the desired boot-image.
+ -- If you do not need to modify the configuration file, please use "command line mode".
+    Frankly speaking, we seldomly modify the configuration file.
+ -- If you want to run Image Generator, the only possible way is to build image in "command line mode".
+
+In most cases, "command line mode" is the better way to generate the image .
+
+Now let's see how to use the Image Generator.
+
+Image Generator Options :
+ -h                 Display the help information.
+ -i                 Use interactive text-based GUI menu.
+                    It will run text-based GUI and ignore other options in the command line.
+ -t [BOOT-TYPE]     Assign the type of boot storage.
+                    You can only use one of "sf", "sd", or "nf2k".
+                    This is the "NECESSARY" option.
+ -c [FILE]          Assign the filename of configuration file(if not assigned, use default filename).
+ -l [FILE]          Assign the filename of loader file(if not assigned, use default filename).
+ -u [FILE]          Assign the filename of uboot file(if not assigned, use default filename).
+ -o [FILE]          Assign the filename of output file(i.e. boot image)(if not assigned, use default filename).
+ -s [NUMBER]        Assign the "START" SF-block number. 
+                    The SF boot image can start from any block, but SD/NF2K only can start from 1st block.
+
+(1). To use "command line mode".
+
+Ex : Generate a SD bootimage..
+   $>./imagegenerator -t sd -c sd_config -l loader.bin -u uboot.bin -o sd_bootimage.bin
+
+If you do not add the option "c", or "l", or "u", or "o", or "s"(if SF),
+Image Generator will generate the image based on default settings.
+But you have to add the option "t" at least.
+
+Ex : Generate a default SD bootimage..
+   $>./imagegenerator -t sd
+
+(2). To use "text-based GUI mode" 
+After typing "./imagegenerator -i" in the shell, the text-based GUI will show up. 
+
+In the following sections, we explain the boot-flow and the work-principle of Image Generator in "text-based GUI mode".
+(This is just because the usage of "text-based GUI mode" is more difficult than "command line mode".)
+
+$ =============== 2. Booting Flow =============== $
+ We discuss the booting flow of system briefly in this section.
+ When power on the system, the booting stage is the first thing that should be done.
+ Booting stage can be divided into several steps :
+ 
+ $$ -- 2.1 Check Two Magic Numbers -- $$
+  We will check two magic numbers stored in the start address of the storage.
+  If both two magic numbers are what we need, we can access the data of sector.
+  !!!
+  !!! Because the code related to magic numbers has been written in the ROM, 
+  !!! so you should not change their values and addresses.
+  !!!
+  
+ $$ -- 2.2 Initialize The Devices -- $$
+  Initialize some devices in Mozart3.(optional)
+    
+ $$ -- 2.3 L1 Loader -- $$
+  L1 Loader will move the U-Boot from the storage to DRAM. 
+  Then we jump to U-Boot in DRAM and start to execute it.
+  
+ $$ -- 2.4 U-Boot -- $$
+  User can operate the system through U-Boot.
+  And it can load the kernel and run it.
+  !!!
+  !!! The size, address, and other related items of U-Boot are all defined in the code of loader. User can modify them in the code.
+  !!! But ImageGenerator also provides the way to modify the address of U-Boot by choosing the option "Set ARMBoot Address" in console.
+  !!! Although the deault boot image is 128KB, ImageGeneartor will adjust the output image size if adding U-Boot will exceed 128KB.
+  !!! But if not exceed, ImageGenerator still builds a 128KB image.
+  !!!
+  
+  *Fig 1. "Booting Flow"
+                       <Start>  
+		          |
+			  v 
+      -----<Check the Magic Number#0>	  
+      |		          |
+      |                  NO                
+     YES                  |                
+      |                   v                
+      |    <Check the Magic Number of sector#1>---NO---> <System Hang> 
+      |                   |
+      ---------------->  YES
+                          |
+                          v
+ <Access the setting information in the correct sector, 
+        and initialize the necessary devices>
+                          |
+                          v
+ <Move the code of L1 Loader from storage to DRAM>
+                          |
+                          v
+               <Run L1 Loader in DRAM>
+                          |
+                          v 
+<L1 Loader loads the code of U-Boot from storage to DRAM>
+                          |
+                          v
+               <Run U-Boot in DRAM>            
+     
+
+$ =============== 3. Input Configured File =============== $  
+ From the above sections, we know that there are four parts in image file -- (1).Magic Number, (2).Setting Information to initialize the devices,
+ (3).the code of L1 Loader, and (4).the code of U-Boot. 
+ In this section, we talk about the input config file. 
+ By inputing this configured file, ImageGenerator can easily generate the correct image file including above four parts.
+ Because SD and Serial Flash have different booting flows, their configured files are also different.
+ We take the default configured file "Mozart_SF.config" of serial flash as example.
+ !!!
+ !!! We do not explain the detail of SD/Serial Flash/NAND-Flash-Page2KB booting flows here.
+ !!! You can find the details in "Mozart3 Datasheet".
+ !!!
+
+ *Fig 2. "Mozart_SF.config" 
+ MagicNumber0_Header 0x00000000 1
+ MAGICNUMBER0 0xffffffff 0x82451282
+ MagicNumber1_Header 0x00000004 1
+ MAGICNUMBER1 0xffffffff 0x28791166
+ L1LoaderBase_Header 0x00000014 1
+ LOADERBASE 0xffffffff 0x00000200
+ GeneralConfig_Header 0x0000001c 5
+ General0 0x40800008 0x00000000
+ General1 0x40800014 0x0000000E
+ General2 0x40800008 0x00000001
+ General3 0xC1000104 0x000000FF
+ General4 0xC2000104 0x000000FF
+ L1LoaderSize_Header 0x00000018 1
+ LOADERSIZE 0xffffffff 0x00000E00
+   
+ The format of Mozart_%%.config is :
+ "  XXXXX_Header StartAddressOfData NumberOfData
+    Data01 AddressPart ContentPart
+    Data02 AddressPart ContentPart
+    ...                   
+    "
+ In the image file, the distribution is as following :
+ *Fig 3. "Distribution of image file"
+  +========================+
+  +                        +
+  +       Header Part   ---+---
+  +                        +  |
+  +========================+  |
+  +                        +  |
+  +  Setting Information <-+---
+  +                        +   
+  +========================+
+  +                        +   
+  +        L1 Loader       +
+  +                        +
+  +========================+
+  +                        +
+  +        U-Boot          +
+  +                        +
+  +========================+
+  
+  As the above Fig 3. shows, setting information may located at other places, so we should use "Header" to indicate its real address.
+  For example, "GeneralConfig_Header 0x0000001c 5" means that there are 5 settings of general configuration start from address 0x0000001C.
+  So program can find the data at 0x0000001C. 
+
+  In GeneralConfig_Header, like "General0 0x40800008 0x00000000", it means that we write data 0x00000000 to the address 0x40800008.
+  General configured data leaves the flexibility for user to increase their settings.
+  
+  But if the AddressPart of data is 0xffffffff, it means that we only need ContentPart. 
+  Like "MAGICNUMBER0 0xffffffff 0x82451282", it means that we can just write magic number's value 0x82451282 at the address which header specifies.
+
+  LOADERBASE stores the address of the image of L1 Loader, we will write it at the indicated address of image file.
+  And LOADERSIZE stores the size of L1 Loader.
+  
+  !!!!Notice!!!!
+  In Mozart3, the address of loader, the size of loader, and the address of u-boot are limited.
+  You can not modify them at will.
+  If you want to change them, you should make sure that you completely understand the booting flows and the code of loader.
+  
+  
+$ =============== 4. Dual Boot =============== $
+ By default, we can write two image files to sector#0 and sector#1 of storage.
+ So program can choose the sector to do booting. 
+ If the image in sector#1, all address related data of image will be shifted automatically.
+ That is they are added the size of a sector. Remember that user should change the sector number if you want to write the image to a different sector, default sector is number 0.
+ Then when we accessing the image in sector#1, program can run correctly.
+ For example, if the sector size is 0x1000, then when we choose sector#1, the StartAddressOfData of GeneralConfig_Header will become from 0x0000006c to 0x0000106c.
+ 
+$ =============== 5. How to use ImageGenerator ? =============== $
+ First we should modify the fields of Mozart3_Config we need. Then put it and executable file under the same directory.
+ Execute the executable file, you can see the following console :
+
+ Fig 5. "Option Screen"
+ % ==================================== %
+ % ========== ImageGenerator ========== %
+ % ==================================== %
+  Welcome to use ImageGenerator
+
+ # Please choose one storage
+ # (1)SD Card
+ # (2)Serial Flash
+ # (3)Nand Flash - 2KB page
+ # =>2
+ Please enter the input configured file name(If using default SF/Mozart_SF.config, just hit Enter)
+ ==>
+
+$$ -- 5.1 Choose the storage -- $$
+You can choose your storages and enter the configured file name(if you write your own configured file)
+ 
+ Fig 6. "Main Console"
+ ========== Image Generator =========
+ ========== Main Menu =========
+
+ ######### Header Part #########
+ <  1> MagicNumber0_Header       ( addr : It's Fixed | content : 0x00000000 )
+ <  2> MagicNumber1_Header       ( addr : It's Fixed | content : 0x00000004 )
+ <  3> L1LoaderBase_Header       ( addr : It's Fixed | content : 0x00000014 )
+ <  4> GeneralConfig_Header      ( addr : It's Fixed | content : 0x0000001c )
+ <  5> L1LoaderSize_Header       ( addr : It's Fixed | content : 0x00000018 )
+
+ ######## File Part ########
+ <100> Modify the path of L1 Image File : SF/SF_Loader.bin
+ <101> Modify the path of ARMBoot Image File : SF/SF_Uboot.bin
+ <102> Output the File
+
+ ######## Misc Part ########
+ <200> Add New Header
+ <201> Remove Header
+ <202> Set ARMBoot Address :0x1000
+ <203> Set L1Loader Address :0x200
+ <204> Set Sector Number :0
+
+ @ Enter Your Choice =>
+  
+$$ -- 5.2 Header Part -- $$
+You can see that there are three parts in console -- (1).Header Part (2).File Part (3).Misc Part.
+In (1).Header Part, you can enter the option number, and it then enter the sub-menu to modify the Header in advance.
+For example "@ Enter Your Choice %> 4"
+Then we enter the sub-menu of GeneralConfig_Header
+  
+  Fig 7. "Sub Menu of GeneralConfig_Header" 
+  ######## Head Part ########
+  <  0> GeneralConfig_Header      ( addr : It's Fixed | content : 0x0000001c )
+  # (1). Modify Name.
+  # (2). Modify Content.
+  # (3). Modify ConfigData.
+  # (4). Back To Top.
+  # Enter Your Choice [1~4] >
+  
+In this sub-menu, you can modify the Header's name, or StartAddressOfData field( like 0x0000001C in this example).
+If you want to modify the DDR settings in advance, just enter the number "3".
+  
+  Fig 8. "Sub Menu of Config Data of GeneralConfig_Header"
+  ######## ConfigData List Part ########
+  <  1> General0                  ( addr : 0x40800008 | content : 0x00000000 )
+  <  2> General1                  ( addr : 0x40800014 | content : 0x0000000e )
+  <  3> General2                  ( addr : 0x40800008 | content : 0x00000001 )
+  <  4> General3                  ( addr : 0xc1000104 | content : 0x000000ff )
+  <  5> General4                  ( addr : 0xc2000104 | content : 0x000000ff )
+  # (1). Modify Data.
+  # (2). Add Data.
+  # (3). Remove Data.
+  # (4). Back To Top.
+  # Enter Your Choice [1~4] >
+  
+In this menu, you can see a list of data of GeneralConfig_Header, just the same as Mozart_SF.config.
+If you choose "(2). Add Data.", the New Data will be added(like < 10> New). "(3) Remove Data" means that you can remove one data. 
+In fact for correctness, we suggest that do not remove any data except the data in GeneralConfig_Header.
+Now if you want to modify the data name, AddressPart, or ContentPart of the data, choose "(1). Modify Data." and enter the index of data,
+such as "## Enter the data number : 4" to modify "General3".
+  
+  Fig 9. "Sub Men of Modifying Config Data"
+  <  0> General3                  ( addr : 0xc1000104 | content : 0x000000ff )
+  # (1). Modify Name.
+  # (2). Modify Address.
+  # (3). Modify Content.
+  # (4). Back To Top.
+  # Enter Your Choice [1~4] >
+    
+So now we can modify data in this sub-menu, and go back to the previous menu by entering 4.( "(4). Back To Top." )
+
+ $$ -- 5.2 Misc Part -- $$
+  In misc part, you can add new header or remove the indicated header. ( <200> Add New Header & <201> Remove Header )
+  But we still strongly suggest that you just add the new header, or remove that new added headers, for correctness.
+  Besides, you can just use the default address of L1 Loader and U-Boot, or set the new address .( <202> Set ARMBoot Address :0x1000 &  <203> Set L1Boot Address :0x600)
+  The last thing you should do is setting the correct sector number. The default sector number is 0, and you also can set new sector number.(<204> Set Sector Number :0)
+  
+ $$ --5.3 File Part -- $$
+  In this part, you should enter the correct file path of L1 Loader iamge file, and the path of U-Boot image file.( for example : <100> Enter the path of L1 Image File : ./L1.img )
+  And after setting all necessary setting information and the paths of two image files, you can choose "<102> Output the File !!! & Say Goodbye~~~", 
+  then the final image file will be generated as "SF_output.img" in SF/ .
+ 
+ $$ --5.4 Others -- $$
+  You may find that some options can not change.
+  That is because it can not be changeable.
+  You can find the reasons and solutions in chapter6 "Misc".
+
+$ =============== 6. Nand Flash =============== $
+  Because the boot flow of nand flash is obviously different from other storages, we should talk about it here.
+  Boot flow of nand flash needs a "Pre-Loader" to load "L1-Loader" first, then using "L1-Loader" to load u-boot.
+  So we need to give a pre-loader file(ex : NF2K/NF2K_Preloader.bin). 
+  Btw, the adderss of pre-loader is fixed at 0xA0.
+
+$ =============== 7. Misc =============== $
+  In fact, if you do not have any paricular reason, please do not change the address or size of loader, and address of u-boot.
+  Because you also have to modify the code of loader if you do the modifications.
+  Please read the datasheet of Mozart3 to get the details in advance.
+

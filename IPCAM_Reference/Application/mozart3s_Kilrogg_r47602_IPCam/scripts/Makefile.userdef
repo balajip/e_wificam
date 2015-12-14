@@ -1,0 +1,43 @@
+# ==========================================================================
+# User defined actions - usually for existed open source projects
+# vim: syntax=make
+#
+
+ifneq ($(strip $(clean)),)
+quiet_cmd_user-clean 	= CLN [U] $(obj)
+      cmd_user-clean	= cd $(obj); if [ -e "./clean" ];then if [ -x "./clean" ]; then ./clean; else $(CONFIG_SHELL) ./clean; fi; fi
+clean-rule = @$(if $($(quiet)cmd_user-clean),echo '  $($(quiet)cmd_user-clean)' &&) $(cmd_user-clean)
+else
+
+ifneq ($(strip $(rootfs)),)
+
+ifdef CONFIG_FAKEROOT_PATH
+quiet_cmd_user-rfs = INSTALL [USER,FAKEROOT] $(obj)
+exec_by_fakeroot = $(CONFIG_FAKEROOT_PATH) -i $(CURDIR)/$(FAKEROOT_SESSION) -s $(CURDIR)/$(FAKEROOT_SESSION) 
+else # ndef CONFIG_FAKEROOT_PATH
+quiet_cmd_user-rfs = INSTALL [USER] $(obj)
+endif # ndef CONFIG_FAKEROOT_PATH
+cmd_user-rfs = cd $(obj); if [ -e "./install" ];then \
+	  	if [ -x "./install" ]; then \
+			$(exec_by_fakeroot) "./install" $(shell pwd)/$(ROOTFSDIR); \
+		else \
+			$(exec_by_fakeroot) $(CONFIG_SHELL) "./install" $(shell pwd)/$(ROOTFSDIR); \
+		fi; fi
+
+rootfs-rule = @$(if $($(quiet)cmd_user-rfs),echo '  $($(quiet)cmd_user-rfs)' &&) $(cmd_user-rfs)
+
+else # neither clean nor rootfs
+
+always := $(obj)/$(userdef-y)
+#####
+# Compile programs by executing build
+
+quiet_cmd_user-build 	= BLD [U] $@
+      cmd_user-build	= cd $(obj); if [ -e "./build" ];then if [ -x "./build" ]; then ./build $(shell pwd)/$(KBUILD_SRC); else $(CONFIG_SHELL) ./build $(shell pwd)/$(KBUILD_SRC); fi; fi
+$(obj)/$(userdef-y): FORCE
+	$(call cmd,user-build)
+
+endif # neq ($(strip $(rootfs)),) && neq ($(strip $(clean)),)
+endif # neq ($(strip $(clean)),)
+ 
+

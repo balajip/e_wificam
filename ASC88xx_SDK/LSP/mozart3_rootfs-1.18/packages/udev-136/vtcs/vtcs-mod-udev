@@ -1,0 +1,33 @@
+#!/bin/sh
+
+if [ -z "$2" ]; then
+	echo "Usage: $0 [add|remove] <module_name>"
+	exit 1
+fi
+
+MKNOD="/bin/mknod"
+PROC_DEVICES="/proc/devices"
+
+cnt_no=10
+cnt_pool=`seq 1 $cnt_no`
+
+case "$1" in 
+add)
+	# try $cnt_no times
+	for cnt in $cnt_pool; do
+		MAJOR=`awk -v module=$2 '$2==module {print $1}' $PROC_DEVICES`
+		if [ -z "$MAJOR" ]; then
+			logger "$2 is not in $PROC_DEVICES. try again later." 
+			usleep 200000
+		else
+			$MKNOD /dev/$2 c $MAJOR 0
+			exit 0
+		fi
+	done
+	;;
+remove)
+	echo "rm /dev/$2"
+esac
+
+exit 0
+

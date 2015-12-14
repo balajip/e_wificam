@@ -1,0 +1,44 @@
+#!/bin/bash
+# This script will untar a msntp tarball from Debian, patch it, and build it. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=msntp
+VERSION=1.6
+DEB_ORIG_TARBALL=${APP_NAME}_${VERSION}.dfsg.orig.tar.gz
+DEB_PATCH=${APP_NAME}_${VERSION}.dfsg-2.diff.gz
+DEB_PATCH0=patches/000-Move_state_and_pid_file
+DEB_PATCH1=patches/001-Reverse_IP_lookup_failure_leads_to_fatal_error
+VN_PATCH=${APP_NAME}_${VERSION}-vn.diff.gz
+PACKAGE_DIR=$APP_NAME-$VERSION
+UNTAR_ARG='-zxf'
+HOST='arm-linux-'
+CC=${HOST}gcc
+PKG_ROOT=${PWD}
+
+# check if you have proper gcc
+which $CC > /dev/null || exit 1
+
+# untar the tarball
+tar $UNTAR_ARG $DEB_ORIG_TARBALL
+
+cd $PACKAGE_DIR
+
+# apply Debian's patchs
+gunzip -c ${PKG_ROOT}/$DEB_PATCH | patch -p1 --silent
+patch -p1 --silent < ./debian/${DEB_PATCH0}
+patch -p1 --silent < ./debian/${DEB_PATCH1}
+rm -rf debian
+
+# apply patch
+gunzip -c ${PKG_ROOT}/$VN_PATCH | patch -p1 --silent
+
+# simply make it
+make CC=${HOST}gcc --quiet
+
+cd $PKG_ROOT
+
+# if i have the shared stripped library and it is newer than the original one,
+# ignore it.
+[ -f "${APP_NAME}" ] && [ "${PACKAGE_DIR}/${APP_NAME}" -ot "${APP_NAME}" ] && exit 0
+
+${HOST}strip -o ${APP_NAME} ${PACKAGE_DIR}/${APP_NAME}
+

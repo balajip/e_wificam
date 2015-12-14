@@ -1,0 +1,17 @@
+# vma, vpl
+KERNEL=="vma_*", ACTION=="add", RUN="/sbin/vtcs-mod-udev add %k"
+KERNEL=="vma_*", ACTION=="remove", RUN="/sbin/vtcs-mod-udev remove %k"
+
+KERNEL=="vpl_*", ACTION=="add", RUN="/sbin/vtcs-mod-udev add %k"
+KERNEL=="vpl_*", ACTION=="remove", RUN="/sbin/vtcs-mod-udev remove %k"
+
+KERNEL=="bgh26", ACTION=="add", RUN="/sbin/vtcs-mod-udev add %k"
+KERNEL=="bgh26", ACTION=="remove", RUN="/sbin/vtcs-mod-udev remove %k"
+
+# it's wrong! FIX it!
+# KERNEL=="buff_mgr", ACTION=="add", RUN="/sbin/vtcs-mod-udev add %k"
+# KERNEL=="buff_mgr", ACTION=="remove", RUN="/sbin/vtcs-mod-udev remove %k"
+
+# gpio_i2c should make a link /dev/gpio_i2c -> /dev/gpio_i2c0
+KERNEL=="gpio_i2c", ACTION=="add", RUN="/sbin/vtcs-mod-udev add %k"
+KERNEL=="gpio_i2c", ACTION=="remove", RUN="/sbin/vtcs-mod-udev remove %k"

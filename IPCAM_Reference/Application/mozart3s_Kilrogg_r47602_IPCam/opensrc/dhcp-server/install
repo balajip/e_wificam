@@ -1,0 +1,12 @@
+#!/bin/bash
+PATH=/usr/bin:/bin:$PATH
+PKG_ROOT=${PWD}
+APP_NAME=dhcp-server
+TARGET_NAME=${APP_NAME}
+
+
+daemon_init_script=init.d-${TARGET_NAME}
+
+install ${PKG_ROOT}/bin/dhcpd $1/usr/sbin/
+install ${PKG_ROOT}/config/dhcpd.conf $1/etc/
+install ${daemon_init_script} $1/etc/init.d/${TARGET_NAME}

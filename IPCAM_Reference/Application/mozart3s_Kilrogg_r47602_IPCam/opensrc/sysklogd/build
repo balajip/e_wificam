@@ -1,0 +1,55 @@
+#!/bin/bash
+# This script will untar a ppp tarball from Debian, patch it, and build it. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=sysklogd
+VERSION=1.5
+DEB_ORIG_TARBALL=${APP_NAME}_${VERSION}.orig.tar.gz
+DEB_PATCH=${APP_NAME}_${VERSION}-5.diff.gz
+PACKAGE_DIR=$APP_NAME-$VERSION
+UNTAR_ARG='-zxf'
+HOST='arm-linux'
+CC=$HOST-gcc
+PKG_ROOT=${PWD}
+EXE_FILE=syslogd
+
+#let Makefile can execute successfully
+unset MFLAGS MAKEFLAGS
+
+# check if you have proper gcc
+which $CC > /dev/null || exit 1
+
+# untar the tarball
+tar $UNTAR_ARG $DEB_ORIG_TARBALL
+
+cd $PACKAGE_DIR
+
+# apply Debian's patchs
+gunzip -c ${PKG_ROOT}/$DEB_PATCH | patch -p1 --silent
+
+# apply our patch
+patch -p1 --silent << "VN_PATCH"
+diff -Naur sysklogd-1.5/syslogd.c sysklogd-1.5-patch/syslogd.c
+--- sysklogd-1.5/syslogd.c	2007-07-05 03:04:01.000000000 +0800
++++ sysklogd-1.5-patch/syslogd.c	2009-11-25 16:17:48.000000000 +0800
+@@ -790,7 +790,7 @@
+ int	NoHops = 1;		/* Can we bounce syslog messages through an
+ 				   intermediate host. */
+ 
+-extern	int errno;
++//extern	int errno;
+ 
+ /* Function prototypes. */
+ int main(int argc, char **argv);
+VN_PATCH
+
+# simply make it
+make CC=$HOST-gcc --quiet
+
+cd $PKG_ROOT
+
+# if i have the shared stripped library and it is newer than the original one,
+# ignore it.
+[ -f "${EXE_FILE}" ] && [ "${PACKAGE_DIR}/${EXE_FILE}" -ot "${EXE_FILE}" ] && exit 0
+
+${HOST}-strip -o ${EXE_FILE} ${PACKAGE_DIR}/${EXE_FILE}
+

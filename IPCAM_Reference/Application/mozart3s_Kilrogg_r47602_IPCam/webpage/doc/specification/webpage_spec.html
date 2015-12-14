@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=big5">
+    <title>Kilrogg Webpage Specification</title>
+    <link rel="stylesheet" type="text/css" href="../template/vivo_doc.css">
+</head>
+    <body>
+    <!------ An intra link flag "top"------>
+    <a name="top"></a>
+
+    <!------ Document title ------>
+    <div class="title">Kilrogg Webpage specification</div>
+
+    <!------ Section title ------>
+    <div class="banner">
+        <div class="spacer"></div>
+        <span class="left">Introduction</span>
+        <span class="right"><a href="#top">[Top]</a></span>
+        <div class="spacer"></div>
+    </div>
+    <!------ Section content ------>
+    <div class="content">
+        <p>Kilrogg is a project of reference software for VN's SoCs.
+        The Kilrogg reference software provides a web configuration interface for all functions that 
+        are most frequently used by the users.</p>
+        <p>
+        The interface provide plug-in for Internet Explorer on Windows PC. For others, depends on browsers and OS
+        , the Quick time is used to connect MPEG-4 Audio/Video and HTTP push sever is used to browse Motion JPEG.
+        </p>
+    </div>
+    <!------ Section title ------>
+    <div class="banner">
+        <div class="spacer"></div>
+        <span class="left">Functional Specification</span>
+        <span class="right"><a href="#top">[Top]</a></span>
+        <div class="spacer"></div>
+    </div>
+    <!------ Section content ------>
+    <div class="content">
+        <div class="subtitle">CGI</div>
+        <p>The CGIs are written in "lua" script language. "Lua" has higher performance than busybox 
+        embedded "ash" shell.</p>
+
+        <div class="subtitle">AJAX</div>
+        <p>The AJAX (Asynchronous JavaScript and XML) technologies are used to speedup webpages 
+        load times when submit user modified forms.</p>
+
+        <div class="subtitle">Site Map</div>
+        <p>
+            The website map shows as below:
+            </p>
+            <p><img src="dia/website_map.png" border="0" width="350" height="834"></p>
+        <p>We list and briefly describe functions of each page at follows:</p>
+        <!--Display-->
+        <div class="subtitle">Display</div>
+            <p>Display live audio/video.</p>
+        <!--Configuration-->
+        <!-- System -->
+        <div class="subtitle">System</div>
+        <p>Settings for host name, system time and LED state.</p>
+        <!-- Security -->
+        <div class="subtitle">Security</div>
+        <p>Settings for root password.</p>
+        <!-- Network -->
+        <div class="subtitle">Network</div>
+        <p>Includes network connect method setting, HTTP sever and RTSP streaming server settings.</p>
+        <!-- Access List -->
+        <div class="subtitle">Access List</div>
+        <p>Set access IP list. There are two available list, allow list and denied list.</p>
+        <!-- Audio and Video -->
+        <div class="subtitle">Audio and Video</div>
+        <p>Includes video and audio encoder type setting, encoder properties setting and front-end image setting.</p>
+        <!-- Motion Detection -->
+        <div class="subtitle">Motion Detection</div>
+        <p>Settings for motion detection. Three windows selectable on plug-in. (IE only)</p>
+        <!-- Syslog -->
+        <div class="subtitle">Syslog</div>
+        <p>Show current syslogs and set remote system log sever.</p>
+        <!-- View parameters -->
+        <div class="subtitle">View parameters</div>
+        <p>View current system and application configurations.</p>
+        <!-- Maintains -->
+        <div class="subtitle">Maintains</div>
+            <p>Reset system and update firmware through web interface.</p>
+        <!--Client Setting-->
+        <div class="subtitle">Client Settings</div>
+            <p>Select which stream to connect, connection media type and connection protocol.</p>
+        </div>
+    </div>
+    <!------ Section title ------>
+    <div class="banner">
+        <div class="spacer"></div>
+        <span class="left">Layout</span>
+        <span class="right"><a href="#top">[Top]</a></span>
+        <div class="spacer"></div>
+    </div>
+    <!------ Section content ------>
+    <div class="content">
+        <p>The page outlook is separated to two frame.</p>
+        <div class="subtitle">Top Frame</div>
+        <ul>
+            <li>The top frame shows the page tabs.</li>
+            <li>Three main tabs are "Display", "Configuration" and "Client Setting".</li>
+            <li>While selecting the "Configuration" tab, subtabs display, i.e. "System", "Security", "NetWork", etc.</li>
+            <li>Sample view
+            <p><img src="dia/tabs.png" border="0" width="795" height="45"></p>
+            <p><img src="dia/subtabs.png" border="0" width="795" height="60"></p>
+            </li>
+        </ul>
+        <div class="subtitle">Bottom Frame</div>
+            <ul>
+                <li>The bottom frame shows the function page according to selected tab at top frame.</li>
+            </ul>
+
+
+    </div>
+    </body>
+</html>

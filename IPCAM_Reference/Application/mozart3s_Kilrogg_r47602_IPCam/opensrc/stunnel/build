@@ -1,0 +1,42 @@
+#!/bin/bash
+# This script will untar a stunnel tarball from source, patch it, and build it. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=stunnel
+VERSION=4.26
+ORIG_TARBALL=${APP_NAME}-${VERSION}.tar.gz
+VN_PATCH=${APP_NAME}-${VERSION}-vn.diff.gz
+PACKAGE_DIR=$APP_NAME-$VERSION
+UNTAR_ARG='-zxf'
+HOST='arm-linux-'
+CC=${HOST}gcc
+PKG_ROOT=${PWD}
+OPENSRC_ROOT=`cd ../;pwd`
+OPENSSL_DIR=openssl/tmp
+
+# check if you have proper gcc
+which $CC > /dev/null || exit 1
+
+# untar the tarball
+tar $UNTAR_ARG $ORIG_TARBALL
+
+cd $PACKAGE_DIR
+
+# apply patch
+gunzip -c ${PKG_ROOT}/$VN_PATCH | patch -p1 --silent
+
+cat ../receive_SIGTERM_and_SIGQUIT_for_die.patch  | patch -p 1 --silent
+# configure
+#echo ${OPENSRC_ROOT}/${OPENSSL_DIR}
+./configure --host=arm-linux --with-ssl=${OPENSRC_ROOT}/${OPENSSL_DIR}  -q > /dev/null 2>&1
+
+# simply make it
+make --quiet > /dev/null
+
+cd $PKG_ROOT
+
+# if i have the shared stripped library and it is newer than the original one,
+# ignore it.
+[ -f "${APP_NAME}" ] && [ "${PACKAGE_DIR}/src/${APP_NAME}" -ot "${APP_NAME}" ] && exit 0
+
+${HOST}strip -o ${APP_NAME} ${PACKAGE_DIR}/src/${APP_NAME}
+

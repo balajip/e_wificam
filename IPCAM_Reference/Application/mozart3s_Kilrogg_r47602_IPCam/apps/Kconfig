@@ -1,0 +1,74 @@
+# This is a sample of video encoder Kconfig. 
+# Here shows how to use "choice" in Kconfig. 
+
+menu "Application selection"
+
+config APPS_MSGCTRL
+	bool "msgctrl"
+	default n
+
+config APPS_RTSPS
+	bool "rtsps"
+	default n
+#config ENABLE_DIFFERENT_DESTINATION_IP
+#       bool "enable different destination IP"
+#       default n
+#       depends on  APPS_RTSPS
+
+config APPS_SERVERPUSH
+	bool "serverpush"
+	default n
+	depends on JPEG
+
+
+config APPS_SYSMGR
+	bool "sysmgr"
+	default n
+
+config APPS_SIPUAS
+	bool "sipuas"
+	default n
+
+config APPS_CGIS
+	bool "cgis"
+	default n
+
+config APPS_ADEC
+	bool "adec"
+	default n
+
+config APPS_EVENTD
+	bool "eventd"
+	default n
+
+config APPS_GETLLADDR
+	bool "getlladdr"
+	default n
+
+config APPS_OPENSSLAPP 
+	bool "opensslapp"
+	default n
+
+config APPS_INITSCRIPTS  
+      bool "initscripts"
+      default n
+
+config APPS_PTZCTRL
+      bool "ptzctrl"
+      default n
+
+config APPS_WATCHDOG 
+	bool "watchdog"
+	default n
+
+config APPS_SETPASSWD 
+      bool "setpasswd"
+      default n
+
+config APPS_AENC
+      bool "Audio Enocder"
+      default y
+endmenu
+
+
+

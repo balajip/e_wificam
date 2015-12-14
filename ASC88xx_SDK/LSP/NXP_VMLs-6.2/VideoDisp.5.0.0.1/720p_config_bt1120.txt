@@ -1,0 +1,14 @@
+/share/Video/YUV420/1280x720p/Jets.yuv
+1			//displatmode 0->test mode 1->show video
+1280			//input width
+720			//input height
+1280			//input stride
+1			//in_format: 1->YUV420, 2->YUV422
+6			//out_format: 8->RGB24, 2->interlace CCIR656, 5->progressive 16-bit YUV, 6->progressive bt.1120
+999999999999//number of frames
+0			//0->NTSC 1->PAL 
+128			//saturation 0~511
+0			//brightness -128~+128 0: disable
+0			//contrast -128~+128   0: disable
+25			// VIDEO_SIGNAL_SIZE_1920x1080 = 37, VIDEO_SIGNAL_SIZE_1280x720 = 25, VIDEO_SIGNAL_SIZE_1280x1024 = 30, VIDEO_SIGNAL_SIZE_720x480 = 15
+2			// VIDEO_SIGNAL_FREQUENCY_50HZ = 1, IDEO_SIGNAL_FREQUENCY_60HZ = 2, VIDEO_SIGNAL_FREQUENCY_24HZ = 3

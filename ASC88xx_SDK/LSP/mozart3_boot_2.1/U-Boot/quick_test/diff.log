@@ -1,0 +1,35 @@
+31a32,43
+> 
+> 	if ((phy_ctrl & 0x1C000000) == 0x1C000000)
+> 	{
+> 		phy_ctrl &= 0x000fffff;
+> 		usbc_write_reg(usbc_phy_base, 0x4, phy_ctrl);
+> 		phy_ctrl |= (0x1<<25);
+> 		usbc_write_reg(usbc_phy_base, 0x4, phy_ctrl);
+> 		plat_loop(60000);
+> 		phy_ctrl = usbc_read_reg(usbc_phy_base, 0x4);
+> 		
+> 	}
+> 
+36d47
+< 	printf("[pop] Host only\n");
+145a157,162
+> 	for(count=0; count<10; count++)
+> 	{
+> 		do{
+> 			buffer_reg = usbc_read_reg(usbc_base, 0x500+0x20*count);
+> 		}while((buffer_reg & 0xc0000000) == 0xc0000000);
+> 	}
+149c166
+< 	}while(buffer_reg & 0x10);
+---
+> 	}while(buffer_reg & 0xc0000000);
+292a310,314
+> 	do
+> 	{
+> 		plat_loop(10000);
+> 		buffer_reg = usbc_read_reg(usbc_base, 0x14);
+> 	}while((buffer_reg & 0x8)!=0x8);
+296a319,320
+> 	for(i=0; i<100000; i++)
+> 	plat_loop(100000);

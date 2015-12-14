@@ -1,0 +1,11 @@
+<?xml version="1.0" standalone="yes"?>
+<root>
+	<venc_display>
+		<output>#output_enable#</output> <!--on,off-->
+		<output_device>#output_device#</output_device> <!--ADV7391, CAT6612, GV7600 -->
+		<output_format>#output_format#</output_format> <!-- NTSC, PAL, HDMI, HDSDI -->
+		<output_resolution>#output_resolution#</output_resolution> <!--720x480,720x576,1280x720,1920x1080-->
+		<output_freq>#output_freq#</output_freq> <!--24,60,30-->
+		<i2c_device>/dev/gpio_i2c1</i2c_device>
+    </venc_display>
+</root>

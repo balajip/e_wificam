@@ -1,0 +1,7 @@
+*************************************************************
+* PWM Iris Control device driver, Linux Device Driver, Release Note *
+*************************************************************
+[Version 1.0.0.0]
+Release at 2013.03.07
+1. FEATURE: First Released - DONE.
+2. FEATURE: Synchronized with AutoExposure version 5.0.0.4 - DONE.

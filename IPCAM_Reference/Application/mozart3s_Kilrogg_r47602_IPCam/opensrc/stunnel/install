@@ -1,0 +1,30 @@
+#!/bin/bash
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=stunnel
+VERSION=4.26
+ORIG_TARBALL=${APP_NAME}-${VERSION}.tar.gz
+PACKAGE_DIR=$APP_NAME-$VERSION
+UNTAR_ARG='-zxf'
+HOST='arm-linux-'
+PKG_ROOT=${PWD}
+OBJDUMP=${HOST}objdump
+initd_dir=etc/init.d
+confd_dir=etc/conf.d
+daemon_init_script=init.d-stunnel
+boot_script=init.d-stunneld
+flashfs_etc_config1=stunnel.conf
+flashfs_etc_config2=switch
+
+
+# check if you have the proper objdump
+which $OBJDUMP > /dev/null || exit 1
+
+install ${APP_NAME} $1/sbin/
+[ -d $1/${initd_dir} ] || mkdir $1/${initd_dir}
+install ${daemon_init_script} $1/${initd_dir}/${APP_NAME}
+install ${boot_script} $1/${initd_dir}/${APP_NAME}d
+[ -d $1/${confd_dir} ] || mkdir $1/${confd_dir}
+install -d $1/${confd_dir}/ssl
+install ${flashfs_etc_config1} $1/${confd_dir}/ssl/
+install ${flashfs_etc_config2} $1/${confd_dir}/ssl/
+

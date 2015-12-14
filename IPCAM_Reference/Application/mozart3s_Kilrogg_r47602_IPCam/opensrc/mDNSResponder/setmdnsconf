@@ -1,0 +1,44 @@
+#!/bin/sh
+
+WEB_CONF="/etc/conf.d/boa/boa.conf"
+#WEB_CONF="boa.conf"
+RTSP_CONF="/etc/conf.d/stream_server_config.xml"
+#RTSP_CONF="stream_server_config.xml"
+MDNS_CONF="/etc/mDNSResponderPosix.conf"
+#MDNS_CONF_TMP="/etc/mDNSResponderPosix.conf.tmp"
+
+if [ -f $WEB_CONF ]; then
+httpport=`cat $WEB_CONF | grep 'Port ' | sed 's/Port //'`
+else
+httpport="80"
+fi
+
+if [ -f $RTSP_CONF ]; then
+#rtspport=`cat $RTSP_CONF | sed '/<sip>/,/<port>/d' | grep '<port>' | sed 's/[^0-9]*<[/_a-z]*>//g'`
+rtspport=`cat $RTSP_CONF | grep '<port>' | sed 's/[^0-9]*<[/_a-z]*>//g'`
+else
+rtspport="554"
+fi
+
+#httpname=`cat $MDNS_CONF | sed -n 1p`
+#rtspname=`cat $MDNS_CONF | sed -n 5p`
+#macaddr=`ifconfig eth0 | grep 'HWaddr' | sed 's/^.*HWaddr //g' | sed 's/inet .*$//g'`
+#macaddr="00:84:14:73:61:61"
+
+macaddr=`fw_printenv -n ethaddr`
+#if [ "$macaddr" = "" ]; then
+#	macaddr=`ifconfig eth0 | grep 'HWaddr' | sed 's/^.*HWaddr //g' | sed 's/inet .*$//g'`
+#fi 
+
+name=`uname -n`
+httpname=$name"@"$macaddr
+rtspname=$name"Rtsp@"$macaddr
+
+echo -n -e "$httpname\n_http._tcp\n$httpport\n\n$rtspname\n_rtsp._tcp\n$rtspport" > $MDNS_CONF
+#cat $MDNS_CONF | sed '3s/[0-9]*/'$httpport'/' > $MDNS_CONF_TMP
+#cat $MDNS_CONF_TMP | sed '7s/[0-9]*/'$rtspport'/' > $MDNS_CONF
+
+#cat $MDNS_CONF | sed '1s/[A-Za-z0-9@:]*/'"$httpname"'/' > $MDNS_CONF_TMP
+#cat $MDNS_CONF_TMP | sed '5s/[a-zA-Z0-9@:]*/'"$rtspname"'/' > $MDNS_CONF
+
+#rm $MDNS_CONF_TMP

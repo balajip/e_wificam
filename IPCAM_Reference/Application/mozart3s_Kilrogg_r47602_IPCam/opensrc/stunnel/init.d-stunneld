@@ -1,0 +1,48 @@
+#!/bin/sh
+# chkconfig: 2345 17 81
+
+STUNNEL_SCRIPT="/etc/init.d/stunnel"
+SWITCH_FILE="/etc/conf.d/ssl/switch"
+PEM="/etc/conf.d/ssl/certificate.pem"
+IPTABLES="/usr/sbin/iptables"
+IP_FLAG="INPUT 1 -i eth0 -p tcp --dport 80 -j DROP"
+IP_SFLAG="INPUT 1 -i eth0 -p tcp --dport 443 -j DROP"
+SWITCH=`cat $SWITCH_FILE`
+
+start(){
+	echo -n "Starting check if set stunnel on "
+	if [ $SWITCH == "1" ]; then
+		$STUNNEL_SCRIPT start
+		$IPTABLES -I $IP_FLAG
+	elif [ $SWITCH == "0" ]; then
+	#echo "Nothing in stunneld"
+    	if [ -f $PEM ]; then
+        	$STUNNEL_SCRIPT start
+	    fi
+    	$IPTABLES -I $IP_SFLAG
+	else
+		echo "Parse stunnel switch fail in stunneld"
+	fi
+	echo "."
+}
+
+stop(){
+	echo "Redundant stop(stunneld) ." 
+}
+
+# See how we were called.
+case "$1" in
+    start)
+	start
+	;;
+    stop)
+	stop
+	;;
+
+    *)
+	echo "Usage: $0 {start|stop}"
+	exit 1
+esac
+
+exit 0
+

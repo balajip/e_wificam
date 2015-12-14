@@ -1,0 +1,25 @@
+[v2.1.0.3] 2013.08.12
+1. Fix a race condition.
+
+[v2.1.0.2] 2013.07.15
+1. Fix a race condition.
+
+[v2.1.0.1] 2013.06.17
+1. Add module paramter: host_only.
+
+[v2.1.0.0] 2013.01.16
+1. Fix memory allocation issue for DMA.
+
+[v2.0.1.0] 2013.01.16
+1. Fix and set default core parameters for OTG mode.
+
+[Version 2.0.0.3] 2012.12.21
+1. Minor changes to coding style.
+
+[Version 2.0.0.2] 2012.10.15
+1. Access register with generic name VPL_USBC_SSC_BASE instead of
+   hard-coded address.
+
+[Version 2.0.0.1] 2012.04.16
+1. dwc_otg driver version 2.94a first release
+

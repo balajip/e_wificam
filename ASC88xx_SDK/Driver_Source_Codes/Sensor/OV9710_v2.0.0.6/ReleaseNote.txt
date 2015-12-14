@@ -1,0 +1,73 @@
+******************************************************************
+* OV9710 sensor device driver, Linux Device Driver, Release Note *
+******************************************************************
+[Version 2.0.0.6]
+Release at 2012.12.26
+1. MODIFICATION: pdate MODULE_AUTHOR. - DONE.
+
+[Version 2.0.0.5]
+Release at 2012.09.25
+1. BUGFIX: Luma & color hunting in low lux(Trigger sensor BLC by gain). - DONE.
+
+[Version 2.0.0.4]
+Release at 2012.09.04
+1. MODIFICATION: Modify sensor output size. - DONE.
+2. MODIFICATION: Add sensor Max gain call back function. - DONE.
+3. MODIFICATION: Add a insmod param. "iEnAWB" to On/Off sensor AWB. - DONE.
+
+[Version 2.0.0.3]
+Release at 2011.12.28
+1. FEATURE: Add 640X400 60FPS mode - DONE
+
+[Version 2.0.0.2]
+Release at 2011.12.15
+1. BUGFIX: Vertical fixed pattern noise when low lux - DONE
+ 
+[Version 2.0.0.1]
+Release at 2011.11.24
+1. FEATURE: Transform AE from sensor to SW AE - DONE
+2. REFINE: Add VIDEO_SIGNAL_OPTION_SET_AUTO_WHITE_BALANCE_CTRL - DONE.
+
+[Version 2.0.0.0]
+Release at 2011.01.27
+1. FEATURE: Add SENSOR_INTERFACE_VERSION for sensor version check - DONE.
+2. MODIFICATION: remove get_ae_tbl_info in video_sensor_device - DONE
+
+[Version 1.0.0.8] 
+Release at 2010.11.02
+1. REFINE: Add VIDEO_SIGNAL_OPTION_SET_AUTO_EXPOSURE_MIN_SHUTTER and VIDEO_SIGNAL_OPTION_SET_AUTO_EXPOSURE_MIN_GAIN - DONE.
+
+[Version 1.0.0.7] 
+Release at 2010.11.02
+1. REFINE: Add VIDEO_SIGNAL_OPTION_SET_AUTO_EXPOSURE_TARGET_LUMINANCE as the interface of setting the target luminance - DONE.
+2. BUGFIX: The default max sutter speed is set as 30 fps not 4 fps. - DONE.
+
+[Version 1.0.0.6] 
+Release at 2010.09.28
+1. REFINE: reimplements VIDEO_SIGNAL_OPTION_SET_FREQUENCY provided by OV9170 library - DONE.
+
+[Version 1.0.0.5] 
+Release at 2010.09.20
+1. REFINE: modify Makefile for not building IICCtrl device driver firstly - DONE.
+2. FEATURE: implements VIDEO_SIGNAL_OPTION_SET_EXPOSURE_LEVEL, VIDEO_SIGNAL_OPTION_SET_AUTO_EXPOSURE_MAX_SHUTTER and VIDEO_SIGNAL_OPTION_SET_AUTO_EXPOSURE_MAX_GAIN provided by OV9170 library - DONE.
+
+[Version 1.0.0.4] 
+Release at 2010.09.17
+1. BUGFIX: modify from OV9710_SHUTTERTBL_FRAMERATE_IDX to  Ov9710_SHUTTERTBL_FRAMERATE_IDX in OV9710.c - DONE.
+2. REFINE: include "IICCtrl.h"  from ../../IICCtrl/IICCtrl_driver/ - DONE.
+
+[Version 1.0.0.3] 
+Release at 2010.09.17
+1. BUGFIX: modify OV9710_ID_VERSION as "1.0.0.3" in OV9710.h - DONE.
+
+[Version 1.0.0.2] 
+Release at 2010.09.17
+1. REFINE: remove incorrect the comments about version information in OV9710.c - DONE.
+
+[Version 1.0.0.1] 
+Release at 2010.09.17
+1. BUGFIX: reset shutter idx to framerate idx after update shutter table - DONE.
+
+[Version 1.0.0.0]
+Release at 2010.08.05
+1. FEATURE: First Released - DONE.

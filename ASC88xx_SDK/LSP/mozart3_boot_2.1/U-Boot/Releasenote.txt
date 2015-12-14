@@ -1,0 +1,254 @@
+[2014/03/24]
+Released Version. 2.2
+	1. DCE functions imported
+	2. Add SPI-NAND flash (GD) support
+	3. Add Winboond w25Q64FV support
+
+[2013/12/24]
+Released Version. 2.1
+	1. wdt quicktest: don't depend on spi flash
+	2. disable quick test in default.  
+	3. add one more support winbond flash.
+
+[2013/12/13]
+Released Version. 2.0.9
+	1. Fix baudrate 115200 typo in drivers/serial/vpl_uart.c line 163 
+
+[2013/08/29]
+Released Version. 2.0.8
+	1. Adjust platform option
+
+[2013/08/29]
+Released Version. 2.0.7
+	1. Add Winbond flash driver into framework
+	2. Modify autoburn SD address to 2M
+
+[2013/06/03]
+Released Version. 2.0.6
+	1. nand: revert bootcmd to ramdisk for nand-booting.
+
+[2013/05/06]
+Released Version. 2.0
+	1. dram: Support max. 8Gb DRAM.
+	2. Fix machine id for mozart arch: help bootm to boot uncompressed kernel, uImage.
+	3. gmac: Add PLATFORM_ETHERNET_SPEED_MODE in mozartevm.h to skip NWAY which take some time during boot up.
+	4. Change default bootargs and bootcmd of SPI and NAND Flash to mount rootfs from mtdblock directly.
+	5. sf: Update flash driver for 16 bit mode read.
+	6. Use optimized memcpy and memset from linux.
+
+[2013/03/05]
+Released Version. 1.30
+	1. usb: quick test fixed.
+	2. usb: refine timeout in quick test.
+	3. gmac: fix bad if condition when check 1000 speed in genphy_parse_link
+	4. gmac: change phy_clksrc from mon2 to mon1, and use SDHC1 as clock source
+	5. gmac_test: add a CONFIG_QUICK_TEST_GMAC_WARNING in mozartevm.h to enable/disable pull-high warning when doing GMAC quick test
+
+[2012/12/28]
+Released Version. 1.29.1
+	1. Refine some strings.
+
+[2012/12/21]
+Released Version. 1.29
+	1. gmac: Update environment "phy_mode" auto fix for M330 model.
+	2. gmac: add new value mon2 for phyclk_src environment to set PHY's 25MHz from monitor clock 2.
+	3. Fix model check value for 385s, 390s.
+
+[2012/10/09]
+Released Version. 1.28
+	1. quick test: fix worng usages of readl/writel in pcie quitck test.
+	2. quick test: add timeout mechanism in USB quick test.
+	3. quick test: disable auto quicktest by default.
+	4. quick test: control auto quick test by env variable 'auto_quicktest'
+	   instead of config PLATFORM_QUICKTEST_AUTORUN_ENABLE.
+	5. quick test: env variable 'di_pin' and 'do_pin' overrides the default
+	   DI/DO pin configs PLATFORM_DI/DO_PIN.
+	6. dram: DRAM start/base in gd->bd->bi_dram[] are sorted by start address from
+	   enabled DRAM controllers.
+	7. sf: fix erroneous 4-byte addressing mode support.
+
+
+[2012/09/26]
+Released Version. 1.27
+	1. Refine quick tests of Mozart v3: USB, RTC PCF8563, RS485, GPIO, GMAC.
+	2. Revise gmac driver and add PHY Lib support.
+	3. Introduce a new environment variable "phy_mode" instead of poor "rgmii=0/1".
+           To assign PHY interface by phy_mode=gmii, phy_mode=mii, phy_mode=rgmii...etc.
+
+[2012/08/06]
+Released Version. 1.26
+	1. Add all models for Mozart v3.
+	       mozart_395s_config
+	       mozart_390s_config
+	       mozart_385s_config
+	       mozart_370s_config
+	       mozart_330s_config
+	       mozart_330s_133MHz_config
+	2. uart: support 24MHz for UART clock source, and set as default.
+	3. mmc: fix wrong clock setting.
+
+[2012/06/11]
+Released Version. 1.25
+	1. Fix gd->bd->bi_dram[].start/size.
+	   With M2 loader v12033001, initial dram start/size by the settings in dram controller.
+	2. Fix AHB clock to 160MHz for 330.
+	3. Support 4-byte address mode for serial flash larger than 16 MiB.
+	4. Support OV9715 quick test.
+
+[2012/03/22]
+Released Version. 1.24
+	1. [BUGFIX]Remove the force half duplex mode in IC+101 flow.
+	2. Add support for MICREL KSZ8051 10Mbps/100Mbps Phy.
+	3. Modify target name of make config.
+	   Change the original target name "mozart_evm_config" to various model targets :
+	       mozart_390a_config
+	       mozart_390_config
+	       mozart_385_config
+	       mozart_380_config
+	       mozart_370_config
+	       mozart_365_config
+	       mozart_330_config
+	       mozart_325_config
+	   AHB clock and console will be chosen automatically by the target.
+
+[2011/12/23]
+Released Version. 1.23
+1.GMAC
+ - James Lin
+ - [Bug Fixed] Add full/half duplex mode support to IC+101A
+2. Misc
+ - James Lin
+ - [Bug Fixed] Fix NF/MMC environment variables broken problem.
+
+[2011/12/01]
+Released Version. 1.22
+1. GMAC
+ - James Lin
+ - [Bug Fixed] Adjust MDC divider according to AHB Clock.
+2. SPI
+ - James Lin
+ - [Bug Fixed] Fix the compliation failure problem when turning off all SPI
+   flash functions.
+3. Misc
+ - Morgan Chang
+ - [Refinement] Turn off CONFIG_BOOTCOMMAND_MMC if SD_AUTORUN defined.
+
+[2011/11/03]
+Released Version. 1.21
+1. Add gmac error-handling mesg.
+2. Add env-variable "setargs" to SD/NF2K env-array.
+3. Update NFC timing value.
+4. Update the MMC partition layout, now mmc-bootldr(1MB), mmc-env(1MB), mmc-kernel(10MB), mmc-rootfs(10MB).
+
+[2011/09/29]
+Released Version. 1.20
+1. Add RTL8211 Mii support.
+2. MMC Subsystem
+  - Add Error Handling for MMC send cmd resp timeout.
+  - Use the HostTimeOut(HTO) to replace SW-timeout mechanism in send command loop.
+
+[2011/09/16]
+Released Version. 1.19
+1. Force the gmac_test to work in 10/100Mbps mode on Mozart325/330.
+2. Use the minimum driving strength of NFC.(2mA)
+3. Forbid the user to save environment variables to SD card if quick test enabled.
+
+[2011/09/09]
+Fix mshc_test hang problem.
+ 1. The init-flow of integrated MMC subsystem will affect the operation of SD flow in mshc_test.c.
+ 2. Rewrite mshc_test.c. Use the write/read functions of MMC subsystem in the test flow.
+    This will make sure that the SD init flow of Uboot is consistent in everywhere.
+ 3. Add udelay(5000) in write flow of func mmc_send_cmd(drivers/mmc/VN_mmc.c).
+    This will solve that SD fails to read data if it reads data after write op immediately.
+
+[2011/08/24]
+Released Version. 1.18
+1. Add support for BCM54616 on MozartV2.
+
+[2011/08/19]
+1. Integrate MMC subsystem to this version.
+ - Now we can read/write MMC via the standard interface provided by Uboot MMC subsystem.
+ - We keep the command "sdread" for backward compatibility.
+ - The rest part of old SD code are marked as "Obsolete".
+ - Force 100Mbps when Mozart325/330.
+
+[2011/08/05]
+Released Version. 1.17
+1. Add support for IC+1001 RGMii 1Gbps mode for MozartV2.
+
+[2011/08/04]
+Released Version. 1.16
+1. Fix the bugs of gmac_test.c
+   - We should add the mask to read the IP1001 ID.
+     This is because the last bit of ID is the revision number.
+     So we have to read the masked ID to omit the revision number.
+2. Add GMACInit_v2()
+   - The flow of original GMACInit() was too complicated and messy.
+     It was hard to read and maintain the code.
+     Now we add more conditional code fragment to handle the situation of Mozart V2.
+     This makes the situation worse.
+
+     To end the chaos, I decide to rewrite the function.
+
+     Now I have two functions GMACInit_v1() and GMACInit_v2().
+     Like the meanings of names, one handles MozartV1 and the other is charge of MozartV2.
+     The content of GMACInit_v1() is the same as the original GMACInit().
+     I just add a new function GMACInit_v2().
+     GMACInit_v2() is the refined and simplified version of GMACInit_v1().
+
+     In the future, I hope to integrate GMACInit_v1() and GMACInit_v2().
+3. Add GMAC test under 1Gbps mode
+4. Refine nand flash quick-test
+
+[2011/07/18]
+Released Version. 1.15
+1. Add support for Mozart V2 IC+101/1001 network driver.
+2. Fix the wrong usage of ssm2603 audio test function.
+3. Use udelay() in usbc quick test function.
+4. Use udelay() in PCIE quick test function.
+
+[2011/02/16]
+Released Version. 1.14
+1. Refine SD functions -- add timeout mechanism and enable pull-up.
+
+[2010/12/24]
+Released Version. 1.13
+1. Add command "mtdparts" support.
+2. Refine nand related code.
+
+[2010/12/22]
+1. Remove redundant files like include/asm-arm/arch-mozart/at91*.h .
+2. Remove "RDK" related settings. We just need "EVM" now.
+
+[2010/12/15]
+1. Refine AUDIO/VIDEO quick test architecture.
+2. Add TW2866 audio quick test.
+3. Add TW2866 video quick test(template).
+
+[2010/12/07]
+Released Version. 1.12
+1. Add APBC-DMA descriptor info to reserved space.
+
+[2010/12/02]
+1. Rename audio_test.c(now it is audio_test_SSM2603.c).
+   We will create a new audio test file for each codec.
+   This can help us to maintain the code.
+
+[2010/12/01]
+1. Delete some redundant files.
+2. Fix the return value of wdt-test.
+3. Add SD autorun by command 'source'.
+4. Add RGMii mesg for IC+ PHY.
+5. Refine the gmac func. Now new ethaddr will be written to GMAC regs as soon as we modify it.
+6. Add the func to print loader info
+7. Chnage the location of GMAC Desc/Buf.
+   The original offset is 0x02000000(32MB).
+   Its new offset will be located at location followed the STACK area.
+   And the value will be counted automatically.
+8. Print the U-Boot reserved dram area when booting.
+   Also adds a new command "reserved" to print the reserved area.
+   Now the user can use the info to avoid polluting the required space of U-Boot.
+
+[2010/07/21]
+1. Add RS485 quick test.
+2. Refine the configure file mozartevm.h

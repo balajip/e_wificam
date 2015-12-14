@@ -1,0 +1,104 @@
+#!/bin/bash
+# This script will untar a openssl tarball from source and build it. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=openssl
+VERSION=0.9.8
+A_VERSION=${VERSION}i
+LIB_NAME1=libcrypto.so.${VERSION}
+LIB_NAME2=libssl.so.${VERSION}
+ORIG_TARBALL=${APP_NAME}-${A_VERSION}.tar.gz
+PACKAGE_DIR=$APP_NAME-$A_VERSION
+UNTAR_ARG='-zxf'
+HOST='arm-linux-'
+CC=${HOST}gcc
+PKG_ROOT=${PWD}
+TMP_DIR=tmp
+LIB_DIR=lib
+INC_DIR=include
+
+# check if you have proper gcc
+which $CC > /dev/null || exit 1
+
+#let Makefile can execute successfully
+unset MFLAGS MAKEFLAGS
+
+# untar the tarball
+tar $UNTAR_ARG $ORIG_TARBALL
+
+cd $PACKAGE_DIR
+
+# configure
+./Configure linux-generic32 shared -DOPENSSL_SMALL_FOOTPRINT -DOPENSSL_NO_PKCS12 \
+no-rmd160 no-ec no-sse2 no-bf no-cast no-dsa no-md2 no-mdc2 no-rc2 no-rc5 \
+no-camelloa no-idea no-krb5 no-ripemd no-asm no-rc4 --prefix=${PKG_ROOT}/${TMP_DIR} > /dev/null
+
+# modify Makefile for cross-compile
+patch -Np1 --silent << "OPENSSL_MAKEFILE"
+diff -ruN openssl-0.9.8i/Makefile openssl-0.9.8i-vn/Makefile
+--- openssl-0.9.8i/Makefile	2009-11-20 15:22:45.000000000 +0800
++++ openssl-0.9.8i-vn/Makefile	2009-11-20 15:26:25.000000000 +0800
+@@ -59,15 +59,15 @@
+ # equal 4.
+ # PKCS1_CHECK - pkcs1 tests.
+ 
+-CC= gcc
++CC= arm-linux-gcc
+ CFLAG= -fPIC -DOPENSSL_PIC -DOPENSSL_THREADS -D_REENTRANT -DDSO_DLFCN -DHAVE_DLFCN_H -DOPENSSL_SMALL_FOOTPRINT -DOPENSSL_NO_PKCS12 -DTERMIO -O3 -fomit-frame-pointer -Wall
+ DEPFLAG= -DOPENSSL_NO_BF -DOPENSSL_NO_CAMELLIA -DOPENSSL_NO_CAMELLOA -DOPENSSL_NO_CAPIENG -DOPENSSL_NO_CAST -DOPENSSL_NO_CMS -DOPENSSL_NO_DSA -DOPENSSL_NO_EC -DOPENSSL_NO_ECDH -DOPENSSL_NO_ECDSA -DOPENSSL_NO_GMP -DOPENSSL_NO_IDEA -DOPENSSL_NO_MD2 -DOPENSSL_NO_MDC2 -DOPENSSL_NO_RC2 -DOPENSSL_NO_RC4 -DOPENSSL_NO_RC5 -DOPENSSL_NO_RFC3779 -DOPENSSL_NO_RIPEMD -DOPENSSL_NO_RMD160 -DOPENSSL_NO_SEED -DOPENSSL_NO_TLSEXT 
+ PEX_LIBS= 
+ EX_LIBS= -ldl
+ EXE_EXT= 
+ ARFLAGS= 
+-AR=ar $(ARFLAGS) r
+-RANLIB= /usr/bin/ranlib
++AR=arm-linux-ar $(ARFLAGS) r
++RANLIB= arm-linux-ranlib
+ PERL= perl
+ TAR= tar
+ TARFLAGS= --no-recursion
+@@ -106,7 +106,7 @@
+ ZLIB_INCLUDE=
+ LIBZLIB=
+ 
+-DIRS=   crypto ssl engines apps test tools
++DIRS=   crypto ssl engines
+ SHLIBDIRS= crypto ssl
+ 
+ # dirs in crypto to build
+@@ -225,7 +225,7 @@
+ 	@[ -n "$(THIS)" ] && $(CLEARENV) && $(MAKE) $(THIS) -e $(BUILDENV)
+ 
+ sub_all: build_all
+-build_all: build_libs build_apps build_tests build_tools
++build_all: build_libs
+ 
+ build_libs: build_crypto build_ssl build_engines
+ 
+@@ -475,7 +475,7 @@
+ dist_pem_h:
+ 	(cd crypto/pem; $(MAKE) -e $(BUILDENV) pem.h; $(MAKE) clean)
+ 
+-install: all install_docs install_sw
++install: install_sw
+ 
+ install_sw:
+ 	@$(PERL) $(TOP)/util/mkdir-p.pl $(INSTALL_PREFIX)$(INSTALLTOP)/bin \
+OPENSSL_MAKEFILE
+
+# simply make it
+make --quiet
+
+# strip it
+${HOST}strip ${PKG_ROOT}/${PACKAGE_DIR}/${LIB_NAME1}
+${HOST}strip ${PKG_ROOT}/${PACKAGE_DIR}/${LIB_NAME2}
+
+# make install
+mv ${PKG_ROOT}/install ${PKG_ROOT}/install.bak
+make install --quiet > /dev/null
+mv ${PKG_ROOT}/install.bak ${PKG_ROOT}/install
+
+cd $PKG_ROOT
+
+cp -rf ${PKG_ROOT}/${TMP_DIR}/${LIB_DIR} ${PKG_ROOT}/lib
+cp -rf ${PKG_ROOT}/${TMP_DIR}/${INC_DIR} ${PKG_ROOT}/include
+

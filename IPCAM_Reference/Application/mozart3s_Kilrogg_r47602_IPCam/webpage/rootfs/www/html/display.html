@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Display</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="/include/jQuery/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="/include/jQuery/jquery-ui-1.8.6.custom.min.js"></script>
+    <script type="text/javascript" src="/include/common.js"></script>
+    <script type="text/javascript" src="/include/plugindef.js"></script>
+    <script type="text/javascript" src="/include/display.js"></script>
+    <link type="text/css" rel="stylesheet" href="/include/jQuery/jquery-ui-1.8.6.custom.css" />
+    <link type="text/css" rel="stylesheet" href="/css/default.css" />
+    <style type="text/css">
+        #page_title {
+            font-size:      x-large;
+            font-weight:    bold;
+            color:          #627EB7;
+            z-index:        7;
+        }  
+        #dock{margin:0px; padding:0px; list-style:none; position:fixed; top:15px; height:80px; 
+              z-index:50; left:0px; display:none;}
+        #dock > li {width:40px; height:80px; margin: 0 0 1px 0; border:#BCD2E6 1px solid; 
+                    background-color:#F4F7FB; background-repeat:no-repeat; 
+                    background-position:left center;color:#627EB7;}        
+
+        #dock > li:hover {background-position:-40px 0px;}
+        
+        /* panels */
+        #dock ul li {padding:5px; border: solid 1px #F1F1F1;}
+        
+        #dock ul li.header, #dock ul li .header:hover {
+            background:#D3DAED url(header_bkg.png) repeat-x;border: solid 1px #F1F1F1;
+        }      
+        #dock > li:hover ul {display:block;}
+        #dock > li ul {position:absolute; top:0px; left:-180px;  z-index:-1; width:220px; 
+                       height:150px;display:none; background-color:#F1F1F1; color:#000099;
+                       border:solid 1px #969696; padding:0px; margin:0px; list-style:none;}
+        #dock > li ul.docked { display:block;z-index:-2;}        
+        .dock,.undock{float:right;}
+        .undock {display:none;}
+        #content {margin: 10px 0px 0px 10px;}
+        .slider {width: 120px;}
+        .button {margin-bottom:0px;}
+        .afPanel {top:0px;}
+        #Dean {
+            margin: 10px 0px 0px 30px;
+        }
+        .bigicon { 
+            display: block; 
+            text-indent: -99999px; 
+            overflow: hidden; 
+            background-repeat: no-repeat; 
+            width: 24px; 
+            height: 24px; 
+            background-image: url(include/jQuery/images/ui-icons_469bdd_384x360.png); 
+        }
+        .icon-person { background-position: -216px -144px; }
+        .icon-image { background-position: -312px -192px; }
+        .icon-plus { background-position: 0 -288px; }
+        .icon-minus { background-position: -24px -288px; }
+        .centerWord{  
+            position:relative;
+            bottom:10px;  
+        }
+        .div_banner {
+            width:   48%;
+            background-color: #BCD2E6;
+            padding: 2px;
+        }
+        .div_drawer {
+            padding: 5px;
+            width:   100%;
+        }
+        #osd {
+            background-color: #000000;
+            color: #FFFFFF;
+            width: 44px;
+            height: 24px;
+            padding-top: 8px; 
+            font-size: large;
+            font-weight: bold;
+            padding: 5px;
+            display: none;
+            align: center;
+        }
+        .hide {display:none;}
+    </style>
+</head>
+<body>
+  <ul id="dock">
+      <li id="links">      
+          <br><span>Auto Focus</span>
+          <ul class="free afPanel">
+              <li class="header">
+                <a href="#" class="dock">Dock</a>
+                <a href="#" class="undock">Undock</a>
+                Auto Focus
+              </li>
+              <li>
+                <div>
+                  <table>
+                    <tr>
+                      <td colspan="3" align="center">
+                        <button class="button" id="near" onclick="zoomin()">
+                          <span class="bigicon icon-minus"></span>
+                        </button>
+                        <span class="centerWord"> Zoom </span>
+                        <button class="button" id="far" onclick="zoomout()">
+                          <span class="bigicon icon-plus"></span>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td width="40px">
+                        <span>Slow</span>
+                      </td>
+                      <td width="140px">
+                        <div class="slider" id="zoomSpeed"></div>
+                      </td>
+                      <td>
+                        <span>Fast</span>       
+                      </td>
+                    </tr>
+                    <tr>
+                      <td width="40px">
+                      </td>
+                      <td width="140px" align="right">
+                        <input type="button" class="button" onclick="saveZoom()" value="Save" />
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="3" align="center">
+                        <button class="button" id="near" onclick="near()">
+                          <span class="bigicon icon-person"></span>
+                        </button>
+                        <span class="centerWord"> Focus </span>
+                        <button class="button" id="far" onclick="far()">
+                          <span class="bigicon icon-image"></span>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td width="50px">
+                        <span>Slow</span>
+                      </td>
+                      <td width="140px">
+                        <div class="slider" id="focusSpeed"></div>
+                      </td>
+                      <td>
+                        <span>Fast</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td width="40px">
+                      </td>
+                      <td width="140px" align="right">
+                        <input type="button" class="button" onclick="saveFocus()" value="Save" />
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="div_banner" onclick="advChange()">
+                    <span class="advArrow">&#9658;</span> Advance
+                </div>
+                <div class="div_drawer" id="advArea" style="display:block">
+                  <input type="button" class="button" onclick="osdSet()" value="Show Magnification" id="btnOSD"/><br>
+                  <div id="osd">10X
+                  </div>
+                  <table>
+                    <tr>
+                      <td colspan="3">
+                        <span>AF search factor</span>
+                      </td>  
+                    </tr>  
+                    <tr>
+                      <td width="40px">
+                        <span>Low</span>
+                      </td>
+                      <td width="140px">
+                        <div class="slider" id="afSearch"></div>
+                      </td>
+                      <td>
+                        <span>High</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="3">
+                        <span>Re-focus: </span>
+                        <label>
+                          <input type="radio" value="on" name="reFocus"/><span>ON</span>
+                        </label>
+                        <label>
+                          <input type="radio" value="off" name="reFocus"/><span>OFF</span>
+                        </label>
+                      </td>  
+                    </tr>
+                    <tr>
+                      <td width="40px">
+                      </td>
+                      <td width="140px" align="right">
+                        <input type="button" class="button" onclick="saveAdvAF()" value="Save" />
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                  </table>
+
+                </div>                
+              </li>
+          </ul>
+      </li>
+  </ul>
+  <div id="contentAll">
+  <div id="content" style="display:none">
+    <fieldset>
+      <legend><strong><span>Client Settings</span></strong></legend>
+      <br>
+      <dl>
+        <dt><span style="font-weight: bold;">Stream Options</span></dt>
+        <dd id="streams">
+        </dd>
+      </dl>
+      <dl>
+        <dt><span style="font-weight: bold;">RTSP Protocol Options</span></dt>
+        <dd>
+          <label>
+            <input type="radio" value="UDP" name="ProtocolOpt"/><span>UDP Unicast</span>
+          </label><br>
+          <label>
+            <input type="radio" value="TCP" name="ProtocolOpt" /><span>TCP</span>
+          </label><br>
+          <label>
+            <input type="radio" value="HTTP" name="ProtocolOpt" /><span>HTTP</span>
+          </label><br>
+          <label>
+            <input type="radio" value="HTTPS" name="ProtocolOpt" /><span>HTTPS/SSL</span>
+          </label>
+        </dd>
+      </dl>
+      <table>
+        <tr>
+          <td width="90px">
+            <span>Buffer Time: </span>
+          </td>
+          <td>
+            <input type="text" class="text" id="bufferTime" size="3" maxlength="5"/>
+            <span> ms</span>
+          </td>
+        </tr>
+      </table>
+    </fieldset>
+    <input type="button" class="button" onclick="OnSave()" value="Save" />
+  </div>
+  <br />
+  <input type="button" class="button" onclick="takeSnapshot()" value="PC-Snapshot"/>
+  <input type="button" class="button" title="Please click this button when JPEG is selected in the Audio Video Configuration Tab in Stream1" onclick="takeJPEGSnap()" value="ASC88xxJPEG-Snapshot" />
+  <input type="button" class="button" onclick="openurl('display_new_ptz.html')" value="ePTZ"/>
+  <input type="button" class="button" onclick="clientSet()" value="Show Client Settings" id="btnClient"/>
+  <input type="button" class="button" id="sip" onclick="SIPControl()" value="Talk"/>
+  <input type="button" class="button hide" id="record" onclick="recControl()" value="Record"/>
+  <input type="button" class="button" id="irCut" onclick="sendIRCut()" value="IR-Cut:ON"/>
+  <input type="button" class="button hide" id="wdr_on" onclick="WDRCtrl('on')" value="WDR:ON"/>
+  <input type="button" class="button hide" id="wdr_off" onclick="WDRCtrl('off')" value="WDR:OFF"/>
+  <div class="divBorder">
+    <div id="page_title" align=center></div>
+    <div id="display_image">
+      <object classid="CLSID:D3EABA3F-AFE4-4849-BD9C-DFB981B17055" id="Dean"
+              style="width:640px;height:480px;"
+              CODEBASE="/vtcs_player.cab#Version=2,3,0,8"></object>
+      <img id="mjpg_player" src="/" style="visibility:hidden;"/>
+    </div>
+  </div>
+  </div>
+  <div id="strmBlock" style="display:none;">
+    <label>
+      <input name="stream" type="radio" value="" onclick="strmChange()"/>
+      <span class="streamName"></span>
+    </label>
+      <span class="svctOpt">&nbsp;-&nbsp;SVC-T:&nbsp;</span>
+      <select class="select svct svctOpt">
+      </select>&nbsp;   
+      <input type="checkbox" class="svcHeader svctOpt"/>
+      <span class="svctOpt">SVC-T Header</span><br />
+  </div>
+
+  <div id="ajaxMask"><span id="ajaxImg"></span></div>
+</body>
+</html>

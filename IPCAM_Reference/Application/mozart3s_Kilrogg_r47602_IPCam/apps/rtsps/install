@@ -1,0 +1,175 @@
+#!/bin/bash
+
+PATH=/usr/bin:/bin:$PATH
+MOD_ROOT=$PWD
+TARGET_ROOT=`readlink -f $1`
+MAX_STREAM_NUM=3
+STREAM_SERVER_CONF="stream_server_config.xml"
+VIDEO_TRACK_STR=""
+VIDEO_LIVE_STREAM_STR=""
+TMP_FILE="rtsp.tmp"
+#echo "Rtsp Stream Conf generate....MOD_ROOT="$MOD_ROOT
+VIDEO_SERVER=0
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_VIDEO_SERVER=y"  > /dev/null  2>&1;then
+
+    VIDEO_SERVER=1
+fi
+
+AUDIO_TACK_NUM=`cat $TARGET_ROOT/../.config |  grep CONFIG_AUDIO_TACK_NUM | cut -d'=' -f 2`
+MAX_STREAM_NUM=`cat $TARGET_ROOT/../.config |  grep CONFIG_MAXVIDEOSTREAMNUM | cut -d'=' -f 2`
+#echo "RTSP MAX_STREAM_NUM="$MAX_STREAM_NUM
+MAX_VIDEO_CHANNEL_NUM=`cat $TARGET_ROOT/../.config |  grep CONFIG_MAXVIDEOCHANNELNUM | cut -d'=' -f 2`
+#echo "RTSP MAX_VIDEO_CHANNEL_NUM="$MAX_VIDEO_CHANNEL_NUM
+
+
+cat $MOD_ROOT/$STREAM_SERVER_CONF >  $TARGET_ROOT/etc/conf.d/stream_server_config.xml
+
+VIDEO_TRACK_STR="\\n\\t<total_num>$((MAX_STREAM_NUM*MAX_VIDEO_CHANNEL_NUM))<\/total_num>\\n\\t"
+
+if [ -e $TMP_FILE ];then
+
+rm -f $TMP_FILE
+
+fi
+
+for (( k=0; k<MAX_VIDEO_CHANNEL_NUM; k=k+1 ))
+do
+for (( i=0; i<MAX_STREAM_NUM; i=i+1 ))
+do
+echo $((i+1+(MAX_STREAM_NUM+1)*k))":"$k":"$i >> $TMP_FILE
+done
+done
+
+
+id=0
+for (( k=0; k<$((MAX_STREAM_NUM*MAX_VIDEO_CHANNEL_NUM)); k=k+1 ))
+do
+buff_id=`cat $TMP_FILE |  head -n$((k+1)) | tail -n1 | cut -d":" -f1`
+channel_id=`cat $TMP_FILE |  head -n$((k+1)) | tail -n1 | cut -d":" -f2`
+encoder_id=`cat $TMP_FILE |  head -n$((k+1)) | tail -n1 | cut -d":" -f3`
+
+
+if [ $VIDEO_SERVER -eq 1 ];then
+	if cat $TARGET_ROOT/../.config | grep -n "CONFIG_JPEG_SNAPSHOT=y"  > /dev/null  2>&1;then
+		STR="<track no=\\\"$k\\\">\\n\\t<mechanism>sharedbuffer<\/mechanism>\\n\\t<path>\/dev\/buff_mgr$((buff_id+k))<\/path>\\n\\t<cmd_fifo>\/tmp\/venc\/c$channel_id\/command.fifo@$encoder_id<\/cmd_fifo>\\n\\t<\/track>\\n\\t"
+	else
+		STR="<track no=\\\"$k\\\">\\n\\t<mechanism>sharedbuffer<\/mechanism>\\n\\t<path>\/dev\/buff_mgr$buff_id<\/path>\\n\\t<cmd_fifo>\/tmp\/venc\/c$channel_id\/command.fifo@$encoder_id<\/cmd_fifo>\\n\\t<\/track>\\n\\t"
+	fi
+else
+	STR="<track no=\\\"$k\\\">\\n\\t<mechanism>sharedbuffer<\/mechanism>\\n\\t<path>\/dev\/buff_mgr$buff_id<\/path>\\n\\t<cmd_fifo>\/tmp\/venc\/c$channel_id\/command.fifo@$encoder_id<\/cmd_fifo>\\n\\t<\/track>\\n\\t"         
+fi
+VIDEO_TRACK_STR=$VIDEO_TRACK_STR""$STR
+
+done
+if [ -e $TMP_FILE ];then
+
+rm -f $TMP_FILE
+
+fi
+sed -i "s/<video_track>##/<video_track>$VIDEO_TRACK_STR/g" $TARGET_ROOT/etc/conf.d/stream_server_config.xml
+
+
+#<total_num>8</total_num>
+#		<stream no="0">
+#			<accessname>live0-1.sdp</accessname>			
+#			<videotrack>0</videotrack>
+#			<audiotrack>-1</audiotrack>			
+#			<mdatatrack>-1</mdatatrack>
+#		</stream>
+
+channel_num=0
+stream_num=1
+
+m_port1=5560
+m_port2=5562
+m_port3=5564
+
+
+VIDEO_LIVE_STREAM_STR="\\n\\t<total_num>$((MAX_STREAM_NUM*MAX_VIDEO_CHANNEL_NUM))<\/total_num>\\n\\t"
+for (( i=0; i<$((MAX_STREAM_NUM*MAX_VIDEO_CHANNEL_NUM)); i=i+1 ))
+do
+
+
+
+if [ $VIDEO_SERVER -eq 1 ];then
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_APPS_AENC=y"  > /dev/null  2>&1;then
+  if [ $i -gt $((AUDIO_TACK_NUM-1)) ];then
+    STR="<stream no=\\\"$i\\\">\\n\\t<accessname>live$channel_num-$stream_num.sdp<\/accessname>\\n\\t<videotrack>$i<\/videotrack>\\n\\t<audiotrack>$(($i-AUDIO_TACK_NUM))<\/audiotrack>\\n\\t<mdatatrack>$channel_num<\/mdatatrack>\\n\\t"  
+  else
+    STR="<stream no=\\\"$i\\\">\\n\\t<accessname>live$channel_num-$stream_num.sdp<\/accessname>\\n\\t<videotrack>$i<\/videotrack>\\n\\t<audiotrack>$i<\/audiotrack>\\n\\t<mdatatrack>$channel_num<\/mdatatrack>\\n\\t"  
+  fi 
+else
+  STR="<stream no=\\\"$i\\\">\\n\\t<accessname>live$channel_num-$stream_num.sdp<\/accessname>\\n\\t<videotrack>$i<\/videotrack>\\n\\t<audiotrack>-1<\/audiotrack>\\n\\t<mdatatrack>$channel_num<\/mdatatrack>\\n\\t"  
+fi
+
+else
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_APPS_AENC=y"  > /dev/null  2>&1;then
+  STR="<stream no=\\\"$i\\\">\\n\\t<accessname>live$((i+1)).sdp<\/accessname>\\n\\t<videotrack>$i<\/videotrack>\\n\\t<audiotrack>0<\/audiotrack>\\n\\t<mdatatrack>0<\/mdatatrack>\\n\\t" 
+else
+  STR="<stream no=\\\"$i\\\">\\n\\t<accessname>live$((i+1)).sdp<\/accessname>\\n\\t<videotrack>$i<\/videotrack>\\n\\t<audiotrack>-1<\/audiotrack>\\n\\t<mdatatrack>0<\/mdatatrack>\\n\\t" 
+fi
+
+fi
+
+MULTICAST_STR="<multicast><enable>false<\/enable><ipaddress>239.128.1.100<\/ipaddress><ttl>15<\/ttl><videoport>$m_port1<\/videoport><audioport>$m_port2<\/audioport><mdataport>$m_port3<\/mdataport><\/multicast>\\n\\t<\/stream>\\n\\t"
+
+let m_port1+=6
+let m_port2+=6
+let m_port3+=6
+
+VIDEO_LIVE_STREAM_STR=$VIDEO_LIVE_STREAM_STR""$STR""$MULTICAST_STR
+
+
+if [ $VIDEO_SERVER -eq 1 ];then
+if [ $(((i+1) % MAX_STREAM_NUM)) -eq 0 ];then
+
+channel_num=$((channel_num+1))
+stream_num=1
+
+else 
+
+stream_num=$((stream_num+1))
+
+fi
+fi
+
+
+done
+
+
+sed -i "s/<live_stream>##/<live_stream>$VIDEO_LIVE_STREAM_STR/g" $TARGET_ROOT/etc/conf.d/stream_server_config.xml
+
+
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_APPS_AENC=y"  > /dev/null  2>&1;then
+
+AUDIO_TRACK_STR="\\n\\t<total_num>$AUDIO_TACK_NUM<\/total_num>\\n\\t"
+
+else
+
+AUDIO_TRACK_STR="\\n\\t<total_num>0<\/total_num>\\n\\t"
+fi
+
+
+
+for (( k=0; k<$AUDIO_TACK_NUM; k=k+1 ))
+do
+
+STR="<track no=\\\"$k\\\">\\n\\t<mechanism>socket<\/mechanism>\\n\\t<path>\/tmp\/aenc\/c0\/audio$k.sck<\/path>\\n\\t<cmd_fifo>\/tmp\/aenc\/c0\/command.fifo<\/cmd_fifo>\\n\\t<\/track>\\n\\t"         
+AUDIO_TRACK_STR=$AUDIO_TRACK_STR""$STR
+
+done
+
+sed -i "s/<audio_track>##/<audio_track>$AUDIO_TRACK_STR/g" $TARGET_ROOT/etc/conf.d/stream_server_config.xml	
+
+if [ $VIDEO_SERVER -eq 1 ];then
+sed -i "s/<total_num>#mata_track_num#/<total_num>8/g" $TARGET_ROOT/etc/conf.d/stream_server_config.xml
+	
+
+else
+sed -i "s/<total_num>#mata_track_num#/<total_num>1/g" $TARGET_ROOT/etc/conf.d/stream_server_config.xml	
+fi

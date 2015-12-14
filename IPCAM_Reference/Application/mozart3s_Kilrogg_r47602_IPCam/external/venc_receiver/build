@@ -1,0 +1,47 @@
+#!/bin/bash
+
+PATH=/usr/bin:/bin:$PATH
+VERSION=1.0.0.0
+APP_NAME=venc_receiver
+PACKAGE_DIR=${APP_NAME}-${VERSION}
+HOST='arm-linux-'
+CC=${HOST}gcc
+
+rm -f $PACKAGE_DIR/lib/*
+rm -f $PACKAGE_DIR/include/*
+
+#cp  -f ../../libs/VideoCap/lib/libvideocap.so* $PACKAGE_DIR/lib/
+cp -f ../../libs/SharedBuffMgr/lib/libsharedbuffmgr.so* $PACKAGE_DIR/lib/
+cp  -f  ../../libs/MemMgr/lib/libmemmgr.so* $PACKAGE_DIR/lib/
+cp -f ../../libs/SharedBuffMgr/src/SharedBuffMgr.h $PACKAGE_DIR/include
+cp  -f  ../../libs/MemMgr/src/MemMgr.h $PACKAGE_DIR/include
+cp -f ../../include/*.h $PACKAGE_DIR/include
+cp -f ../../libs/xmlwrapper/lib/libxmlwrapper.so* $PACKAGE_DIR/lib/
+cp -f ../../libs/xmlwrapper/src/xmlwrapper.h  $PACKAGE_DIR/include
+cp -f ../../opensrc/expat/src/*.h  $PACKAGE_DIR/include
+cp -f ../../opensrc/expat/lib/libexpat.so*  $PACKAGE_DIR/lib
+# check if you have the proper gcc
+which $CC > /dev/null || exit 1 
+
+
+
+[ -d "$PACKAGE_DIR" ] || exit 1
+
+cd $PACKAGE_DIR
+
+# configure it for $HOST
+[ -f "Makefile" ] || ./configure --host=${HOST%-} &> /dev/null
+
+# simply make it
+#make --quiet MAKEFLAGS= 
+MAKEFLAGS=
+make --quiet > /dev/null
+
+cd - > /dev/null
+if [ -f  "${PACKAGE_DIR}/${APP_NAME}" ];then
+	${HOST}strip -o ${APP_NAME} $PACKAGE_DIR/${APP_NAME}
+fi
+
+cp -f  $PACKAGE_DIR/${APP_NAME}.sh  ${APP_NAME}.sh 
+
+

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+    <remotesyslog>
+        <enable_remote_syslog>0</enable_remote_syslog>
+        <server_ip></server_ip>
+        <server_port></server_port>
+        <log_level>6</log_level>
+    </remotesyslog>
+</root>

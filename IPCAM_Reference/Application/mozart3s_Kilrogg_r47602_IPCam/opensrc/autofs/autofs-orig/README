@@ -1,0 +1,40 @@
+-*- text -*-
+$Id: README,v 1.6 1998/11/05 01:13:09 hpa Exp $
+
+autofs is a kernel-based automounter for Linux.  It performs a job
+similar to amd(8) but relies on a small stub of kernel code instead of
+pretending to be an NFS server.  The result is simpler code, better
+reliability, and much faster operation in the common case (everything
+already mounted.)
+
+An AMD/AutoFS HOWTO is available at:
+
+http://www.Linux-Consulting.com/Amd_AutoFS/autofs.html
+
+... as well as from your favourite HOWTO archive.
+
+To build autofs, please run:
+
+	./configure
+
+to configure the system.  See README.options for options that you can
+give configure.
+
+After configuring, you can:
+
+	make			... make the daemon and modules
+	make install		... install the daemon and modules
+
+The kernel code is no longer distributed with the autofs daemon (this
+package); it is now only distributed only with the Linux kernel code.
+
+autofs was written by H. Peter Anvin of Transmeta Corporation, please
+read the COPYRIGHT file.
+
+If you use or want to help develop autofs, please join the autofs
+mailing list:
+
+	autofs@linux.kernel.org
+
+by sending a message containing the line "subscribe autofs" to
+majordomo@linux.kernel.org.

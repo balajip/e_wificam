@@ -1,0 +1,74 @@
+#!/bin/sh
+#
+# adecd: This starts and stops adec.
+#
+# chkconfig: 2345 36 16
+# description: adec
+#
+# processname: /usr/sbin/adec
+# config: /etc/conf.d/adec_conf.xml
+# pidfile: /var/run/adec.0.pid
+
+# automatically export variables to the environment
+set -a
+
+PATH=/sbin:/bin:/usr/bin:/usr/sbin
+
+# Source function library.
+. /etc/init.d/functions
+
+# Get config.
+
+#RETVAL=0
+
+prog="adec"
+binpath="/usr/sbin/adec"
+pidfile="/var/run/adec.0.pid"
+configfile="/etc/conf.d/adec_conf.xml"
+args="-c $configfile -D"
+
+[ -f $binpath ] || exit
+
+start(){
+    echo -n "Starting $prog ... "
+    start-stop-daemon --start --pidfile $pidfile --exec $binpath -- $args
+   # sleep 1
+   # echo "."
+    echo
+}
+
+#default --stop send signal 15 (SIGTERM)
+stop(){
+    echo -n "Stopping $prog ... "
+    start-stop-daemon --stop --quiet -n $prog --pidfile $pidfile
+#    waittodie $pidfile $binpath
+    echo "."
+}
+
+reload(){
+    echo -n "Reloading $prog ... "
+    start-stop-daemon --stop --signal 1 -n $prog --pidfile $pidfile
+    echo "."
+}
+
+# See how we are called.
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    reload)
+        reload
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|reload}"
+        exit 1
+esac
+
+exit 0

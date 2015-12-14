@@ -1,0 +1,24 @@
+#!/bin/bash
+# This script will install expat. 
+PATH=/usr/bin:/bin:$PATH
+
+
+
+
+
+
+if [ -f  i2cdetect ];then
+   install -m 755 i2cdetect  $1/usr/bin/
+fi
+
+if [ -f  i2cset ];then
+  install -m 755 i2cset  $1/usr/bin/
+fi
+
+if [ -f  i2cget ];then
+  install -m 755 i2cget  $1/usr/bin/
+fi
+
+if [ -f  i2cdump ];then
+ install -m 755 i2cdump  $1/usr/bin/
+fi

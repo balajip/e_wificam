@@ -1,0 +1,164 @@
+#!/bin/bash
+
+PATH=/usr/bin:/bin:$PATH
+MOD_ROOT=$PWD
+TARGET_ROOT=`readlink -f $1`
+
+AENC_CONF="aenc_conf.xml"
+
+G711=0
+AAC4=0
+GAMR=0
+G726=0
+#N.A.
+type=""
+bitrate=""
+sample_rate=""
+mode="N.A."
+#GAMR,G711,G726, AAC4
+SUPPORT_CODEC=""
+
+
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_TW2866_AUDIO=y"  > /dev/null  2>&1;then
+
+  cp -f $MOD_ROOT/app/config/VideoServer/aenc_conf.xml $TARGET_ROOT/etc/conf.d/$AENC_CONF
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_NVP1114A_AUDIO=y"  > /dev/null  2>&1;then
+  cp -f $MOD_ROOT/app/config/VideoServer/aenc_conf.xml $TARGET_ROOT/etc/conf.d/$AENC_CONF
+  
+else
+    cp -f $MOD_ROOT/app/config/IPCam/aenc_conf.xml $TARGET_ROOT/etc/conf.d/$AENC_CONF
+  
+fi
+
+
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_G711=y"  > /dev/null  2>&1;then
+
+   G711=1
+fi
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_G726=y"  > /dev/null  2>&1;then
+
+   G726=1
+fi
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_AAC4=y"  > /dev/null  2>&1;then
+
+   AAC4=1
+fi
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_GAMR=y"  > /dev/null  2>&1;then
+
+   GAMR=1
+fi
+
+
+
+
+
+#h264,mpeg4,mjpg
+SUPPORT_CODEC=""
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_G711=y"  > /dev/null  2>&1;then
+  SUPPORT_CODEC="G711"
+fi
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_G726=y"  > /dev/null  2>&1;then
+  if [ "$SUPPORT_CODEC" = "G711" ];then
+    SUPPORT_CODEC=$SUPPORT_CODEC",""G726"
+  else
+    SUPPORT_CODEC="G726"
+  fi
+fi
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_GAMR=y"  > /dev/null  2>&1;then
+  if [ "$SUPPORT_CODEC" = "G711,G726" ];then
+    SUPPORT_CODEC=$SUPPORT_CODEC",""GAMR"
+  elif [ "$SUPPORT_CODEC" = "G726" ];then
+    SUPPORT_CODEC=$SUPPORT_CODEC",""GAMR"
+  elif [ "$SUPPORT_CODEC" = "G711" ];then
+    SUPPORT_CODEC=$SUPPORT_CODEC",""GAMR"
+  else
+    SUPPORT_CODEC="GAMR"
+  fi
+fi
+
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_AAC4=y"  > /dev/null  2>&1;then
+  if [ "$SUPPORT_CODEC" = "G711,G726,GAMR" ];then
+    SUPPORT_CODEC=$SUPPORT_CODEC",""AAC4"
+  elif [ "$SUPPORT_CODEC" = "G711,G726" ];then
+    SUPPORT_CODEC=$SUPPORT_CODEC",""AAC4"
+  elif [ "$SUPPORT_CODEC" = "G726,GAMR" ];then
+    SUPPORT_CODEC=$SUPPORT_CODEC",""AAC4"
+  elif [ "$SUPPORT_CODEC" = "G711,GAMR" ];then
+    SUPPORT_CODEC=$SUPPORT_CODEC",""AAC4"
+  elif [ "$SUPPORT_CODEC" = "G711" ];then
+    SUPPORT_CODEC=$SUPPORT_CODEC",""AAC4"
+  elif [ "$SUPPORT_CODEC" = "G726" ];then
+    SUPPORT_CODEC=$SUPPORT_CODEC",""AAC4"
+ elif [ "$SUPPORT_CODEC" = "GAMR" ];then
+    SUPPORT_CODEC=$SUPPORT_CODEC",""AAC4"
+  else
+    SUPPORT_CODEC="AAC4"
+  fi
+fi
+
+
+
+
+
+type=`cat $TARGET_ROOT/../.config |  grep CONFIG_SELECT_AUDIO_CODEC |  cut -d'=' -f2 | cut -d'"' -f2`
+bitrate=`cat $TARGET_ROOT/../.config |  grep CONFIG_BIT_RATE  |  cut -d'=' -f2`
+sample_rate=`cat $TARGET_ROOT/../.config |  grep CONFIG_SAMPLE_RATE  |  cut -d'=' -f2`
+
+if [ $G711 -eq 1 ];then
+  mode=`cat $TARGET_ROOT/../.config |  grep CONFIG_AUDIO_ENC_MODE |  cut -d'=' -f2 | cut -d'"' -f2`
+fi
+
+#if [ $AAC4 -eq 1 ];then
+
+#type="AAC4"
+#bitrate="32000"
+#sample_rate="8000"
+#mode="N.A."
+
+#elif [ $G726 -eq 1 ];then
+
+#type="G726"
+#bitrate="16000"
+#sample_rate="8000"
+#mode="N.A."
+
+#elif [ $G711 -eq 1 ];then
+#type="G711"
+#bitrate="64000"
+#sample_rate="8000"
+#mode="ulaw"
+
+#elif [ $GAMR -eq 1 ];then
+#type="GAMR"
+#bitrate="4750"
+#sample_rate="8000"
+#mode="N.A."
+
+
+#fi
+
+
+sed -i "s/<type>#codec#/<type>$type/g" $TARGET_ROOT/etc/conf.d/$AENC_CONF
+sed -i "s/<bitrate>#bitrate#/<bitrate>$bitrate/g" $TARGET_ROOT/etc/conf.d/$AENC_CONF
+sed -i "s/<sample_rate>#sample_rate#/<sample_rate>$sample_rate/g" $TARGET_ROOT/etc/conf.d/$AENC_CONF
+sed -i "s/<mode>#mode#/<mode>$mode/g" $TARGET_ROOT/etc/conf.d/$AENC_CONF
+sed -i "s/<support_codectype>#support_codectype#/<support_codectype>$SUPPORT_CODEC/g" $TARGET_ROOT/etc/conf.d/$AENC_CONF
+
+
+
+
+

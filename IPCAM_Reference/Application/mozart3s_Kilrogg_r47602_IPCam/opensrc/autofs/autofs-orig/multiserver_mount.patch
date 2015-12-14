@@ -1,0 +1,33 @@
+This is a patch to mount(8) that allows it not to choke on Sun-style
+multiserver mounts (entries like: "server1(10),server2(5):/export/stuff").
+It will hopefully get integrated into mount eventually.
+
+Message-ID: <19980401205358.61968@elo>
+Date: Wed, 1 Apr 1998 20:53:58 -0600
+From: "David Engel" <david@sw.ods.com>
+To: "H. Peter Anvin" <hpa@transmeta.com>
+Subject: Re: Hack for Sun replicated maps
+
+
+--- nfsmount.c.orig	Wed Apr  1 16:52:53 1998
++++ nfsmount.c	Wed Apr  1 17:14:40 1998
+@@ -51,6 +51,7 @@
+ #define _LINUX_SOCKET_H
+ #endif /* __GLIBC__ */
+ #define _I386_BITOPS_H
++#include <asm/posix_types.h>
+ #include <linux/fs.h>
+ #include <linux/nfs.h>
+ #include "nfs_mount3.h"
+@@ -163,6 +164,10 @@
+ 		hostname = hostdir;
+ 		dirname = s + 1;
+ 		*s = '\0';
++		/* ignore all but first hostname in replicated mounts
++		   until they can be fully supported. */
++		if ((s = (strpbrk(hostdir, ",("))))
++			*s = '\0';
+ 	}
+ 	else {
+ 		fprintf(stderr, "mount: "
+

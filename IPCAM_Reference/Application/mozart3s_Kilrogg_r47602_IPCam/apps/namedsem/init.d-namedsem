@@ -1,0 +1,68 @@
+#!/bin/sh
+#
+# vrecd: This starts and stops vrec.
+#
+# chkconfig: 2345 28 33
+# description: Video Recoder 
+#
+# processname: /usr/sbin/vrec
+# config: /etc/conf.d/vrec_conf.xml
+# pidfile: /var/run/vrec.pid
+
+# automatically export variables to the environment
+set -a
+
+PATH=/sbin:/bin:/usr/bin:/usr/sbin
+
+# Source function library.
+. /etc/init.d/functions
+
+# Get config.
+
+#RETVAL=0
+
+prog="namedsem"
+NAMEDSEM_CMD="/usr/sbin/namedsem"
+
+
+[ -f $NAMEDSEM_CMD ] || exit 1
+
+start(){
+	echo -n "Starting $prog: "
+	$NAMEDSEM_CMD create
+	echo "."
+}		
+
+stop(){
+	echo -n "Stopping $prog: "
+	$NAMEDSEM_CMD  destroy
+#	waittodie $pidfile $binpath
+	echo "."
+}
+
+reload(){
+	echo -n "No reloading action for $prog: "	
+	echo "."
+}
+
+# See how we were called.
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	reload)
+		reload
+		;;
+	restart)
+		stop
+		start
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart|reload}"
+		exit 1
+esac
+
+exit 0

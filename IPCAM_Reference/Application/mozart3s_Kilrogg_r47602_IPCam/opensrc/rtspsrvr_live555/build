@@ -1,0 +1,35 @@
+#!/bin/bash
+# This script will build the live555_rtsp server sources
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=live555_rtsp
+A_VERSION=${VERSION}i
+LIB_NAME=librtspsrvr_live555.a
+PACKAGE_DIR=$APP_NAME
+HOST='arm-linux-'
+CC=${HOST}gcc
+PKG_ROOT=${PWD}
+LIB_DIR=lib
+
+# check if you have proper gcc
+which $CC > /dev/null || exit 1
+
+#let Makefile can execute successfully
+unset MFLAGS MAKEFLAGS
+
+cd $PACKAGE_DIR
+
+# simply make it
+make --quiet
+
+# strip it
+#${HOST}strip ${PKG_ROOT}/${PACKAGE_DIR}/${LIB_NAME1}
+
+# make install
+#mv ${PKG_ROOT}/install ${PKG_ROOT}/install.bak
+#make install --quiet > /dev/null
+#mv ${PKG_ROOT}/install.bak ${PKG_ROOT}/install
+
+cd $PKG_ROOT
+
+cp -rf ${PKG_ROOT}/${PACKAGE_DIR}/${LIB_DIR}/${LIB_NAME} ${PKG_ROOT}/lib
+

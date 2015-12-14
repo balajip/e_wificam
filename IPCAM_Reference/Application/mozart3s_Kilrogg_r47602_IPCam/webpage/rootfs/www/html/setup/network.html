@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <title>Network</title>
+      <script type="text/javascript" src="/include/jQuery/jquery-1.7.1.min.js"></script>
+      <script type="text/javascript" src="/include/common.js"></script>
+      <script type="text/javascript" src="/include/ajaxcommon.js"></script>
+      <script type="text/javascript" src="/include/network.js"></script>
+      <link type="text/css" rel="stylesheet" href="/css/default.css" />
+      <style>
+      </style>
+  </head>
+  <body>
+      <div class="confContent" id="content">
+        <fieldset>
+            <legend><strong>Network Type</strong></legend><br>
+            <dl>              
+              <dt>
+                <label><input name="network_type" type="radio" onclick="typeChange();" value="dhcp"/>
+                <span title="Get IP address automatically.">DHCP</span></label>
+              </dt>  
+              <dt>
+                <label><input name="network_type" type="radio" onclick="typeChange();" value="static"/>
+                Fixed IP Address</label>
+              </dt>                               
+              <dd class="static subOpt">
+                IP Address&nbsp; 
+                <input id="network_ipaddress" type="text" class="text" size="16" maxlength="15"/>
+              </dd>
+              <dd class="static subOpt">
+                Subnet Mask&nbsp;
+                <input id="network_subnet" type="text" class="text" size="16" maxlength="15"/>
+              </dd>
+              <dd class="static subOpt">
+                Default Router&nbsp; 
+                <input id="network_router" type="text" class="text" size="16" maxlength="15"/>
+              </dd>
+              <dd class="static subOpt">
+                Primary DNS&nbsp; 
+                <input id="network_dns1" type="text" class="text" size="16" maxlength="15"/>
+              </dd>
+              <dd class="static subOpt">
+                Secondary DNS&nbsp; 
+                <input id="network_dns2" type="text" class="text" size="16" maxlength="15"/>
+              </dd>
+              <!--dd>
+                Primary WINS Server&nbsp; 
+                <input id="network_wins1" type="text" class="text" size="16" maxlength="15"/>
+              </dd>
+              <dd>
+                Secondary WINS Server&nbsp;
+                <input id="network_wins2" type="text" class="text" size="16" maxlength="15"/>
+              </dd--> 
+              <dt>
+                <label><input name="network_type" type="radio" onclick="typeChange();" value="pppoe" />PPPoE</label>
+              </dt>
+                <dd class="pppoe subOpt">User name&nbsp; 
+                  <input id="pppoeUser" type="text" class="text" size="16" maxlength="128"/>
+                </dd>
+                <dd class="pppoe subOpt">
+                  Password&nbsp; 
+                  <input id="pppoePW" type="password" class="text" size="16" maxlength="64"/>
+                </dd>
+                <dd class="pppoe subOpt">
+                  Confirm password&nbsp; 
+                  <input id="pppoePWConfirm" type="password" class="text" size="16" maxlength="64"/>
+                </dd>
+            </dl>
+        </fieldset>            
+        <input type="button" class="button" onclick="submitNet()" value="Save" />
+        <fieldset>
+            <legend><strong>HTTP</strong></legend><br><br>
+              HTTP Port 
+              <input id="httpPort" type="text" class="text" size="5" maxlength="5"/><br>
+              <div id="httpStrmArea" disabled="disabled">
+              </div>
+        </fieldset> 
+        <div id="httpStrm" style="display:none;">
+            Access Name for Stream <span class="httpStrmNo"></span>:&nbsp;
+            <input type="text" class="text httpStrmName" size="16" maxlength="32"/><br>
+        </div>  
+        <fieldset>
+          <legend><strong>RTSP Streaming</strong></legend><br><br>
+            RTSP Port:<input id="rtspPort" type="text" class="text" size="5" maxlength="5"/><br><br>
+            <table border=0>
+            <tr><td>Multicast Group Address:</td><td><input id="rtspMulticastIP" type="text" class="text" size="16" maxlength="32"/></td></tr>
+            <tr><td>Multicast Port:</td><td><input id="rtspMulticastPort" type="text" class="text" size="5" maxlength="5" onchange="changeMulticastPort(this);this.oldvalue = this.value;" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/></td></tr>
+			<tr><td>Multicast TTL[1~255]:</td><td><input id="rtspMulticastTTL" type="text" class="text" size="3" maxlength="5"/></td></tr>
+            </table><br>
+            <div id="rtspStrmArea">
+            </div>
+        </fieldset>
+        <div id="rtspStrm" style="display:none;">
+          Access Name for Stream <span class="rtspStrmNo"></span>:&nbsp;
+          <input type="text" class="text rtspStrmName" size="16" maxlength="32"/><br>
+          <blockquote>
+          <table border=0>
+            <tr><input type="checkbox" class="checkbox rtspMulticastEnable"/> Always multicast</tr>
+            <tr><td>Multicast Video Port:</td><td><input type="text" class="text rtspMulticastVideoPort" size="5" maxlength="5" readonly="readonly"/></td></tr>
+            <tr><td>Multicast Audio Port:</td><td><input type="text" class="text rtspMulticastAudioPort" size="5" maxlength="5" readonly="readonly"/></td></tr>
+            <tr><td>Multicast Metadata Port:</td><td><input type="text" class="text rtspMulticastDataPort" size="5" maxlength="5" readonly="readonly"/></td></tr>
+          </table>
+          </blockquote>
+        </div>
+        <input type="button" class="button" onclick="submitHttpRtsp()" value="Save" />        
+      </div>
+      <div id="ajaxMask"><span id="ajaxImg"></span></div>
+      <iframe name="ret_page" style="display:none"></iframe>
+    </body>
+</html>

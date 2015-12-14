@@ -1,0 +1,50 @@
+#!/bin/sh
+#/sbin/start-udev
+#/sbin/udevadm settle
+
+
+mount -t proc proc /proc
+mount -t sysfs sysfs /sys
+mount -t tmpfs -o size=64k,mode=0755 mdev /dev
+mkdir /dev/pts
+mount -t devpts devpts /dev/pts
+echo /bin/mdev > /proc/sys/kernel/hotplug
+/bin/mdev -s
+
+FLASH_PATH="/mnt/flash"
+FILE="/usr/local/firmware/default_flashfs_files.tar.gz"
+HOSTNAME=`/usr/bin/fw_printenv -n modelname`
+echo "rcS file for  $HOSTNAME"
+/bin/hostname $HOSTNAME
+
+/usr/sbin/swttyS
+
+#/sbin/ifconfig eth0 | md5sum > /dev/urandom
+echo "mount jffs2..."
+/bin/mount -t jffs2 /dev/mtdblock3 /mnt/flash > /dev/null 2>&1
+if [ -f "/mnt/flash/etc/rc.local" ]; then
+        /mnt/flash/etc/rc.local
+else
+        if mountpoint /etc
+        then
+                umount /etc
+        fi
+        cd $FLASH_PATH
+        rm -rf $FLASH_PATH/etc/*
+        tar -zxf $FILE
+        sync
+        /usr/sbin/reboot
+
+ETHADDR=`/usr/bin/fw_printenv -n ethaddr`
+/sbin/ifconfig eth0 hw ether $ETHADDR
+IPADDR=`/usr/bin/fw_printenv -n ipaddr`
+/sbin/ifconfig eth0 $IPADDR
+/sbin/ifconfig lo 127.0.0.1
+/sbin/route add default gw 172.17.0.1
+/usr/sbin/inetd /etc/inetd.conf &
+#/bin/mount -t nfs 172.17.0.5:/home /home -o nolock,tcp
+syslogd
+
+fi
+
+sleep 2

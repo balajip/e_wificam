@@ -1,0 +1,67 @@
+#!/bin/sh
+#
+# uuidgen: This starts uuidgen program.
+#
+# chkconfig: 2345 06 33
+# description: generate uuid at /etc/uuid.conf 
+#
+# processname: /usr/sbin/uuidgen
+# config: None.
+# pidfile: None.
+
+# automatically export variables to the environment
+set -a
+
+PATH=/sbin:/bin:/usr/bin:/usr/sbin
+
+# Source function library.
+. /etc/init.d/functions
+
+# Get config.
+
+#RETVAL=0
+
+prog="uuidgen"
+binpath="/usr/sbin/uuidgen"
+conffile="/etc/uuid.conf"
+
+[ -f $binpath ] || exit
+test -e $conffile && exit 0
+
+start(){
+	echo -n "Starting $prog: "
+	start-stop-daemon --start -n $prog --exec $binpath --background
+	echo "."
+}		
+
+stop(){
+	echo -n "No stopping action for $prog: "
+	echo "."
+}
+
+reload(){
+	echo -n "No reloading action for $prog: "	
+	echo "."
+}
+
+# See how we were called.
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	reload)
+		reload
+		;;
+	restart)
+		stop
+		start
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart|reload}"
+		exit 1
+esac
+
+exit 0

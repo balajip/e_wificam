@@ -1,0 +1,3 @@
+Version: 1.2.0.4
+Release Date: 2013.01.03
+1. [MODIFICATION]: a minor modification

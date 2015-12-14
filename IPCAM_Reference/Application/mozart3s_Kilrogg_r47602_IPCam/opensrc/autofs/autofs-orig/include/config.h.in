@@ -1,0 +1,22 @@
+#ident "$Id: config.h.in,v 1.4 1998/04/02 05:35:53 hpa Exp $"
+/* -*- c -*-
+ *
+ * config.h.in: Pattern file for autofs to be filled in by configure
+ *
+ */
+
+/* Program paths */
+#undef HAVE_MOUNT
+#undef PATH_MOUNT
+
+#undef HAVE_UMOUNT
+#undef PATH_UMOUNT
+
+#undef HAVE_SMBMOUNT
+#undef PATH_SMBMOUNT
+
+#undef HAVE_E2FSCK
+#undef PATH_E2FSCK
+
+/* Define this option if mount(8) supports the -s (sloppy) option */
+#undef HAVE_SLOPPY_MOUNT

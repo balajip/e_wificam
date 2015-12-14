@@ -1,0 +1,92 @@
+#
+# vim: syntax=make
+#		vma_h4ee.ko \
+#		vma_h4ee.sh \
+#		vma_jebe.ko \
+#		vma_jebe.sh \
+
+misc1-$(CONFIG_H264) += vma_h4ee.ko vma_h4ee.sh
+misc1-$(CONFIG_JPEG) += vma_jebe.ko vma_jebe.sh 
+misc1-$(CONFIG_MPV4) += vma_h4ee.ko vma_h4ee.sh
+#misc1-y += vma_h4ee.ko vma_h4ee.sh
+#misc1-y += vma_jebe.ko vma_jebe.sh
+misc1-$(CONFIG_AWB) += AutoWhiteBalance.ko
+misc1-$(CONFIG_AF) += autofocus.ko
+misc1-$(CONFIG_AUTOFOCUS1) += lv8044lp.ko
+misc1-$(CONFIG_IBP) += vma_ibpe.ko vma_ibpe.sh
+misc1-$(CONFIG_SSM2603) += Audio/SSM2603.ko
+misc1-$(CONFIG_TW2866_AUDIO) += Audio/TW2866_AUDIO.ko
+misc1-$(CONFIG_NVP1114A_AUDIO) += Audio/NVP1114A_AUDIO.ko
+misc1-$(CONFIG_WAU8822) += Audio/WAU8822/vaudio-evm.ko  Audio/WAU8822/vaudio-i2s.ko   Audio/WAU8822/vaudio.ko   Audio/WAU8822/WAU8822.ko
+misc1-$(CONFIG_WM8978) += Audio/WM8978/vaudio-evm.ko  Audio/WM8978/vaudio-i2s.ko   Audio/WM8978/vaudio.ko   Audio/WM8978/WM8978.ko
+misc1-$(CONFIG_CAT6011_HDMI_AUDIO) += Audio/CAT6011_Audio.ko
+misc1-$(CONFIG_IT6604_HDMI_AUDIO) += Audio/IT6604_Audio.ko
+misc1-$(CONFIG_MMC) += vpl_mmc.ko
+misc1-$(CONFIG_OTG) += dwc_otg.ko
+misc1-$(CONFIG_IRRC) += irrc.ko
+misc1-$(CONFIG_TMRC) += vpl_tmrc.ko vpl_tmrc.sh
+misc1-$(CONFIG_WDT) += wdt.ko
+misc1-y += ircut.ko ircut.sh
+misc1-$(CONFIG_DCE) += vma_dce.ko vma_dce.sh
+misc1-$(CONFIG_AAC4) += vma_meae.ko vma_meae.sh
+misc1-$(CONFIG_AUTOIRIS0) += ad5602.ko 
+misc1-$(CONFIG_AUTOIRIS1) += ap1513.ko
+misc1-$(CONFIG_AUTOIRIS3) += pwmiriscontrol.ko
+misc1-$(CONFIG_VOC) += adv7391.ko cat6612.ko
+misc1-$(CONFIG_IRE) += vma_ire.ko vma_ire.sh
+misc1-$(CONFIG_I2C_GPIO) += i2c-algo-bit.ko  i2c-gpio.ko
+misc1-$(CONFIG_USB_WIFI_NW362) += Wifi/NW362/8192cu.ko
+misc1-$(CONFIG_USB_WIFI_DWA125) += Wifi/DWA-125/rt5370sta.ko
+misc1-$(CONFIG_USB_WIFI_RT3070) += Wifi/RT3070_USB/rt3070sta.ko
+misc1-$(CONFIG_PCIE_WIFI_ATHEROS) += Wifi/AT9280_PCIe/compat.ko Wifi/AT9280_PCIe/compat_firmware_class.ko Wifi/AT9280_PCIe/rfkill_backport.ko \
+                                     Wifi/AT9280_PCIe/cfg80211.ko Wifi/AT9280_PCIe/mac80211.ko Wifi/AT9280_PCIe/ath.ko Wifi/AT9280_PCIe/ath9k_hw.ko \
+                                     Wifi/AT9280_PCIe/ath9k_common.ko Wifi/AT9280_PCIe/ath9k.ko Wifi/AT9280_PCIe/led-class.ko
+misc1-y += 	buff_mgr.ko \
+		buff_mgr.sh \
+		Godshand.bin \
+		Godshand.ko \
+		Godshand.sh \
+		gpio_i2c.ko \
+		gpio_i2c.sh \
+		snddevices \
+		vpl_dmac.ko \
+		vpl_dmac.sh \
+		vpl_edmc.ko \
+		vpl_edmc.sh \
+		vpl_vic.ko \
+		AutoExposure.ko \
+		IICCtrl.ko \
+		mmr.sh 
+misc1dest-y = /drivers/
+
+userdef-y += . 
+subdir-$(CONFIG_OV5653) += IPCam/
+subdir-$(CONFIG_OV5658) += IPCam/
+subdir-$(CONFIG_MT9P031) += IPCam/
+subdir-$(CONFIG_IMX122) += IPCam/
+subdir-$(CONFIG_IMX222) += IPCam/
+subdir-$(CONFIG_IMX035) += IPCam/
+subdir-$(CONFIG_IMX036) += IPCam/
+subdir-$(CONFIG_IMX104) += IPCam/
+subdir-$(CONFIG_IMX138) += IPCam/ 
+subdir-$(CONFIG_IMX238) += IPCam/ 
+subdir-$(CONFIG_OV2710) += IPCam/ 
+subdir-$(CONFIG_MN34030PL) += IPCam/ 
+subdir-$(CONFIG_MN34041PL) += IPCam/ 
+subdir-$(CONFIG_CAT6011) += IPCam/
+subdir-$(CONFIG_IT6604) += IPCam/ 
+subdir-$(CONFIG_OV9710) += IPCam/ 
+subdir-$(CONFIG_NVP1114A) += VideoServer/ 
+subdir-$(CONFIG_TW2866) += VideoServer/ 
+subdir-$(CONFIG_MN34030PL_60FPS) += IPCam/
+subdir-$(CONFIG_NULLSensor) += IPCam/
+subdir-$(CONFIG_OV10630) += IPCam/
+subdir-$(CONFIG_OV10633) += IPCam/
+subdir-$(CONFIG_AR0331) += IPCam/
+subdir-$(CONFIG_AR0330) += IPCam/
+subdir-$(CONFIG_MT9M033) += IPCam/
+subdir-$(CONFIG_MT9M034) += IPCam/
+subdir-$(CONFIG_AR0130) += IPCam/
+#subdir-$(CONFIG_USB_WIFI_DWA125) += Wifi/
+#subdir-$(CONFIG_USB_WIFI_NW362) += Wifi/
+#subdir-$(CONFIG_PCIE_WIFI_ATHEROS) += Wifi/

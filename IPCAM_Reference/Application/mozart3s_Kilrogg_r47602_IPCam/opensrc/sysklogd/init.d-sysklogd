@@ -1,0 +1,60 @@
+#!/bin/sh
+# /etc/init.d/syslog: start the system log daemon.
+# config file: /etc/syslog.conf
+# chkconfig: 2345 12 40
+
+set -a
+PATH=/sbin:/bin:/usr/bin
+
+[ -f /etc/conf.d/timezone ] && . /etc/conf.d/timezone
+RETVAL=0
+
+prog="syslogd"
+binpath="/sbin/syslogd"
+conffile="/etc/syslog.conf"
+options="-m 0"
+
+test -x $binpath || exit 0
+
+start(){
+    echo -n "Starting $prog: "
+    start-stop-daemon --start --quiet -n $prog --exec $binpath -- $options
+    echo "."
+}
+
+stop(){
+    echo -n "Stopping $prog: "
+	start-stop-daemon --stop --quiet -n $prog --exec $binpath
+	echo "."
+}
+
+reload(){
+	echo -n "Reloading configuration $prog: "
+	start-stop-daemon --stop --signal 1 --quiet -n $prog --exec $binpath
+	echo "."
+}
+
+
+# See how we were called.
+case "$1" in
+    start)
+	start
+	;;
+    stop)
+	stop
+	;;
+	reload)
+	reload
+	;;
+    restart)
+    stop
+    start
+	;;
+
+    *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit 0
+

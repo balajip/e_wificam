@@ -1,0 +1,60 @@
+#!/bin/bash
+PATH=/usr/bin:/bin:$PATH
+PKG_ROOT=${PWD}
+HOST='arm-linux-'
+CC=${HOST}gcc
+APP_NAME=lighttpd
+VERSION=1.4.31
+PACKAGE_DIR=$APP_NAME-$VERSION
+ROOT=../../..
+EXPAT_LIB_PATH=opensrc/expat/lib/
+XML_WRAPPER_PATH=libs/xmlwrapper/lib/
+XMLMNGR_PATH=libs/xmlmgr/lib/
+ONVIF_PATH=libs/onvif/lib/
+PCRE_SRC=$PKG_ROOT/../pcre/src/
+PCRE_LIB=$PKG_ROOT/../pcre/lib/
+ENABLE_ONVIF=`cat ../../.config |  grep "CONFIG_ONVIF=" | cut -d'=' -f 2`
+cd $PKG_ROOT/lib/
+  
+rm lib*
+
+
+LIBFILES=`find  $ROOT/$EXPAT_LIB_PATH $ROOT/$XML_WRAPPER_PATH $ROOT/$XMLMNGR_PATH   -not \( -name .svn -prune \) -name *so.*`
+#echo $LIBFILES
+for FILE in $LIBFILES;
+do
+    #echo $FILE
+    basename=$FILE
+    shortlib=`basename $FILE`
+    extn=$(echo $shortlib |  sed 's/ *[.].*//')
+    if [[ $extn ]]
+    then
+        shortlib=$extn.so
+        ln -s $basename $shortlib
+    fi
+done
+
+cd $PKG_ROOT
+cd $PACKAGE_DIR
+
+./configure --host=${HOST%-} --without-zlib --without-bzip2 --without-pcre  CPPFLAGS="-I$PCRE_SRC" LDFLAGS=" -L${PCRE_LIB}" --libdir=/usr/local/lib64/  > /dev/null 2>&1
+
+
+# modify Makefile for ONVIF support
+if [[ -n "$ENABLE_ONVIF" ]]
+then 
+   echo "apply onvif patch... "
+   patch -p1  < ../onvif.patch
+fi
+
+# simply make it
+make --quiet > /dev/null 2>&1
+
+if [[ -e 'src/lighttpd' ]]
+then 
+   cp src/lighttpd ../lighttpd
+fi
+
+arm-linux-strip ../lighttpd
+
+cd $PKG_ROOT

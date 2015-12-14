@@ -1,0 +1,34 @@
+#!/bin/sh
+
+export LSPDIR=/opt/ASC88xx/lsp
+export BUILDROOTDIR=${LSPDIR}/mozart/buildroot-1.0
+export PROJECT=Mozart
+export MOZARTDIR=${LSPDIR}/${PROJECT}
+
+export TOOLSDIR=/opt/Mozart_Toolchainv2.1/arm-eabi-uclibc/usr/bin
+
+export PRJROOT=${MOZARTDIR}
+export TARGET=arm-linux
+export PREFIX=${PRJROOT}/tools
+export TARGET_PREFIX=${PREFIX}/${TARGET}
+export PATH=${TOOLSDIR}:${PREFIX}/bin:/usr/local/bin:${PATH}
+export KERNELINC=/home/Mozart/LSP/kernel_src/include
+export KERNELSRC=/home/Mozart/LSP/kernel_src
+export CPU=arm
+# Product definition
+# ** this should be re-assigned to a product directory **
+export PRODUCTNAME=ASC88xx
+export PRODUCTDIR=/raidhome/lsp/ASC88xx
+export PRODUCTVER=
+
+# source FTP site 
+export FTP_HOST_SITE=ftp://rd2-3
+
+# Hardware definition
+export BOARDTYPE=ASC88xx
+                                                                                
+# Linux kernel definition
+export OSTOOLNAME=linux
+export OSVERSION=2.6.28
+export OSEXTENSION=VN
+                                                   

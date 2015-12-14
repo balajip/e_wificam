@@ -1,0 +1,4 @@
+subdir-y = getparam upgrade getpmask firmware_update
+subdir-$(CONFIG_9PCONFSWITCH) += vencenv
+subdir-y += vencenv
+subdir-$(CONFIG_RECORD) += sdmanage vrecsearch vrecord

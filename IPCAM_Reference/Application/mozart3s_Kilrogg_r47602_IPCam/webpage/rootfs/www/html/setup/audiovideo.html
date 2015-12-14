@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">    
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />              
+    <script type="text/javascript" src="/include/jQuery/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="/include/jQuery/jquery-ui-1.8.6.custom.min.js"></script>
+    <script type="text/javascript" src="/include/common.js"></script>      
+    <script type="text/javascript" src="/include/audiovideo.js"></script>
+    <link type="text/css" rel="stylesheet" href="/include/jQuery/jquery-ui-1.8.6.custom.css" />
+    <link type="text/css" rel="stylesheet" href="/css/default.css" />
+    <title>Audio and Video</title>	
+    <style>
+      .sValue {
+          display:-moz-inline-box;  
+          display:inline-block;
+	      width: 80px;
+          height:20px;
+          text-align:right;
+          /*margin: 7px 3px 0px 3px;*/
+      }    
+      .textR {
+          text-align:right;
+      }      
+    </style>
+</head>
+<body>
+<div class="confContent" id="content">
+<form>
+<fieldset>
+    <legend><strong><span>Video Settings</span></strong></legend><br>
+<dl>    
+    <dt>
+        <span>Color: </span>
+        <span class="position">
+            <label><input name="color" type="radio" value="0"/>
+            <span>B/W</span></label>
+            <label><input name="color" type="radio" value="1"/>
+            <span>Color</span></label>
+        </span>
+    </dt>
+    <dt>
+        <span>Power Line Frequency: </span>
+        <span class="position">
+            <label><input name="line_freq" type="radio" value="50" onclick="changeFPS()"/>
+            <span>50 Hz</span></label>
+            <label><input name="line_freq" type="radio" value="60" onclick="changeFPS()"/>
+            <span>60 Hz</span></label>
+        </span>
+    </dt>
+    <dt>
+        <span>Video Orientation: </span>
+        <span class="position">
+            <label><input type="checkbox" id="flip"/>
+            <span>Flip</span></label>
+            <label><input type="checkbox" id="mirror"/> 
+            <span>Mirror</span></label>
+        </span>
+    </dt>
+    <dt>
+        <span>Maximum Visible Size: </span>
+        <select class="select" id="max_resolution"
+                onchange="streamResolution(this.options[this.options.selectedIndex].value);">
+        </select>
+    </dt>
+    <dt>
+        <span>Video Output: </span>
+        <select class="select" id="voc">
+            <option value="none">None</option>
+            <option value="ntsc">CVBS NTSC</option>
+            <option value="pal">CVBS PAL</option>
+            <option value="720p60">HDMI 720p@60Hz</option>
+            <option value="1080p24">HDMI 1080p@24Hz</option>
+            <option value="1080p30">HDMI 1080p@30Hz</option>
+            <option value="1080p60">HDMI 1080p@60Hz</option>
+            <option value="HDSDI_720p30" disabled="disabled">HDSDI 720p@30Hz - VML does not support</option>
+            <option value="HDSDI_720p60">HDSDI 720p@60Hz</option>
+            <option value="HDSDI_1080p24">HDSDI 1080p@24Hz</option>
+            <option value="HDSDI_1080p30">HDSDI 1080p@30Hz - device does not support</option>
+            <option value="HDSDI_1080p60">HDSDI 1080p@60Hz - have to switch jumper, HW issue</option>
+        </select>
+    </dt>
+    <!--dt>
+        <input type="button" class="button" onclick="openurl('videoROI.html')" value="Viewing window/ROI"/>
+    </dt-->
+</dl>
+<div id="videoSetting">
+    
+</div>
+<div id="sModel" style="display:none">
+<dl>
+  <dt><span class="sTitle" style="font-weight: bold;">Video quality settings for stream </span></dt>
+  <dd>
+    <span>Mode: </span>
+    <select class="select codec" onchange="changeCodec(this)">
+    </select>
+  </dd>
+  <dd>
+    <span>Frame Size: </span>
+    <select class="select frameSize">        
+    </select>
+  </dd>
+  <dd>
+    <span>Maximum Frame Rate: </span>
+    <select class="select frameRate">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="5">5</option>
+        <option value="8">8</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+        <option value="60">60</option>
+    </select>
+    <span> FPS</span>
+  </dd>
+  <dd class="period">
+  </dd>
+  <dd class="qSettings">
+  </dd>
+  <dd>
+    <input type="checkbox" class="txtOverlay_switch" onclick="switchTextOverlay(this)"/>
+    <span>Text Overlay</span>
+    <dl class="txtOverlay">
+      <dd>
+        <span>Font: </span>
+        <select class="select txtFont">
+          <option value="/usr/share/fonts/helvR12-ISO8859-1.pcf.gz">Helvetica, 12pt.</option>
+          <option value="/usr/share/fonts/helvR18-ISO8859-1.pcf.gz">Helvetica, 18pt.</option>
+          <option value="/usr/share/fonts/helvR24-ISO8859-1.pcf.gz">Helvetica, 24pt.</option>
+          <option value="/usr/share/fonts/timR12-ISO8859-1.pcf.gz">Times New Roman, 12pt.</option>
+          <option value="/usr/share/fonts/timR18-ISO8859-1.pcf.gz">Times New Roman, 18pt.</option>
+          <option value="/usr/share/fonts/timR24-ISO8859-1.pcf.gz">Times New Roman, 24pt.</option>
+        </select>
+      </dd>
+      <dd>
+        <span>Text Field: </span>
+        <input type="text" class="text txtField" size="40" maxlength="40"/>
+      </dd>
+      <dd>
+        <input type="checkbox" class="t_switch" onclick="switchTimeStamp(this)"/>
+        <span class="timestamp_name" style="color:#999999;">Time Stamp: </span>
+        <input type="text" class="text timestamp" value="2010-10-06 14:21:51+0800" size="40" disabled="true" style="color: #999999;"/>
+        <!--select name="ccc" class="select" id="timeStamp_S0">
+            <option value="%F %H:%M:%S%z">2009-06-06 14:21:51+0800</option>
+        </select-->
+      </dd>
+    </dl>
+  </dd>
+</dl>
+</div>
+<div id="commonP" style="display:none">
+  <span>Intra frame period: </span>
+  <select class="select periodSelect">
+      <option value="1">1</option>
+      <option value="3">3</option>
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="30">30</option>
+      <option value="60">60</option>
+      <option value="90">90</option>
+      <option value="120">120</option>
+      <option value="150">150</option>
+      <option value="180">180</option>
+      <option value="210">210</option>
+      <option value="240">240</option>
+      <option value="270">270</option>
+      <option value="300">300</option>
+  </select>
+</div>
+<div id="mjpgQ" style="display:none">
+  <span>Quality: </span>
+  <select class="select quality">
+      <option value="150">Medium</option>
+      <option value="100">Standard</option>
+      <option value="50">Good</option>
+      <option value="30">Detailed</option>
+      <option value="10">Excellent</option>
+  </select>
+</div>
+<div id="commonQ" style="display:none">
+    <dt><span>Video Quality: </span></dt>
+    <dd>
+        <span>Rate Control Mode: </span>
+        <label title="NONE: No rate control is performed and the video is encoded with the provided quality factor.">
+          <input type="radio" name="rate_control" value="NONE"/>
+          <span>NONE</span>
+        </label>
+        <label title="VQCB: The video quality and the frame rate will be variable to meet the provided bit-rate.">
+          <input type="radio" name="rate_control" value="VQCB"/>
+          <span>VQCB</span>
+        </label>
+        <label title="CQCB: The video is encoded with the provided quality factor if the provided bit-rate is not exceeded. When the provided bit-rate is exceeded, the frame rate will be variable to meet the provided bit-rate and quality.">
+          <input type="radio" name="rate_control" value="CQCB"/>
+          <span>CQCB</span>
+        </label>
+        <label title="CVBR: The video is encoded with the provided quality factor if the provided bit-rate is not exceeded. When the provided bit-rate is exceeded, the video quality will be variable to meet the provided bit-rate while the frame rate will be kept.">
+          <input type="radio" name="rate_control" value="CVBR"/>
+          <span>CVBR</span>
+        </label>
+    </dd>
+    <dd>
+      <span>Bit Rate: </span>
+      <select class="select bitRate">
+          <option value="20000">20 Kbps</option>    
+          <option value="30000">30 Kbps</option>
+          <option value="40000">40 Kbps</option>
+          <option value="50000">50 Kbps</option>
+          <option value="64000">64 Kbps</option>
+          <option value="128000">128 Kbps</option>
+          <option value="256000">256 Kbps</option>
+          <option value="384000">384 Kbps</option>
+          <option value="512000">512 Kbps</option>
+          <option value="768000">768 Kbps</option>
+          <option value="1000000">1 Mbps</option>
+          <option value="1500000">1.5 Mbps</option>
+          <option value="2000000">2 Mbps</option>
+          <option value="3000000">3 Mbps</option>
+          <option value="4000000">4 Mbps</option>
+          <option value="8000000">8 Mbps</option>
+          <option value="12000000">12 Mbps</option>
+      </select>
+    </dd>
+    <dd>
+      <span>Quality: </span>
+        <span class="position">
+          <input type="text" class="text inputQ" size="5" maxlength="2"/>
+          <select class="select selectQ">
+              <option value="15">Medium</option>
+              <option value="10">Standard</option>
+              <option value="7">Good</option>
+              <option value="5">Detailed</option>
+              <option value="4">Excellent</option>
+          </select>
+        </span>
+    </dd>
+</div>
+<div id="svct" style="display:none">
+  <dt>
+    <span>SVC-T Layer: </span>
+    <select class="select svcLayer">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+    </select>
+    <span> Layers</span>
+  </dt>
+</div>
+<br />
+
+<input type="button" class="button" onclick="openurl('privacy.html')" value="Privacy Mask"/>
+</fieldset>
+<fieldset>
+    <legend><strong><span>Audio settings</span></strong></legend><br>
+    <p>
+    <table>
+      <tbody>
+        <tr>
+          <th colspan="3" align="left">
+          Channel 1  
+          </th>        
+        </tr>
+        <tr>
+          <td width="120px" class="textR">Input:&nbsp;</td>
+          <td width="250px">
+            <label class="line0">
+              <input type="radio" name="ain0" value="1" id="line0" onclick="switchGain('1','0')"/>
+              <span>Line-in</span>
+            </label>
+            <label class="mic0">
+              <input type="radio" name="ain0" value="2" id="mic0" onclick="switchGain('2','0')"/>
+              <span>Mic-in</span>
+            </label>
+          </td> 
+          <td></td>         
+        </tr>  
+        <tr class="mute0">
+          <td>&nbsp;&nbsp;&nbsp;<input id="mute0" type="checkbox" />Mute</td>
+          <td></td>
+          <td></td>
+        </tr>          
+        <tr>
+            <td class="textR">
+                <span class="audioGain0">&nbsp;&nbsp;&nbsp;&nbsp;Gain: </span>
+            </td>
+            <td><div id="vol0" class="audioGain0"></div></td>
+            <td><span class="sValue audioGain0 volValue0"></span></td>
+        </tr>         
+        <tr>
+          <td class="textR">Audio Type:&nbsp;</td>
+          <td><select id="audioCodec0" class="select aCodec" 
+                  onchange="audioCodecChange(this.options[this.options.selectedIndex].value,'0')">
+                  <option value="G711_alaw">G.711 A-Law</option>
+                  <option value="G711_ulaw">G.711 u-Law</option>
+                  <option value="G726">G.726</option>
+                  <option value="AAC4">AAC</option>
+                  <option value="GAMR">GSM-AMR</option>
+              </select>
+          </td> 
+          <td></td>
+        </tr>      
+        <tr><td class="textR">Sample Rate:&nbsp;</td> 
+            <td>8 KHz</td>
+            <td></td> 
+        </tr>      
+        <tr><td class="textR">Bit Rate:&nbsp;</td>
+            <td><select id="audioBitrate0" class="select">                    
+                </select>                         
+            </td>
+            <td></td>
+        </tr>        
+      </tbody>
+    </table>
+    <table id="audio2">
+      <tbody>
+        <tr>
+          <th colspan="3" align="left">
+          Channel 2  
+          </th>        
+        </tr>
+        <tr>
+          <td width="120px" class="textR">Input:&nbsp;</td>
+          <td width="250px">
+            <label class="line1">
+              <input type="radio" name="ain1" value="1" id="line1" onclick="switchGain('1','1')"/>
+              <span>Line-in</span>
+            </label>
+            <label class="mic1">
+              <input type="radio" name="ain1" value="2" id="mic1" onclick="switchGain('2','1')"/>
+              <span>Mic-in</span>
+            </label>
+          </td> 
+          <td></td>         
+        </tr>  
+        <tr class="mute1">
+          <td>&nbsp;&nbsp;&nbsp;<input id="mute1" type="checkbox" />Mute</td>
+          <td></td>
+          <td></td>
+        </tr>          
+        <tr>
+            <td class="textR">
+                <span class="audioGain1">&nbsp;&nbsp;&nbsp;&nbsp;Gain: </span>
+            </td>
+            <td><div id="vol1" class="audioGain1"></div></td>
+            <td><span class="sValue audioGain1 volValue1"></span></td>
+        </tr>         
+        <tr>
+          <td class="textR">Audio Type:&nbsp;</td>
+          <td><select id="audioCodec1" class="select aCodec" 
+                  onchange="audioCodecChange(this.options[this.options.selectedIndex].value,'1')">
+                  <option value="G711_alaw">G.711 A-Law</option>
+                  <option value="G711_ulaw">G.711 u-Law</option>
+                  <option value="G726">G.726</option>
+                  <option value="AAC4">AAC</option>
+                  <option value="GAMR">GSM-AMR</option>
+              </select>
+          </td> 
+          <td></td>
+        </tr>      
+        <tr><td class="textR">Sample Rate:&nbsp;</td> 
+            <td>8 KHz</td>
+            <td></td> 
+        </tr>      
+        <tr><td class="textR">Bit Rate:&nbsp;</td>
+            <td><select id="audioBitrate1" class="select">                    
+                </select>                         
+            </td>
+            <td></td>
+        </tr>        
+    </tbody>
+  </table>
+</fieldset>
+<input type="button" class="button" onclick="submitform()" value="save" />
+<div id="ajaxMask"><span id="ajaxImg"></span></div>
+</form>
+</div>
+<iframe name="ret_page" style="display:none"></iframe>
+</body>
+</html>

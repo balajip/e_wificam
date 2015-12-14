@@ -1,0 +1,6 @@
+#ifndef __BEETHOVEN_SERIALFLASH_H__
+#define __BEETHOVEN_SERIALFLASH_H__
+
+#define SSI_MMR_BASE 0x70800000
+
+#endif

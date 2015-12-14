@@ -1,0 +1,33 @@
+*******************************************************************
+* MT9M034 sensor device driver, Linux Device Driver, Release Note *
+*******************************************************************
+[Version 1.0.0.6]
+Release at 2013.12.02
+1. BUG: Incorrect power line frequency setting. - FIXED.
+
+[Version 1.0.0.5]
+Release at 2013.01.30
+1. BUG: Frame rate can not up to 60fps when 720p mode. - FIXED.
+2. MODIFICATION: Reduce data pedestal - DONE.
+
+[Version 1.0.0.4]
+Release at 2012.12.26
+1. MODIFICATION: Update MODULE_AUTHOR - DONE.
+
+[Version 1.0.0.3]
+Release at 2012.11.09
+1. BUG: Auto exposure flicker. - FIXED.
+
+[Version 1.0.0.2]
+Release at 2012.11.02
+1. MODIFICATION: Add DCG sensor gain into gain function. - DONE.
+1. MODIFICATION: support 640X480 binning mode. - DONE.
+
+[Version 1.0.0.1]
+Release at 2012.09.04
+1. MODIFICATION: Modify sensor output size. - DONE.
+2. MODIFICATION: Add sensor Max gain call back function. - DONE.
+
+[Version 1.0.0.0]
+Release at 2012.03.09
+1. FEATURE: First Released - DONE.

@@ -1,0 +1,25 @@
+#!/bin/sh
+RESOLV_CONF="/etc/resolv.conf"
+USAGE="Usage: $0 dns1 dns2 ... dnsN"
+IPADDR_REGEXP='/^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$/p'
+
+if [ "$#" -eq "0" ]; then
+	echo "$USAGE"
+	exit 0
+fi
+
+if [ -e "$RESOLV_CONF" ]; then
+	rm $RESOLV_CONF
+fi
+touch $RESOLV_CONF
+# Domain is not used right now. 2005/03/21
+#[ -n "$domain" ] && echo domain $domain >> $RESOLV_CONF
+
+while [ "$#" -ne "0" ]; do
+ 	# Check that it's a IP address
+	if [ ! -z `echo $1 | sed -n $IPADDR_REGEXP` ]; then
+		echo "adding dns $1"
+		echo "nameserver $1" >> $RESOLV_CONF
+	fi
+	shift
+done

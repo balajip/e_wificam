@@ -1,0 +1,14 @@
+--- stunnel-4.26-orig/src/stunnel.c	2012-10-19 18:12:23.177909608 +0800
++++ stunnel-4.26/src/stunnel.c	2012-10-19 18:10:15.241913980 +0800
+@@ -415,7 +415,10 @@ static void delete_pid(void) {
+ static void signal_handler(int sig) { /* signal handler */
+     s_log(sig==SIGTERM ? LOG_NOTICE : LOG_ERR,
+         "Received signal %d; terminating", sig);
+-    die(3);
++	if((sig == SIGQUIT) || (sig == SIGTERM))
++	{
++		die(3);
++	}
+ }
+ 
+ #endif /* standard Unix */

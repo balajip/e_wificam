@@ -1,0 +1,78 @@
+#!/bin/sh
+
+/sbin/ifconfig eth0 down
+/sbin/ifconfig eth0 hw ether `/usr/bin/fw_printenv -n ethaddr`
+
+mount --bind /mnt/flash/etc /etc
+
+mkdir -p /dev/shm
+/bin/mount -a
+mkdir -p /dev/shm/sem.tmp
+/usr/sbin/mount_as_tmpfs /var/
+
+/bin/ln -s  /tmp/vrecord/videoclips/ /usr/share/www/html/vrecord
+
+
+if [ -d  /var/lib/dpkg  ];then
+  echo "dir /var/lib/dpkg exist!!" > /dev/null
+else
+  mkdir -p /var/lib/dpkg > /dev/null
+fi
+
+if [ -d  /var/lib/dpkg/info  ];then
+  echo "dir /var/lib/dpkg/info exist!!" > /dev/null
+else
+  mkdir -p /var/lib/dpkg/info > /dev/null
+fi
+
+
+if [ -f  /var/lib/dpkg/status  ];then
+  echo "file /var/lib/dpkg/status exist!!" > /dev/null
+else
+  touch /var/lib/dpkg/status
+fi
+
+cd /drivers
+
+echo "Install drivers..."
+
+/bin/sh drivers.sh > /dev/null 2>&1
+
+mkdir -p /var/log/lighttpd # for lighttpd
+mkdir -p /var/run/ss    # for rtsps
+mkdir -p /var/run/http  # for rtsps
+mkdir -p /tmp/aenc/c0   # for rtsps
+mkdir -p /tmp/venc/c0 # for rtsps and serverpush
+mkdir -p /tmp/venc/c1 # for rtsps and serverpush
+mkdir -p /tmp/venc/c2 # for rtsps and serverpush
+mkdir -p /tmp/venc/c3 # for rtsps and serverpush
+mkdir -p /tmp/venc/c4 # for rtsps and serverpush
+mkdir -p /tmp/venc/c5 # for rtsps and serverpush
+mkdir -p /tmp/venc/c6 # for rtsps and serverpush
+mkdir -p /tmp/venc/c7 # for rtsps and serverpush
+
+mkdir -p /tmp/event/ # for event used 
+
+/bin/run-parts -a start /etc/rcS.d #> /dev/null 2>&1
+
+#vrec_configfile="/etc/conf.d/vrec_conf.xml"
+
+#if [ -f /tmp/vrecord/videoclips/.VREC_SIGNATURE ];then
+
+#echo "Found /tmp/vrecord/videoclips/.VREC_SIGNATUR. So start recording."
+
+#if cat $vrec_configfile | grep -n "<switch>0</switch>"  > /dev/null  2>&1;then
+
+#sed -i "s/<switch>0<\/switch>/<switch>1<\/switch>/g" $vrec_configfile
+
+#fi
+
+#if cat $vrec_configfile | grep -n "<record>0</record>"  > /dev/null  2>&1;then
+
+#sed -i "s/<record>0<\/record>/<record>1<\/record>/g" $vrec_configfile
+
+#fi
+#/etc/init.d/vrec reload
+
+
+#fi

@@ -1,0 +1,71 @@
+*******************************************************************
+* MT9P031 sensor device driver, Linux Device Driver, Release Note *
+*******************************************************************
+[Version 2.0.0.5]
+Release at 2012.12.26
+1. MODIFICATION: Update MODULE_AUTHOR - DONE.
+
+[Version 2.0.0.4]
+Release at 2012.11.23
+1. MODIFICATION: Modify sensor row black target value. - DONE.
+
+[Version 2.0.0.3]
+Release at 2012.08.07
+1. MODIFICATION: Modify sensor output size. - DONE.
+2. MODIFICATION: Add sensor Max gain call back function. - DONE.
+
+[Version 2.0.0.2]
+Release at 2012.02.09
+1. MODIFICATION: Restore shutter after change size or power frequence. - DONE.
+
+[Version 2.0.0.1]
+Release at 2012.01.05
+1. BUGFIX: Flicker on 50HZ. - FIXED.
+2. MODIFICATION: Change frame rate according to power frequence. - DONE.
+
+[Version 2.0.0.0] 
+Release at 2011.01.21
+1. MODIFICATION: Modify shutter and gain function for new AE logic - DONE
+2. FEATURE: Add SENSOR_INTERFACE_VERSION for sensor version check - DONE.
+3. MODIFICATION: Remove shutter and gain table, so this version should be sychronized with vpl_vic.ko version 7.0.0.13 and AutoExposure.ko version 3.0.0.0 - DONE.
+
+[Version 1.0.0.8]
+Release at 2010.11.01
+1. BUGFIX: Set "Row Start" and "Colume Start" in initial to make sure the image is in the center. - FIXED.
+
+[Version 1.0.0.7]
+Release at 2010.11.01
+1. MODIFICATION: Modify vertical blanking value to make the flicker slower - DONE.
+
+[Version 1.0.0.6]
+Release at 2010.08.23
+1. MODIFICATION: Modify shutter values to match framerate 30fps spec - DONE.
+
+[Version 1.0.0.5]
+Release at 2010.08.18
+1. BUGFIX: reset shutter idx to framerate idx after update shutter table  - DONE.
+
+[Version 1.0.0.4]
+Release at 2010.08.02
+1. MODIFICATION: Remove "video_sensor_width" and "video_sensor_height" of sensor_initial_params setting by VIC to synchronize with vpl_vic.ko v_7.0.0.2 - DONE.
+2. MODIFICATION: Add semaphore for ioctl function. - DONE
+
+[Version 1.0.0.3]
+Release at 2010.06.21
+1. FEATURE: Add group_access call-back function for sensors with grouping access function - DONE.
+2. MODIFICATION: remove redundent prink - DONE.
+3. BUGFIX: fix sysfs_create_file and sysfs_remove_file mismatch - DONE.
+
+[Version 1.0.0.2]
+Release at 2010.06.03
+1. FEATURE: Add get_remaining_line_num call-back function for VIC AE delay issue workaround - DONE. 
+
+[Version 1.0.0.1]
+Release at 2010.06.01
+1. MODIFICATION: Add device number information into the interface between VIC and sensor device - DONE.
+2. MODIFICATION: Remove the mutex in IOCTL function - DONE
+3. BUGFIX: Set size should be done after reset in the open function - FIXED
+
+[Version 1.0.0.0]
+Release at 2010.04.30
+1. FEATURE: First Released - DONE.

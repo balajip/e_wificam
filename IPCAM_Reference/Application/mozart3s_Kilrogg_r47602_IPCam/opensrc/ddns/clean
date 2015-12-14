@@ -1,0 +1,32 @@
+#!/bin/bash
+# This script will untar a ppp tarball from Debian, patch it, and build it. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=inadyn
+VERSION=1.96
+DEB_ORIG_TARBALL=${APP_NAME}_${VERSION}.orig.tar.gz
+DEB_PATCH=${APP_NAME}_${VERSION}-1.diff.gz
+PACKAGE_DIR=$APP_NAME-$VERSION
+UNTAR_ARG='-zxf'
+HOST='arm-linux'
+CC=$HOST-gcc
+PKG_ROOT=${PWD}
+
+# check if you have proper gcc
+#which $CC || exit 1
+
+#tar $UNTAR_ARG $TARBALL
+
+#[ -d "$PACKAGE_DIR" ] || exit 0
+
+#cd $PACKAGE_DIR
+
+# configure it for $HOST
+#[ -f "Makefile" ] || ./configure --host=$HOST &> /dev/null
+
+# simply make it
+#make --quiet clean
+
+#cd - > /dev/null
+
+rm -rf ${APP_NAME} ${PACKAGE_DIR}
+

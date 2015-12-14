@@ -1,0 +1,14 @@
+*************************************************************
+* IICCtrl device driver, Linux Device Driver, Release Note *
+*************************************************************
+[Version 1.0.0.2]
+Release at 2010.07.23
+1. FEATURE: Support different I2C bus - DONE.
+
+[Version 1.0.0.1]
+Release at 2010.06.02
+1. BUGFIX: Passing error data length to GPIO_I2C read function in IICCtrl_ReadWordReg - FIXED.
+
+[Version 1.0.0.0]
+Release at 2010.04.30
+1. FEATURE: First Released - DONE.

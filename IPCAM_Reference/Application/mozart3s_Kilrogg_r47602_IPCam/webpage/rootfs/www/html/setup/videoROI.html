@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Viewing Window</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="/include/jQuery/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="/cgi-bin/displayinfo.cgi"></script>
+    <link rel="stylesheet" media="all" type="text/css" href="/css/default.css" />
+    <script type="text/javascript" src="/include/plugindef.js"></script>
+    <script type="text/javascript" src="/include/videoroi.js"></script>   
+    <script type="text/javascript" src="/include/common.js"></script>   
+    <style type="text/css">
+        body 
+        {
+            margin:0;
+            padding:0;
+        }
+        /*div#wrap 
+        {            
+            margin:0 auto;
+        }     */
+    </style>        
+</head>
+<body>
+  <div id="wrap">
+    <fieldset>
+      <legend><strong>Viewing Window</strong></legend>
+      <br /><br />
+      <span>Video Stream: Stream 1</span><br />
+    <span>Reference Size: </span>
+    <select class="select" id="frameSize" onchange="setRefSize()">        
+    </select><br /> 
+      <span>Current Size: </span>     
+      <label id="currentSize"></label><br />
+      <input type="button" class="button" onclick="sendROI()" value="Save" />
+      <input type="button" class="button" onclick="closePage()" value="Close" /><br />
+<object classid="CLSID:D3EABA3F-AFE4-4849-BD9C-DFB981B17055" id="Dean" 
+style="width:960px;height:540px;"
+CODEBASE="/vtcs_player.cab#Version=2,3,0,8"></object>  
+    </fieldset>                                                     
+  </div>
+  <div id="ajaxMask"><span id="ajaxImg"></span></div>
+</body>
+</html>

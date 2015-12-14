@@ -1,0 +1,16 @@
+uboot-envtools for Debian GNU/Linux
+-----------------------------------
+
+Configuration
+-------------
+The configuration file is /etc/fw_env.config. Since there are a lot of
+different configuration alternatives depending on device no configuration
+file is distributed.
+
+The default upstream configuration example file and example configuration
+files for different devices are found in
+/usr/share/doc/uboot-envtools/examples/.
+
+
+--
+Per Andersson <avtobiff@gmail.com>  Fri, 08 Aug 2008 02:19:46 +0200

@@ -1,0 +1,14 @@
+*************************************************************
+* IMX104 sensor device driver, Linux Device Driver, Release Note *
+*************************************************************
+[Version 1.0.0.2]
+Release at 2013.05.20
+1. FEATURE: Modify sensor max gain up to 48DB - DONE.
+
+[Version 1.0.0.1]
+Release at 2013.05.18
+1. BUG: Incorrect exposure shutter setting  - FIXED.
+
+[Version 1.0.0.0]
+Release at 2013.04.22
+1. FEATURE: First Released - DONE.

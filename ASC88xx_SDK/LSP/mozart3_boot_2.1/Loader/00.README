@@ -1,0 +1,279 @@
+Usage
+=====
+
+Build Loader by command:
+
+	make [sf/sd/nf2k] config=<config file>
+
+You will get the generated files with the following commands:
+	make sd config=<config file>
+		./loader-sd.bin
+
+	make sf config=<config file>
+		./loader-sf.bin
+
+	make nf config=<config file>
+		./loader-nf2k.bin
+		./nf2k_preloader/nf2k_preloader.bin
+
+Or all files without specified loader:
+	make config=<config file>
+
+
+Information
+===========
+
+After remaping AHB slave addresses, loader relative information could be
+checked at address starting from 0x30002000.
+
+0x30002000
+	Version of Loader.
+0x30002004
+	Boot device. 0 -> Serial Flash; 1 -> SD; 2 -> NAND Flash.
+0x30002008
+	Version of configuration.
+
+
+Configurations
+==============
+
+Format for all configurations:
+	CONFIG_<name> = value
+	CFG_<name> = value
+
+All configurations have default values if not specified. Please
+refer to default-config.h for all default configurations.
+
+
+CONFIG_VERSION
+	valid values:
+		32-bit integer
+	help:
+		Version number of configuration.
+
+CONFIG_X_PUB_BUILTIN_TRAINING
+	valid values:
+		y
+	defalut:
+		disabled
+	help:
+		Set to y to enable PUB built-in data training procedure.
+
+CONFIG_PUB_SW_TRAINING
+	valid values:
+		y
+	defalut:
+		disabled
+	help:
+		Set to y to enable S/W data training procedure.
+		If both CONFIG_X_PUB_BUILTIN_TRAINING and CONFIG_PUB_SW_TRAINING are set to y,
+		CONFIG_PUB_SW_TRAINING will be ignored.
+
+CONFIG_PCIE_EP
+	valid values:
+		y
+	defalut:
+		disalbed
+	help:
+		Set to y to enable PCI Express Endpoint mode.
+
+CONFIG_DDR_TYPE
+	valid values:
+		DDR2, DDR3
+	defalut:
+		DDR3
+	help:
+		Specify the DDR memory type.
+
+
+CONFIG_DDR_PORT_0
+CONFIG_DDR_PORT_1
+	valid values:
+		0, 1
+	defalut:
+		1
+	help:
+		There are two DDR port/bus avaiable.
+		Set to 0 to disable the unused DDR port/bus.
+
+CONFIG_SYSTEM_DDR
+	valid values:
+		0, 1
+	defalut:
+		depends on CONFIG_DDR_PORT_0/CONFIG_DDR_PORT_1
+	help:
+		Specify the physical DDR at which system software will run.
+		Applied Only both of CONFIG_DDR_PORT_0 and CONFIG_DDR_PORT_1 set to 1.
+
+CONFIG_READ_ODT
+	valid values:
+		DDR3: 0, 120, 60, 40
+		DDR2: 0, 150, 75, 50
+	defalut:
+		0
+	help:
+		Set to the valid resistor value (in ohm), except 0, to enable ODT on SoC side.
+		Set 0 to disable READ ODT.
+		The larger the value, the weaker the read ODT strength.
+		If enabled, the static/dynamic property is controlled by CONFIG_DYNAMIC_READ_ODT.
+
+CONFIG_DYNAMIC_READ_ODT
+	valid values:
+		0, 1
+	defalut:
+		1
+	help:
+		0: static read ODT
+		1: dynamic read ODT
+
+CONFIG_WRITE_ODT
+	valid values:
+		for DDR3: 0, (20, 30,) 40, 60, 120
+		for DDR2: 0, 50, 75, 150
+	defalut:
+		0
+	help:
+		Set ODT resistor value (in ohm) on DRAM side. 0 meas disable ODT.
+		The larger the value, the weaker the write ODT strength.
+
+CONFIG_DYNAMIC_WRITE_ODT
+	valid values:
+		0, 1
+	defalut:
+		1
+	help:
+		0: static write ODT
+		1: dynamic write ODT
+
+CONFIG_T_REF_MODE
+	valid values:
+		"NORMAL", "EXTENDED"
+	defalut:
+		"NORMAL"
+	help:
+		Mode of maximum average periodic refresh time.
+		"NORMAL" for 0 < T < 85 degrees centigrade.
+		"EXTENDED" for 85 < T < 95 degrees centigrade.
+
+CFG_BANK_NUM
+	valid values:
+		BANKS_4, BANKS_8
+	defalut:
+		BANKS_8
+	help:
+		Banks number in DDR.
+
+CFG_ROW_WIDTH
+	valid values:
+		refer to DDR Spec.
+	defalut:
+		14
+	help:
+		Row address bit width.
+
+CFG_COl_WIDTH
+	valid values:
+		refer to DDR Spec.
+	defalut:
+		10
+	help:
+		Column address bit width.
+
+CFG_PUREN
+	valid values:
+		0, 1
+	defalut:
+		1
+	help:
+		0: Disable VT update by PHY.
+		1: Enable VT update by PHY.
+
+CFG_MCI_IOPHY_UPDATE_EN
+	valid values:
+		0, 1
+	defalut:
+		0
+	help:
+		0: Disable VT update by DRAM controller.
+		1: Enable VT update by DRAM controller.
+
+CFG_ZUEN
+	valid values:
+		0, 1
+	defalut:
+		0
+	help:
+		See field 'ZUEN' of PUB register DSGCR.
+
+CFG_DQSRES
+	valid values:
+		0(pull-down) or 8(pull-up) +
+		0, 1(688 ohms), 2(611 ohms), 3(550 ohms), 4(500 ohms), 5(458 ohms), 6(393 ohms), 7(344 ohms)
+	defalut:
+		0x4
+	help:
+		See field 'DQSRES' of PUB register DXCCR.
+
+CFG_IMPEDANCE_DIV
+	valid values:
+		1-15
+	defalut:
+		0xB
+	help:
+		Chip-side output driver impedance divide select.
+		The larger the value, the stronger the output driver strength.
+
+CFG_MR0_BL
+	defalut:
+		for DDR3: 0 (Fixed 8)
+		for DDR2: 2 (BL = 4)
+	help:
+		See 'Burst Length' of mode register (MR or MR0) in DDR Spec.
+
+CFG_CL
+	defalut:
+		for DDR3: CL = 6
+		for DDR2: CL = 5
+	help:
+		See 'CAS Latency' of mode register (MR or MR0) in DDR Spec.
+
+CFG_CWL
+	defalut:
+		only for DDR3: CL = 5
+	help:
+		See 'CAS Write Latency' of mode register (MR2) in DDR3 Spec.
+
+CFG_MR1_DIC
+	valid values:
+		0, 1
+	defalut:
+		for DDR3: 0
+		for DDR2: 1
+	help:
+		DRAM-side output driver impedance control.
+		For DDR3: 0 -> 40 ohm, 1 -> 34 omh
+		For DDR2: 0 -> full strength, 1 -> reduced strength
+
+CFG_{module}_PAD_EN
+	valid values:
+		0, 1
+	defalut:
+		See default-config.h.
+	help:
+		Pad enable control. See System Controller datasheet.
+
+CFG_{module}_PUP_EN
+	valid values:
+		0, 1
+	defalut:
+		See default-config.h.
+	help:
+		Output and bidirectional pads pull up and pull down control. See System Controller datasheet.
+
+CFG_{module}_DRV_STR
+	valid values:
+		0(2mA), 1(4mA), 2(8mA), 3(12mA)
+	defalut:
+		See default-config.h.
+	help:
+		Output and bidirectional pads driving strength control. See System Controller datasheet.

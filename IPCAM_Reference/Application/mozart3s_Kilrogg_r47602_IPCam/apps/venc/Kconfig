@@ -1,0 +1,247 @@
+# This is a sample of video encoder Kconfig. 
+# Here shows how to use "choice" in Kconfig. 
+
+menu "Video Processing"
+
+config AE
+	bool "Enable the AE function of len"
+	default n
+
+config AWB
+	bool "Enable the AWB function of len"
+	default n 
+
+config  DPC
+        depends on MN34030PL
+        bool "Enable Defect Pixel Correction(For MN34031 Parallel)"
+        default n
+#config YUV422
+#		bool "Set the input as YUV422 (default:YUV420)"
+#        default n
+
+config ENC_RESOLUTION
+	string  "Encoding resolution"
+	default "640x480"
+
+menu "Support Text overlay"
+config TEXT_OVERLAY
+	bool "Enable the Text Overlay"
+	default n
+config CHINESE
+	bool "Support Chinese Characters(Unicode)"
+	default n
+	depends on TEXT_OVERLAY
+endmenu
+
+config IRE
+	bool "Support Resize Module"
+	default y
+
+config IBP
+	bool "Support Image Backend Processing"
+	default n
+config DIE
+	bool "Support DeInterlace"
+	default n
+	depends on IBP
+
+config PRE_NR
+	bool "Support Pre-NR"
+	default n
+	depends on IBP
+
+config AUTOSCENE
+	bool "Enable AutoScene"
+	default n
+
+config 1DRAM_VERSION
+	bool "Enable only one DRAM"
+	default n
+	help 
+	  Say Y here if you wish to support only one DRAM version. This will allocate all memory at DRAM 0.
+	  Most case should answer N.
+
+#config UART_IRCUT
+#        bool "Support IRCUT control"
+#	default n
+
+config MAXVIDEOSTREAMNUM
+	int "MAX Video Stream Num"
+	default 4
+
+config MAXVIDEOCHANNELNUM
+	int "MAX Video Channel Num"
+	default 1
+
+config BAYERPATTERNBITWIDTH
+	int "Bayer Pattern Bitwidth"
+	default 12
+
+#config AWBAFTERCCENABLE
+#	int "AWB after CC enable"
+#	default 0
+
+menu "H264"
+config H264
+	bool "Support H264 encoder"
+	default n
+config H264_KEY_INTERVAL
+	int  "H264 key interval"
+	default 30
+	depends on H264
+config H264_QUALITY_TYPE
+	string "H264 quality type:NONE, VQCB, CQCB, CVBR, ADPT"
+	default "NONE"
+	depends on H264
+config H264_QUAT_VALUE
+	int  "H264 quant value"
+	default 25
+	depends on H264 
+	
+config H264_MIN_QUAT_VALUE
+	int  "H264 MIN quant value"
+	default 0
+	depends on H264 
+	
+config H264_MAX_QUAT_VALUE
+	int  "H264 MAX quant value"
+	default 51
+	depends on H264 	
+
+	
+config H264_MIN_FRAMERATE
+	int  "H264 MIN frame rate"
+	default 0
+	depends on H264
+
+config H264_MAX_FRAMERATE
+	int  "H264 MAX frame rate"
+	default 60
+	depends on H264
+
+config H264_MAX_SEARCHRANGE_X
+	int  "H264 Search Range X"
+	default 2
+	depends on H264
+
+config H264_MAX_SEARCHRANGE_Y
+	int  "H264 Search Range Y"
+	default 2
+	depends on H264	
+	
+config H264_REF_FRAME_NUM
+	int  "H264 Reference Frame Num"
+	default 1
+	depends on H264	
+	
+	
+config H264_BITRATE
+	int "H264 bitrate"
+	default 384000
+	depends on H264
+
+
+config ROI_ENABLE
+	string "Enable ROI encoding"
+	default "off"
+	depends on H264
+	
+#config MD_TRIGER_ROI
+#	bool "Motions triger ROI"
+#	default n
+#	depends on IBP && H264
+
+endmenu
+
+menu "SVC-T"
+config SVC
+	bool "Support SVC-T encoder"
+	default n
+config SVC_KEY_INTERVAL
+	int  "SVC-T key interval"
+	default 30
+	depends on SVC
+config SVC_QUALITY_TYPE
+	string "SVC-T quality type:NONE, VQCB, CQCB, CVBR"
+	default "CVBR"
+	depends on SVC
+config SVC_QUAT_VALUE
+	int  "SVC-T quant value"
+	default 25
+	depends on SVC 
+config SVC_BITRATE
+	int "SVC-T bitrate"
+	default 4000000
+	depends on SVC
+config SVC_HDR_ENABLE
+	string "SVC-T header enable (on/off)"
+	default  "on"
+	depends on SVC 
+config SVC_MAX_LAYER_NUM
+	int "SVC-T MAX layer number"
+	default 4
+	depends on SVC
+
+config ROI_ENABLE
+	string "Enable ROI encoding"
+	default "off"
+	depends on SVC
+ 
+endmenu
+
+#menu "ROI"
+#config ENC_ROI
+#      bool "Support ROI encoding of H.264"
+#      default n
+#      depends on H264 || SVC
+#config ROI_ENABLE
+#       string "Default enable ROI encoding of H.264"
+#       default "off"
+#       depends on  ENC_ROI
+#config ROI_DELTAQ
+#       int "Default Delta of Q value of H.264"
+#       default -15
+#       depends on  ENC_ROI
+#endmenu
+
+
+menu "MJPEG"
+config JPEG
+	bool "Support JPEG encoder"
+	default n
+config JPEG_QUAT_VALUE
+	int  "MJPEG quant value"
+	default 50
+	depends on JPEG
+config JPEG_SNAPSHOT
+	bool "JPEG snapshot"
+	default y
+	depends on JPEG
+endmenu
+
+menu "MPV4"
+config MPV4
+	bool "Support MPEG4 encoder"
+	default n
+config MPV4_KEY_INTERVAL
+	int  "MPV4 key interval"
+	default 30
+	depends on MPV4
+config MPV4_QUALITY_TYPE
+	string "MPV4 quality type:NONE, VQCB, CQCB, CVBR"
+	default "NONE"
+	depends on MPV4
+config MPV4_QUAT_VALUE
+	int  "MPV4 quant value"
+	default 7
+	depends on MPV4 
+config MPV4_BITRATE
+	int "MPV4 bitrate"
+	default 384000
+	depends on MPV4
+endmenu
+
+
+
+
+endmenu

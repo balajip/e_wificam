@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Privacy Mask</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="/include/jQuery/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="/include/common.js"></script>
+    <script type="text/javascript" src="/include/plugindef.js"></script>
+    <script type="text/javascript" src="/include/privacy.js"></script>
+    <script type="text/javascript" src="/cgi-bin/viewer/getparam.cgi"></script>
+    <link href="../css/default.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <input type="checkbox" id="Privacy_switch" onclick="changePrivacyState();"/>
+  <span>Enable privacy mask</span>
+  <div class="confContent">
+    <div id="display_image" align="left" style="width:640px;height:480px;">                                  
+      <input type="button" class="button content" value="Save Mask Setting" onClick="saveSetting()">
+      <object classid="CLSID:D3EABA3F-AFE4-4849-BD9C-DFB981B17055" id="Dean" class="content" 
+              style="visibility:visible;width:640px;height:480px;"
+              CODEBASE="/vtcs_player.cab#Version=2,3,0,8">
+      </object>
+    </div>
+  </div>
+</body>
+</html>

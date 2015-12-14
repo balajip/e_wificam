@@ -1,0 +1,14 @@
+test2_720x480_422.yuv
+1			//displatmode 0->test mode 1->show video
+720			//input width
+480			//input height
+720			//input stride
+2			//in_format: 1->YUV420, 2->YUV422
+2			//out_format: 8->RGB24, 2->interlace CCIR656
+999999999999//number of frames
+0			//0->NTSC 1->PAL 
+128			//saturation 0~511
+0			//brightness -128~+128 0: disable
+0			//contrast -128~+128   0: disable
+15			// VIDEO_SIGNAL_SIZE_1920x1080 = 37, VIDEO_SIGNAL_SIZE_1280x720 = 25, VIDEO_SIGNAL_SIZE_1280x1024 = 30, VIDEO_SIGNAL_SIZE_720x480 = 15
+2			//    VIDEO_SIGNAL_FREQUENCY_50HZ = 1, IDEO_SIGNAL_FREQUENCY_60HZ = 2, VIDEO_SIGNAL_FREQUENCY_24HZ = 3

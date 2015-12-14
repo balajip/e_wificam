@@ -1,0 +1,11 @@
+#!/bin/sh
+
+RMMOD=/sbin/rmmod
+
+if echo $IFACE | grep -q "ppp"; then
+	$RMMOD pppoe
+	$RMMOD pppox
+	$RMMOD ppp_generic
+	$RMMOD slhc	
+fi
+

@@ -1,0 +1,38 @@
+#!/bin/bash
+# This script will untar a tarball from source, patch it, and build it. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=mDNSResponder
+VERSION=379.37
+ORIG_TARBALL=${APP_NAME}-${VERSION}.tar.gz
+VN_PATCH=${APP_NAME}-${VERSION}-vn.diff.gz
+PACKAGE_DIR=$APP_NAME-$VERSION
+UNTAR_ARG='-zxf'
+HOST='arm-linux-'
+CC=${HOST}gcc
+PKG_ROOT=${PWD}
+
+# check if you have proper gcc
+which $CC > /dev/null || exit 1
+
+# untar the tarball
+tar $UNTAR_ARG $ORIG_TARBALL
+
+cd $PACKAGE_DIR
+
+# apply patch
+#gunzip -c ${PKG_ROOT}/$VN_PATCH | patch -p1 --silent
+
+# simply make it
+#make CC=${HOST}gcc --quiet
+
+#The following is for IPV6 version.
+#make -C mDNSPosix HAVE_IPV6=1 os=linux SAResponder CC=${HOST}gcc --quiet 
+
+#The following is for IPV4 version.
+make -C mDNSPosix os=linux SAResponder CC=${HOST}gcc --quiet 
+
+cd $PKG_ROOT
+
+cp -dR $PACKAGE_DIR/mDNSPosix/build/prod/mDNSResponderPosix mDNSResponderPosix
+${HOST}strip mDNSResponderPosix
+

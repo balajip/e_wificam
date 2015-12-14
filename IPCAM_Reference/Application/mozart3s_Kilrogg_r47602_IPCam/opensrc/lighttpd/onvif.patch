@@ -1,0 +1,45 @@
+--- lighttpd-1.4.31/src/Makefile	2013-11-07 15:02:57.000000000 +0530
++++ lighttpd-1.4.31-onvif/src/Makefile	2013-11-07 15:02:32.000000000 +0530
+@@ -14,6 +14,15 @@
+ # PARTICULAR PURPOSE.
+ 
+ 
++SDK_SRC = ../../../..
++EXPAT_LIB = -L$(SDK_SRC)/opensrc/lighttpd/lib/ -lexpat
++XMLMGR_LIB = -L$(SDK_SRC)/opensrc/lighttpd/lib/ -lxmlmgr
++XMLWRAPPER_LIB = -L$(SDK_SRC)/opensrc/lighttpd/lib/ -lxmlwrapper
++ONVIF_DIR = $(SDK_SRC)/apps/onvif
++ONVIF_INCLUDE = $(ONVIF_DIR)/inc
++ONVIF_LIB = -L$(ONVIF_DIR)/lib -lonvif
++ONVIF_SSL_LIB = -L$(SDK_SRC)/opensrc/lighttpd/lib/ssl/  -lcrypto -lssl
++lighttpd_CPPFLAGS = $(FAM_CFLAGS) $(LIBEV_CFLAGS) -DONVIF_ENABLE -DWITH_OPENSSL -I. -I$(ONVIF_INCLUDE)
+ 
+ 
+ 
+@@ -454,7 +463,7 @@
+ am__depfiles_maybe = depfiles
+ am__mv = mv -f
+ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+-	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
++          $(CPPFLAGS) $(AM_CFLAGS) $(lighttpd_CPPFLAGS) $(CFLAGS)
+ LTCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+ 	$(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) \
+ 	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+@@ -568,7 +577,7 @@
+ LIBEV_CFLAGS = 
+ LIBEV_LIBS = 
+ LIBOBJS =  ${LIBOBJDIR}lstat$U.o ${LIBOBJDIR}stat$U.o
+-LIBS = 
++LIBS = -lm -lcrypt -lpthread 
+ LIBTOOL = $(SHELL) $(top_builddir)/libtool
+ LIPO = 
+ LN_S = ln -s
+@@ -841,7 +850,7 @@
+       version.h
+ 
+ lighttpd_SOURCES = $(src)
+-lighttpd_LDADD = $(PCRE_LIB) $(DL_LIB) $(SENDFILE_LIB) $(ATTR_LIB) $(common_libadd) $(SSL_LIB) $(FAM_LIBS) $(LIBEV_LIBS)
++lighttpd_LDADD = $(PCRE_LIB) $(DL_LIB) $(SENDFILE_LIB) $(ATTR_LIB) $(common_libadd) $(FAM_LIBS) $(LIBEV_LIBS) $(EXPAT_LIB) $(XMLMGR_LIB) $(XMLWRAPPER_LIB)  $(ONVIF_LIB) $(ONVIF_SSL_LIB)
+ lighttpd_LDFLAGS = -export-dynamic
+ lighttpd_CCPFLAGS = $(FAM_CFLAGS) $(LIBEV_CFLAGS)
+ proc_open_SOURCES = proc_open.c buffer.c

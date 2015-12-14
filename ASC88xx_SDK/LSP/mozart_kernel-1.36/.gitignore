@@ -1,0 +1,55 @@
+#all object files.
+*.o
+
+#all static lib files.
+*.a
+
+#.depend files
+*.depend
+
+#.bin files
+*.bin
+
+#.srec/.map
+*.srec
+*.map
+
+#.cmd
+*.cmd
+
+#.order
+*.order
+
+#*.mod.c
+*.mod.c
+
+#*.ko
+*.ko
+
+#other kernel files
+usr/initramfs_data.cpio
+.config
+.config.old
+.missing-syscalls.d
+.tmp_kallsyms1.S
+.tmp_kallsyms2.S
+.tmp_versions/
+.tmp_vmlinux1
+.tmp_vmlinux2
+.version
+Module.symvers
+arch/arm/boot/compressed/vmlinux
+arch/arm/kernel/asm-offsets.s
+include/asm
+include/asm-arm/asm-offsets.h
+include/config/
+include/linux/autoconf.h
+include/linux/bounds.h
+include/linux/compile.h
+include/linux/utsrelease.h
+include/linux/version.h
+kernel/bounds.s
+usr/.initramfs_data.cpio.gz.d
+vmlinux
+
+

@@ -1,0 +1,36 @@
+# Installation directories
+# System's libraries directory (where binary libraries are installed)
+LUA_LIBDIR= ../lua-5.1.2/src
+# System's lua directory (where Lua libraries are installed)
+LUA_DIR= ../lua-5.1.2/src
+# Lua includes directory
+LUA_INC= ../lua-5.1.2/src
+# Expat includes directory
+EXPAT_INC= ../../expat/src
+
+# OS dependent
+LIB_OPTION= -shared -L../../expat/lib #for Linux
+#LIB_OPTION= -bundle -undefined dynamic_lookup #for MacOS X
+
+LIBNAME= $T.so.$V
+# Lua version number
+# (according to Lua 5.1 definition:
+# first version digit * 100 + second version digit
+# e.g. Lua 5.0.2 => 500, Lua 5.1 => 501, Lua 5.1.1 => 501)
+LUA_VERSION_NUM= 501
+COMPAT_DIR= ../compat/src
+
+# Compilation parameters
+CWARNS = -Wall -pedantic \
+        -Waggregate-return \
+        -Wcast-align \
+        -Wmissing-prototypes \
+        -Wstrict-prototypes \
+        -Wnested-externs \
+        -Wpointer-arith \
+        -Wshadow \
+        -Wwrite-strings
+
+CFLAGS = $(CWARNS) -ansi -O2 -I$(LUA_INC) \
+   -I$(COMPAT_DIR) -I$(EXPAT_INC)
+CC = arm-linux-gcc

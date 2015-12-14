@@ -1,0 +1,54 @@
+README for Kilrogg
+
+* Required tools for building  Kilrogg application code
+  ----------------
+  You can find the source codes of the tools under {PROJ_ROOT}/utils ("PROJ_ROOT" is the top level directory of Kilrogg):
+  1) fakeroot (>= 1.12)
+  2) squashfs-tools (= 3.4)
+  3) ncurses (>= 5.7)
+  4) dpkg (>= 1.5.4)
+	
+  Before building Kilrogg application code, you must build them and then install them on the host computer.
+
+* Building Kilrogg application code
+  ----------------
+  There are many sensor type supported in Kilrogg. These configuration files of the sensors are in "arch/arm/configs".If you want to build the application codes of MT9P031, please do as follows:
+     > export  PATH={VN_toochain_path}/bin:$PATH
+     > cd {PROJ_ROOT}
+     > make mrproper
+     > make mt9p031_defconfig
+     > make menuconfig   (optially) (You can use the "make menuconfig" for modifing the default configuration items)
+     > make
+
+
+* Making a Kilrogg rootfs
+  ----------------
+  To make a Kilrogg rootfs, {PROJ_ROOT}/usr/basic_rootfs.sqfs file is needed, please ensure it exists.
+  And you need fakeroot tool, please ensure you have install this tool.
+  Before building Kilrogg rootfs, please make sure you have built application code first.
+
+  What you need to do is:
+     > make sqfs-img
+  Then, there is a rootfs.sqfs file at {PROJ_ROOT}, that's our Kilrogg rootfs.
+  
+  Because the application code is independent of chosen sensor, you can rebuild other sensor root file system as follows:
+     > make menuconfig
+        > Select Video Encoder
+        > Select Image Sensor (default is MT9P031)
+        > save the new configuration
+     > make pkgclean
+     > make sqfs-img
+     
+  Note that there is something difference between initial IP Camera and Video Server, now it's decided at compiler time, so if you want to rebuild root file system that from IP Camera setting to Video Server, you should rebuild application code first, and vice versa.
+
+* Making a Kilrogg Debian Package
+  ----------------
+  Because in our Kilrogg, we use dpkg to manage our system, if you want to upgrade firmware by Webpage, you should build a .deb package.
+
+  To make a Kilrogg debian package, what you need to do is:
+     > make deb-pkg 
+
+  Then, there is a kilrogg-{VERSION}.{PATCHLEVEL}.{SUBLEVEL}.deb at {PROJ_ROOT}, that's debian package. ("VERSION" ,"PATCHLEVEL" ,and "SUBLEVEL" are defined in {PROJ_ROOT}/Makefile.)
+	
+
+(end of README) 

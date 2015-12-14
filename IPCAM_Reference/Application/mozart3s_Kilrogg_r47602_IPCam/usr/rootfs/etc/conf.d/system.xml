@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<root>
+    <system>
+        <host>#modelname#</host>
+        <led>on</led>
+        <timezone>CST-8</timezone>
+        <daylightsaving>on</daylightsaving>
+        <time_mode>keep</time_mode>
+        <set_time></set_time>
+		<ntp_server_type>DNS</ntp_server_type>
+        <ntp_server>time.stdtime.gov.tw</ntp_server>
+        <update_interval>3600</update_interval>
+        <ntp_fromDHCP>false</ntp_fromDHCP>
+    </system>
+</root>

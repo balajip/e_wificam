@@ -1,0 +1,3 @@
+# vim: syntax=make
+init-y += init.d-bbcrond init.d-inetd init.d-iptable init.d-synctime init.d-network init.d-setmodelname
+init-$(CONFIG_UBOOTNETWOK) += init.d-fwnetwrok

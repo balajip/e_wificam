@@ -1,0 +1,11 @@
+*************************************************************
+* IT6604 sensor device driver, Linux Device Driver, Release Note *
+*************************************************************
+[Version 1.0.0.1]
+Release at 2014.02.25
+1. BUG: Parses AVI InfoFrame for color space conversion setting - DONE.
+2. MODIFICATION: Set "invert internal video clock phase" bit as default - DONE.
+
+[Version 1.0.0.0]
+Release at 2013.05.29
+1. FEATURE: First Released - DONE.

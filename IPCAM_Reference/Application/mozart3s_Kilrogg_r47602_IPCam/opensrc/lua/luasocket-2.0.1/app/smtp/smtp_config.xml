@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<smtp>
+		<SERVER></SERVER>
+		<USER></USER>
+		<PASSWORD></PASSWORD>		
+		<from></from>
+		<rcpt></rcpt>		
+		<CC></CC>
+		<SUBJECT>here is the email title</SUBJECT>
+		<CONTENT></CONTENT>
+		<PORT>25</PORT>
+	</smtp>
+</root>
+

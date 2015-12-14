@@ -1,0 +1,9 @@
+auto lo
+iface lo inet loopback
+
+#config_eth0_str#
+
+auto wlan0
+iface wlan0 inet dhcp
+    pre-up /usr/bin/config-wlan wlan0
+

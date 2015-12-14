@@ -1,0 +1,13 @@
+#
+# vim: syntax=make
+
+misc1-y = helvR12-ISO8859-1.pcf.gz \
+	  helvR18-ISO8859-1.pcf.gz \
+	  helvR24-ISO8859-1.pcf.gz \
+	  timR12-ISO8859-1.pcf.gz \
+	  timR18-ISO8859-1.pcf.gz \
+	  timR24-ISO8859-1.pcf.gz
+
+misc1-$(CONFIG_CHINESE) += mshei.ttf
+misc1dest-y = /usr/share/fonts/
+

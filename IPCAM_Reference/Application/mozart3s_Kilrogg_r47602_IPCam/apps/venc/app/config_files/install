@@ -1,0 +1,3097 @@
+#!/bin/bash
+
+PATH=/usr/bin:/bin:$PATH
+MOD_ROOT=$PWD
+TARGET_ROOT=`readlink -f $1`
+MAX_STREAM_NUM=3
+VENC_ENCODER_CONF="vencencoder_conf.xml"
+VENC_CONF="venc_conf.xml"
+VENC_DISP_CONF="vencdisplay_conf.xml"
+VENC_MOTION_CONF="vencmotion_conf.xml"
+VENC_MASTER_CONF="vencmaster_conf.xml"
+VENC_VIDEOIN_CONF="vencvideoin_conf.xml"
+
+VENC_ENCODER_STR=""
+RESOLUTION=""
+ENC_RESOLUTION=""
+
+mpeg4_key_interval="30"
+mpeg4_quality_type="NONE"
+mpeg4_quant_value="7"
+mpeg4_bitrate="384000"
+mjpeg_quant_value="25"
+
+h264_key_interval="30"
+h264_quality_type="NONE"
+h264_quant_value="25"
+h264_bitrate="384000"
+
+
+h264_max_frame_rate="60"
+h264_min_frame_rate="0"
+h264_ref_frame_num="1"
+h264_search_range_x="2"
+h264_search_range_y="2"
+h264_min_quant_value="0"
+h264_max_quant_value="51"
+
+
+svc_key_interval="30"
+svc_quality_type="NONE"
+svc_quant_value="25"
+svc_bitrate="384000"
+svc_hdr_enable="on"
+svc_max_layer_num="1"
+
+
+roi_enable="off"
+roi_q_delta="-15"
+
+output_enable="off"
+output_format="HDMI"
+output_resolution="1280x720"
+output_freq="60"
+
+
+
+MASTER_CONF_PATH=""
+VIDEOIN_CONF_PATH=""
+MOTION_CONF_PATH=""
+DISPLAY_CONF_PATH=""
+
+SENSOR_CONF_PATH=""
+SENSOR_CONF_NAME=""
+SENSOR_CONF_DIR="sensor_config"
+SENSOR_NAME=""
+SENSOR_DEP_FILENAME="sensor_dependent.xml"
+SENSOR_DEP_DIR="sensor_dependent"
+
+ISP_TEMPLATE_DIR="isp_template"
+ISP_TEMPLATE_FILENAME="isp_template"
+PHOTO_LDC_TBL_DIR="photo_ldc_tbl"
+PHOTO_LDC_TBL_FILENAME="photo_ldc_tbl"
+
+
+
+FRAMERATE_CTRL_ENABLE=""
+FRAMERATE=""
+ENC_FRAMERATE=""
+
+venc_master_resolution=""
+venc_master_max_shutter=""
+venc_master_max_gain=""
+venc_master_min_shutter=""
+venc_master_min_gain=""
+venc_master_target_luminance=""
+venc_master_target_offset=""
+venc_master_x_scale=""
+venc_master_y_scale=""
+venc_master_width=""
+venc_master_height=""
+venc_master_coeff_RR=""
+venc_master_coeff_GR=""
+venc_master_coeff_BR=""
+venc_master_coeff_RG=""
+venc_master_coeff_GG=""
+venc_master_coeff_BG=""
+venc_master_coeff_RB=""
+venc_master_coeff_GB=""
+venc_master_coeff_BB=""
+venc_master_offset_R=""
+venc_master_offset_G=""
+venc_master_offset_B=""
+venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+venc_master_bright=""
+venc_master_contrast=""
+venc_master_saturation=""
+venc_master_start_lum=""
+venc_master_end_lum=""				
+venc_master_tolerance=""
+venc_master_black_clamp_gr=""
+venc_master_black_clamp_r=""
+venc_master_black_clamp_gb=""
+venc_master_black_clamp_b=""
+venc_master_autoiris=""
+
+Bayer_Pattern_Bitwidth="16"
+AWB_After_CC_Enable="0"
+
+venc_encoder_crop_top="0"
+venc_encoder_crop_left="0"
+venc_encoder_crop_width="0"
+venc_encoder_crop_height="0"
+
+
+venc_videoin_pre_nr_enable="off"
+# Pre EE
+venc_videoin_edge_enhancement_enable="off"
+venc_videoin_edge_enhancement_edge_sensitivity="3"
+venc_videoin_edge_enhancement_noise_sensitivity="30"
+venc_videoin_edge_enhancement_clip="7"
+venc_videoin_edge_enhancement_strength="8"
+
+# Pre NR
+venc_videoin_denoise_enable="off"
+venc_videoin_denoise_mode="2"
+venc_videoin_denoise_normal_strength="55"
+venc_videoin_denoise_strong_ref_strength="1"
+venc_videoin_denoise_strong_curr_weight="1"
+venc_videoin_denoise_strong_motion_adaptive_enable="false"
+
+# Post EE
+venc_videoin_second_phase_edge_enhancement_enable="on"
+venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+venc_videoin_second_phase_edge_enhancement_noise_sensitivity="30"
+venc_videoin_second_phase_edge_enhancement_clip="7"
+venc_videoin_second_phase_edge_enhancement_strength="8"
+		
+# Post NR
+venc_videoin_second_phase_denoise_enable="on"
+venc_videoin_second_phase_denoise_mode="2"
+venc_videoin_second_phase_denoise_normal_strength="60"
+venc_videoin_second_phase_denoise_strong_ref_strength="7"
+venc_videoin_second_phase_denoise_strong_curr_weight="4"
+venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="false"
+
+venc_videoin_denoise_NDiffAvgthrY="10"
+venc_videoin_denoise_NDiffAvgthrCb="10"
+venc_videoin_denoise_NDiffAvgthrCr="10"
+venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+venc_videoin_deinterlacer_enable="off"
+venc_videoin_deinterlacer_picformat="0"
+venc_videoin_deinterlacer_mode="2"
+
+		
+
+VIDEO_SERVER=0
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_VIDEO_SERVER=y"  > /dev/null  2>&1;then
+
+    VIDEO_SERVER=1
+fi
+
+
+MAX_VIDEO_CHANNEL_NUM=`cat $TARGET_ROOT/../.config |  grep CONFIG_MAXVIDEOCHANNELNUM | cut -d'=' -f 2`
+#echo "MAX_VIDEO_CHANNEL_NUM="$MAX_VIDEO_CHANNEL_NUM
+
+ENC_RESOLUTION=`cat $TARGET_ROOT/../.config |  grep CONFIG_ENC_RESOLUTION |  cut -d'=' -f2 | cut -d'"' -f2`
+#echo "ENC_RESOLUTION="$ENC_RESOLUTION
+
+
+output_enable=`cat $TARGET_ROOT/../.config |  grep CONFIG_VOC_ENABLE  |  cut -d'=' -f2 | cut -d'"' -f2`
+output_format=`cat $TARGET_ROOT/../.config |  grep CONFIG_VOC_FORMAT |  cut -d'=' -f2 | cut -d'"' -f2`
+output_resolution=`cat $TARGET_ROOT/../.config |  grep CONFIG_VOC_RESOLUTION |  cut -d'=' -f2 | cut -d'"' -f2`
+output_freq=`cat $TARGET_ROOT/../.config |  grep CONFIG_VOC_FREQ |  cut -d'=' -f2`
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_MT9P031=y"  > /dev/null  2>&1;then
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_9PCONFSWITCH=y"  > /dev/null  2>&1;then
+
+	cp -f $MOD_ROOT/9pconfig/default_flashfs_files_2M_9P.tar.gz $TARGET_ROOT/usr/local/firmware/
+	cp -f $MOD_ROOT/9pconfig/default_flashfs_files_5M_9P.tar.gz $TARGET_ROOT/usr/local/firmware/
+	chmod 644 $TARGET_ROOT/usr/local/firmware/default_flashfs_files_2M_9P.tar.gz
+	chmod 644 $TARGET_ROOT/usr/local/firmware/default_flashfs_files_5M_9P.tar.gz
+fi
+
+fi
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_AF=y"  > /dev/null  2>&1;then
+
+	cp -f $MOD_ROOT/AF.bin  $TARGET_ROOT/etc/conf.d/AF.bin
+fi
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_DPC=y"  > /dev/null  2>&1;then
+
+	cp -f $MOD_ROOT/dp_table.bin  $TARGET_ROOT/etc/conf.d/dp_table.bin
+fi
+
+mkdir $TARGET_ROOT/etc/conf.d/isptable 
+
+cp -f $MOD_ROOT/isptable/g8.table  $TARGET_ROOT/etc/conf.d/isptable/
+cp -f $MOD_ROOT/isptable/g9.table  $TARGET_ROOT/etc/conf.d/isptable/
+cp -f $MOD_ROOT/isptable/*.table  $TARGET_ROOT/etc/conf.d/isptable/
+#if cat $TARGET_ROOT/../.config | grep -n "CONFIG_IBPE_BACK_DOOR=y"  > /dev/null  2>&1;then
+
+cp -f $MOD_ROOT/isptable/*.bin $TARGET_ROOT/etc/conf.d/isptable/
+
+#fi
+
+
+for (( k=0; k<MAX_VIDEO_CHANNEL_NUM; k=k+1 ))
+do
+
+if [ -d $TARGET_ROOT/etc/conf.d/c$k ];then
+	rm -fr $TARGET_ROOT/etc/conf.d/c$k
+fi
+
+mkdir $TARGET_ROOT/etc/conf.d/c$k
+
+cp -f $MOD_ROOT/$VENC_DISP_CONF $TARGET_ROOT/etc/conf.d/c$k/vencdisplay_conf.xml
+cp -f $MOD_ROOT/$VENC_MOTION_CONF $TARGET_ROOT/etc/conf.d/c$k/vencmotion_conf.xml
+cp -f $MOD_ROOT/$VENC_VIDEOIN_CONF $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+#cp -f $MOD_ROOT/ee_table.txt $TARGET_ROOT/etc/conf.d/c$k/ee_table.txt
+#cp -f $MOD_ROOT/ee_strong_table_0.txt $TARGET_ROOT/etc/conf.d/c$k/ee_strong_table_0.txt
+#cp -f $MOD_ROOT/ee_strong_table_1.txt $TARGET_ROOT/etc/conf.d/c$k/ee_strong_table_1.txt
+	
+sed -i "s/<output>#output_enable#/<output>$output_enable/g"  $TARGET_ROOT/etc/conf.d/c$k/vencdisplay_conf.xml
+sed -i "s/<output_format>#output_format#/<output_format>$output_format/g"  $TARGET_ROOT/etc/conf.d/c$k/vencdisplay_conf.xml
+sed -i "s/<output_resolution>#output_resolution#/<output_resolution>$output_resolution/g"  $TARGET_ROOT/etc/conf.d/c$k/vencdisplay_conf.xml
+sed -i "s/<output_freq>#output_freq#/<output_freq>$output_freq/g"  $TARGET_ROOT/etc/conf.d/c$k/vencdisplay_conf.xml
+
+if [ $VIDEO_SERVER -eq 1 ];then
+
+	sed -i "s/<send_sck>##/<send_sck>on/g" $TARGET_ROOT/etc/conf.d/c$k/vencmotion_conf.xml
+	sed -i "s/<send_event>##/<send_event>off/g" $TARGET_ROOT/etc/conf.d/c$k/vencmotion_conf.xml
+else
+	sed -i "s/<send_sck>##/<send_sck>on/g" $TARGET_ROOT/etc/conf.d/c$k/vencmotion_conf.xml
+	sed -i "s/<send_event>##/<send_event>on/g" $TARGET_ROOT/etc/conf.d/c$k/vencmotion_conf.xml
+fi
+
+
+MOTION_SOCKET_PATH="\/tmp\/venc\/c$k\/motion.sck"
+sed -i "s/#motion_socket_path#/$MOTION_SOCKET_PATH/g" $TARGET_ROOT/etc/conf.d/c$k/vencmotion_conf.xml
+
+
+MOTION_EVENT_PATH="\/var\/run\/event_motion.sck"
+sed -i "s/#event_path#/$MOTION_EVENT_PATH/g" $TARGET_ROOT/etc/conf.d/c$k/vencmotion_conf.xml
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_OV5653=y"  > /dev/null  2>&1;then
+  if cat $TARGET_ROOT/../.config | grep -n "CONFIG_R1920x1080FROM5M=y"  > /dev/null  2>&1;then
+	RESOLUTION="1920x1080"
+	SENSOR_NAME="OV5653"
+	SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/ov5653_1920x1080.cfg"
+	SENSOR_CONF_NAME="ov5653_1920x1080.cfg"
+	FRAMERATE_CTRL_ENABLE="off"
+	FRAMERATE="30"
+	ENC_FRAMERATE="30"
+	venc_master_resolution="1920x1080"
+	venc_master_max_shutter="30"
+	venc_master_max_gain="512"
+	venc_master_min_shutter="1000000"
+	venc_master_min_gain="1"
+	venc_master_target_luminance="60"
+	venc_master_target_offset="10"
+	venc_master_x_scale="0.00104167"
+	venc_master_y_scale="-0.00185186"
+	venc_master_width="1920"
+	venc_master_height="1080"
+	venc_master_coeff_RR="1.000"
+	venc_master_coeff_GR="0.000"
+	venc_master_coeff_BR="0.000"
+	venc_master_coeff_RG="-0.254"
+	venc_master_coeff_GG="1.401"
+	venc_master_coeff_BG="-0.147"
+	venc_master_coeff_RB="0.047"
+	venc_master_coeff_GB="-0.264"
+	venc_master_coeff_BB="1.217"
+	venc_master_offset_R="0"
+	venc_master_offset_G="0"
+	venc_master_offset_B="0"
+	venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+	venc_master_bright="0"
+	venc_master_contrast="0"
+	venc_master_saturation="128"
+	venc_master_start_lum="80"
+	venc_master_end_lum="20"				
+	venc_master_tolerance="5"
+	venc_master_black_clamp_gr="57"
+	venc_master_black_clamp_r="57"
+	venc_master_black_clamp_gb="57"
+	venc_master_black_clamp_b="57"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+  elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_R2560x1920=y"  > /dev/null  2>&1;then
+    RESOLUTION="2560x1920"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/ov5653_2560x1920.cfg"
+    SENSOR_CONF_NAME="ov5653_2560x1920.cfg"
+    SENSOR_NAME="OV5653"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="30"
+    ENC_FRAMERATE="30"
+    venc_master_resolution="2560x1920"
+    venc_master_max_shutter="30"
+    venc_master_max_gain="512"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="60"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.00078125"
+    venc_master_y_scale="-0.00104167"
+    venc_master_width="2560"
+    venc_master_height="1920"
+    venc_master_coeff_RR="1.000"
+    venc_master_coeff_GR="0.000"
+    venc_master_coeff_BR="0.000"
+    venc_master_coeff_RG="-0.254"
+    venc_master_coeff_GG="1.401"
+    venc_master_coeff_BG="-0.147"
+    venc_master_coeff_RB="0.047"
+    venc_master_coeff_GB="-0.264"
+    venc_master_coeff_BB="1.217"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"				
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="57"
+    venc_master_black_clamp_r="57"
+    venc_master_black_clamp_gb="57"
+    venc_master_black_clamp_b="57"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+  fi 
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_OV5658=y"  > /dev/null  2>&1;then
+    RESOLUTION="2560x1920"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/ov5658_2560x1920.cfg"
+    SENSOR_CONF_NAME="ov5658_2560x1920.cfg"
+    SENSOR_NAME="OV5658"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="30"
+    ENC_FRAMERATE="30"
+    venc_master_resolution="2560x1920"
+    venc_master_max_shutter="30"
+    venc_master_max_gain="256"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="70"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.00078125"
+    venc_master_y_scale="-0.00104167"
+    venc_master_width="2560"
+    venc_master_height="1920"
+    venc_master_coeff_RR="1.596"
+    venc_master_coeff_GR="-0.590"
+    venc_master_coeff_BR="-0.007"
+    venc_master_coeff_RG="-0.338"
+    venc_master_coeff_GG="1.705"
+    venc_master_coeff_BG="-0.367"
+    venc_master_coeff_RB="-0.192"
+    venc_master_coeff_GB="-0.494"
+    venc_master_coeff_BB="1.686"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="16"
+    venc_master_black_clamp_r="16"
+    venc_master_black_clamp_gb="16"
+    venc_master_black_clamp_b="16"
+        # Pre EE
+        venc_videoin_edge_enhancement_enable="off"
+        venc_videoin_edge_enhancement_edge_sensitivity="3"
+        venc_videoin_edge_enhancement_noise_sensitivity="30"
+        venc_videoin_edge_enhancement_clip="7"
+        venc_videoin_edge_enhancement_strength="8"
+        # Pre NR
+        venc_videoin_denoise_enable="off"
+        venc_videoin_denoise_mode="2"
+        venc_videoin_denoise_normal_strength="55"
+        venc_videoin_denoise_strong_ref_strength="1"
+        venc_videoin_denoise_strong_curr_weight="1"
+        venc_videoin_denoise_strong_motion_adaptive_enable="false"
+        # Post EE
+        venc_videoin_second_phase_edge_enhancement_enable="on"
+        venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+        venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+        venc_videoin_second_phase_edge_enhancement_clip="8"
+        venc_videoin_second_phase_edge_enhancement_strength="10"
+        # Post NR
+        venc_videoin_second_phase_denoise_enable="on"
+        venc_videoin_second_phase_denoise_mode="2"
+        venc_videoin_second_phase_denoise_normal_strength="90"
+        venc_videoin_second_phase_denoise_strong_ref_strength="0"
+        venc_videoin_second_phase_denoise_strong_curr_weight="0"
+        venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+        venc_videoin_denoise_NDiffAvgthrY="10"
+        venc_videoin_denoise_NDiffAvgthrCb="255"
+        venc_videoin_denoise_NDiffAvgthrCr="255"
+        venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+        venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_MT9P031=y"  > /dev/null  2>&1;then
+  if cat $TARGET_ROOT/../.config | grep -n "CONFIG_R1920x1080FROM5M=y"  > /dev/null  2>&1;then
+    RESOLUTION="1920x1080"
+    SENSOR_NAME="MT9P031"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/mt9p031_1920x1080.cfg"
+    SENSOR_CONF_NAME="mt9p031_1920x1080.cfg"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="30"
+    ENC_FRAMERATE="30"
+    venc_master_resolution="1920x1080"
+    venc_master_max_shutter="30"
+    venc_master_max_gain="2048"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="60"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.00104167"
+    venc_master_y_scale="-0.00185186"
+    venc_master_width="1920"
+    venc_master_height="1080"
+    venc_master_coeff_RR="1.361"
+    venc_master_coeff_GR="-0.328"
+    venc_master_coeff_BR="-0.033"
+    venc_master_coeff_RG="-0.378"
+    venc_master_coeff_GG="1.827"
+    venc_master_coeff_BG="-0.449"
+    venc_master_coeff_RB="-0.147"
+    venc_master_coeff_GB="-0.321"
+    venc_master_coeff_BB="1.470"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"				
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="10"
+    venc_master_black_clamp_r="10"
+    venc_master_black_clamp_gb="10"
+    venc_master_black_clamp_b="10"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+ 
+  elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_R2560x1920=y"  > /dev/null  2>&1;then
+    RESOLUTION="2560x1920"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/mt9p031_2560x1920.cfg"
+    SENSOR_CONF_NAME="mt9p031_2560x1920.cfg"
+    SENSOR_NAME="MT9P031"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="30"
+    ENC_FRAMERATE="30"
+    venc_master_resolution="2560x1920"
+    venc_master_max_shutter="30"
+    venc_master_max_gain="2048"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="60"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.00078125"
+    venc_master_y_scale="-0.00104167"
+    venc_master_width="2560"
+    venc_master_height="1920"
+    venc_master_coeff_RR="1.361"
+    venc_master_coeff_GR="-0.328"
+    venc_master_coeff_BR="-0.033"
+    venc_master_coeff_RG="-0.378"
+    venc_master_coeff_GG="1.827"
+    venc_master_coeff_BG="-0.449"
+    venc_master_coeff_RB="-0.147"
+    venc_master_coeff_GB="-0.321"
+    venc_master_coeff_BB="1.470"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"				
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="10"
+    venc_master_black_clamp_r="10"
+    venc_master_black_clamp_gb="10"
+    venc_master_black_clamp_b="10"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+  fi  
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX122=y"  > /dev/null  2>&1;then
+    RESOLUTION="1920x1080"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/imx122_1920x1080.cfg"
+    SENSOR_CONF_NAME="imx122_1920x1080.cfg"
+    SENSOR_NAME="IMX122"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="30"
+    ENC_FRAMERATE="30"
+    venc_master_resolution="1920x1080"
+    venc_master_max_shutter="30"
+    venc_master_max_gain="2048"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="75"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.00104167"
+    venc_master_y_scale="-0.00185186"
+    venc_master_width="1920"
+    venc_master_height="1080"
+    venc_master_coeff_RR="1.398"
+    venc_master_coeff_GR="-0.262"
+    venc_master_coeff_BR="-0.136"
+    venc_master_coeff_RG="-0.455"
+    venc_master_coeff_GG="1.861"
+    venc_master_coeff_BG="-0.406"
+    venc_master_coeff_RB="0.092"
+    venc_master_coeff_GB="-0.617"
+    venc_master_coeff_BB="1.525"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="20"
+    venc_master_black_clamp_r="20"
+    venc_master_black_clamp_gb="20"
+    venc_master_black_clamp_b="20"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+	elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX222=y"  > /dev/null  2>&1;then
+    RESOLUTION="1920x1080"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/imx222_1920x1080.cfg"
+    SENSOR_CONF_NAME="imx222_1920x1080.cfg"
+    SENSOR_NAME="IMX222"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="30"
+    ENC_FRAMERATE="30"
+    venc_master_resolution="1920x1080"
+    venc_master_max_shutter="30"
+    venc_master_max_gain="2048"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="55"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.00104167"
+    venc_master_y_scale="-0.00185186"
+    venc_master_width="1920"
+    venc_master_height="1080"
+    venc_master_coeff_RR="1.204"
+    venc_master_coeff_GR="-0.256"
+    venc_master_coeff_BR="0.052"
+    venc_master_coeff_RG="-0.630"
+    venc_master_coeff_GG="2.054"
+    venc_master_coeff_BG="-0.424"
+    venc_master_coeff_RB="-0.005"
+    venc_master_coeff_GB="-0.635"
+    venc_master_coeff_BB="1.640"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="59"
+    venc_master_black_clamp_r="59"
+    venc_master_black_clamp_gb="59"
+    venc_master_black_clamp_b="59"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+	elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX035=y"  > /dev/null  2>&1;then
+    RESOLUTION="1280x1024"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/imx035_1280x1024.cfg"
+    SENSOR_CONF_NAME="imx035_1280x1024.cfg"
+    SENSOR_NAME="IMX035"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="30"
+    ENC_FRAMERATE="30"
+    venc_master_resolution="1280x1024"
+    venc_master_max_shutter="30"
+    venc_master_max_gain="1024"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="70"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.0015625"
+    venc_master_y_scale="-0.00195313"
+    venc_master_width="1280"
+    venc_master_height="1024"
+    venc_master_coeff_RR="1"
+    venc_master_coeff_GR="0"
+    venc_master_coeff_BR="0"
+    venc_master_coeff_RG="0"
+    venc_master_coeff_GG="1"
+    venc_master_coeff_BG="0"
+    venc_master_coeff_RB="0"
+    venc_master_coeff_GB="0"
+    venc_master_coeff_BB="1"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"				
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="14"
+    venc_master_black_clamp_r="14"
+    venc_master_black_clamp_gb="14"
+    venc_master_black_clamp_b="14"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+  elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX104=y"  > /dev/null  2>&1;then   
+    RESOLUTION="1280x1024"   
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/imx104_1280x1024.cfg"   
+    SENSOR_CONF_NAME="imx104_1280x1024.cfg"   
+    SENSOR_NAME="IMX104"   
+    FRAMERATE_CTRL_ENABLE="off"   
+    FRAMERATE="30"   
+    ENC_FRAMERATE="30"   
+    venc_master_resolution="1280x1024"   
+    venc_master_max_shutter="30"   
+    venc_master_max_gain="4096"   
+    venc_master_min_shutter="1000000"   
+    venc_master_min_gain="1"   
+    venc_master_target_luminance="70"   
+    venc_master_target_offset="10"   
+    venc_master_x_scale="0.0015625"   
+    venc_master_y_scale="-0.00195313"   
+    venc_master_width="1280"   
+    venc_master_height="1024"   
+    venc_master_coeff_RR="1.155"   
+    venc_master_coeff_GR="-0.110"   
+    venc_master_coeff_BR="-0.044"   
+    venc_master_coeff_RG="-0.500"   
+    venc_master_coeff_GG="2.151"   
+    venc_master_coeff_BG="-0.651"   
+    venc_master_coeff_RB="0.100"   
+    venc_master_coeff_GB="-0.623"   
+    venc_master_coeff_BB="1.523"   
+    venc_master_offset_R="0"   
+    venc_master_offset_G="0"   
+    venc_master_offset_B="0"   
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"   
+    venc_master_bright="0"   
+    venc_master_contrast="0"   
+    venc_master_saturation="128"   
+    venc_master_start_lum="80"   
+    venc_master_end_lum="20"   
+    venc_master_tolerance="5"   
+    venc_master_black_clamp_gr="30"   
+    venc_master_black_clamp_r="30"   
+    venc_master_black_clamp_gb="30"   
+    venc_master_black_clamp_b="30"   
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+  elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX138=y"  > /dev/null  2>&1;then
+    RESOLUTION="1280x1024"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/imx138_1280x1024.cfg"
+    SENSOR_CONF_NAME="imx138_1280x1024.cfg"
+    SENSOR_NAME="IMX138"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="30"
+    ENC_FRAMERATE="30"
+    venc_master_resolution="1280x1024"
+    venc_master_max_shutter="30"
+    venc_master_max_gain="4096"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="70"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.0015625"
+    venc_master_y_scale="-0.00195313"
+    venc_master_width="1280"
+    venc_master_height="1024"
+    venc_master_coeff_RR="1"
+    venc_master_coeff_GR="0"
+    venc_master_coeff_BR="0"
+    venc_master_coeff_RG="0"
+    venc_master_coeff_GG="1"
+    venc_master_coeff_BG="0"
+    venc_master_coeff_RB="0"
+    venc_master_coeff_GB="0"
+    venc_master_coeff_BB="1"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="14"
+    venc_master_black_clamp_r="14"
+    venc_master_black_clamp_gb="14"
+    venc_master_black_clamp_b="14"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="7"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+	
+    venc_videoin_denoise_NDiffAvgthrY="10"
+    venc_videoin_denoise_NDiffAvgthrCb="10"
+    venc_videoin_denoise_NDiffAvgthrCr="10"
+    venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+    venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+  
+	elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX238=y"  > /dev/null  2>&1;then
+    RESOLUTION="1280x1024"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/imx238_1280x1024.cfg"
+    SENSOR_CONF_NAME="imx238_1280x1024.cfg"
+    SENSOR_NAME="IMX238"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="30"
+    ENC_FRAMERATE="30"
+    venc_master_resolution="1280x1024"
+    venc_master_max_shutter="30"
+    venc_master_max_gain="4096"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="60"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.0015625"
+    venc_master_y_scale="-0.00195313"
+    venc_master_width="1280"
+    venc_master_height="1024"
+    venc_master_coeff_RR="1.245"
+    venc_master_coeff_GR="-0.120"
+    venc_master_coeff_BR="-0.125"
+    venc_master_coeff_RG="-0.517"
+    venc_master_coeff_GG="1.957"
+    venc_master_coeff_BG="-0.440"
+    venc_master_coeff_RB="-0.053"
+    venc_master_coeff_GB="-0.452"
+    venc_master_coeff_BB="1.505"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="28"
+    venc_master_black_clamp_r="28"
+    venc_master_black_clamp_gb="28"
+    venc_master_black_clamp_b="28"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="7"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+	
+    venc_videoin_denoise_NDiffAvgthrY="10"
+    venc_videoin_denoise_NDiffAvgthrCb="10"
+    venc_videoin_denoise_NDiffAvgthrCr="10"
+    venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+    venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+  elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_MN34030PL=y"  > /dev/null  2>&1;then
+    RESOLUTION="1280x1024"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/mn34030pl_1280x1024.cfg"
+    SENSOR_CONF_NAME="mn34030pl_1280x1024.cfg"
+    SENSOR_NAME="MN34030PL"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="30"
+    ENC_FRAMERATE="30"
+    venc_master_resolution="1280x1024"
+    venc_master_max_shutter="30"
+    venc_master_max_gain="1024"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="60"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.0015625"
+    venc_master_y_scale="-0.00195313"
+    venc_master_width="1280"
+    venc_master_height="1024"
+    venc_master_coeff_RR="1.179"
+    venc_master_coeff_GR="-0.107"
+    venc_master_coeff_BR="-0.072"
+    venc_master_coeff_RG="-0.346"
+    venc_master_coeff_GG="1.758"
+    venc_master_coeff_BG="-0.412"
+    venc_master_coeff_RB="-0.022"
+    venc_master_coeff_GB="-0.287"
+    venc_master_coeff_BB="1.309"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"				
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="8"
+    venc_master_black_clamp_r="8"
+    venc_master_black_clamp_gb="8"
+    venc_master_black_clamp_b="8"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+  elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_MN34041PL=y"  > /dev/null  2>&1;then
+    RESOLUTION="1920x1080"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/mn34041pl_1920x1080.cfg"
+    SENSOR_CONF_NAME="mn34041pl_1920x1080.cfg"
+    SENSOR_NAME="MN34041PL"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="60"
+    ENC_FRAMERATE="60"
+    venc_master_resolution="1920x1080"
+    venc_master_max_shutter="60"
+    venc_master_max_gain="512"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="55"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.00104167"
+    venc_master_y_scale="-0.00185186"
+    venc_master_width="1920"
+    venc_master_height="1080"
+    venc_master_coeff_RR="1.400"
+    venc_master_coeff_GR="-0.300"
+    venc_master_coeff_BR="-0.100"
+    venc_master_coeff_RG="-0.410"
+    venc_master_coeff_GG="1.900"
+    venc_master_coeff_BG="-0.490"
+    venc_master_coeff_RB="-0.050"
+    venc_master_coeff_GB="-0.250"
+    venc_master_coeff_BB="1.350"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"				
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="2"
+    venc_master_black_clamp_r="2"
+    venc_master_black_clamp_gb="2"
+    venc_master_black_clamp_b="2"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+  elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_CAT6011=y"  > /dev/null  2>&1;then
+    RESOLUTION="1920x1080"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/cat6011_1920x1080.cfg"
+    SENSOR_CONF_NAME="cat6011_1920x1080.cfg"
+    SENSOR_NAME="CAT6011"
+    FRAMERATE_CTRL_ENABLE="on"
+    FRAMERATE="30"
+    ENC_FRAMERATE="30"
+    venc_master_resolution="1920x1080"
+    venc_master_max_shutter="30"
+    venc_master_max_gain="512"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="70"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.00104167"
+    venc_master_y_scale="-0.00185186"
+    venc_master_width="1920"
+    venc_master_height="1080"
+    venc_master_coeff_RR="1"
+    venc_master_coeff_GR="0"
+    venc_master_coeff_BR="0"
+    venc_master_coeff_RG="0"
+    venc_master_coeff_GG="1"
+    venc_master_coeff_BG="0"
+    venc_master_coeff_RB="0"
+    venc_master_coeff_GB="0"
+    venc_master_coeff_BB="1"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"				
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="0"
+    venc_master_black_clamp_r="0"
+    venc_master_black_clamp_gb="0"
+    venc_master_black_clamp_b="0"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="off"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="off"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+  elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IT6604=y"  > /dev/null  2>&1;then
+    RESOLUTION="1920x1080"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/it6604_1920x1080.cfg"
+    SENSOR_CONF_NAME="it6604_1920x1080.cfg"
+    SENSOR_NAME="IT6604"
+    FRAMERATE_CTRL_ENABLE="on"
+    FRAMERATE="30"
+    ENC_FRAMERATE="30"
+    venc_master_resolution="1920x1080"
+    venc_master_max_shutter="30"
+    venc_master_max_gain="512"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="70"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.00104167"
+    venc_master_y_scale="-0.00185186"
+    venc_master_width="1920"
+    venc_master_height="1080"
+    venc_master_coeff_RR="1"
+    venc_master_coeff_GR="0"
+    venc_master_coeff_BR="0"
+    venc_master_coeff_RG="0"
+    venc_master_coeff_GG="1"
+    venc_master_coeff_BG="0"
+    venc_master_coeff_RB="0"
+    venc_master_coeff_GB="0"
+    venc_master_coeff_BB="1"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="0"
+    venc_master_black_clamp_r="0"
+    venc_master_black_clamp_gb="0"
+    venc_master_black_clamp_b="0"
+        # Pre EE
+        venc_videoin_edge_enhancement_enable="off"
+        venc_videoin_edge_enhancement_edge_sensitivity="3"
+        venc_videoin_edge_enhancement_noise_sensitivity="30"
+        venc_videoin_edge_enhancement_clip="7"
+        venc_videoin_edge_enhancement_strength="8"
+        # Pre NR
+        venc_videoin_denoise_enable="off"
+        venc_videoin_denoise_mode="2"
+        venc_videoin_denoise_normal_strength="55"
+        venc_videoin_denoise_strong_ref_strength="1"
+        venc_videoin_denoise_strong_curr_weight="1"
+        venc_videoin_denoise_strong_motion_adaptive_enable="false"
+        # Post EE
+        venc_videoin_second_phase_edge_enhancement_enable="off"
+        venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+        venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+        venc_videoin_second_phase_edge_enhancement_clip="5"
+        venc_videoin_second_phase_edge_enhancement_strength="5"
+        # Post NR
+        venc_videoin_second_phase_denoise_enable="off"
+        venc_videoin_second_phase_denoise_mode="2"
+        venc_videoin_second_phase_denoise_normal_strength="80"
+        venc_videoin_second_phase_denoise_strong_ref_strength="0"
+        venc_videoin_second_phase_denoise_strong_curr_weight="0"
+        venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+        venc_videoin_denoise_NDiffAvgthrY="10"
+        venc_videoin_denoise_NDiffAvgthrCb="255"
+        venc_videoin_denoise_NDiffAvgthrCr="255"
+        venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+        venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+  elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_OV9710=y"  > /dev/null  2>&1;then
+    RESOLUTION="1280x800"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/ov9710_1280x800.cfg"
+    SENSOR_CONF_NAME="ov9710_1280x800.cfg"
+    SENSOR_NAME="OV9710"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="30"
+    ENC_FRAMERATE="30"
+    venc_master_resolution="1280x800"
+    venc_master_max_shutter="30"
+    venc_master_max_gain="512"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="70"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.0015625"
+    venc_master_y_scale="-0.0025"
+    venc_master_width="1280"
+    venc_master_height="800"
+    venc_master_coeff_RR="1.403"
+    venc_master_coeff_GR="-0.191"
+    venc_master_coeff_BR="-0.212"
+    venc_master_coeff_RG="-0.236"
+    venc_master_coeff_GG="1.505"
+    venc_master_coeff_BG="-0.269"
+    venc_master_coeff_RB="-0.003"
+    venc_master_coeff_GB="-0.711"
+    venc_master_coeff_BB="1.714"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"				
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="30"
+    venc_master_black_clamp_r="30"
+    venc_master_black_clamp_gb="30"
+    venc_master_black_clamp_b="30"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+  elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_OV2710=y"  > /dev/null  2>&1;then
+    RESOLUTION="1920x1080"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/ov2710_1920x1080.cfg"
+    SENSOR_CONF_NAME="ov2710_1920x1080.cfg"
+    SENSOR_NAME="OV2710"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="30"
+    ENC_FRAMERATE="30"
+    venc_master_resolution="1920x1080"
+    venc_master_max_shutter="30"
+    venc_master_max_gain="1024"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="70"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.00104167"
+    venc_master_y_scale="-0.00185186"
+    venc_master_width="1920"
+    venc_master_height="1080"
+    venc_master_coeff_RR="1.166"
+    venc_master_coeff_GR="-0.119"
+    venc_master_coeff_BR="-0.047"
+    venc_master_coeff_RG="-0.447"
+    venc_master_coeff_GG="1.782"
+    venc_master_coeff_BG="-0.335"
+    venc_master_coeff_RB="-0.012"
+    venc_master_coeff_GB="-0.525"
+    venc_master_coeff_BB="1.537"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"				
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="30"
+    venc_master_black_clamp_r="30"
+    venc_master_black_clamp_gb="30"
+    venc_master_black_clamp_b="30"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+  elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_MN34030PL_60FPS=y"  > /dev/null  2>&1;then
+    RESOLUTION="1280x720"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/mn34030pl_1280x720.cfg"
+    SENSOR_CONF_NAME="mn34030pl_1280x720.cfg"
+    SENSOR_NAME="MN34030PL"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="60"
+    ENC_FRAMERATE="60"
+    venc_master_resolution="1280x720"
+    venc_master_max_shutter="60"
+    venc_master_max_gain="1024"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="60"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.0015625"
+    venc_master_y_scale="-0.0027778"
+    venc_master_width="1280"
+    venc_master_height="720"
+    venc_master_coeff_RR="1.179"
+    venc_master_coeff_GR="-0.107"
+    venc_master_coeff_BR="-0.072"
+    venc_master_coeff_RG="-0.346"
+    venc_master_coeff_GG="1.758"
+    venc_master_coeff_BG="-0.412"
+    venc_master_coeff_RB="-0.022"
+    venc_master_coeff_GB="-0.287"
+    venc_master_coeff_BB="1.309"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"				
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="8"
+    venc_master_black_clamp_r="8"
+    venc_master_black_clamp_gb="8"
+    venc_master_black_clamp_b="8"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+  elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_MT9M034=y"  > /dev/null  2>&1;then
+    RESOLUTION="1280x720"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/mt9m034_1280x720.cfg"
+    SENSOR_CONF_NAME="mt9m034_1280x720.cfg"
+    SENSOR_NAME="MT9M034"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="60"
+    ENC_FRAMERATE="60"
+    venc_master_resolution="1280x720"
+    venc_master_max_shutter="60"
+    venc_master_max_gain="2048"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="65"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.0015625"
+    venc_master_y_scale="-0.0027778"
+    venc_master_width="1280"
+    venc_master_height="720"
+    venc_master_coeff_RR="1.126"
+    venc_master_coeff_GR="-0.012"
+    venc_master_coeff_BR="-0.114"
+    venc_master_coeff_RG="-0.558"
+    venc_master_coeff_GG="1.734"
+    venc_master_coeff_BG="-0.176"
+    venc_master_coeff_RB="-0.028"
+    venc_master_coeff_GB="-0.323"
+    venc_master_coeff_BB="1.351"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="20"
+    venc_master_black_clamp_r="20"
+    venc_master_black_clamp_gb="20"
+    venc_master_black_clamp_b="20"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_NULLSensor=y"  > /dev/null  2>&1;then
+ if cat $TARGET_ROOT/../.config | grep -n "CONFIG_NR1920x1080=y"  > /dev/null  2>&1;then
+    RESOLUTION="1920x1080"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/nullsensor_1920x1080.cfg"
+    SENSOR_CONF_NAME="nullsensor_1920x1080.cfg"
+    SENSOR_NAME="NULLSENSOR"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="60"
+    ENC_FRAMERATE="60"
+    venc_master_resolution="1920x1080"
+    venc_master_max_shutter="30"
+    venc_master_max_gain="512"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="70"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.00104167"
+    venc_master_y_scale="-0.00185186"
+    venc_master_width="1920"
+    venc_master_height="1080"
+    venc_master_coeff_RR="1"
+    venc_master_coeff_GR="0"
+    venc_master_coeff_BR="0"
+    venc_master_coeff_RG="0"
+    venc_master_coeff_GG="1"
+    venc_master_coeff_BG="0"
+    venc_master_coeff_RB="0"
+    venc_master_coeff_GB="0"
+    venc_master_coeff_BB="1"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="0"
+    venc_master_black_clamp_r="0"
+    venc_master_black_clamp_gb="0"
+    venc_master_black_clamp_b="0"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+  elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_NR720x480=y"  > /dev/null  2>&1;then
+    RESOLUTION="720x480"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/nullsensor_720x480.cfg"
+    SENSOR_CONF_NAME="nullsensor_720x480.cfg"
+    SENSOR_NAME="NULLSENSOR"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="30"
+    ENC_FRAMERATE="30"
+    venc_master_resolution="720x480"
+    venc_master_max_shutter="30"
+    venc_master_max_gain="512"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="70"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.0027778"
+    venc_master_y_scale="-0.0041667"
+    venc_master_width="720"
+    venc_master_height="480"
+    venc_master_coeff_RR="1"
+    venc_master_coeff_GR="0"
+    venc_master_coeff_BR="0"
+    venc_master_coeff_RG="0"
+    venc_master_coeff_GG="1"
+    venc_master_coeff_BG="0"
+    venc_master_coeff_RB="0"
+    venc_master_coeff_GB="0"
+    venc_master_coeff_BB="1"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"				
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="10"
+    venc_master_black_clamp_r="10"
+    venc_master_black_clamp_gb="10"
+    venc_master_black_clamp_b="10"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+  elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_NR640x480=y"  > /dev/null  2>&1;then
+    RESOLUTION="640x480"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/nullsensor_640x480.cfg"
+    SENSOR_CONF_NAME="nullsensor_640x480.cfg"
+    SENSOR_NAME="NULLSENSOR"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="30"
+    ENC_FRAMERATE="30"
+    venc_master_resolution="640x480"
+    venc_master_max_shutter="30"
+    venc_master_max_gain="512"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="70"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.003125"
+    venc_master_y_scale="-0.0041667"
+    venc_master_width="640"
+    venc_master_height="480"
+    venc_master_coeff_RR="1"
+    venc_master_coeff_GR="0"
+    venc_master_coeff_BR="0"
+    venc_master_coeff_RG="0"
+    venc_master_coeff_GG="1"
+    venc_master_coeff_BG="0"
+    venc_master_coeff_RB="0"
+    venc_master_coeff_GB="0"
+    venc_master_coeff_BB="1"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"				
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="10"
+    venc_master_black_clamp_r="10"
+    venc_master_black_clamp_gb="10"
+    venc_master_black_clamp_b="10"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+  fi
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_OV10633=y"  > /dev/null  2>&1;then
+    RESOLUTION="1280x800"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/ov10633_1280x800.cfg"
+    SENSOR_CONF_NAME="ov10633_1280x800.cfg"
+    SENSOR_NAME="OV10633"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="30"
+    ENC_FRAMERATE="30"
+    venc_master_resolution="1280x800"
+    venc_master_max_shutter="30"
+    venc_master_max_gain="512"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="180"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.0015625"
+    venc_master_y_scale="-0.0025"
+    venc_master_width="1280"
+    venc_master_height="800"
+    venc_master_coeff_RR="0.600"
+    venc_master_coeff_GR="0.100"
+    venc_master_coeff_BR="0.300"
+    venc_master_coeff_RG="-0.350"
+    venc_master_coeff_GG="1.400"
+    venc_master_coeff_BG="-0.050"
+    venc_master_coeff_RB="-0.020"
+    venc_master_coeff_GB="-0.680"
+    venc_master_coeff_BB="1.700"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"				
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="20"
+    venc_master_black_clamp_r="20"
+    venc_master_black_clamp_gb="20"
+    venc_master_black_clamp_b="20"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_TW2866=y"  > /dev/null  2>&1;then
+    RESOLUTION="720x480"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/tw2866_720x480.cfg"
+    SENSOR_CONF_NAME="tw2866_720x480.cfg"
+    SENSOR_NAME="TW2866"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="30"
+    ENC_FRAMERATE="30"
+    venc_master_resolution="720x480"
+    venc_master_max_shutter="30"
+    venc_master_max_gain="512"
+    venc_master_min_shutter="120"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="70"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.0027778"
+    venc_master_y_scale="-0.0041667"
+    venc_master_width="720"
+    venc_master_height="480"
+    venc_master_coeff_RR="1"
+    venc_master_coeff_GR="0"
+    venc_master_coeff_BR="0"
+    venc_master_coeff_RG="0"
+    venc_master_coeff_GG="1"
+    venc_master_coeff_BG="0"
+    venc_master_coeff_RB="0"
+    venc_master_coeff_GB="0"
+    venc_master_coeff_BB="1"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"				
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="10"
+    venc_master_black_clamp_r="10"
+    venc_master_black_clamp_gb="10"
+    venc_master_black_clamp_b="10"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_NVP1114A=y"  > /dev/null  2>&1;then
+    RESOLUTION="720x480"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/nvp1114a_720x480.cfg"
+    SENSOR_CONF_NAME="nvp1114a_720x480.cfg"
+    SENSOR_NAME="NVP1114A"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="30"
+    ENC_FRAMERATE="30"
+    venc_master_resolution="720x480"
+    venc_master_max_shutter="30"
+    venc_master_max_gain="512"
+    venc_master_min_shutter="120"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="70"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.0027778"
+    venc_master_y_scale="-0.0041667"
+    venc_master_width="720"
+    venc_master_height="480"
+    venc_master_coeff_RR="1"
+    venc_master_coeff_GR="0"
+    venc_master_coeff_BR="0"
+    venc_master_coeff_RG="0"
+    venc_master_coeff_GG="1"
+    venc_master_coeff_BG="0"
+    venc_master_coeff_RB="0"
+    venc_master_coeff_GB="0"
+    venc_master_coeff_BB="1"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"				
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="0"
+    venc_master_black_clamp_r="0"
+    venc_master_black_clamp_gb="0"
+    venc_master_black_clamp_b="0"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="off"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="off"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_AR0130=y"  > /dev/null  2>&1;then   
+    RESOLUTION="1280x720"   
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/ar0130_1280x720.cfg"   
+    SENSOR_CONF_NAME="ar0130_1280x720.cfg"   
+    SENSOR_NAME="AR0130"   
+    FRAMERATE_CTRL_ENABLE="off"   
+    FRAMERATE="60"   
+    ENC_FRAMERATE="60"   
+    venc_master_resolution="1280x720"   
+    venc_master_max_shutter="60"   
+    venc_master_max_gain="2048"   
+    venc_master_min_shutter="1000000"   
+    venc_master_min_gain="1"   
+    venc_master_target_luminance="65"   
+    venc_master_target_offset="10"   
+    venc_master_x_scale="0.0015625"   
+    venc_master_y_scale="-0.0027778"   
+    venc_master_width="1280"   
+    venc_master_height="720"   
+    venc_master_coeff_RR="1.126"   
+    venc_master_coeff_GR="-0.012"   
+    venc_master_coeff_BR="-0.114"   
+    venc_master_coeff_RG="-0.558"   
+    venc_master_coeff_GG="1.734"   
+    venc_master_coeff_BG="-0.176"   
+    venc_master_coeff_RB="-0.028"   
+    venc_master_coeff_GB="-0.323"   
+    venc_master_coeff_BB="1.351"   
+    venc_master_offset_R="0"   
+    venc_master_offset_G="0"   
+    venc_master_offset_B="0"   
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"   
+    venc_master_bright="0"   
+    venc_master_contrast="0"   
+    venc_master_saturation="128"   
+    venc_master_start_lum="80"   
+    venc_master_end_lum="20"   
+    venc_master_tolerance="5"   
+    venc_master_black_clamp_gr="20"   
+    venc_master_black_clamp_r="20"   
+    venc_master_black_clamp_gb="20"   
+    venc_master_black_clamp_b="20"   
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_AR0330=y"  > /dev/null  2>&1;then
+    RESOLUTION="1920x1080"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/ar0330_1920x1080.cfg"
+    SENSOR_CONF_NAME="ar0330_1920x1080.cfg"
+    SENSOR_NAME="AR0330"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="60"
+    ENC_FRAMERATE="60"
+    venc_master_resolution="1920x1080"
+    venc_master_max_shutter="60"
+    venc_master_max_gain="8"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="40"
+    venc_master_target_offset="5"
+    venc_master_x_scale="0.00104167"
+    venc_master_y_scale="-0.00185186"
+    venc_master_width="1920"
+    venc_master_height="1080"
+    venc_master_coeff_RR="1.648"
+    venc_master_coeff_GR="-0.531"
+    venc_master_coeff_BR="-0.117"
+    venc_master_coeff_RG="-0.445"
+    venc_master_coeff_GG="1.242"
+    venc_master_coeff_BG="0.203"
+    venc_master_coeff_RB="0.062"
+    venc_master_coeff_GB="-0.953"
+    venc_master_coeff_BB="1.891"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="32"
+    venc_master_black_clamp_r="32"
+    venc_master_black_clamp_gb="32"
+    venc_master_black_clamp_b="32"
+        # Pre EE
+        venc_videoin_edge_enhancement_enable="off"
+        venc_videoin_edge_enhancement_edge_sensitivity="3"
+        venc_videoin_edge_enhancement_noise_sensitivity="30"
+        venc_videoin_edge_enhancement_clip="7"
+        venc_videoin_edge_enhancement_strength="8"
+        # Pre NR
+        venc_videoin_denoise_enable="off"
+        venc_videoin_denoise_mode="2"
+        venc_videoin_denoise_normal_strength="55"
+        venc_videoin_denoise_strong_ref_strength="1"
+        venc_videoin_denoise_strong_curr_weight="1"
+        venc_videoin_denoise_strong_motion_adaptive_enable="false"
+        # Post EE
+        venc_videoin_second_phase_edge_enhancement_enable="on"
+        venc_videoin_second_phase_edge_enhancement_edge_sensitivity="4"
+        venc_videoin_second_phase_edge_enhancement_noise_sensitivity="12"
+        venc_videoin_second_phase_edge_enhancement_clip="5"
+        venc_videoin_second_phase_edge_enhancement_strength="9"
+        # Post NR
+        venc_videoin_second_phase_denoise_enable="on"
+        venc_videoin_second_phase_denoise_mode="2"
+        venc_videoin_second_phase_denoise_normal_strength="100"
+        venc_videoin_second_phase_denoise_strong_ref_strength="0"
+        venc_videoin_second_phase_denoise_strong_curr_weight="0"
+        venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+        venc_videoin_denoise_NDiffAvgthrY="10"
+        venc_videoin_denoise_NDiffAvgthrCb="255"
+        venc_videoin_denoise_NDiffAvgthrCr="255"
+        venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+        venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_AR0331=y"  > /dev/null  2>&1;then
+  if cat $TARGET_ROOT/../.config | grep -n "CONFIG_R1920x1080FROM3M=y"  > /dev/null  2>&1;then
+    RESOLUTION="1920x1080"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/ar0331_1920x1080.cfg"
+    SENSOR_CONF_NAME="ar0331_1920x1080.cfg"
+    SENSOR_NAME="AR0331"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="60"
+    ENC_FRAMERATE="60"
+    venc_master_resolution="1920x1080"
+    venc_master_max_shutter="60"
+    venc_master_max_gain="512"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="60"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.00104167"
+    venc_master_y_scale="-0.00185186"
+    venc_master_width="1920"
+    venc_master_height="1080"
+    venc_master_coeff_RR="1.131"
+    venc_master_coeff_GR="-0.058"
+    venc_master_coeff_BR="-0.073"
+    venc_master_coeff_RG="-0.533"
+    venc_master_coeff_GG="1.760"
+    venc_master_coeff_BG="-0.227"
+    venc_master_coeff_RB="-0.052"
+    venc_master_coeff_GB="-0.268"
+    venc_master_coeff_BB="1.320"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"				
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="10"
+    venc_master_black_clamp_r="10"
+    venc_master_black_clamp_gb="10"
+    venc_master_black_clamp_b="10"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+  elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_R2048x1536=y"  > /dev/null  2>&1;then
+    RESOLUTION="2048x1536"
+    SENSOR_CONF_PATH="\/etc\/conf.d\/c$k\/ar0331_2048x1536.cfg"
+    SENSOR_CONF_NAME="ar0331_2048x1536.cfg"
+    SENSOR_NAME="AR0331"
+    FRAMERATE_CTRL_ENABLE="off"
+    FRAMERATE="30"
+    ENC_FRAMERATE="30"
+    venc_master_resolution="2048x1536"
+    venc_master_max_shutter="30"
+    venc_master_max_gain="512"
+    venc_master_min_shutter="1000000"
+    venc_master_min_gain="1"
+    venc_master_target_luminance="70"
+    venc_master_target_offset="10"
+    venc_master_x_scale="0.0009765625"
+    venc_master_y_scale="-0.00130208"
+    venc_master_width="2048"
+    venc_master_height="1536"
+    venc_master_coeff_RR="1.131"
+    venc_master_coeff_GR="-0.058"
+    venc_master_coeff_BR="-0.073"
+    venc_master_coeff_RG="-0.533"
+    venc_master_coeff_GG="1.760"
+    venc_master_coeff_BG="-0.227"
+    venc_master_coeff_RB="-0.052"
+    venc_master_coeff_GB="-0.268"
+    venc_master_coeff_BB="1.320"
+    venc_master_offset_R="0"
+    venc_master_offset_G="0"
+    venc_master_offset_B="0"
+    venc_master_gamma_table="\/etc\/conf.d\/isptable\/g1.table"	
+    venc_master_bright="0"
+    venc_master_contrast="0"
+    venc_master_saturation="128"
+    venc_master_start_lum="80"
+    venc_master_end_lum="20"				
+    venc_master_tolerance="5"
+    venc_master_black_clamp_gr="10"
+    venc_master_black_clamp_r="10"
+    venc_master_black_clamp_gb="10"
+    venc_master_black_clamp_b="10"
+	# Pre EE
+	venc_videoin_edge_enhancement_enable="off"
+	venc_videoin_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_edge_enhancement_noise_sensitivity="30"
+	venc_videoin_edge_enhancement_clip="7"
+	venc_videoin_edge_enhancement_strength="8"
+	# Pre NR
+	venc_videoin_denoise_enable="off"
+	venc_videoin_denoise_mode="2"
+	venc_videoin_denoise_normal_strength="55"
+	venc_videoin_denoise_strong_ref_strength="1"
+	venc_videoin_denoise_strong_curr_weight="1"
+	venc_videoin_denoise_strong_motion_adaptive_enable="false"
+	# Post EE
+	venc_videoin_second_phase_edge_enhancement_enable="on"
+	venc_videoin_second_phase_edge_enhancement_edge_sensitivity="3"
+	venc_videoin_second_phase_edge_enhancement_noise_sensitivity="20"
+	venc_videoin_second_phase_edge_enhancement_clip="5"
+	venc_videoin_second_phase_edge_enhancement_strength="5"
+	# Post NR
+	venc_videoin_second_phase_denoise_enable="on"
+	venc_videoin_second_phase_denoise_mode="2"
+	venc_videoin_second_phase_denoise_normal_strength="80"
+	venc_videoin_second_phase_denoise_strong_ref_strength="0"
+	venc_videoin_second_phase_denoise_strong_curr_weight="0"
+	venc_videoin_second_phase_denoise_strong_motion_adaptive_enable="true"
+
+	venc_videoin_denoise_NDiffAvgthrY="10"
+	venc_videoin_denoise_NDiffAvgthrCb="255"
+	venc_videoin_denoise_NDiffAvgthrCr="255"
+	venc_videoin_denoise_NDiffAvgWindowSizeLuma="7"
+	venc_videoin_denoise_NDiffAvgWindowSizeChroma="7"
+
+fi
+
+fi
+
+
+cp -f $MOD_ROOT/$SENSOR_CONF_DIR/$SENSOR_CONF_NAME  $TARGET_ROOT/etc/conf.d/c$k/$SENSOR_CONF_NAME
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_INPUTRAW=y"  > /dev/null  2>&1;then
+		sed -i '12,12s/0/1/g' $TARGET_ROOT/etc/conf.d/c$k/$SENSOR_CONF_NAME
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_INPUTCCIR656I=y"  > /dev/null  2>&1;then
+		sed -i '12,12s/0/2/g' $TARGET_ROOT/etc/conf.d/c$k/$SENSOR_CONF_NAME
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_INPUTCCIR656P=y"  > /dev/null  2>&1;then
+		sed -i '12,12s/0/3/g' $TARGET_ROOT/etc/conf.d/c$k/$SENSOR_CONF_NAME
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_INPUTBAYER=y"  > /dev/null  2>&1;then
+		sed -i '12,12s/0/4/g' $TARGET_ROOT/etc/conf.d/c$k/$SENSOR_CONF_NAME
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_INPUT16RAW=y"  > /dev/null  2>&1;then
+		sed -i '12,12s/0/5/g' $TARGET_ROOT/etc/conf.d/c$k/$SENSOR_CONF_NAME	
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_INPUTBT1120P=y"  > /dev/null  2>&1;then
+		sed -i '12,12s/0/6/g' $TARGET_ROOT/etc/conf.d/c$k/$SENSOR_CONF_NAME
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_INPUTBT1120I=y"  > /dev/null  2>&1;then
+		sed -i '12,12s/0/7/g'  $TARGET_ROOT/etc/conf.d/c$k/$SENSOR_CONF_NAME
+
+fi
+
+Bayer_Pattern_Bitwidth=`cat $TARGET_ROOT/../.config |  grep CONFIG_BAYERPATTERNBITWIDTH | cut -d'=' -f 2`
+AWB_After_CC_Enable=`cat $TARGET_ROOT/../.config |  grep CONFIG_AWBAFTERCCENABLE | cut -d'=' -f 2`
+
+if cat $TARGET_ROOT/etc/conf.d/c$k/$SENSOR_CONF_NAME  | grep -n "#Bayer_Pattern_Bitwidth#"  > /dev/null  2>&1;then
+    sed -i "s/#Bayer_Pattern_Bitwidth#/$Bayer_Pattern_Bitwidth/g" $TARGET_ROOT/etc/conf.d/c$k/$SENSOR_CONF_NAME
+fi
+
+if cat $TARGET_ROOT/etc/conf.d/c$k/$SENSOR_CONF_NAME  | grep -n "#AWB_After_CC_Enable#"  > /dev/null  2>&1;then
+    sed -i "s/#AWB_After_CC_Enable#/$AWB_After_CC_Enable/g" $TARGET_ROOT/etc/conf.d/c$k/$SENSOR_CONF_NAME
+fi
+
+
+cat $MOD_ROOT/$VENC_MASTER_CONF > $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<resolution>#venc_master_resolution#/<resolution>$venc_master_resolution/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<max_shutter>#venc_master_max_shutter#/<max_shutter>$venc_master_max_shutter/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<max_gain>#venc_master_max_gain#/<max_gain>$venc_master_max_gain/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<min_shutter>#venc_master_min_shutter#/<min_shutter>$venc_master_min_shutter/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<min_gain>#venc_master_min_gain#/<min_gain>$venc_master_min_gain/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<target_luminance>#venc_master_target_luminance#/<target_luminance>$venc_master_target_luminance/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<target_offset>#venc_master_target_offset#/<target_offset>$venc_master_target_offset/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<x>#venc_master_x_scale#/<x>$venc_master_x_scale/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<y>#venc_master_y_scale#/<y>$venc_master_y_scale/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<width>#venc_master_width#/<width>$venc_master_width/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<height>#venc_master_height#/<height>$venc_master_height/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<coeff_RR>#venc_master_coeff_RR#/<coeff_RR>$venc_master_coeff_RR/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<coeff_GR>#venc_master_coeff_GR#/<coeff_GR>$venc_master_coeff_GR/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<coeff_BR>#venc_master_coeff_BR#/<coeff_BR>$venc_master_coeff_BR/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<coeff_RG>#venc_master_coeff_RG#/<coeff_RG>$venc_master_coeff_RG/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<coeff_GG>#venc_master_coeff_GG#/<coeff_GG>$venc_master_coeff_GG/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<coeff_BG>#venc_master_coeff_BG#/<coeff_BG>$venc_master_coeff_BG/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<coeff_RB>#venc_master_coeff_RB#/<coeff_RB>$venc_master_coeff_RB/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<coeff_GB>#venc_master_coeff_GB#/<coeff_GB>$venc_master_coeff_GB/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<coeff_BB>#venc_master_coeff_BB#/<coeff_BB>$venc_master_coeff_BB/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<offset_R>#venc_master_offset_R#/<offset_R>$venc_master_offset_R/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<offset_G>#venc_master_offset_G#/<offset_G>$venc_master_offset_G/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<offset_B>#venc_master_offset_B#/<offset_B>$venc_master_offset_B/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+echo "venc_master_gamma_table="$venc_master_gamma_table
+sed -i "s/<gamma_table>#venc_master_gamma_table#/<gamma_table>$venc_master_gamma_table/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<bright>#venc_master_bright#/<bright>$venc_master_bright/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<contrast>#venc_master_contrast#/<contrast>$venc_master_contrast/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<saturation>#venc_master_saturation#/<saturation>$venc_master_saturation/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<start_lum>#venc_master_start_lum#/<start_lum>$venc_master_start_lum/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<end_lum>#venc_master_end_lum#/<end_lum>$venc_master_end_lum/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<tolerance>#venc_master_tolerance#/<tolerance>$venc_master_tolerance/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<gr>#venc_master_black_clamp_gr#/<gr>$venc_master_black_clamp_gr/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<r>#venc_master_black_clamp_r#/<r>$venc_master_black_clamp_r/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<gb>#venc_master_black_clamp_gb#/<gb>$venc_master_black_clamp_gb/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+sed -i "s/<b>#venc_master_black_clamp_b#/<b>$venc_master_black_clamp_b/g" $TARGET_ROOT/etc/conf.d/c$k/$VENC_MASTER_CONF
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_YUV422=y"  > /dev/null  2>&1;then
+	sed -i "s/<PixelFormat>#pixel_format#/<PixelFormat>2/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+else
+	sed -i "s/<PixelFormat>#pixel_format#/<PixelFormat>1/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+fi
+
+sed -i "s/<enable>#frame_ctrl_enable#/<enable>$FRAMERATE_CTRL_ENABLE/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<frame_rate>#frame_rate#/<frame_rate>$FRAMERATE/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+
+
+sed -i "s/<enable>#venc_videoin_pre_nr_enable#/<enable>$venc_videoin_pre_nr_enable/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+
+sed -i "s/<enable>#venc_videoin_edge_enhancement_enable#/<enable>$venc_videoin_edge_enhancement_enable/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+#sed -i "s/<sensitivity>#venc_videoin_edge_enhancement_sensitivity#/<sensitivity>$venc_videoin_edge_enhancement_sensitivity/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<strength>#venc_videoin_edge_enhancement_strength#/<strength>$venc_videoin_edge_enhancement_strength/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<edge_sensitivity>#venc_videoin_edge_enhancement_edge_sensitivity#/<edge_sensitivity>$venc_videoin_edge_enhancement_edge_sensitivity/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<noise_sensitivity>#venc_videoin_edge_enhancement_noise_sensitivity#/<noise_sensitivity>$venc_videoin_edge_enhancement_noise_sensitivity/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<clip>#venc_videoin_edge_enhancement_clip#/<clip>$venc_videoin_edge_enhancement_clip/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+
+sed -i "s/<enable>#venc_videoin_second_phase_edge_enhancement_enable#/<enable>$venc_videoin_second_phase_edge_enhancement_enable/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+#sed -i "s/<sensitivity>#venc_videoin_edge_enhancement_sensitivity#/<sensitivity>$venc_videoin_edge_enhancement_sensitivity/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<strength>#venc_videoin_second_phase_edge_enhancement_strength#/<strength>$venc_videoin_second_phase_edge_enhancement_strength/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<edge_sensitivity>#venc_videoin_second_phase_edge_enhancement_edge_sensitivity#/<edge_sensitivity>$venc_videoin_second_phase_edge_enhancement_edge_sensitivity/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<noise_sensitivity>#venc_videoin_second_phase_edge_enhancement_noise_sensitivity#/<noise_sensitivity>$venc_videoin_second_phase_edge_enhancement_noise_sensitivity/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<clip>#venc_videoin_second_phase_edge_enhancement_clip#/<clip>$venc_videoin_second_phase_edge_enhancement_clip/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+
+
+
+
+sed -i "s/<enable>#venc_videoin_denoise_enable#/<enable>$venc_videoin_denoise_enable/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<mode>#venc_videoin_denoise_mode#/<mode>$venc_videoin_denoise_mode/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<normal_mode_strength>#venc_videoin_denoise_normal_strength#/<normal_mode_strength>$venc_videoin_denoise_normal_strength/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<strong_ref_strength>#venc_videoin_denoise_strong_ref_strength#/<strong_ref_strength>$venc_videoin_denoise_strong_ref_strength/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<strong_curr_weight>#venc_videoin_denoise_strong_curr_weight#/<strong_curr_weight>$venc_videoin_denoise_strong_curr_weight/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<strong_motion_adaptive_enable>#venc_videoin_denoise_strong_motion_adaptive_enable#/<strong_motion_adaptive_enable>$venc_videoin_denoise_strong_motion_adaptive_enable/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+
+
+sed -i "s/<enable>#venc_videoin_second_phase_denoise_enable#/<enable>$venc_videoin_second_phase_denoise_enable/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<mode>#venc_videoin_second_phase_denoise_mode#/<mode>$venc_videoin_second_phase_denoise_mode/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<normal_mode_strength>#venc_videoin_second_phase_denoise_normal_strength#/<normal_mode_strength>$venc_videoin_second_phase_denoise_normal_strength/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<strong_ref_strength>#venc_videoin_second_phase_denoise_strong_ref_strength#/<strong_ref_strength>$venc_videoin_second_phase_denoise_strong_ref_strength/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<strong_curr_weight>#venc_videoin_second_phase_denoise_strong_curr_weight#/<strong_curr_weight>$venc_videoin_second_phase_denoise_strong_curr_weight/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<strong_motion_adaptive_enable>#venc_videoin_second_phase_denoise_strong_motion_adaptive_enable#/<strong_motion_adaptive_enable>$venc_videoin_second_phase_denoise_strong_motion_adaptive_enable/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+
+
+#sed -i "s/<strong_mode_strength>#venc_videoin_denoise_strong_strength#/<strong_mode_strength>$venc_videoin_denoise_strong_strength/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+#sed -i "s/<extreme_mode_strength>#venc_videoin_denoise_extreme_strength#/<extreme_mode_strength>$venc_videoin_denoise_extreme_strength/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+#sed -i "s/<motion_adaptive_enable>#venc_videoin_denoise_motion_adaptive_enable#/<motion_adaptive_enable>$venc_videoin_denoise_motion_adaptive_enable/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+#sed -i "s/<motion_adaptive_strength>#venc_videoin_denoise_motion_adaptive_strength#/<motion_adaptive_strength>$venc_videoin_denoise_motion_adaptive_strength/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+
+sed -i "s/<NDiffAvgthrY>#denoise_NDiffAvgthrY#/<NDiffAvgthrY>$venc_videoin_denoise_NDiffAvgthrY/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<NDiffAvgthrCb>#denoise_NDiffAvgthrCb#/<NDiffAvgthrCb>$venc_videoin_denoise_NDiffAvgthrCb/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<NDiffAvgthrCr>#denoise_NDiffAvgthrCr#/<NDiffAvgthrCr>$venc_videoin_denoise_NDiffAvgthrCr/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<NDiffAvgWindowSizeLuma>#denoise_NDiffAvgWindowSizeLuma#/<NDiffAvgWindowSizeLuma>$venc_videoin_denoise_NDiffAvgWindowSizeLuma/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<NDiffAvgWindowSizeChroma>#denoise_NDiffAvgWindowSizeChroma#/<NDiffAvgWindowSizeChroma>$venc_videoin_denoise_NDiffAvgWindowSizeChroma/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_DIE=y"  > /dev/null  2>&1;then
+sed -i "s/<bInitStaticMapBuff>#bInitStaticMapBuff#/<bInitStaticMapBuff>true/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+else
+sed -i "s/<bInitStaticMapBuff>#bInitStaticMapBuff#/<bInitStaticMapBuff>false/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+fi
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_PRE_NR=y"  > /dev/null  2>&1;then
+	if cat $TARGET_ROOT/../.config | grep -n "CONFIG_AUTOSCENE=y"  > /dev/null  2>&1;then
+		sed -i "s/<bInitNrStrongBuff>#bInitNrStrongBuff#/<bInitNrStrongBuff>true/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+	else
+		sed -i "s/<bInitNrStrongBuff>#bInitNrStrongBuff#/<bInitNrStrongBuff>false/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+	fi
+else
+	sed -i "s/<bInitNrStrongBuff>#bInitNrStrongBuff#/<bInitNrStrongBuff>true/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+fi
+
+
+sed -i "s/<enable>#venc_videoin_deinterlacer_enable#/<enable>$venc_videoin_deinterlacer_enable/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<picformat>#venc_videoin_deinterlacer_picformat#/<picformat>$venc_videoin_deinterlacer_picformat/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<mode>#venc_videoin_deinterlacer_mode#/<mode>$venc_videoin_deinterlacer_mode/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+
+
+#echo "sensordepnce:"$SENSOR_NAME"_"$RESOLUTION"_"$SENSOR_DEP_FILENAME
+cp -f $MOD_ROOT/$SENSOR_DEP_DIR/$SENSOR_NAME"_"$RESOLUTION"_"$SENSOR_DEP_FILENAME $TARGET_ROOT/etc/conf.d/c$k/$SENSOR_DEP_FILENAME
+
+
+#echo "isp_template:"$MOD_ROOT/$ISP_TEMPLATE_DIR/$SENSOR_NAME"_"$RESOLUTION"_"$ISP_TEMPLATE_FILENAME"."tar"."gz
+if [ -d $TARGET_ROOT/etc/conf.d/c$k/isp_template ];then
+  rm -fr $TARGET_ROOT/etc/conf.d/c$k/isp_template
+fi 
+
+mkdir $TARGET_ROOT/etc/conf.d/c$k/isp_template
+tar zxf $MOD_ROOT/$ISP_TEMPLATE_DIR/$SENSOR_NAME"_"$RESOLUTION"_"$ISP_TEMPLATE_FILENAME"."tar"."gz -C $TARGET_ROOT/etc/conf.d/c$k/isp_template
+
+cp -f  $TARGET_ROOT/etc/conf.d/c$k/isp_template/g0.table $TARGET_ROOT/etc/conf.d/isptable/
+rm $TARGET_ROOT/etc/conf.d/c$k/isp_template/g0.table
+
+cp -f  $TARGET_ROOT/etc/conf.d/c$k/isp_template/g1.table $TARGET_ROOT/etc/conf.d/isptable/
+rm $TARGET_ROOT/etc/conf.d/c$k/isp_template/g1.table
+
+cp -f  $TARGET_ROOT/etc/conf.d/c$k/isp_template/g2.table $TARGET_ROOT/etc/conf.d/isptable/
+rm $TARGET_ROOT/etc/conf.d/c$k/isp_template/g2.table
+
+cp -f  $TARGET_ROOT/etc/conf.d/c$k/isp_template/g3.table $TARGET_ROOT/etc/conf.d/isptable/
+rm $TARGET_ROOT/etc/conf.d/c$k/isp_template/g3.table
+
+cp -f  $TARGET_ROOT/etc/conf.d/c$k/isp_template/g4.table $TARGET_ROOT/etc/conf.d/isptable/
+rm $TARGET_ROOT/etc/conf.d/c$k/isp_template/g4.table
+
+cp -f  $TARGET_ROOT/etc/conf.d/c$k/isp_template/g5.table $TARGET_ROOT/etc/conf.d/isptable/
+rm $TARGET_ROOT/etc/conf.d/c$k/isp_template/g5.table
+
+cp -f  $TARGET_ROOT/etc/conf.d/c$k/isp_template/g6.table $TARGET_ROOT/etc/conf.d/isptable/
+rm $TARGET_ROOT/etc/conf.d/c$k/isp_template/g6.table
+
+cp -f  $TARGET_ROOT/etc/conf.d/c$k/isp_template/g7.table $TARGET_ROOT/etc/conf.d/isptable/
+rm $TARGET_ROOT/etc/conf.d/c$k/isp_template/g7.table
+
+
+#echo "photo_ldc_tbl:"$MOD_ROOT/$PHOTO_LDC_TBL_DIR/$SENSOR_NAME"_"$RESOLUTION"_"$PHOTO_LDC_TBL_FILENAME"."tar"."gz
+tar zxf $MOD_ROOT/$PHOTO_LDC_TBL_DIR/$SENSOR_NAME"_"$RESOLUTION"_"$PHOTO_LDC_TBL_FILENAME"."tar"."gz -C $TARGET_ROOT/etc/conf.d/c$k/
+
+
+MAX_STREAM_NUM=`cat $TARGET_ROOT/../.config |  grep CONFIG_MAXVIDEOSTREAMNUM | cut -d'=' -f 2`
+
+VENC_ENCODER_STR="\\n\\t<total_num>$MAX_STREAM_NUM<\/total_num>\\n\\t"
+#1. Generate vencencoder_conf.i.xml
+#echo "MAX_STREAM_NUM="$MAX_STREAM_NUM
+
+#h264,mpeg4,mjpg,svc
+SUPPORT_CODEC=""
+
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_H264=y"  > /dev/null  2>&1;then
+  SUPPORT_CODEC="h264"
+  h264_key_interval=`cat $TARGET_ROOT/../.config |  grep CONFIG_H264_KEY_INTERVAL |  cut -d'=' -f2`
+  h264_quality_type=`cat $TARGET_ROOT/../.config |  grep CONFIG_H264_QUALITY_TYPE |  cut -d'=' -f2 | cut -d'"' -f2`
+  h264_quant_value=`cat $TARGET_ROOT/../.config |  grep CONFIG_H264_QUAT_VALUE |  cut -d'=' -f2`
+  h264_bitrate=`cat $TARGET_ROOT/../.config |  grep CONFIG_H264_BITRATE  |  cut -d'=' -f2`
+  h264_max_frame_rate=`cat $TARGET_ROOT/../.config |  grep CONFIG_H264_MAX_FRAMERATE  |  cut -d'=' -f2`
+  h264_min_frame_rate=`cat $TARGET_ROOT/../.config |  grep CONFIG_H264_MIN_FRAMERATE  |  cut -d'=' -f2`
+  h264_ref_frame_num=`cat $TARGET_ROOT/../.config |  grep CONFIG_H264_REF_FRAME_NUM  |  cut -d'=' -f2`
+  h264_search_range_x=`cat $TARGET_ROOT/../.config |  grep CONFIG_H264_MAX_SEARCHRANGE_X  |  cut -d'=' -f2`
+  h264_search_range_y=`cat $TARGET_ROOT/../.config |  grep CONFIG_H264_MAX_SEARCHRANGE_Y  |  cut -d'=' -f2`
+  h264_min_quant_value=`cat $TARGET_ROOT/../.config |  grep CONFIG_H264_MIN_QUAT_VALUE  |  cut -d'=' -f2`
+  h264_max_quant_value=`cat $TARGET_ROOT/../.config |  grep CONFIG_H264_MAX_QUAT_VALUE  |  cut -d'=' -f2`
+  
+fi
+
+
+
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_JPEG=y"  > /dev/null  2>&1;then
+  if [ "$SUPPORT_CODEC" = "h264" ];then
+    SUPPORT_CODEC=$SUPPORT_CODEC",""mjpeg"
+  else
+    SUPPORT_CODEC="mjpeg"
+  fi
+  mjpeg_quant_value=`cat $TARGET_ROOT/../.config |  grep CONFIG_JPEG_QUAT_VALUE |  cut -d'=' -f2`
+fi
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_MPV4=y"  > /dev/null  2>&1;then
+  if [ "$SUPPORT_CODEC" = "h264,mjpeg" ];then
+    SUPPORT_CODEC=$SUPPORT_CODEC",""mpeg4"
+  elif [ "$SUPPORT_CODEC" = "mjpeg" ];then
+    SUPPORT_CODEC=$SUPPORT_CODEC",""mpeg4"
+  elif [ "$SUPPORT_CODEC" = "h264" ];then
+    SUPPORT_CODEC=$SUPPORT_CODEC",""mpeg4"
+  else
+    SUPPORT_CODEC="mpeg4"
+  fi
+  mpeg4_key_interval=`cat $TARGET_ROOT/../.config |  grep CONFIG_MPV4_KEY_INTERVAL |  cut -d'=' -f2`
+  mpeg4_quality_type=`cat $TARGET_ROOT/../.config |  grep CONFIG_MPV4_QUALITY_TYPE |  cut -d'=' -f2 | cut -d'"' -f2`
+  mpeg4_quant_value=`cat $TARGET_ROOT/../.config |  grep CONFIG_MPV4_QUAT_VALUE |  cut -d'=' -f2`
+  mpeg4_bitrate=`cat $TARGET_ROOT/../.config |  grep CONFIG_MPV4_BITRATE |  cut -d'=' -f2`
+fi
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_SVC=y"  > /dev/null  2>&1;then
+
+  if [ "$SUPPORT_CODEC" = "h264,mjpeg,mpeg4" ];then
+    SUPPORT_CODEC=$SUPPORT_CODEC",""svc"
+  elif [ "$SUPPORT_CODEC" = "h264,mjpeg" ];then
+    SUPPORT_CODEC=$SUPPORT_CODEC",""svc"
+  elif [ "$SUPPORT_CODEC" = "h264,mpeg4" ];then
+    SUPPORT_CODEC=$SUPPORT_CODEC",""svc"
+  elif [ "$SUPPORT_CODEC" = "h264" ];then
+    SUPPORT_CODEC=$SUPPORT_CODEC",""svc"
+  elif [ "$SUPPORT_CODEC" = "mjpeg,mpeg4" ];then
+    SUPPORT_CODEC=$SUPPORT_CODEC",""svc"
+  elif [ "$SUPPORT_CODEC" = "mpeg4" ];then
+    SUPPORT_CODEC=$SUPPORT_CODEC",""svc"
+  else
+    SUPPORT_CODEC="svc"
+  fi
+
+  svc_key_interval=`cat $TARGET_ROOT/../.config |  grep CONFIG_SVC_KEY_INTERVAL |  cut -d'=' -f2`
+  svc_quality_type=`cat $TARGET_ROOT/../.config |  grep CONFIG_SVC_QUALITY_TYPE |  cut -d'=' -f2 | cut -d'"' -f2`
+  svc_quant_value=`cat $TARGET_ROOT/../.config |  grep CONFIG_SVC_QUAT_VALUE |  cut -d'=' -f2`
+  svc_bitrate=`cat $TARGET_ROOT/../.config |  grep CONFIG_SVC_BITRATE  |  cut -d'=' -f2`
+  svc_hdr_enable=`cat $TARGET_ROOT/../.config |  grep CONFIG_SVC_HDR_ENABLE |  cut -d'=' -f2 | cut -d'"' -f2`
+  svc_max_layer_num=`cat $TARGET_ROOT/../.config |  grep CONFIG_SVC_MAX_LAYER_NUM  |  cut -d'=' -f2`	
+fi
+
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_ENC_ROI=y"  > /dev/null  2>&1;then
+    roi_enable=`cat $TARGET_ROOT/../.config |  grep CONFIG_ROI_ENABLE  |  cut -d'=' -f2 | cut -d'"' -f2`
+    roi_q_delta=`cat $TARGET_ROOT/../.config |  grep CONFIG_ROI_DELTAQ  |  cut -d'=' -f2`
+fi
+
+
+
+VENC_SUPPORT_CODEC="<support_codectype>$SUPPORT_CODEC<\/support_codectype>\\n\\t"
+
+VENC_ENCODER_STR=$VENC_ENCODER_STR""$VENC_SUPPORT_CODEC
+
+
+
+for (( i=0; i<MAX_STREAM_NUM; i=i+1 ))
+do
+
+  cat $MOD_ROOT/$VENC_ENCODER_CONF > $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml
+
+if [ $i -eq  0 ];then
+  if cat $TARGET_ROOT/../.config | grep -n "CONFIG_H264=y"  > /dev/null  2>&1;then
+    sed -i 's/#codec#/h264/g' $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml  
+  elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_SVC=y"  > /dev/null  2>&1;then
+    sed -i 's/#codec#/svc/g' $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml
+  else
+    sed -i 's/#codec#/mjpeg/g' $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml  
+  fi
+elif [ $i -eq  3 ];then #Stream #4 is as the video source of SD recording.
+  if cat $TARGET_ROOT/../.config | grep -n "CONFIG_H264=y"  > /dev/null  2>&1;then
+    sed -i 's/#codec#/h264/g' $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml
+  elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_SVC=y"  > /dev/null  2>&1;then
+    sed -i 's/#codec#/svc/g' $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml  
+  else
+    sed -i 's/#codec#/mjpeg/g' $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml  
+  fi
+else
+  sed -i 's/#codec#/mjpeg/g' $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml  
+fi
+
+#The converting method of stream #2 (3rd stream)is squeezing for being the global view of VPTZ.  
+if [ $i -eq 2 ];then
+sed -i 's/#converting_method#/squeezing/g' $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+else
+sed -i 's/#converting_method#/cropping/g' $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+fi
+
+sed -i "s/#enc_resolution#/$ENC_RESOLUTION/g" $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+
+sed -i "s/<mpeg4_key_interval>#mpeg4_key_interval#/<mpeg4_key_interval>$mpeg4_key_interval/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+sed -i "s/<mpeg4_quality_type>#mpeg4_quality_type#/<mpeg4_quality_type>$mpeg4_quality_type/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+sed -i "s/<mpeg4_quant_value>#mpeg4_quant_value#/<mpeg4_quant_value>$mpeg4_quant_value/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+sed -i "s/<mpeg4_bitrate>#mpeg4_bitrate#/<mpeg4_bitrate>$mpeg4_bitrate/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+sed -i "s/<mjpeg_quant_value>#mjpeg_quant_value#/<mjpeg_quant_value>$mjpeg_quant_value/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+
+
+sed -i "s/<h264_key_interval>#h264_key_interval#/<h264_key_interval>$h264_key_interval/g" $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+sed -i "s/<h264_quality_type>#h264_quality_type#/<h264_quality_type>$h264_quality_type/g" $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+sed -i "s/<h264_quant_value>#h264_quant_value#/<h264_quant_value>$h264_quant_value/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+sed -i "s/<h264_bitrate>#h264_bitrate#/<h264_bitrate>$h264_bitrate/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+
+sed -i "s/<h264_max_frame_rate>#h264_max_frame_rate#/<h264_max_frame_rate>$h264_max_frame_rate/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+sed -i "s/<h264_min_frame_rate>#h264_min_frame_rate#/<h264_min_frame_rate>$h264_min_frame_rate/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+
+
+sed -i "s/<h264_ref_frame_num>#h264_ref_frame_num#/<h264_ref_frame_num>$h264_ref_frame_num/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+
+sed -i "s/<h264_search_range_x>#h264_search_range_x#/<h264_search_range_x>$h264_search_range_x/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+sed -i "s/<h264_search_range_y>#h264_search_range_y#/<h264_search_range_y>$h264_search_range_y/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+
+sed -i "s/<h264_min_quant_value>#h264_min_quant_value#/<h264_min_quant_value>$h264_min_quant_value/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+sed -i "s/<h264_max_quant_value>#h264_max_quant_value#/<h264_max_quant_value>$h264_max_quant_value/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+
+
+
+
+sed -i "s/<svc_key_interval>#svc_key_interval#/<svc_key_interval>$svc_key_interval/g" $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+sed -i "s/<svc_quality_type>#svc_quality_type#/<svc_quality_type>$svc_quality_type/g" $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+sed -i "s/<svc_quant_value>#svc_quant_value#/<svc_quant_value>$svc_quant_value/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+sed -i "s/<svc_bitrate>#svc_bitrate#/<svc_bitrate>$svc_bitrate/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+sed -i "s/<svc_max_layer_num>#svc_max_layer_num#/<svc_max_layer_num>$svc_max_layer_num/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+
+sed -i "s/<svc_hdr_enable>#svc_hdr_enable#/<svc_hdr_enable>$svc_hdr_enable/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+
+
+
+sed -i "s/<frame_rate>#frame_rate#/<frame_rate>$ENC_FRAMERATE/g" $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+
+
+sed -i "s/<enable>#roi_enable#/<enable>$roi_enable/g" $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+sed -i "s/<QP>#roi_q_delta#/<QP>$roi_q_delta/g" $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+
+
+
+if [ $VIDEO_SERVER -eq 1 ];then
+	if cat $TARGET_ROOT/../.config | grep -n "CONFIG_JPEG_SNAPSHOT=y"  > /dev/null  2>&1;then
+		#This is a workaround for video server case
+		sed -i "s/buff_mgr##/buff_mgr$((3*k+1))/g" $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml
+		sed -i "s/#snapshot_buff_mgr#/buff_mgr$((3*k+1+1))/g" $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml
+	else
+		sed -i "s/buff_mgr##/buff_mgr$((i+1+(MAX_STREAM_NUM+1)*k))/g" $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml
+		sed -i "s/#snapshot_buff_mgr#/buff_mgr$(((i+1+(MAX_STREAM_NUM+1)*k)+ ((MAX_STREAM_NUM-1)+1+(MAX_STREAM_NUM+1)*k-k) ))/g" $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml
+	fi	
+else
+	sed -i "s/buff_mgr##/buff_mgr$((i+1+(MAX_STREAM_NUM+1)*k))/g" $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml
+	sed -i "s/#snapshot_buff_mgr#/buff_mgr$(((i+1+(MAX_STREAM_NUM+1)*k)+ ((MAX_STREAM_NUM-1)+1+(MAX_STREAM_NUM+1)*k-k) ))/g" $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml
+fi
+
+STR="<encoder id=\\\"$i\\\">\\n\\t<config_path>\/etc\/conf.d\/c$k\/vencencoder_conf.$i.xml<\/config_path>\\n\\t<switch>0<\/switch>\\n\\t<\/encoder>\\n\\t"         
+
+#STR="<encoder id=\\\"$i\\\">\\n\\t<config_path>\/etc\/conf.d\/c$k\/vencencoder_conf.$i.xml<\/config_path>\\n\\t<switch>0<\/switch>\\n\\t<\/encoder>\\n\\t"
+
+
+VENC_ENCODER_STR=$VENC_ENCODER_STR""$STR
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_TEXT_OVERLAY=y"  > /dev/null  2>&1;then
+  sed -i "s/<enable>#text_overlay#/<enable>on/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+else
+  sed -i "s/<enable>#text_overlay#/<enable>off/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+fi
+
+
+
+
+venc_encoder_crop_height=`echo $ENC_RESOLUTION | awk -F'x' '{print $2}'`
+venc_encoder_crop_width=`echo $ENC_RESOLUTION | awk -F'x' '{print $1}'`
+
+venc_encoder_crop_left="0"
+venc_encoder_crop_top="0"
+
+sed -i "s/<top>#crop_top#/<top>$venc_encoder_crop_top/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+sed -i "s/<left>#crop_left#/<left>$venc_encoder_crop_left/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+sed -i "s/<width>#crop_width#/<width>$venc_encoder_crop_width/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+sed -i "s/<height>#crop_height#/<height>$venc_encoder_crop_height/g"  $TARGET_ROOT/etc/conf.d/c$k/vencencoder_conf.$i.xml 
+
+
+done
+
+#2. Generate venc_conf.xml
+#echo "VENC_ENCODER_STR="$VENC_ENCODER_STR
+cat $MOD_ROOT/$VENC_CONF > $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+
+#echo "SENSOR_CONF_PATH="$SENSOR_CONF_PATH
+
+sed -i "s/#sensor_conf#/$SENSOR_CONF_PATH/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+
+MASTER_CONF_PATH="\/etc\/conf.d\/c$k\/vencmaster_conf.xml"
+VIDEOIN_CONF_PATH="\/etc\/conf.d\/c$k\/vencvideoin_conf.xml"
+MOTION_CONF_PATH="\/etc\/conf.d\/c$k\/vencmotion_conf.xml"
+DISPLAY_CONF_PATH="\/etc\/conf.d\/c$k\/vencdisplay_conf.xml"
+
+sed -i "s/#master_conf#/$MASTER_CONF_PATH/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/#videoin_conf#/$VIDEOIN_CONF_PATH/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/#vencmotion_conf#/$MOTION_CONF_PATH/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/#vencdisplay_conf#/$DISPLAY_CONF_PATH/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_MV_TRIGER_ROI=y"  > /dev/null  2>&1;then
+	sed -i "s/<initial>#venc_motion_initial#/<initial>off/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+else
+	if [ $VIDEO_SERVER -eq 1 ];then
+	sed -i "s/<initial>#venc_motion_initial#/<initial>on/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+	else
+	sed -i "s/<initial>#venc_motion_initial#/<initial>on/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+	fi
+fi
+
+sed -i "s/<venc_encoder>##/<venc_encoder>$VENC_ENCODER_STR/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_RECORD=y"  > /dev/null  2>&1;then
+  #echo "[CONFIG_RECORD=y]"
+  sed -i "s/<record>##/<record>on/g" $TARGET_ROOT/etc/conf.d/c$k/sensor_dependent.xml
+else
+  #echo "[CONFIG_RECORD=n]"
+  sed -i "s/<record>##/<record>off/g" $TARGET_ROOT/etc/conf.d/c$k/sensor_dependent.xml
+fi
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_AUTOSCENE=y"  > /dev/null  2>&1;then
+  #echo "[CONFIG_RECORD=y]"
+  sed -i "s/<autoscene>##/<autoscene>on/g" $TARGET_ROOT/etc/conf.d/c$k/sensor_dependent.xml
+else
+  #echo "[CONFIG_RECORD=n]"
+  sed -i "s/<autoscene>##/<autoscene>off/g" $TARGET_ROOT/etc/conf.d/c$k/sensor_dependent.xml
+fi
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_PRE_NR=y"  > /dev/null  2>&1;then
+  #echo "[CONFIG_RECORD=y]"
+  sed -i "s/<prenr>##/<prenr>on/g" $TARGET_ROOT/etc/conf.d/c$k/sensor_dependent.xml
+else
+  #echo "[CONFIG_RECORD=n]"
+  sed -i "s/<prenr>##/<prenr>off/g" $TARGET_ROOT/etc/conf.d/c$k/sensor_dependent.xml
+fi
+
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_AUTOIRIS=y"  > /dev/null  2>&1;then
+  sed -i "s/<autoiris>##/<autoiris>on/g" $TARGET_ROOT/etc/conf.d/c$k/sensor_dependent.xml
+else
+  sed -i "s/<autoiris>##/<autoiris>off/g" $TARGET_ROOT/etc/conf.d/c$k/sensor_dependent.xml
+fi
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_AUTOIRIS=y"  > /dev/null  2>&1;then
+  sed -i "s/<autoiris>#venc_master_autoiris#/<autoiris>on/g" $TARGET_ROOT/etc/conf.d/c$k/vencmaster_conf.xml
+else
+  sed -i "s/<autoiris>#venc_master_autoiris#/<autoiris>off/g" $TARGET_ROOT/etc/conf.d/c$k/vencmaster_conf.xml
+fi
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_WDR=y"  > /dev/null  2>&1;then
+  sed -i "s/<wdr>##/<wdr>on/g" $TARGET_ROOT/etc/conf.d/c$k/sensor_dependent.xml
+else
+  sed -i "s/<wdr>##/<wdr>off/g" $TARGET_ROOT/etc/conf.d/c$k/sensor_dependent.xml
+fi
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_AF=y"  > /dev/null  2>&1;then
+  sed -i "s/<autofocus>##/<autofocus>on/g" $TARGET_ROOT/etc/conf.d/c$k/sensor_dependent.xml
+else
+  sed -i "s/<autofocus>##/<autofocus>off/g" $TARGET_ROOT/etc/conf.d/c$k/sensor_dependent.xml
+fi
+
+
+
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_1DRAM_VERSION=y"  > /dev/null  2>&1;then
+
+#One drame platform ex:Mozart 365
+sed -i "s/<dram_location>#vic_output_dram_num#/<dram_location>0/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<in_bus_num>#in_bus_num#/<in_bus_num>1/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+
+sed -i "s/<dram_location>#ldc_ref_frame_dram_num#/<dram_location>0/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml	
+
+
+sed -i "s/<dram_location>#dmac_output_dram_num#/<dram_location>0/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<out_bus_num>#out_bus_num#/<out_bus_num>1/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+
+sed -i "s/<dram_location>#ire_output0_dram_num#/<dram_location>0/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<dram_location>#ire_output1_dram_num#/<dram_location>0/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<dram_location>#bitstream_output_dram_num#/<dram_location>0/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<dram_location>#voc_output_dram_num#/<dram_location>0/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<dram_location>#motion_snapshot_output_dram_num#/<dram_location>0/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<mp4v_bus_num>#mp4v_bus_num#/<mp4v_bus_num>0/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<h264_bus_num>#h264_bus_num#/<h264_bus_num>0/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<svc_bus_num>#svc_bus_num#/<svc_bus_num>0/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<enc_mb_bus_num>#enc_mb_bus_num#/<enc_mb_bus_num>0/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+
+elif [ $VIDEO_SERVER -eq 1 ];then
+
+#Video Server
+#When there are two channels' vic_output are 0, the spec. (D1@30 8-ch 30 FPS + D1@15 8-ch 15 FPS) can be reached.  
+if [ $k -eq 0 ];then
+sed -i "s/<dram_location>#vic_output_dram_num#/<dram_location>0/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<in_bus_num>#in_bus_num#/<in_bus_num>1/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+elif [ $k -eq 1 ];then
+sed -i "s/<dram_location>#vic_output_dram_num#/<dram_location>0/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<in_bus_num>#in_bus_num#/<in_bus_num>1/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+else
+sed -i "s/<dram_location>#vic_output_dram_num#/<dram_location>1/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<in_bus_num>#in_bus_num#/<in_bus_num>2/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+fi
+
+sed -i "s/<dram_location>#ldc_ref_frame_dram_num#/<dram_location>1/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml	
+
+sed -i "s/<dram_location>#dmac_output_dram_num#/<dram_location>1/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<out_bus_num>#out_bus_num#/<out_bus_num>2/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+
+sed -i "s/<dram_location>#ire_output0_dram_num#/<dram_location>1/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<dram_location>#ire_output1_dram_num#/<dram_location>1/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<dram_location>#bitstream_output_dram_num#/<dram_location>0/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<dram_location>#voc_output_dram_num#/<dram_location>1/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<dram_location>#motion_snapshot_output_dram_num#/<dram_location>0/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<mp4v_bus_num>#mp4v_bus_num#/<mp4v_bus_num>1/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<h264_bus_num>#h264_bus_num#/<h264_bus_num>1/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<svc_bus_num>#svc_bus_num#/<svc_bus_num>1/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<enc_mb_bus_num>#enc_mb_bus_num#/<enc_mb_bus_num>1/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+
+else
+
+#IP CAM
+sed -i "s/<dram_location>#vic_output_dram_num#/<dram_location>0/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<in_bus_num>#in_bus_num#/<in_bus_num>1/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+sed -i "s/<dram_location>#ldc_ref_frame_dram_num#/<dram_location>0/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml	
+
+sed -i "s/<dram_location>#dmac_output_dram_num#/<dram_location>1/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<out_bus_num>#out_bus_num#/<out_bus_num>2/g" $TARGET_ROOT/etc/conf.d/c$k/vencvideoin_conf.xml
+
+sed -i "s/<dram_location>#ire_output0_dram_num#/<dram_location>1/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<dram_location>#ire_output1_dram_num#/<dram_location>1/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<dram_location>#bitstream_output_dram_num#/<dram_location>0/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<dram_location>#voc_output_dram_num#/<dram_location>1/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<dram_location>#motion_snapshot_output_dram_num#/<dram_location>0/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<mp4v_bus_num>#mp4v_bus_num#/<mp4v_bus_num>1/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<h264_bus_num>#h264_bus_num#/<h264_bus_num>1/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<svc_bus_num>#svc_bus_num#/<svc_bus_num>1/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+sed -i "s/<enc_mb_bus_num>#enc_mb_bus_num#/<enc_mb_bus_num>1/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+
+fi
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_R2560x1920=y" > /dev/null  2>&1;then
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_5M2MSWITCH=y"  > /dev/null  2>&1;then
+sed -i "s/<\/max_resolution>/\\t<support_resolution number=\\\"12\\\" text=\\\"Full HD\\\">1920x1080<\/support_resolution>\\n\\t<\/max_resolution>/g" $TARGET_ROOT/etc/conf.d/c$k/sensor_dependent.xml
+fi
+
+fi
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_R2048x1536=y" > /dev/null  2>&1;then
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_3M2MSWITCH=y"  > /dev/null  2>&1;then
+sed -i "s/<\/max_resolution>/\\t<support_resolution number=\\\"12\\\" text=\\\"Full HD\\\">1920x1080<\/support_resolution>\\n\\t<\/max_resolution>/g" $TARGET_ROOT/etc/conf.d/c$k/sensor_dependent.xml
+fi
+
+fi
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_R1920x1080FROM5M=y" > /dev/null  2>&1;then
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_5M2MSWITCH=y"  > /dev/null  2>&1;then
+sed -i "s/<\/max_resolution>/\\t<support_resolution number=\\\"13\\\" text=\\\"2560x1920\\\">2560x1920<\/support_resolution>\\n\\t<\/max_resolution>/g" $TARGET_ROOT/etc/conf.d/c$k/sensor_dependent.xml
+fi
+
+fi
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_R1920x1080FROM3M=y" > /dev/null  2>&1;then
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_3M2MSWITCH=y"  > /dev/null  2>&1;then
+sed -i "s/<\/max_resolution>/\\t<support_resolution number=\\\"13\\\" text=\\\"2048x1536\\\">2048x1536<\/support_resolution>\\n\\t<\/max_resolution>/g" $TARGET_ROOT/etc/conf.d/c$k/sensor_dependent.xml
+fi
+fi
+
+
+
+
+
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_VOC=y"  > /dev/null  2>&1;then
+
+  sed -i "s/<initial>#venc_display#/<initial>on/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+
+else
+
+  sed -i "s/<initial>#venc_display#/<initial>off/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+
+fi 
+
+if [ $VIDEO_SERVER -eq 1 ];then
+	if cat $TARGET_ROOT/../.config | grep -n "CONFIG_JPEG_SNAPSHOT=y"  > /dev/null  2>&1;then
+		#This is a workaround for video server case
+		sed -i "s/buff_mgr##/buff_mgr$((3*k))/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+	else
+		sed -i "s/buff_mgr##/buff_mgr$((k+MAX_STREAM_NUM*k))/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+	fi	
+else
+	sed -i "s/buff_mgr##/buff_mgr$((k+MAX_STREAM_NUM*k))/g" $TARGET_ROOT/etc/conf.d/c$k/venc_conf.xml
+fi
+done
+
+
+
+
+#video_cap_width=`echo $venc_master_resolution | awk -F'x' '{print $1}'`
+#video_cap_height=`echo $venc_master_resolution | awk -F'x' '{print $2}'`
+#video_cap_width_1_16=$((video_cap_width >> 4))
+#video_cap_height_half=$((video_cap_height >> 1))
+#if [ -f $TARGET_ROOT/etc/pmaskpic/pmask.png ];then
+#  rm -f $TARGET_ROOT/etc/pmaskpic/pmask.png
+#fi
+
+#if [ -d $TARGET_ROOT/etc/pmaskpic/ ];then
+
+#cp -f $MOD_ROOT/pmask/$video_cap_width_1_16"x"$video_cap_height_half".png"  $TARGET_ROOT/etc/pmaskpic/pmask.png
+
+#else
+
+#mkdir -p $TARGET_ROOT/etc/pmaskpic/
+#cp -f $MOD_ROOT/pmask/$video_cap_width_1_16"x"$video_cap_height_half".png"  $TARGET_ROOT/etc/pmaskpic/pmask.png
+
+#fi
+
+#chmod 777 $TARGET_ROOT/etc/pmaskpic/pmask.png
+

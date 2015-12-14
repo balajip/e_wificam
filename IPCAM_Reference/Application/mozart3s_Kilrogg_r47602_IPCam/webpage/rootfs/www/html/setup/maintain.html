@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Maintain</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- Load common JavaScript -->
+    <script type="text/javascript" src="/include/jQuery/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="/include/common.js"></script>
+    <script type="text/javascript" src="/include/ajaxcommon.js"></script>
+    <script type="text/javascript" src="/include/maintain.js"></script>
+    <link href="/css/default.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="content" class="confContent">
+
+
+<!--    
+<form action="/cgi-bin/admin/formatcf.cgi" method="post" target="formatcf">
+<fieldset>
+	<legend><strong><span title="symbol">format_cf</span></strong></legend>
+<dl>
+	<dt><span title="symbol">format_cf_card</span></dt>
+</dl>
+</fieldset>
+<input type="button" class="button" title="symbol" onclick="formatcf()" value="format_cf"/>
+</form>
+-->
+
+
+    <form>
+        <fieldset>
+        	<legend><strong><span title="symbol">reboot_system</span></strong></legend><br>
+        <dl>
+        	<dt>Reboot the system.</span></dt>
+        </dl>
+        </fieldset>
+        <input type="submit" class="button" onclick="reboot();" value="Reboot" />
+    </form>
+
+<!-- start: enable Factory default and Upgrade firmware by jesi 2009/02/23 -->
+    <form>
+        <fieldset>
+        	<legend><strong>Factory default</strong></legend><br>
+            <dl>
+        	    <dt>Restore all settings to factory default.</span></dt>
+            </dl>
+        </fieldset>
+        <input type="submit" class="button" onclick="restore();" value="Default"/>
+    </form>
+    
+    <form id="formUpgrade" name="FirmUpgrade" action="/cgi-bin/admin/upgrade.cgi" enctype="multipart/form-data" method="post">
+        <fieldset>
+        	<legend><strong>Upgrade Kilrogg Application</strong></legend><br>
+            <dl>
+                <dt>Version: <span id="firmwareCurrVer">0</span></dt>
+                <dt>Create date: <span id="firmwareCreateDate">0</span></dt>
+            	<dt>Select Kilrogg Application Debian file
+            		<input name="fimage" type="file" id="firmwareFile" class="position"/>	
+            </dl>
+        </fieldset>
+        <input type="button" class="button" value="Upgrade" onClick="checkUpgrade()">
+    </form>
+    <form id="formUpdate" name="FirmUpdate" action="/cgi-bin/admin/firmware_update.cgi" enctype="multipart/form-data" method="post">
+        <fieldset>
+        	<legend><strong>Upgrade System Firmware</strong></legend><br>
+            <dl>
+                <dt>Version: <span id="firmware_current_vrsn">0</span></dt>
+                <dt>Create date: <span id="firmware_create_dte">0</span></dt>
+            	<dt>Select System Firmware file
+            		<input name="fimage" type="file" id="sysfrmwareFile" class="position"/>	
+            </dl>
+        </fieldset>
+        <input type="button" class="button" title="symbol" value="Upgrade" onClick="checkUpdate()">
+    </form>
+
+<!-- end: enabled Factory default and Upgrade firmware by jesi 2009/02/23 -->
+</div>
+
+<iframe name="ret_page" style="display:none"></iframe>
+</body>
+</html>

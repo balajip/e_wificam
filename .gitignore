@@ -1,0 +1,10 @@
+# .gitignore
+
+# Kernel object modules
+*.ko
+
+# Static Libraries
+*.a
+
+# Shared Libraries
+*.so

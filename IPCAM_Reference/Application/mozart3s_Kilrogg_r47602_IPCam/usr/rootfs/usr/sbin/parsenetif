@@ -1,0 +1,46 @@
+#!/bin/sh
+# this tool will parse the network interface parameters,  
+# 	from /etc/network/interfaces.
+# and then output it by dumpnetif
+
+NET_IF="/etc/network/interfaces"
+DUMPNETIF="/usr/sbin/dumpnetif"
+
+USAGE="Usage: $0 <interface>"
+TMP="/tmp/parsenetif.$$"
+
+if [ "$#" -eq "0" ]; then
+	echo "$USAGE"
+	exit 1
+fi
+
+# 1st sed will remove all of the comments
+# 2nd will extract the iface $1 and later stanzas
+# 3rd will filter out the iface $1 line and other stanzas 
+# (iface, auto and mapping
+sed "s/#.*$//" $NET_IF | \
+sed -n "/iface $1 inet static/,$ p" | \
+sed '1d;/mapping/,$d;/iface/,$d;/auto/,$d' > $TMP
+
+
+ip=`grep 'address' $TMP | awk '{print $2}'`
+subnet=`grep 'netmask' $TMP | awk '{print $2}'`
+router=`grep 'gateway' $TMP | awk '{print $2}'`
+dns=`grep 'up..*setdns' $TMP | awk '{print $3 " " $4 " " $5}'`
+#echo ip = $ip
+#echo subnet = $subnet
+#for i in $router; do
+#	echo router = $i
+#done
+#for i in $dns; do
+#	echo dns = $i
+#done
+
+rm $TMP
+
+interface=$1
+NET_TYPE='static'
+export ip subnet router dns NET_TYPE interface
+
+$DUMPNETIF
+

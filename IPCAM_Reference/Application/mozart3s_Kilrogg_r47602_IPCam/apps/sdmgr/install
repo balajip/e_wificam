@@ -1,0 +1,12 @@
+#!/bin/bash
+# This script will install expat. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=sdmgr
+
+# check if you have the proper objdump
+#which $OBJDUMP > /dev/null || exit 1 
+
+#LIB_SO="lib$LIB_NAME.so.$SOVERSION"
+
+install ${APP_NAME} $1/usr/sbin/
+

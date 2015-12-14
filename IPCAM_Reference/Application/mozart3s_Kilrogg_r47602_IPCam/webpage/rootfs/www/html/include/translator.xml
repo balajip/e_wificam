@@ -1,0 +1,713 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<!--The keyword "system", "info", "language" and "count" must not be used as multi-language element. The "count" define the number of webpage multi-language. The "i<0~(count-1)>" define the options of language of homepage. Its index must match the order of <lang>.-->
+<system>
+<info>
+<language>
+<count>1</count>
+<i0>English</i0>
+</language>
+</info>
+</system>
+<!--The element <lang> include all translated strings of one language.-->
+<lang>
+<!-- trigger D/O for a period time -->
+<!--refer to a position in ptz-->
+<_for_example_my_nas_disk_folder_>(for example: \\my_nas\disk\folder)</_for_example_my_nas_disk_folder_>
+<_home>Home</_home>
+<_language>Language</_language>
+<_system>System</_system>
+<a_disabled>A Disabled</a_disabled>
+<aac4>AAC</aac4>
+<aac4_bit_rate>AAC bit rate</aac4_bit_rate>
+<access_list>Access list</access_list>
+<access_name_for_stream1>Access name for stream 1</access_name_for_stream1>
+<access_name_for_stream1_can_not_be_the_same_as_access_name_for_stream2>Access name for stream 1 can not be the same as access name for stream 2!</access_name_for_stream1_can_not_be_the_same_as_access_name_for_stream2>
+<access_name_for_stream2>Access name for stream 2</access_name_for_stream2>
+<access_name_for_stream3>Access name for stream 3</access_name_for_stream3>
+<action>Action</action>
+<active>Active</active>
+<add>Add</add>
+<add_date_and_time_suffix_to_file_name>Add date and time suffix to file name</add_date_and_time_suffix_to_file_name>
+<add_user>Add user</add_user>
+<address_location>Address/Location</address_location>
+<advanced_image_settings>Advanced Image Settings</advanced_image_settings>
+<administrator>Administrator</administrator>
+<after_register_statement_head>After registering account successfully, please fill the DDNS form manually or</after_register_statement_head>
+<after_register_statement_tail>them from register form. And then, click "Save" to save your changes.</after_register_statement_tail>
+<agree>Agree</agree>
+<algorithm>algorithm</algorithm>
+<allow_list>Allowed list</allow_list>
+<already_reach_the_maximum_preset_position_limit>Already reach the maximum preset position limit</already_reach_the_maximum_preset_position_limit>
+<always>Always</always>
+<always_multicast>Always multicast</always_multicast>
+<application>Application</application>
+<aqua>Aqua</aqua>
+<ascii>ASCII</ascii>
+<attached_media>Attached media:</attached_media>
+<audio_and_video>Audio and video</audio_and_video>
+<audio_disabled>Audio Disabled</audio_disabled>
+<audio_on>Audio on</audio_on>
+<audio_only>Audio Only</audio_only>
+<audio_settings>Audio settings</audio_settings>
+<audio_type>Audio type</audio_type>
+<auth_mode>Auth mode</auth_mode>
+<authenticated_failed>Authenticated failed!</authenticated_failed>
+<authentication>Authentication</authentication>
+<auto>Auto</auto>
+<auto_focus>Auto Focus</auto_focus>
+<auto_speed>Auto pan/patrol speed</auto_speed>		
+<automatic>Automatic</automatic>
+<background_color>Background color</background_color>
+<background_graph>Background graph</background_graph>
+<baud_rate>Baud rate</baud_rate>
+<because_the_connection_problem_of_network_environment>Because the connection problem of network environment ,transmission protocol changes to HTTP.</because_the_connection_problem_of_network_environment>
+<because_the_network_environment_problem_transmission_mode_changes_to_unicast>Because the network environment problem, transmission mode changes to unicast (UDP)</because_the_network_environment_problem_transmission_mode_changes_to_unicast>
+<because_the_network_environment_problem_transmission_protocol_changes_to_tcp>Because the network environment problem, transmission protocol changes to TCP.</because_the_network_environment_problem_transmission_protocol_changes_to_tcp>
+<black>Black</black>
+<blank>Blank</blank>
+<blank_root_password_will_disable_user_authentication>* Blank root password will disable user authentication.</blank_root_password_will_disable_user_authentication>
+<blue>Blue</blue>
+<blue_gain>Blue Gain</blue_gain>
+<brightness>Brightness</brightness>
+<browse>Browse...</browse>
+<buffering>Buffering</buffering>
+<bw>B/W</bw>
+<calibrate>Calibrate</calibrate>
+<calibrate_msg>Recalibrate the home position to the default center to recover the tolerance caused by some external forces.</calibrate_msg>			
+<camera_control>Camera control</camera_control>
+<camera_id>Camera ID</camera_id>
+<camera_type>Camera type</camera_type>
+<can_not_open_registry>Can not open registry</can_not_open_registry>
+<certificate>Certificate</certificate>
+<certificate_information>Certificate Information</certificate_information>
+<certificate_properties>Certificate Properties</certificate_properties>
+<certificate_request>Certificate request</certificate_request>
+<certificate_request_pem_format>Certificate Request (PEM format)</certificate_request_pem_format>
+<cf>CF</cf>
+<cf_settings>CF Settings</cf_settings>
+<channel>Channel</channel>
+<characters>characters</characters>
+<chinese>chinese</chinese>
+<client_settings>Client Settings</client_settings>
+<close>Close</close>
+<color>Color</color>
+<color_correction>Color Correction</color_correction>
+<command>Command</command>
+<common_name>Common Name</common_name>
+<configuration>Configuration</configuration>
+<configure>Configurations</configure>
+<confirm_key>Confirm key</confirm_key>
+<confirm_password>Confirm password</confirm_password>
+<confirm_register_statement>If you want to register this camera or change your account information, please click the Register button.</confirm_register_statement>
+<confirm_root_password>Confirm root password</confirm_root_password>
+<connect_failed>Connect failed!</connect_failed>
+<connecting_to>Connecting to %s </connecting_to>
+<connection_is_closed>Connection is closed</connection_is_closed>
+<connections_already_exceed_the_limit>Connections already exceed the limit. Please connect again later.</connections_already_exceed_the_limit>
+<constant_bit_rate>Constant bit rate</constant_bit_rate>
+<contrast>Contrast</contrast>
+<control_settings>Control settings</control_settings>
+<copy>copy</copy>
+<copy_the_pem_formatted_request_>Copy the PEM formatted request below and send it to a CA for signing. After that, you have to install it by clicking the Install signed certificate button on HTTPS page</copy_the_pem_formatted_request_>
+<could_not_initialize_audio_capture_device>Could not initialize audio capture device</could_not_initialize_audio_capture_device>
+<country>Country</country>
+<create>Create</create>
+<create_and_install_certificate>Create and install Certificate</create_and_install_certificate>
+<create_certificate>Create Certificate</create_certificate>
+<create_certificate_request_complete>Create Certificate Request complete</create_certificate_request_complete>
+<current_log>Current log</current_log>
+<current_position>Current position</current_position>
+<current_status_is>, current status is </current_status_is>
+<custom_command>Custom Command</custom_command>
+<custom_command_name_can_not_be_the_same>Custom command name can not be the same</custom_command_name_can_not_be_the_same>
+<data_bits>Data bits</data_bits>
+<date>Date</date>
+<daylight_saving_time>Daylight Saving Time</daylight_saving_time>
+<days>days</days>
+<db>db</db>
+<ddns>DDNS</ddns>
+<ddns_dynamic_domain_name_service>DDNS: Dynamic domain name service</ddns_dynamic_domain_name_service>
+<ddns_message>DDNS Message</ddns_message>
+<default>Default</default>
+<default_home>Default home</default_home>		
+<default_key>Default key</default_key>
+<default_router>Default router</default_router>
+<delay_for>Delay for</delay_for>
+<delete>Delete</delete>
+<delete_all>Delete all</delete_all>
+<delete_allow_list>Delete allowed list</delete_allow_list>
+<delete_deny_list>Delete denied list</delete_deny_list>
+<deny_list>Denied list</deny_list>
+<destination>Destination</destination>
+<destination_is_nothing>Destination is nothing.</destination_is_nothing>
+<detailed>Detailed</detailed>
+<detect_motion_in>Detect motion in</detect_motion_in>
+<dhs.org>DHS.org</dhs.org>
+<di_and_do>DI and DO</di_and_do>
+<digital_input>Digital input</digital_input>
+<digital_input_normal_status_is>Digital input: normal status is</digital_input_normal_status_is>
+<digital_output>Digital Output</digital_output>
+<digital_output_normal_status_is>Digital output: normal status is </digital_output_normal_status_is>
+<digital_zoom_edit>Digital Zoom edit</digital_zoom_edit>
+<disable>Disable</disable>
+<disable_audio>Disable audio</disable_audio>
+<disable_digital_zoom>Disable digital zoom</disable_digital_zoom>
+<disagree>Disagree</disagree>
+<display_string>Display string</display_string>
+<do_you_really_want_to_remove_this_user>Do you really want to remove this user?</do_you_really_want_to_remove_this_user>
+<down>Down</down>
+<dwelling_time>Dwelling time (sec):</dwelling_time>
+<dyn-interfree.it>dyn-interfree.it</dyn-interfree.it>
+<dyndns.org_custom_>DynDNS.org (Custom)</dyndns.org_custom_>
+<dyndns.org_dynamic_>DynDNS.org (Dynamic)</dyndns.org_dynamic_>
+<EdgeEnhanceMode>Edge Enhance Mode</EdgeEnhanceMode>
+<EdgeEnhanceStrength>Edge Enhance Strength</EdgeEnhanceStrength>
+<email>Email</email>
+<enable>Enable</enable>
+<enable_daylight_saving_time>Enable Daylight Saving Time</enable_daylight_saving_time>
+<enable_ddns>Enable DDNS</enable_ddns>
+<enable_https>Enable HTTPS</enable_https>
+<enable_https_secure_connection>Enable HTTPS secure connection</enable_https_secure_connection>
+<enable_motion_detection>Enable motion detection</enable_motion_detection>
+<enable_privacy_mask>Enable privacy mask</enable_privacy_mask>
+<enable_ptz_tunnel>Enable PTZ tunnel</enable_ptz_tunnel>
+<enable_remote_log>Enable remote log</enable_remote_log>
+<enable_this_event>Enable this event</enable_this_event>
+<enable_this_recording>Enable this recording</enable_this_recording>
+<enable_tunnel>Enable Tunnel</enable_tunnel>
+<enable_upnp_port_forwarding>Enable UPnP port forwarding</enable_upnp_port_forwarding>
+<enable_upnp_presentation>Enable UPnP presentation</enable_upnp_presentation>
+<EnableImageBackendProcess>Enable ImageBackend Process</EnableImageBackendProcess>
+<end_ip_address>End IP address</end_ip_address>
+<end_time>End Time</end_time>
+<english>English</english>
+<error>Error</error>
+<error_router_does_not_support_upnp_port_forwarding>Error: Router does not support UPnP port forwarding.</error_router_does_not_support_upnp_port_forwarding>
+<error_upnp_port_forwarding_fail_please_open_required_ports_manually>Error: UPnP port forwarding fail. Please open requried ports manually.</error_upnp_port_forwarding_fail_please_open_required_ports_manually>
+<even>even</even>
+<event>Event</event>
+<event_name>Event name</event_name>
+<event_schedule>Event schedule</event_schedule>
+<excellent>Excellent</excellent>
+<export>Export</export>
+<export_dst_config_file>Export Daylight Saving Time Configuration File</export_dst_config_file>
+<external_microphone_input>External microphone input</external_microphone_input>
+<factory_default>Factory default</factory_default>
+<fail_to_connect_server>Fail to connect server</fail_to_connect_server>
+<field_cannot_be_empty>This field cannot be empty</field_cannot_be_empty>
+<field_to_frame>Frame mode</field_to_frame>
+<file_list>File list</file_list>
+<file_name_prefix>File Name Prefix</file_name_prefix>
+<first>first</first>
+<fixed_camera>Fixed camera</fixed_camera>
+<fixed_fluorescent>Fixed fluorescent</fixed_fluorescent>
+<fixed_indoor>Fixed indoor</fixed_indoor>
+<fixed_outdoor>Fixed outdoor</fixed_outdoor>
+<fixed_quality>Fixed quality</fixed_quality>
+<flash_light>Flash Light</flash_light>
+<flip>Flip</flip>
+<focus>Focus</focus>
+<focus_far>Focus far</focus_far>
+<focus_near>Focus near</focus_near>
+<folder>Folder</folder>
+<font_color>Font color</font_color>
+<forget_key>Forget key</forget_key>
+<format_cf>Format CF</format_cf>
+<format_cf_card>Format CF card</format_cf_card>
+<frame_size>Frame size</frame_size>
+<french>French</french>
+<fri>Fri</fri>
+<from>From</from>
+<ftp>FTP</ftp>
+<ftp_port>FTP port</ftp_port>
+<ftp_port_can_not_be_the_same_as_other_port>FTP port can not be the same as other port. Please change one of them and apply again!</ftp_port_can_not_be_the_same_as_other_port>
+<ftp_port_must_be_21_or_from_1025_to_65535>FTP port must be 21 or from 1025 to 65535</ftp_port_must_be_21_or_from_1025_to_65535>
+<fuchsia>Fuchsia</fuchsia>
+<full_duplex>Full-duplex</full_duplex>
+<gamma_table>Gamma Table</gamma_table>
+<german>German</german>
+<get_daylight_saving_time_configuration_file>Get Daylight Saving Time Configuration File.</get_daylight_saving_time_configuration_file>
+<get_ip_address_automatically>Get IP address automatically</get_ip_address_automatically>
+<gmt-01_00_azores_cape_verde_is_>GMT-01:00 Azores, Cape Verde Is.</gmt-01_00_azores_cape_verde_is_>
+<gmt-02_00_mid-atlantic>GMT-02:00 Mid-Atlantic</gmt-02_00_mid-atlantic>
+<gmt-03_00_brasilia_buenos_aires_georgetown_greenland>GMT-03:00 Brasilia, Buenos Aires, Georgetown, Greenland, Sao Paulo</gmt-03_00_brasilia_buenos_aires_georgetown_greenland>
+<gmt-03_30_newfoundland>GMT-03:30 Newfoundland</gmt-03_30_newfoundland>
+<gmt-04_00_atlantic_time_canada_caracas_la_paz_santiago>GMT-04:00 Atlantic Time(Canada), Caracas, La Paz, Santiago</gmt-04_00_atlantic_time_canada_caracas_la_paz_santiago>
+<gmt-05_00_bogota_lima_quito_indiana>GMT-05:00 Bogota, Lima, Quito, Indiana</gmt-05_00_bogota_lima_quito_indiana>
+<gmt-05_00_eastern_time_new_york_toronto>GMT-05:00 Eastern Time, New York, Toronto</gmt-05_00_eastern_time_new_york_toronto>
+<gmt-0600_central_time_us_and_canada>GMT-06:00 Central Time (US and Canada)</gmt-0600_central_time_us_and_canada>
+<gmt-0600_mexico_city>GMT-06:00 Mexico City</gmt-0600_mexico_city>
+<gmt-0600_saskatchewan>GMT-06:00 Saskatchewan</gmt-0600_saskatchewan>
+<gmt-06_00_central_america_central_time_mexico_city_saskatchewan>GMT-06:00 Central America, Central Time, Mexico City, Saskatchewan</gmt-06_00_central_america_central_time_mexico_city_saskatchewan>
+<gmt-07_00_arizona>GMT-07:00 Arizona</gmt-07_00_arizona>
+<gmt-07_00_mountain_time_denver>GMT-07:00 Mountain Time, Denver</gmt-07_00_mountain_time_denver>
+<gmt-08_00_las_vegas_san_francisco_vancouver>GMT-08:00 Las Vegas, San Francisco, Vancouver</gmt-08_00_las_vegas_san_francisco_vancouver>
+<gmt-09_00_alaska>GMT-09:00 Alaska</gmt-09_00_alaska>
+<gmt-10_00_hawaii>GMT-10:00 Hawaii</gmt-10_00_hawaii>
+<gmt-11_00_midway_island_samoa>GMT-11:00 Midway Island, Samoa</gmt-11_00_midway_island_samoa>
+<gmt-12_00_eniwetok_kwajalein>GMT-12:00 Eniwetok, Kwajalein</gmt-12_00_eniwetok_kwajalein>
+<gmt_01_00_amsterdam_berlin_rome_stockholm_vienna_madrid_paris>GMT+01:00 Amsterdam, Berlin, Rome, Stockholm, Vienna, Madrid, Paris</gmt_01_00_amsterdam_berlin_rome_stockholm_vienna_madrid_paris>
+<gmt_01_00_warsaw_budapest_bern>GMT+01:00 Warsaw, Budapest, Bern</gmt_01_00_warsaw_budapest_bern>
+<gmt_02_00_athens_helsinki_istanbul_riga>GMT+02:00 Athens, Helsinki, Istanbul, Riga, Cairo</gmt_02_00_athens_helsinki_istanbul_riga>
+<gmt_02_00_israel>GMT+02:00 Israel</gmt_02_00_israel>
+<gmt_02_00_lebanon_minsk>GMT+02:00 Lebanon, Minsk</gmt_02_00_lebanon_minsk>
+<gmt_03_00_baghdad_kuwait_riyadh_moscow_st_petersburg_nairobi>GMT+03:00 Baghdad, kuwait, Riyadh, Moscow, St. Petersburg, Nairobi</gmt_03_00_baghdad_kuwait_riyadh_moscow_st_petersburg_nairobi>
+<gmt_03_00_iraq>GMT+03:00 Iraq</gmt_03_00_iraq>
+<gmt_03_30_tehran>GMT+03:30 Tehran</gmt_03_30_tehran>
+<gmt_04_00_abu_dhabi_muscat_baku_tbilisi_yerevan>GMT+04:00 Abu Dhabi, Muscat, Baku, Tbilisi, Yerevan</gmt_04_00_abu_dhabi_muscat_baku_tbilisi_yerevan>
+<gmt_04_30_kabul>GMT+04:30 Kabul</gmt_04_30_kabul>
+<gmt_05_00_ekaterinburg_islamabad_karachi_tashkent>GMT+05:00 Ekaterinburg, Islamabad, Karachi, Tashkent</gmt_05_00_ekaterinburg_islamabad_karachi_tashkent>
+<gmt_05_30_calcutta_chennai_mumbai_new_delhi>GMT+05:30 Calcutta, Chennai, Mumbai, New Delhi</gmt_05_30_calcutta_chennai_mumbai_new_delhi>
+<gmt_05_45_kathmandu>GMT+05:45 Kathmandu</gmt_05_45_kathmandu>
+<gmt_06_00_almaty_novosibirsk_astana_dhaka_sri_jayawardenepura>GMT+06:00 Almaty, Novosibirsk, Astana, Dhaka, Sri Jayawardenepura</gmt_06_00_almaty_novosibirsk_astana_dhaka_sri_jayawardenepura>
+<gmt_06_30_rangoon>GMT+06:30 Rangoon</gmt_06_30_rangoon>
+<gmt_07_00_bangkok_hanoi_jakarta_krasnoyarsk>GMT+07:00 Bangkok, Hanoi, Jakarta, Krasnoyarsk</gmt_07_00_bangkok_hanoi_jakarta_krasnoyarsk>
+<gmt_08_00_beijing_chongging_hong_kong_kuala_lumpur_singapore_taipei>GMT+08:00 Beijing, Chongging, Hong Kong, Kuala Lumpur, Singapore, Taipei</gmt_08_00_beijing_chongging_hong_kong_kuala_lumpur_singapore_taipei>
+<gmt_09_00_osaka_sapporo_tokyo_seoul_yakutsk>GMT+09:00 Osaka, Sapporo, Tokyo, Seoul, Yakutsk</gmt_09_00_osaka_sapporo_tokyo_seoul_yakutsk>
+<gmt_09_30_adelaide_darwin>GMT+09:30 Adelaide, Darwin</gmt_09_30_adelaide_darwin>
+<gmt_10_00_brisbane_canberra_melbourne_sydney_guam_vladivostok>GMT+10:00 Brisbane, Canberra, Melbourne, Sydney, Guam, Vladivostok</gmt_10_00_brisbane_canberra_melbourne_sydney_guam_vladivostok>
+<gmt_11_00_magadan_solomon_is_new_caledonia>GMT+11:00 Magadan, Solomon Is., New Caledonia</gmt_11_00_magadan_solomon_is_new_caledonia>
+<gmt_12_00_aucklan_wellington_fiji_kamchatka_marshall_is_>GMT+12:00 Aucklan, Wellington, Fiji, Kamchatka, Marshall Is.</gmt_12_00_aucklan_wellington_fiji_kamchatka_marshall_is_>
+<gmt_13_00_nuku_alofa>GMT+13:00 Nuku'alofa</gmt_13_00_nuku_alofa>
+<gmt_casablanca_greenwich_mean>GMT Casablanca, Greenwich Mean Time:Dublin, Edinburgh, Lisbon, London</gmt_casablanca_greenwich_mean>
+<go_to>Go to</go_to>
+<good>Good</good>
+<gray>Gray</gray>
+<green>Green</green>
+<grounded>Grounded</grounded>
+<gsm-amr>GSM-AMR</gsm-amr>
+<gsm-amr_bit_rate>GSM-AMR bit rate</gsm-amr_bit_rate>
+<half_duplex>Half-duplex</half_duplex>
+<height>Height</height>
+<hh_mm_ss>[hh:mm:ss]</hh_mm_ss>
+<hide>Hide</hide>
+<hide_panel>Hide Panel</hide_panel>
+<high>High</high>
+<home>Home</home>
+<home_definition>Home definition:</home_definition>		
+<homepage_layout>Homepage layout</homepage_layout>
+<host_name>Host name</host_name>
+<http>HTTP</http>
+<http_port>HTTP port</http_port>
+<http_port_can_not_be_the_same_as_other_port>HTTP port can not be the same as other port. Please change one of them and apply again!</http_port_can_not_be_the_same_as_other_port>
+<http_port_must_be_80_or_from_1025_to_65535>HTTP port must be 80 or from 1025 to 65535</http_port_must_be_80_or_from_1025_to_65535>
+<http_video_only>HTTP (Video only)</http_video_only>
+<https>HTTPS</https>
+<hue>Hue</hue>
+<if_it_is_fail_to_make_the_connection_you_must_reconnect_to_the_server_manually_by_entering_the_ip_address_in_the_url_field_in_your_browser>If it is fail to make the connection, you must reconnect to the server manually by entering the IP address in the URL field in your browser.</if_it_is_fail_to_make_the_connection_you_must_reconnect_to_the_server_manually_by_entering_the_ip_address_in_the_url_field_in_your_browser>
+<image_mode>Image mode</image_mode>
+<image_settings>Image Settings</image_settings>
+<infrastructure>Infrastructure</infrastructure>
+<input_gain>Input gain</input_gain>
+<internal>Internal</internal>
+<internal_microphone_input_gain>Internal microphone input gain</internal_microphone_input_gain>
+<intra_frame_period>Intra frame period</intra_frame_period>
+<invalid_hex>Invalid hex</invalid_hex>
+<invalid_port_number>Invalid port number!</invalid_port_number>
+<invalid_port_number_multicast_stream1_audio_port_must_be_a_even_number>Invalid port number! Multicast stream 1 audio port must be a even number!</invalid_port_number_multicast_stream1_audio_port_must_be_a_even_number>
+<invalid_port_number_multicast_stream1_video_port_must_be_a_even_number>Invalid port number! Multicast stream 1 video port must be a even number!</invalid_port_number_multicast_stream1_video_port_must_be_a_even_number>
+<invalid_port_number_multicast_stream2_audio_port_must_be_a_even_number>Invalid port number! Multicast stream 2 audio port must be a even number!</invalid_port_number_multicast_stream2_audio_port_must_be_a_even_number>
+<invalid_port_number_multicast_stream2_video_port_must_be_a_even_number>Invalid port number! Multicast stream 2 video port must be a even number!</invalid_port_number_multicast_stream2_video_port_must_be_a_even_number>
+<invalid_port_number_rtp_audio_port_must_be_a_even_number>Invalid port number! RTP audio port must be a even number!</invalid_port_number_rtp_audio_port_must_be_a_even_number>
+<invalid_port_number_rtp_video_port_must_be_a_even_number>Invalid port number! RTP video port must be a even number!</invalid_port_number_rtp_video_port_must_be_a_even_number>
+<invalid_public_key>Invalid public key</invalid_public_key>
+<ip_address>IP address</ip_address>
+<italian>Italian</italian>
+<japanese>Japanese</japanese>
+<jpeg>JPEG</jpeg>
+<kbytes>Kbytes</kbytes>
+<keep_current_date_and_time>Keep current date and time</keep_current_date_and_time>
+<keep_current_value>Keep current value</keep_current_value>
+<key>Key</key>
+<key_format>Key format</key_format>
+<key_length>Key length</key_length>
+<lan>LAN</lan>
+<leaving_display_string_blank_>Leaving "Display string" blank will hide the command button in homepage.</leaving_display_string_blank_>
+<left>Left</left>
+<legal_agreement>Legal Agreement</legal_agreement>
+<license>License</license>
+<lime>Lime</lime>
+<listen_only>Listen Only</listen_only>
+<locality>Locality</locality>
+<log_server_settings>Log server settings</log_server_settings>
+<logo_graph>Logo graph</logo_graph>
+<logo_link>Logo link</logo_link>
+<low>Low</low>
+<maintenance>Maintenance</maintenance>
+<manage_user>Manage User</manage_user>
+<manual>Manual</manual>
+<maroon>Maroon</maroon>
+<maximum_duration>Maximum duration</maximum_duration>
+<maximum_exposure_time>Maximum exposure time</maximum_exposure_time>
+<maximum_file_size>Maximum file size</maximum_file_size>
+<maximum_frame_rate>Maximum frame rate</maximum_frame_rate>
+<maximum_visible_size>Maximum visible size</maximum_visible_size>
+<media>Media</media>
+<media_freespace>Media freespace</media_freespace>
+<media_name>Media name</media_name>
+<media_option>Media Option</media_option>
+<media_options>Media Options</media_options>
+<media_size_is_over_free_space>Media size is over freespace!</media_size_is_over_free_space>
+<media_type>Media type</media_type>
+<medium>Medium</medium>
+<mic_on>Mic on</mic_on>
+<mic_volume>Mic volume</mic_volume>
+<microphone>Microphone</microphone>
+<minutes>minutes</minutes>
+<mirror>Mirror</mirror>
+<mode>Mode</mode>
+<modulation>Modulation</modulation>
+<mon>Mon</mon>
+<motion_detection>Motion detection</motion_detection>
+<move_to_preset_location>Move to preset location:</move_to_preset_location>			
+<mp4_recording_disabled_permission_insufficient>MP4 Recording Disabled (Permission Insufficient)</mp4_recording_disabled_permission_insufficient>
+<mpeg-4>MPEG-4</mpeg-4>
+<mpeg-4_media_options>MPEG-4 Media Options</mpeg-4_media_options>
+<mpeg-4_protocol_options>MPEG-4 Protocol Options</mpeg-4_protocol_options>
+<multicast_audio_port>Multicast audio port</multicast_audio_port>
+<multicast_group_address>Multicast group address</multicast_group_address>
+<multicast_rtcp_audio_port>Multicast RTCP audio port</multicast_rtcp_audio_port>
+<multicast_rtcp_video_port>Multicast RTCP video port</multicast_rtcp_video_port>
+<multicast_settings_for_stream1>Multicast settings for stream 1</multicast_settings_for_stream1>
+<multicast_settings_for_stream2>Multicast settings for stream 2</multicast_settings_for_stream2>
+<multicast_ttl>Multicast TTL</multicast_ttl>
+<multicast_video_port>Multicast video port</multicast_video_port>
+<mute>Mute</mute>
+<name>Name</name>
+<navy>Navy</navy>
+<network>Network</network>
+<network_key>Network key</network_key>
+<network_storage>Network storage</network_storage>
+<network_storage_location>Network storage location</network_storage_location>
+<network_type>Network type</network_type>
+<new>New</new>
+<no_config_file_specified>No configuration file specified</no_config_file_specified>
+<no_driver_specified>No driver specified</no_driver_specified>
+<no_firmware_specified>No firmware specified</no_firmware_specified>
+<no_more_account_for_this_new_user>No more account for this new user</no_more_account_for_this_new_user>
+<no_more_allow_list_to_enter>No more allowed list to enter</no_more_allow_list_to_enter>
+<no_more_deny_list_to_enter>No more denied list to enter</no_more_deny_list_to_enter>
+<no_more_list_to_enter>No more list to enter</no_more_list_to_enter>
+<no_more_than_20_locations>No more than 20 locations!</no_more_than_20_locations>			
+<no_more_than_40_locations>No more than 40 locations!</no_more_than_40_locations>			
+<no_sound_card>No Sound Card</no_sound_card>
+<NoiseReductionStrength>Noise Reduction Strength</NoiseReductionStrength>
+<none>none</none>
+<normal>normal</normal>
+<not_installed>Not installed</not_installed>
+<note_please_configure>Note: Please configure</note_please_configure>
+<note_you_can_upload_your_daylight_saving_time_rules_on_maintenance_page_or_use_the_camera_default_value>Note: You can upload your Daylight Saving Time rules on &lt;a href="maintain.html"&gt;Maintenance&lt;/a&gt; page or use the camera default value.</note_you_can_upload_your_daylight_saving_time_rules_on_maintenance_page_or_use_the_camera_default_value>
+<NRMode>NR Mode</NRMode>
+<ntp_server>NTP server</ntp_server>
+<ntsc>NTSC</ntsc>
+<odd>odd</odd>
+<off>OFF</off>
+<olive>Olive</olive>
+<on>ON</on>
+<one_day>One day</one_day>
+<one_hour>One hour</one_hour>
+<one_month>One month</one_month>
+<one_week>One week</one_week>
+<only_turn_on_white_light_led_in_low_light_condition>Only turn on  white light LED in low light condition</only_turn_on_white_light_led_in_low_light_condition>
+<open>Open</open>
+<operator>Operator</operator>
+<options_of_video>Options of Video</options_of_video>
+<organization>Organization</organization>
+<organization_unit>Organization Unit</organization_unit>
+<overlay_title_and_time_stamp_on_video>Overlay title and time stamp on video</overlay_title_and_time_stamp_on_video>
+<pal>PAL</pal>
+<pan_speed>Pan speed</pan_speed>
+<parameter_list>Parameter list</parameter_list>
+<parity_bit>Parity bit</parity_bit>
+<passive_mode>Passive mode</passive_mode>
+<password>Password</password>
+<path_cannot_be_empty>Path cannot be empty</path_cannot_be_empty>
+<path_does_not_exist>Path does not exist!</path_does_not_exist>
+<patrol_selection>Patrol selection:</patrol_selection>
+<pause>Pause</pause>
+<pc_date>PC date</pc_date>
+<pc_time>PC time</pc_time>
+<percentage>Percentage</percentage>
+<periodic>Periodic</periodic>
+<pir>PIR</pir>
+<play>Play</play>
+<play_volume>Play volume</play_volume>
+<please_close_all_warning_window_first>Please Close All Warning Window First</please_close_all_warning_window_first>
+<please_enter_a_valid_background_url>Please enter a valid background URL</please_enter_a_valid_background_url>
+<please_enter_a_valid_ip_address>Please enter a valid IP address!</please_enter_a_valid_ip_address>
+<please_enter_a_valid_logo_graph_url>Please enter a valid logo graph URL</please_enter_a_valid_logo_graph_url>
+<please_enter_a_valid_logo_link_url>Please enter a valid logo link URL</please_enter_a_valid_logo_link_url>
+<please_enter_a_valid_time>Please enter a valid time [hh:mm], like 12:00</please_enter_a_valid_time>
+<please_enter_exactly>Please enter exactly</please_enter_exactly>
+<please_enter_hostname>Please enter host name</please_enter_hostname>
+<please_enter_key>Please enter key</please_enter_key>
+<please_enter_number_only>Please enter number only.</please_enter_number_only>
+<please_enter_servername>Please enter server name</please_enter_servername>
+<please_enter_username>Please enter username!</please_enter_username>
+<please_input_a_valid_email_address>Please input a valid email address!</please_input_a_valid_email_address>
+<please_input_a_valid_value>Please input a valid value!</please_input_a_valid_value>
+<please_input_a_value_between_0_and_255>Please input a value between 0 and 255</please_input_a_value_between_0_and_255>
+<please_insert_window_names_on_all_windows>Please insert window names on all windows</please_insert_window_names_on_all_windows>
+<please_select_one_first>Please select one first</please_select_one_first>
+<port>port</port>
+<port_must_be>port must be</port_must_be>
+<port_number_you_chose_has_been_used>port number you chose has been used.&lt;br&gt; Please check the port numbers and use a different port number </port_number_you_chose_has_been_used>
+<port_settings>Port settings</port_settings>
+<portuguese>Portuguese</portuguese>
+<post_event_image_s>post-event image(s)</post_event_image_s>
+<power_line_frequency>Power line frequency</power_line_frequency>
+<pppoe>PPPoE</pppoe>
+<pre-shared_key>pre-shared key</pre-shared_key>
+<pre_event_image_s>pre-event image(s)</pre_event_image_s>
+<pre_event_recording>Pre-event recording</pre_event_recording>
+<preset_locations>Preset locations</preset_locations>
+<preset_position>Preset Position</preset_position>
+<preview>Preview</preview>
+<primary_dns>Primary DNS</primary_dns>
+<primary_wins_server>Primary WINS server</primary_wins_server>
+<priority>Priority</priority>
+<privacy_mask>Privacy Mask</privacy_mask>
+<image_backend_setting_s1>Image Backend Setting Stream1</image_backend_setting_s1>
+<private_mask>Private Mask</private_mask>
+<protocol_option>Protocol Option</protocol_option>
+<protocol_options>Protocol Options</protocol_options>
+<property>Property</property>
+<provider>Provider</provider>
+<ptz_camera>PTZ camera</ptz_camera>
+<ptz_camera_map_to_rs485>PTZ camera map to RS485</ptz_camera_map_to_rs485>
+<ptz_driver>PTZ driver</ptz_driver>
+<ptz_driver_upload>PTZ driver upload</ptz_driver_upload>
+<ptz_tunnel>PTZ Tunnel</ptz_tunnel>
+<purple>Purple</purple>
+<reboot>Reboot</reboot>
+<reboot_system>Reboot system</reboot_system>
+<reboot_the_system>Reboot the system</reboot_the_system>
+<recipient_email_address>Recipient email address</recipient_email_address>
+<recording>Recording</recording>
+<recording_entry>Recording entry</recording_entry>
+<recording_entry_name>Recording entry name</recording_entry_name>
+<recording_failed>Recording failed!</recording_failed>
+<recording_schedule>Recording schedule</recording_schedule>
+<recording_stop_because_disk_full_or_write_fail>Recording stop because disk full or write fail</recording_stop_because_disk_full_or_write_fail>
+<red>Red</red>
+<red_gain>Red Gain</red_gain>
+<register>Register</register>
+<remote_folder_name>Remote folder name</remote_folder_name>
+<remote_log>Remote log</remote_log>
+<remove>Remove</remove>						
+<restore>Restore</restore>
+<restore_all_settings_to_factory_default>Restore all settings to factory default.</restore_all_settings_to_factory_default>
+<restore_all_settings_to_factory_default_except_settings_in>Restore all settings to factory default except settings in</restore_all_settings_to_factory_default_except_settings_in>
+<restore_all_settings_to_factory_default_except_settings_in_network_type>Restore all settings to factory default except settings in "Network".</restore_all_settings_to_factory_default_except_settings_in_network_type>
+<resume>Resume</resume>
+<right>Right</right>
+<root_password>Root password</root_password>
+<rs485>RS485</rs485>
+<rs485_settings>RS485 Settings</rs485_settings>
+<rtcp_port_for_audio>RTCP port for audio</rtcp_port_for_audio>
+<rtcp_port_for_video>RTCP port for video</rtcp_port_for_video>
+<rtp_audio_port_can_not_be_the_same_as_other_port>RTP audio port can not be the same as other port. Please change one of them and apply again!</rtp_audio_port_can_not_be_the_same_as_other_port>
+<rtp_audio_port_must_be_from_1025_to_65535>RTP audio port must be from 1025 to 65535</rtp_audio_port_must_be_from_1025_to_65535>
+<rtp_port_for_audio>RTP port for audio</rtp_port_for_audio>
+<rtp_port_for_video>RTP port for video</rtp_port_for_video>
+<rtp_video_port_can_not_be_the_same_as_other_port>RTP video port can not be the same as other port. Please change one of them and apply again!</rtp_video_port_can_not_be_the_same_as_other_port>
+<rtp_video_port_must_be_from_1025_to_65535>RTP video port must be from 1025 to 65535</rtp_video_port_must_be_from_1025_to_65535>
+<rtsp_port>RTSP port</rtsp_port>
+<rtsp_port_can_not_be_the_same_as_other_port>RTSP port can not be the same as other port. Please change one of them and apply again!</rtsp_port_can_not_be_the_same_as_other_port>
+<rtsp_port_must_be_554_or_from_1025_to_65535>RTSP port must be 554 or from 1025 to 65535</rtsp_port_must_be_554_or_from_1025_to_65535>
+<rtsp_s0_multicast_audio_port_can_not_be_the_same_as_other_port>Multicast stream 1 audio port can not be the same as other port. Please change one of them and apply again!</rtsp_s0_multicast_audio_port_can_not_be_the_same_as_other_port>
+<rtsp_s0_multicast_audio_port_must_be_from_1025_to_65535>Multicast stream 1 audio port must be from 1025 to 65535</rtsp_s0_multicast_audio_port_must_be_from_1025_to_65535>
+<rtsp_s0_multicast_ipaddress_can_not_be_the_same_as_rtsp_s1_multicast_ipaddress>Multicast stream 1 address can not be the same as multicast stream 2 address. Please change one of them and apply again!</rtsp_s0_multicast_ipaddress_can_not_be_the_same_as_rtsp_s1_multicast_ipaddress>
+<rtsp_s0_multicast_video_port_can_not_be_the_same_as_other_port>Multicast stream 1 video port can not be the same as other port. Please change one of them and apply again!</rtsp_s0_multicast_video_port_can_not_be_the_same_as_other_port>
+<rtsp_s0_multicast_video_port_can_not_be_the_same_as_rtsp_s0_multicast_audio_port>Multicast stream 1 video port can not be the same as multicast stream 1 audio port. Please change one of them and apply again!</rtsp_s0_multicast_video_port_can_not_be_the_same_as_rtsp_s0_multicast_audio_port>
+<rtsp_s0_multicast_video_port_must_be_from_1025_to_65535>Multicast stream 1 video port must be from 1025 to 65535</rtsp_s0_multicast_video_port_must_be_from_1025_to_65535>
+<rtsp_s1_multicast_audio_port_must_be_from_1025_to_65535>Multicast stream 2 audio port must be from 1025 to 65535</rtsp_s1_multicast_audio_port_must_be_from_1025_to_65535>
+<rtsp_s1_multicast_video_port_can_not_be_the_same_as_other_port>Multicast stream 2 video port can not be the same as other port. Please change one of them and apply again!</rtsp_s1_multicast_video_port_can_not_be_the_same_as_other_port>
+<rtsp_s1_multicast_video_port_can_not_be_the_same_as_rtsp_s1_multicast_audio_port>Multicast stream 2 video port can not be the same as multicast stream 2 audio port. Please change one of them and apply again!</rtsp_s1_multicast_video_port_can_not_be_the_same_as_rtsp_s1_multicast_audio_port>
+<rtsp_s1_multicast_video_port_must_be_from_1025_to_65535>Multicast stream 2 video port must be from 1025 to 65535</rtsp_s1_multicast_video_port_must_be_from_1025_to_65535>
+<rtsp_streaming>RTSP streaming</rtsp_streaming>
+<safe100.net>safe100.net</safe100.net>
+<sat>Sat</sat>
+<saturation>Saturation</saturation>
+<save>Save</save>
+<save_options>Save Options</save_options>
+<save_parameter_fail>Save parameter fail</save_parameter_fail>
+<save_window_completed>Save window completed</save_window_completed>
+<save_window_failed>Save window failed</save_window_failed>
+<secondary_dns>Secondary DNS</secondary_dns>
+<secondary_http_port>Secondary HTTP port</secondary_http_port>
+<secondary_http_port_can_not_be_the_same_as_other_port>Secondary HTTP port can not be the same as other port. Please change one of them and apply again!</secondary_http_port_can_not_be_the_same_as_other_port>
+<secondary_http_port_must_be_from_1025_to_65535>Secondary HTTP port must be from 1025 to 65535</secondary_http_port_must_be_from_1025_to_65535>
+<secondary_wins_server>Secondary WINS server</secondary_wins_server>
+<seconds>seconds</seconds>
+<seconds_before_detecting_next_event>seconds before detecting next event</seconds_before_detecting_next_event>
+<seconds_before_detecting_next_event_for_motion_detection>seconds before detecting next event [For motion detection]</seconds_before_detecting_next_event_for_motion_detection>
+<seconds_before_detecting_next_event_for_motion_detection_and_digital_input>seconds before detecting next event	[For motion detection and digital input]</seconds_before_detecting_next_event_for_motion_detection_and_digital_input>
+<security>Security</security>
+<select>Select</select>	
+<select_certificate_file>Select certificate file</select_certificate_file>
+<select_firmware_file>Select firmware file</select_firmware_file>
+<select_one>-- Select one --</select_one>
+<select_ptz_driver_file>Select PTZ driver file</select_ptz_driver_file>
+<selected_locations>Selected locations</selected_locations>
+<self_signed_certificate>Self-signed certificate</self_signed_certificate>
+<send>Send</send>
+<sender_email_address>Sender email address</sender_email_address>
+<sensitivity>Sensitivity</sensitivity>
+<server>Server</server>
+<server_address>Server address</server_address>
+<server_is_restarting_now_it_will_automatically_reconnect_to>Server is restarting now. It will automatically reconnect to</server_is_restarting_now_it_will_automatically_reconnect_to>
+<server_name>Server name</server_name>
+<server_port>Server port</server_port>
+<server_type>Server type</server_type>
+<service_agreement>Service_agreement</service_agreement>
+<set_as_home>Set as home</set_as_home>	
+<settings_saved>Settings saved</settings_saved>
+<shared>Shared</shared>
+<sharpness>Sharpness</sharpness>
+<silver>Silver</silver>
+<simplified_chinese>Simplified Chinese</simplified_chinese>
+<size_of_each_file_for_recording>Size of each file for recording</size_of_each_file_for_recording>
+<snapshot>Snapshot</snapshot>
+<source>Source</source>
+<space_is_invalid>Space is invalid</space_is_invalid>
+<spanish>Spanish</spanish>
+<ssid>SSID</ssid>
+<standard>Standard</standard>
+<start_avi_recording>Start AVI Recording</start_avi_recording>
+<start_ip_address>Start IP address</start_ip_address>
+<start_mp4_recording>Start MP4 Recording</start_mp4_recording>
+<start_time>Start Time</start_time>
+<state_or_province>State or province</state_or_province>
+<status>Status</status>
+<stop>Stop</stop>
+<stop_avi_recording>Stop AVI Recording</stop_avi_recording>
+<stop_bits>Stop bits</stop_bits>
+<stop_mp4_recording>Stop MP4 Recording</stop_mp4_recording>
+<stop_talk>Stop talk</stop_talk>
+<stream1>Stream 1</stream1>
+<stream2>Stream 2</stream2>
+<stream_options>Stream Options</stream_options>
+<subnet_mask>Subnet mask</subnet_mask>
+<sun>Sun</sun>
+<sync_with_computer_time>Sync with computer time</sync_with_computer_time>
+<syslog_server_port_must_be_514_or_from_1025_to_65535>Syslog server port must be 514 or from 1025 to 65535</syslog_server_port_must_be_514_or_from_1025_to_65535>
+<system_boot>System boot</system_boot>
+<system_error>System Error</system_error>
+<system_log>System log</system_log>
+<system_time>System Time</system_time>
+<talk>Talk</talk>
+<talk_disable>Talk Disabled (Not Support In HTTP Protocol)</talk_disable>
+<talk_only>Talk Only</talk_only>
+<tcp>TCP</tcp>
+<teal>Teal</teal>
+<test>Test</test>
+<text_mode>Text mode</text_mode>
+<the_auto_detection_order_of_transimission_protocol_is_udp_tcp_http>The auto-detection order of transimission protocol is UDP -> TCP -> HTTP.</the_auto_detection_order_of_transimission_protocol_is_udp_tcp_http>
+<the_confirm_key_dirrers_from_the_key>The confirm key differs from the key. Please try again</the_confirm_key_dirrers_from_the_key>
+<the_confirm_password_differs_from_the_password>The confirm password differs from the password. Please try again</the_confirm_password_differs_from_the_password>
+<the_connection_is_closed_because_downstream_audio_connection_is_not_authorized_for_downstream_audio>The connection is closed because the current user is not authorized for downstream audio connection and the server mode is %s.</the_connection_is_closed_because_downstream_audio_connection_is_not_authorized_for_downstream_audio>
+<the_connection_is_closed_because_server_audio_mode_is_set_to>The connection is closed because server audio mode is set to %s and the user is not authorized for upstream audio connection.</the_connection_is_closed_because_server_audio_mode_is_set_to>
+<the_downstream_audio_connection_for_the_current_user_is_not_authorized>The downstream audio connection for the current user is not authorized.</the_downstream_audio_connection_for_the_current_user_is_not_authorized>
+<the_downstream_audio_connection_is_not_allowed>The downstream audio connection is not allowed because server audio mode is set to %s.</the_downstream_audio_connection_is_not_allowed>
+<the_downstream_audio_connection_is_not_allowed_because_the_media_from_server_contains_no_audio>The downstream audio connection is not allowed because the media from server contains no audio</the_downstream_audio_connection_is_not_allowed_because_the_media_from_server_contains_no_audio>
+<the_file_must_have_a_xml_file_suffix>The file must have a .xml filename suffix</the_file_must_have_a_xml_file_suffix>
+<the_length_is_over_40_characters>The length is over 40 characters!</the_length_is_over_40_characters>			
+<the_media_type_has_been_changed_to_video_only_because_audio_connection>The media type has been changed to video only because the current user is not authorized for downstream audio connection.</the_media_type_has_been_changed_to_video_only_because_audio_connection>
+<the_media_type_has_been_changed_to_video_only_because_the_audio_mode_is_set_to>The media type has been changed to video only because the audio mode is set to %s.</the_media_type_has_been_changed_to_video_only_because_the_audio_mode_is_set_to>
+<the_media_type_has_been_changed_to_video_only_because_the_media_from_server_contains_no_audio>The media type has been changed to video only because the media from server contains no audio</the_media_type_has_been_changed_to_video_only_because_the_media_from_server_contains_no_audio>
+<the_name_has_already_existed>The name has already existed. Please try another name or delete the old one.</the_name_has_already_existed>
+<the_name_has_already_existed_please_try_another_name_or_delete_the_old_one>The name has already existed. Please try another name or delete the old one.</the_name_has_already_existed_please_try_another_name_or_delete_the_old_one>			
+<the_size_of_each_file_for_recording_is_greater_than_total_cycling_recording_size>The size of each file for recording is greater than total cycling recording size.</the_size_of_each_file_for_recording_is_greater_than_total_cycling_recording_size>
+<the_upstream_audio_connection_is_not_allowed>The upstream audio connection is not allowed because server audio mode is set to %s</the_upstream_audio_connection_is_not_allowed>
+<the_upstream_channel_is_occupied_please_try_later>The upstream channel is occupied, please try later.</the_upstream_channel_is_occupied_please_try_later>
+<thu>Thu</thu>
+<tilt_speed>Tilt speed</tilt_speed>
+<time>Time</time>
+<time_zone>Time zone</time_zone>
+<to>to</to>
+<to_enable_https_you_have_to_create_and_install_certificate_first>*To enable HTTPS, you have to create and install certificate first</to_enable_https_you_have_to_create_and_install_certificate_first>
+<total_cycling_recording_size>Total cycling recording size</total_cycling_recording_size>
+<traditional_chinese>Traditional Chinese</traditional_chinese>
+<transparent_http_tunnel>Transparent HTTP Tunnel</transparent_http_tunnel>
+<trigger>Trigger</trigger>
+<trigger_D_O_for>Trigger D/O for</trigger_D_O_for>
+<trigger_every>Trigger every</trigger_every>
+<triggered>Triggered</triggered>
+<tue>Tue</tue>
+<turn_off_the_led_indicator>Turn off the LED indicator</turn_off_the_led_indicator>
+<turn_on_flash_leds_for>Turn on flash LEDs for</turn_on_flash_leds_for>
+<turn_on_the_white_light_led_for_triggered_events>Turn on the white light LED for triggered events</turn_on_the_white_light_led_for_triggered_events>
+<two_way_audio>Two way audio</two_way_audio>
+<two_way_audio_port>Two way audio port</two_way_audio_port>
+<tx_rate>TX rate</tx_rate>
+<type>Type</type>
+<tzo.com>TZO.com</tzo.com>
+<uart_tunnel>UART Tunnel</uart_tunnel>
+<udp_multicast>UDP multicast</udp_multicast>
+<udp_unicast>UDP unicast</udp_unicast>
+<umount_cf>Unload CF</umount_cf>
+<umount_cf_card>Unload CF card</umount_cf_card>
+<up>Up</up>
+<update_daylight_saving_time_rules>Update Daylight Saving Time Rules</update_daylight_saving_time_rules>
+<update_interval>Update interval</update_interval>
+<upgrade>Upgrade</upgrade>
+<upgrade_firmware>Upgrade firmware</upgrade_firmware>
+<upload>Upload</upload>
+<upstream_audio_connection_is_not_allow>The upstream audio connection is not allowed because authentication is failed.</upstream_audio_connection_is_not_allow>
+<url>URL</url>
+<use>Use</use>
+<use_fixed_ip_address>Use fixed IP address</use_fixed_ip_address>
+<user_name>User name</user_name>
+<user_password>User password</user_password>
+<validity>Validity</validity>
+<video_and_audio>Video and Audio</video_and_audio>
+<video_clip>Video Clip</video_clip>
+<video_frame_rate_first>Video frame rate first</video_frame_rate_first>
+<video_loss_alarm>Video loss alarm</video_loss_alarm>
+<video_motion_detection>Video motion detection</video_motion_detection>
+<video_only>Video Only</video_only>
+<video_orientation>Video orientation</video_orientation>
+<video_quality_first>Video quality first</video_quality_first>
+<video_quality>Video quality</video_quality>
+<video_quality_settings_for_stream1>Video quality settings for stream 1</video_quality_settings_for_stream1>
+<video_quality_settings_for_stream2>Video quality settings for stream 2</video_quality_settings_for_stream2>
+<video_quality_settings_for_stream3>Video quality settings for stream 3</video_quality_settings_for_stream3>
+<video_settings>Video settings</video_settings>
+<video_title>Video title</video_title>
+<view_parameters>View parameters</view_parameters>
+<viewer>Viewer</viewer>
+<vmlcharset>0</vmlcharset>
+<vmlcodepage>500</vmlcodepage>
+<vmlfontname>""</vmlfontname>
+<vmlfontsize>16</vmlfontsize>
+<vmlpitch>false</vmlpitch>
+<vmlswiss>false</vmlswiss>
+<waiting_for_certificated>Waiting for certificated</waiting_for_certificated>
+<warning>Warning</warning>
+<web_page_display_mode>Web page display mode</web_page_display_mode>
+<wed>Wed</wed>
+<white>White</white>
+<white_balance>White balance</white_balance>
+<width>Width</width>
+<window_name>Window Name</window_name>
+<wireless>Wireless</wireless>
+<wireless_lan>Wireless LAN</wireless_lan>
+<wireless_mode>Wireless mode</wireless_mode>
+<wlan_configuration>WLAN configuration</wlan_configuration>
+<workgroup>Workgroup</workgroup>
+<x>X</x>
+<y>Y</y>
+<yellow>Yellow</yellow>
+<you_have_used_invalid_characters_lg>You have used invalid characters. These invalid characters are: \, /, :, *, ., ?, ", ', &lt;, &gt;, &amp;, |</you_have_used_invalid_characters_lg>
+<you_have_used_invalid_characters_passwd>You have used invalid characters. These characters are valid:A-Z, a-z, 0-9 and !$%'-.@^_~ </you_have_used_invalid_characters_passwd>
+<you_have_used_invalid_characters_sh>You have used invalid characters. These invalid characters are: ", ', &lt;, &gt;, &amp;</you_have_used_invalid_characters_sh>
+<yyyy_mm_dd>[yyyy/mm/dd]</yyyy_mm_dd>
+<zoom>Zoom</zoom>
+<zoom_factors>Zoom Factors:</zoom_factors>
+<zoom_in>Zoom in</zoom_in>
+<zoom_out>Zoom out</zoom_out>
+<zoom_speed>Zoom speed</zoom_speed>
+</lang>
+</root>

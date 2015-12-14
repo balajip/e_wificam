@@ -1,0 +1,23 @@
+#!/bin/bash
+# This script will untar a ppp tarball from Debian, patch it, and build it. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=ppp
+VERSION=2.4.4rel
+DEB_ORIG_TARBALL=${APP_NAME}_${VERSION}.orig.tar.gz
+DEB_PATCH=${APP_NAME}_${VERSION}-10.1.diff.gz
+PACKAGE_DIR=$APP_NAME-$VERSION
+UNTAR_ARG='-zxf'
+HOST='arm-linux'
+CC=$HOST-gcc
+PKG_ROOT=${PWD}
+
+# check if you have proper gcc
+#which $CC || exit 1
+
+# untar the tarball
+#tar $UNTAR_ARG $DEB_ORIG_TARBALL
+#mv ${APP_NAME}-${VERSION}.orig $PACKAGE_DIR
+
+#cd $PACKAGE_DIR
+
+rm -rf root ${PACKAGE_DIR}

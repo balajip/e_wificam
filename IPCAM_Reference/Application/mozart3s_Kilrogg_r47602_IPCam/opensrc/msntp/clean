@@ -1,0 +1,10 @@
+#!/bin/bash
+# This script will untar a msntp tarball from Debian, patch it, and build it. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=msntp
+VERSION=1.6
+PACKAGE_DIR=$APP_NAME-$VERSION
+
+#remove files
+rm -rf ${APP_NAME} ${PACKAGE_DIR}
+

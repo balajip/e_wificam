@@ -1,0 +1,22 @@
+This i2c driver is gpio based using kernel 2.6.28.9 i2c stack.
+
+The i2c-gpio module contains 5 parameters, bus_num, scl0, sda0, scl1, and sda1.
+
+the default value is 
+
+bus_num = 2
+scl0 = 14
+sda0 = 15
+scl1 = 12
+sda1 = 13
+
+bus_num is the number of i2c bus, the max number is 2
+scl0, sda0, scl1, sda1 is the gpio pin. If no connect, set pin 255 
+
+install:
+	2 bus, i2c-bus-0 scl = 6, sda = 7, i2c-bus-1 scl = 12, sda = 13
+	# i2c-gpio.ko  bus_num = 2 scl0 = 6 sda0 = 7 scl1 = 12 sda1 = 13
+
+	2 bus, i2c-bus-0 scl = no connect, sda = no connet, i2c-bus-1 scl = 12, sda = 13
+	# i2c-gpio.ko  bus_num = 2 scl0 = 255 sda0 = 255 scl1 = 12 sda1 = 13
+

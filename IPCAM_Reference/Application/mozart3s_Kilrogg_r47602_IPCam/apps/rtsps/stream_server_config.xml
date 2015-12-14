@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root>
+<rtsp>
+	<enable>true</enable>
+	<port>554</port>
+	<blocksize>8192</blocksize>
+	<!-- 0: lighthttpd 1: BOA-->
+	<httpserver_type>0</httpserver_type>
+	<!-- no auth supported now -->
+	<auth_mode>none</auth_mode>
+	<http_fdipc_sock>/tmp/rtspsrv_fdipc.sck</http_fdipc_sock>
+	<!--media tracks-->
+	<video_track>##</video_track>
+	<audio_track>##</audio_track>
+	<mdata_track>
+		<total_num>#mata_track_num#</total_num>
+		<track no="0">
+			<mechanism>socket</mechanism>
+			<path>/tmp/venc/c0/motion.sck</path>
+			<cmd_fifo>N.A.</cmd_fifo>
+		</track>
+		<track no="1">
+			<mechanism>socket</mechanism>
+			<path>/tmp/venc/c1/motion.sck</path>
+			<cmd_fifo>N.A.</cmd_fifo>
+		</track>
+		<track no="2">
+			<mechanism>socket</mechanism>
+			<path>/tmp/venc/c2/motion.sck</path>
+			<cmd_fifo>N.A.</cmd_fifo>
+		</track>
+		<track no="3">
+			<mechanism>socket</mechanism>
+			<path>/tmp/venc/c3/motion.sck</path>
+			<cmd_fifo>N.A.</cmd_fifo>
+		</track>
+		<track no="4">
+			<mechanism>socket</mechanism>
+			<path>/tmp/venc/c4/motion.sck</path>
+			<cmd_fifo>N.A.</cmd_fifo>
+		</track>
+		<track no="5">
+			<mechanism>socket</mechanism>
+			<path>/tmp/venc/c5/motion.sck</path>
+			<cmd_fifo>N.A.</cmd_fifo>
+		</track>
+		<track no="6">
+			<mechanism>socket</mechanism>
+			<path>/tmp/venc/c6/motion.sck</path>
+			<cmd_fifo>N.A.</cmd_fifo>
+		</track>
+		<track no="7">
+			<mechanism>socket</mechanism>
+			<path>/tmp/venc/c7/motion.sck</path>
+			<cmd_fifo>N.A.</cmd_fifo>
+		</track>
+	</mdata_track>
+	<!-- stream -->
+	<live_stream>##</live_stream>
+</rtsp>
+</root>

@@ -1,0 +1,20 @@
+if ARCH_MOZART
+
+menu "MOZART Options"
+
+comment "clock"
+
+config SYS_CLK
+    int "System (AHB) Clock"
+    default "20000000"
+    help
+	Set AHB clock in Hz.
+
+config UART_CLK
+    int "UART Clock"
+    default "18432000"
+    help
+	Set External UART clock in Hz.
+endmenu
+
+endif

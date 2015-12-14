@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Motion Detection</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="/include/jQuery/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="/include/jQuery/jquery-ui-1.8.6.custom.min.js"></script>
+    <script type="text/javascript" src="/include/common.js"></script>
+    <script type="text/javascript" src="/include/plugindef.js"></script>  
+    <script type="text/javascript" src="/include/motion.js"></script>
+    <link type="text/css" rel="stylesheet" href="/include/jQuery/jquery-ui-1.8.6.custom.css" />
+    <link type="text/css" rel="stylesheet" href="/css/default.css" />
+    <style type="text/css">
+        .sValue {
+           display:-moz-inline-box;  
+           display:inline-block;
+           height:15px;
+           text-align:right;
+           margin: 3px 3px 2px 10px;
+        } 
+        .text_right {
+            text-align:right;
+        }  
+    </style>
+</head>
+
+<body>
+    <input type="checkbox" id="motion_switch" onclick="changeMotionState();"/>
+    <span>Enable Motion Detection</span><br>
+      <object classid="CLSID:D3EABA3F-AFE4-4849-BD9C-DFB981B17055" id="Dean" name="Dean" 
+style="visibility:visible;width:640px;height:480px;"
+CODEBASE="/vtcs_player.cab#Version=2,3,0,8"></object> 
+    <div id="content">
+     <fieldset style="width:450px;">
+        <legend><strong>Motion Setup</strong></legend>
+        <br><br>
+        <table>
+          <tr>
+            <td class="text_right">Window Name: &nbsp;</td>
+            <td><input type="text" id="w_name" size="12" /></td>
+          </tr>
+          <tr>
+            <td class="text_right">Object size: &nbsp;</td>
+            <td width="150px"><div id="objSize"></div></td>
+            <td width="80px">&nbsp;<span id="objSizeValue" class="sValue"></span></td>
+          </tr>
+          <tr>
+            <td class="text_right">Sensitivity: &nbsp;</td>
+            <td><div id="sensi"></div></td>
+            <td>&nbsp;<span id="sensiValue" class="sValue"></span></td>
+          </tr>
+          <tr>
+            <td colspan="2"><input type="button" class="button" id="new_win" value="New" onClick="addmotion();"/>         
+            <td>
+          </tr>        
+        </table>        
+    </fieldset>
+    <input type="button" class="button" id="save" value="Save" onClick="saveSetting();"/>
+  </div> 
+  <div id="ajaxMask"><span id="ajaxImg"></span></div>
+</body>
+</html>

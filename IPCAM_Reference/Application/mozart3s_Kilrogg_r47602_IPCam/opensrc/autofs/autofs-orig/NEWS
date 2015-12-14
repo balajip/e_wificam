@@ -1,0 +1,249 @@
+Since autofs-3.1.6:
+-------------------
+* Test for mount --bind at startup time, rather than allowing it to
+  fail.  Resolves "test -d doesn't work" problems.
+* Fixed silly typo in mount_bind.
+* Bring canned linux/auto_fs.h header up to date; resolves compilation
+  problems with newer kernel headers installed.
+* NOTE: util-linux-2.10p recommended for mount --bind to work properly!
+
+Since autofs-3.1.5:
+-------------------
+* Add a lookup method for LDAP (from Nalin Dahyabhai).
+* Fix small race condition involving errno and SIGCHLD.
+* Changed "bind" mounts to support the new syntax (requires
+  linux-2.4.0-test? and util-linux 2.10o).
+* Fixed bug in the multimount module which would cause "missing module
+  name" errors.
+  
+Since autofs-3.1.4:
+-------------------
+* Support "bind" mounts introduced in linux-2.3.99-pre7.7 instead of
+  using symlinks.  If you are using a version of the Linux kernel
+  which supports "bind" mounts, you will no longer see symlinks when
+  mounting local filesystems.
+  
+Since autofs-3.1.3:
+-------------------
+* Merge in documentation changes from RedHat RPM.
+* Support installing the samples stuff (make install_samples).
+* Make samples/rc.autofs appropriate for both RedHat and Debian.
+  Thanks to Jeremy Fitzhardinge for a patch here.
+* Added fixes to mount_autofs with options, from Rainer Clasen.
+* Removed the now-obsolete mount_smbfs.  MAKE SURE YOU READ
+  "README.smbfs" before trying to mount an smbfs filesystem using autofs!!
+* Created a new lookup_multi module.  Sample usage:
+  automount /path multi file /etc/auto.path -- yp auto.path
+* New mount_changer module from Toby Jaffery (for selecting slots out
+  of a media changer automatically.)  See README.changer.
+* Include spec file that can make a RedHat RPM.  Note that this may
+  not be appropriate for actual RedHat systems; the way RedHat does
+  autofs seems to change with every release.
+
+Since autofs-3.1.2:
+-------------------
+* Added README.options; missing since 3.1.0... oops!
+
+Since autofs-3.1.1:
+-------------------
+* NULL pointer fix in mount_smbfs (from Rene Højbjerg Larsen).
+
+Since autofs-3.1.0:
+-------------------
+* The -s option (SLOPPYOPT) was put in the wrong place in mount_nfs.c!
+  Oops!  Now fixed.
+
+Since autofs-0.3.14:
+--------------------
+* "const-ipated" the source at all module interface points, to keep me
+  from doing stupid things like calling strtok() on a string constant.
+* Minor fix to the autofs(5) man page.
+* Put entire source under CVS, so added ID tags to as many files as
+  practical; also cleaned up comment preambles.
+* AFS/Hesiod support by Nalin Dahyabhai.
+* NIS+ support by Thorsten Kukuk.
+* mount_ext2 module that runs e2fsck -p on the filesystem first.
+* Recursive autofs mounts support by Richard Henderson.  For
+  unmounting to work with nested mounts, kernel 2.1.93 or later is
+  required.
+* Automatic configuration of compile options using
+  "configure".
+* If mount(8) supports the "-s" (sloppy) option, pass it.  Have
+  "configure" test to see if it does or not.
+* Fix from David Engels for Sun map multiserver entries.  (Also
+  requires support in mount(8).)
+* When determining if an NFS filesystem is really local, don't bail
+  out if we get an error from connect().  Keep going to the next
+  address instead.
+* New numbering system to declare autofs "officially no longer experimental."
+
+Since autofs-0.3.13:
+--------------------
+* Simplified the signalling/forking structure.
+* When debugging, leave debug-related signals in the default state.
+* Fixed broken timeouts.
+* Fixed multiple problems involving module destruction.
+* "Shouldn't happen" signals now only get caught once, to avoid
+  looping.
+* SIGHUP now causes a "prune" operation, followed by module
+  reinitialization.
+
+Since autofs-0.3.12:
+--------------------
+* Added -p, --pid-file option to daemon.
+* Fixed aestetic bug in new spawn() logic.
+* Added new cleanup_exit() function in the daemon.
+* Added signal handling to some cases that were improperly dealt with.
+* Integrated new sample stuff from Miquel van Smoorenburg and
+  Christoph Lameter.
+
+Since autofs-0.3.11:
+--------------------
+* Rewrote the spawn() logic to not use stdio at all.
+
+Since autofs-0.3.10:
+--------------------
+* Added conversion from : -> / in Sun maps, to handle maps which
+  contain "shared mounts".  Can be avoided by \-escaping the colon or
+  by passing the option --no-slashify-colons.
+* ${HOST} corrected (was returning the value for ${ARCH}.)
+* Don't free the YP domain name; the documentation says to it but the
+  documentation is wrong.
+
+Since autofs-0.3.9:
+-------------------
+* Added YPLIBS option to Makefile.rules to support compiling for glibc.
+* Distributing include/linux/auto_fs.h with the daemon one again, to
+  avoid version skew problems.
+* Made \-escaping work (hopefully) correctly.
+* Added dlerror() output to error message when dlopen() returns an error.
+
+Since autofs-0.3.8:
+-------------------
+* Missed at least one place where a SIGCHLD gunked up a waitpid() in
+  0.3.8.  Fixed.
+* More documentation and init script fixes from Christoph (with some
+  edits from yours truly, since I'm an opininated bastard who likes
+  things done my way.)
+* Added check to lookup_program.c: no output at all == error.
+
+Since autofs-0.3.7:
+-------------------
+* Removed kernel code from distribution, except for 2.0.30 diff (will
+  remain until 2.0.31 is released.)  Kernel code will now only be
+  included with the main kernel distribution, although Makefiles will
+  continue to support building the kernel code.
+* Tried to eliminate race conditions relating to signals received in
+  the vicinity of a fork(), as well as multiple SIGCHLD signals
+  received while SIGCHLD blocked.
+* Better sample rc file and man pages from Christoph Lameter of the
+  Debian project, with edits from hpa.
+* In mount_smbfs.c: smb_parse_options() is destructive; make it
+  operate on a copy of the options string.
+
+Since autofs-0.3.6:
+-------------------
+* Kernel code should now compile on 2.1.43 or higher.
+* Minor cleanup of stdout/stderr redirect.
+* Fixed this file!
+
+Since autofs-0.3.5:
+-------------------
+* stdout/stderr of subprograms (only stderr for program maps, of
+  course) now is automatically redirected to the syslog.  As a result,
+  the spawn[lv]() interface has changed somewhat.
+* kernel: minor bug fixes.
+* daemon: minor cleanup.
+* Now compiles (and runs) on SPARC.
+* daemon: Should now handle extremely short timeouts, or no timeouts,
+  correctly. 
+
+Since autofs-0.3.4:
+-------------------
+* kernel: *Hopefully* fixed the wait queue list corruption (kernel
+  NULL pointer dereference) bug.
+
+Since autofs-0.3.3:
+-------------------
+* kernel: *Hopefully* fixed that annoying "filesystem busy" bug.
+
+Since autofs-0.3.2:
+-------------------
+* Added "mount_generic" and "mount_smbfs" modules.
+* Support ":" to escape a mount point beginning with "/" in a Sun map.
+* Support -fstype= option in Sun maps.
+
+Since autofs-0.3.1:
+-------------------
+* kernel: effectivized handling of waits interrupted by a signal.
+* kernel: closed some extremely theoretical security holes.
+* kernel: fixed two problems that could lead to kernel oopses.
+
+Since autofs-0.3.0:
+-------------------
+* The kernel code should once again work on kernel 2.0.30 and 2.1.x
+  for x < 36.
+* No need to fork an expiry process if there is nothing to expire!
+* Attempting to mount a nonexistent directory should no longer leave a
+  pad directory around, causing renewed mount attempts on "ls".
+* Timeout is now adjustible (set to 0 to turn off timeouts completely.)
+
+Since autofs-0.2.2:
+-------------------
+* Support expiry of idle mounts; currently the timeout is fixed at 5
+  minutes.
+* Ship kernel source that can be built either as a part of the autofs
+  or the kernel source trees.
+* Ought to compile on the Alpha, although I cannot test it here.
+
+Since autofs-0.2.1:
+-------------------
+* Can now read options and ignore whitespace and comments in Sun maps.
+* Does closing the file descriptors after forking help avoid hung
+  filesystems?
+
+Since autofs-0.2.0:
+-------------------
+* Cleaned up the interface between modules (not perfect yet; I was
+  even quite tempted to rewrite the interface using C++ classes,
+  but...)  Do expect the interface to still change, for example:
+  expect a umount method to be added to the mount module.  Strings
+  passed are now managed by the calling module, and can be allocated
+  in any desirable way.
+* Moved mount operation to its own module.
+* Handle options passed on the command line; not options passed in the map yet.
+* Handle $-escapes in Sun style maps, including the Sun predefined
+  variables.
+* New "program" map type: the map is an executable which is passed the
+  key on the command line, and writes the map entry to stdout on
+  success and exit 0, or exit 1 on failure.
+
+Since autofs-970417:
+--------------------
+* Use a real versioning scheme :)
+* Fixed bugs that would make file maps unmountable.  Still don't quite
+  understand *why*, which bugs me, though...
+* Man page by B. James Phillippe.
+
+Since autofs-970409:
+--------------------
+* Modified the .so interface slightly, in order to make it possible
+  for future versions to have multiple lookup sessions.
+* Added "file" map type.
+
+Since autofs-970402:
+--------------------
+* The parsing module has been factored out into a separate dynamic
+  module.  This should make writing other lookup modules much easier.
+* The automount daemon now accepts kill -USR1 as a "unmount all
+  filesystems and exit if everything could be unmounted" and kill
+  -USR2 "unmount all non-busy filesystems".  Prelude to handling
+  timeouts, I hope.
+* The autofs code is now integrated in kernels 2.1.31 and above (a
+  patch for the 2.1.31 code is included, however; 2.1.32 is correct);
+  a patch is included for 2.0.30 and has been submitted to Linus for
+  inclusion in 2.0.31.
+* include/linux/auto_fs.h is no longer shipped in the tools
+  distribution; the one from the kernel should be used, so you need
+  the (appropriately patched) kernel sources in /usr/src/linux.
+* added NEWS and README files.

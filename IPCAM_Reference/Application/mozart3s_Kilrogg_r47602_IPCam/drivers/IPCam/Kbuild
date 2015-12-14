@@ -1,0 +1,30 @@
+#
+# vim: syntax=make
+
+misc1-$(CONFIG_MT9P031) += MT9P031.ko
+misc1-$(CONFIG_IMX122) += IMX122.ko
+misc1-$(CONFIG_IMX222) += IMX222.ko
+misc1-$(CONFIG_IMX035) += IMX035.ko
+misc1-$(CONFIG_IMX036) += IMX036.ko
+misc1-$(CONFIG_IMX104) += IMX104.ko
+misc1-$(CONFIG_IMX138) += IMX138.ko
+misc1-$(CONFIG_IMX238) += IMX238.ko
+misc1-$(CONFIG_OV2710) += OV2710.ko
+misc1-$(CONFIG_MN34030PL) += MN34030PL.ko
+misc1-$(CONFIG_CAT6011) += CAT6011.ko
+misc1-$(CONFIG_IT6604) += IT6604.ko
+misc1-$(CONFIG_OV9710) += OV9710.ko
+misc1-$(CONFIG_MN34030PL_60FPS) += MN34030PL.ko
+misc1-$(CONFIG_NULLSensor) += NULLSensor.ko
+misc1-$(CONFIG_OV10630) += OV10630.ko
+misc1-$(CONFIG_OV5653) += OV5653.ko
+misc1-$(CONFIG_OV5658) += OV5658.ko
+misc1-$(CONFIG_MN34041PL) += MN34041PL.ko
+misc1-$(CONFIG_OV10633) += OV10633.ko
+misc1-$(CONFIG_AR0331) += AR0331.ko
+misc1-$(CONFIG_AR0330) += AR0330.ko
+misc1-$(CONFIG_MT9M033) += MT9M033.ko
+misc1-$(CONFIG_MT9M034) += MT9M034.ko
+misc1-$(CONFIG_AR0130) += AR0130.ko
+
+misc1dest-y = /drivers/

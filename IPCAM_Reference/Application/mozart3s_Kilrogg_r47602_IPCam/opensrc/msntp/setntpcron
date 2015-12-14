@@ -1,0 +1,34 @@
+#!/bin/sh
+
+SNTP_CMD="/sbin/msntp"
+SYS_CROND_CMD="/etc/init.d/bbcrond"
+SYSTEM_XML_CONF="/etc/conf.d/system.xml"
+NTP_CRON_FILE="/var/spool/cron/root-crontabs/msntp.crontab"
+SNTP_FLAG="-ra 1 -P no"
+
+# check time setting
+time_set=`cat $SYSTEM_XML_CONF | grep time_mode | sed 's/[^a-z]*<[/_a-z]*>//g'`
+# clear ntp.crontab
+cat /dev/null > $NTP_CRON_FILE
+if [ "$time_set" = "ntp" ];then
+	# get update interval
+	upt_interval=`cat $SYSTEM_XML_CONF | grep update_interval | sed 's/[^0-9]*<[/_a-z]*>//g'`
+	# get ntp server
+	ntp_srv=`cat $SYSTEM_XML_CONF | grep ntp_server | sed 's/[^a-z0-9]*<[/_a-z]*>//g'`
+	# every hour : the 1st minutes at each hour
+	if [ "$upt_interval" = "3600" ];then
+		echo "1 * * * * $SNTP_CMD $SNTP_FLAG $ntp_srv" > $NTP_CRON_FILE
+	# every day : 01:01 on each day
+	elif [ "$upt_interval" = "86400" ];then
+		echo "1 1 * * * $SNTP_CMD $SNTP_FLAG $ntp_srv" > $NTP_CRON_FILE
+	# every week : 01:01 on sunday
+	elif [ "$upt_interval" = "604800" ];then
+		echo "1 1 * * 0 $SNTP_CMD $SNTP_FLAG $ntp_srv" > $NTP_CRON_FILE
+	# every month : 01:01 on the fisrt day of each month
+	else
+		echo "1 1 1 * * $SNTP_CMD $SNTP_FLAG $ntp_srv" > $NTP_CRON_FILE
+	fi
+	# run the first time
+	$SNTP_CMD $SNTP_FLAG $ntp_srv
+	# notice : remember to restart crond
+fi

@@ -1,0 +1,93 @@
+#!/bin/sh
+# /etc/init.d/network: start/stop the network interface by ifup ifdown
+# chkconfig: 2345 10 73
+set -a
+
+PATH=/sbin:/bin:/usr/bin
+
+RETVAL=0
+
+prog="network"
+conffile="/etc/network/interfaces"
+netstatus="/var/run/netstatus"
+lladdr="/etc/conf.d/LinkLocalAddr"
+arp="/usr/sbin/getlladdr"
+
+test -f $conffile || exit 0
+
+start(){
+    echo -n "Starting $prog: "
+    
+    ifup lo
+    ifconfig eth0 up
+    interface="eth0"
+    sleep 1
+
+    # if eth0 & wlan0 is not specified, up ppp0
+    if ! ifup $interface
+    then
+	if ! ifup ppp0
+	then
+	        if cat $conffile | grep "$interface inet static"
+        	then
+	            /usr/sbin/parsenetif $interface
+		else
+	            if ! [ -f $netstatus ]
+        	    then
+	                getanotherip
+	                ip="0.0.0.0"
+	                export ip NET_TYPE
+	                /usr/sbin/dumpnetif
+	                echo "ALIAS_IP_ADDR='$ALIASIP'" >> $netstatus
+	            fi
+				echo "Try to get link local addr"
+				echo -n "Probing..."
+				$arp
+				echo ".OK"
+				#ifconfig $interface `cat $lladdr`
+                                ifconfig $interface `/usr/bin/fw_printenv -n ipaddr`
+				#echo "ifconfig $interface `cat $lladdr`"
+                                echo "ifconfig $interface `/usr/bin/fw_printenv -n ipaddr`"
+		fi
+	fi
+    fi
+	# if there is no default gateway, all the packets that the kernel does not
+	# know how to transmit will be sent via $interface directly. 
+	/sbin/route add default metric 99 dev $interface
+    echo
+#    . ${netstatus}
+#    if [ "NET_TYPE" != "autoip" ] && [ "NET_TYPE" != "pppoe" ]
+#    then 
+#        getanotherip
+#        echo "ALIAS_IP_ADDR='$ALIASIP'" >> $netstatus
+#    fi
+}
+
+stop(){
+    echo -n "Stopping $prog: "
+	ifdown -a
+	echo "."
+}
+
+# See how we were called.
+case "$1" in
+    start)
+#	START=$(date +%s)
+	start
+#	END=$(date +%s)
+#	DIFF=$(( $END - $START ))
+#	echo "/etc/init.d/network  tooks $DIFF seconds" > /tmp/network_timediff.log
+	;;
+    stop)
+	stop
+	;;
+    restart)
+    stop
+    start
+	;;
+    *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit 0

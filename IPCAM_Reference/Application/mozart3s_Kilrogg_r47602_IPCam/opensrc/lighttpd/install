@@ -1,0 +1,13 @@
+#!/bin/bash
+PATH=/usr/bin:/bin:$PATH
+PKG_ROOT=${PWD}
+
+install ${PKG_ROOT}/lighttpd $1/usr/sbin/
+
+test -d $1/usr/local/lib64 || mkdir -p $1/usr/local/lib64
+install ${PKG_ROOT}/lib/*.so $1/usr/local/lib64
+
+test -d $1/etc/conf.d/lighttpd/conf.d || mkdir -p $1/etc/conf.d/lighttpd/conf.d
+install ${PKG_ROOT}/config/*.conf $1/etc/conf.d/lighttpd/ 
+install ${PKG_ROOT}/config/.lighttpd.pw $1/etc/conf.d/lighttpd/ 
+install ${PKG_ROOT}/config/conf.d/*.conf $1/etc/conf.d/lighttpd/conf.d/

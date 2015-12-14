@@ -1,0 +1,23 @@
+********************************************
+* CAT6612 Linux Device Driver Release Note *
+********************************************
+[Version 1.2.0.2]
+Release at 2013.05.17
+1. BUG: pixelrep in AVIInfo should base on format (VID) - FIXED
+
+[Version 1.2.0.1]
+Release at 2013.05.03
+1. FEATURE: Force output to HDMI mode instead of DVI mode - DONE
+2. FEATURE: Support AVI InforFrame - DONE.
+3. MODIFICATION: Force output be YUV422. - DONE
+
+[Version 1.2.0.0]
+Release at 2011.08.31
+1. FEATURE: Support 16-bit YUV with sync embedded mode - DONE.
+2. FEATURE: Modify interface with VOC - DONE
+
+[Version 1.1.0.0]
+Release at 2011.07.14
+1. FEATURE: Support 16-bit YUV with sync separate mode - DONE.
+
+

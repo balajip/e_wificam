@@ -1,0 +1,23 @@
+/* Building filesystem for VN Mozart3 Chip EVM */
+
+usage:
+1. source devel_mozart120
+[1.1 change your own setting in static/etc]
+[1.2 change the ramdisk size FSSIZE in make_rootfs.sh]
+2.sudo ./make_rootfs.sh
+
+This script will produce
+1. rootfs.sqfs for squashfs
+2. rootfs.cpio for initramfs
+3. ramdisk.image.gz as an ordinary compressed ramdisk
+
+For squashfs, burn the rootfs.sqfs into the address of rootfs in flash
+(default setting at 0x200000 from start of serial flash)
+
+For initramfs, just put rootfs.cpio to linux-2.6.x/usr/rootfs.cpio
+then use menuconfig to set initramfs source to ./usr/rootfs.cpio
+note that the file name must be ended with .cpio
+
+
+
+

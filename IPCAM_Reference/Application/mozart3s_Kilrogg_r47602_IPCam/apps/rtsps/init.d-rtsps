@@ -1,0 +1,71 @@
+#!/bin/sh
+#
+# rtsps: This starts and stops rtsp server.
+#
+# chkconfig: 2345 26 31
+# description: RTSP streaming server
+#
+# processname: /usr/sbin/rtsps
+# config: /etc/conf.d/stream_server_config.xml
+# pidfile: /var/run/rtsps.pid
+set -a
+
+PATH=/sbin:/bin:/usr/bin:/usr/sbin
+
+# Source function library.
+. /etc/init.d/functions
+
+# Get config.
+test -f /var/run/netstatus && . /var/run/netstatus
+
+prog="rtsps"
+binpath="/usr/sbin/rtsps"
+pidfile="/var/run/rtsps.pid"
+args="-D -c /etc/conf.d/stream_server_config.xml -p $pidfile"
+
+[ -f $binpath ] || exit 1
+
+start(){
+	echo -n "Starting $prog: "
+	start-stop-daemon --start -n $prog --exec $binpath -- $args
+	#$binpath $args > /dev/null 2>&1
+	echo 
+#	usleep 300000
+}
+
+stop(){
+	echo -n "Stopping $prog: "
+#	start-stop-daemon --stop --quiet -n $prog --pidfile $pidfile
+	killall -9 $prog
+#	waittodie $pidfile $binpath
+	echo "."
+}
+
+reload(){
+	echo -n "Reloading configuration $prog: "	
+	start-stop-daemon -K -s 1 -q -n $prog -p $pidfile
+	echo "."
+}
+
+# See how we were called.
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	reload)
+		reload
+		;;
+	restart)
+		stop
+		start
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart|reload}"
+		exit 1
+esac
+
+exit 0
+

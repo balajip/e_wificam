@@ -1,0 +1,13 @@
+#!/bin/bash
+# This script will untar a tarball from source, patch it, and build it. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=mDNSResponder
+VERSION=379.37
+ORIG_TARBALL=${APP_NAME}-${VERSION}.tar.gz
+PACKAGE_DIR=$APP_NAME-$VERSION
+UNTAR_ARG='-zxf'
+PKG_ROOT=${PWD}
+
+#remove files
+rm -rf ${APP_NAME}Posix ${PACKAGE_DIR}
+

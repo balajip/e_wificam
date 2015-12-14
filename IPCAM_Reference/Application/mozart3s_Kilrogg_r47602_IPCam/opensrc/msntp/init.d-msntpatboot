@@ -1,0 +1,40 @@
+#!/bin/sh
+# chkconfig: 2345 15 80
+#
+
+SNTP_CMD="/sbin/msntp"
+SYSTEM_XML_CONF="/etc/conf.d/system.xml"
+SNTP_FLAG="-ra 1 -P no"
+
+start(){
+	# check time setting
+	echo -n "Starting check time setting(msntpatboot) "
+	time_set=`cat $SYSTEM_XML_CONF | grep time_mode | sed 's/[^a-z]*<[/_a-z]*>//g'`
+	if [ "$time_set" = "ntp" ];then
+		ntp_srv=`cat $SYSTEM_XML_CONF | grep ntp_server | sed 's/[^a-z]*<[/_a-z]*>//g'`
+		# run 
+		$SNTP_CMD $SNTP_FLAG $ntp_srv
+	fi
+	echo "."
+}
+
+stop(){
+	echo "Redundant stop(msntpatboot) ." 
+}
+
+# See how we were called.
+case "$1" in
+    start)
+	start
+	;;
+    stop)
+	stop
+	;;
+
+    *)
+	echo "Usage: $0 {start|stop}"
+	exit 1
+esac
+
+exit 0
+

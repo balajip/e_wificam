@@ -1,0 +1,6 @@
+#ifndef __MOZART_SERIALFLASH_H__
+#define __MOZART_SERIALFLASH_H__
+
+#define SSI_MMR_BASE   VPL_SSI_MMR_BASE
+
+#endif

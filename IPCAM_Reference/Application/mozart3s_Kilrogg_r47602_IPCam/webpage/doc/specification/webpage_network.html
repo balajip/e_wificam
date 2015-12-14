@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=big5">
+    <title>Kilrogg Webpage Specification</title>
+    <link rel="stylesheet" type="text/css" href="../template/vivo_doc.css">
+</head>
+
+<body>
+	<!------ An intra link flag "top"------>
+    <a name="top"></a>
+    <!------ Document title ------>
+    <div class="title">
+        <p>Network</p>
+    </div>
+    <!------ Layout ------>
+    <div class="banner">
+        <div class="spacer"></div>
+        <span class="left">Layout</span>
+        <span class="right"><a href="#top">[Top]</a></span>
+        <div class="spacer"></div>
+    </div>
+    <div class="content">
+        <p>This page provides settings for network related functions. 
+        Include four fields, Network type, HTTP, FTP, RTSP streaming.</p>
+        <div class="subtitle">Network type</div>
+            <ul>
+                <li>LAN (select button)
+                    <ul>
+                        <li>Get IP address automatically (select button)</li>
+                        <li>Use fixed IP address (select button)
+                            <ul>
+                                <li>IP address (text input)</li>
+                                <li>Subnet mask (text input)</li>
+                                <li>Default router (text input)</li>
+                                <li>Primary DNS (text input)</li>
+                                <li>Secondary DNS (text input)</li>
+                                <li>Primary WINS server (text input)</li>
+                                <li>Secondary WINS server (text input)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>PPPoE (select button)
+                    <ul>
+                        <li>User name (text input)</li>
+                        <li>Password (text input)</li>
+                        <li>Confirm password (text input)</li>
+                    </ul>
+                </li>
+            </ul>
+        <div class="subtitle">HTTP</div>
+            <ul>
+                <li>HTTP port (text input)</li>
+                <li>Secondary HTTP port (text input)</li>
+                <li>Access name for stream 1 (text input)</li>
+                <li>Access name for stream 2 (text input)</li>
+            </ul>
+        <div class="subtitle">FTP</div>
+            <ul>
+                <li>FTP port (text input)</li>
+            </ul>
+        <div class="subtitle">RTSP streaming</div>
+            <ul>
+                <li>Access name for stream 1 (text input)</li>
+                <li>Access name for stream 2 (text input)</li>
+                <li>RTSP port (text input)</li>
+                <li>RTP port for video (text input)</li>
+                <li>RTCP port for video (text input)</li>
+                <li>RTP port for audio (text input)</li>
+                <li>RTCP port for audio (text input)</li>
+            </ul>
+        <div class="subtitle">Sample view</div>
+            <!--p><img src="dia/accesslist.png" border="0" width="760" height="690"></p-->
+    </div>
+    <!------ Functions ------>
+    <div class="banner">
+        <div class="spacer"></div>
+        <span class="left">Functions</span>
+        <span class="right"><a href="#top">[Top]</a></span>
+        <div class="spacer"></div>
+    </div>
+    <div class="content">
+        <p>This page includes network related settings.</p> 
+        <div class="subtitle">Network type</div>
+        <p>Network type set the connection type LAN or PPPoE. If there is a DHCP server, automatically get IP address is
+        to request and register an IP from DHCP server.</p>
+        <p>If a fixed address is assigen by ISP or LANs manager, user also can set the fixed IP address manually.</p>
+        <p>If a ISP provides name and password PPPoE connection, fill the PPPoE interface section to connect to internet.</p>
+        
+        <div class="subtitle">HTTP</div>
+        <p>This field is to set HTTP server. The only changable server properties is connection port. 
+        Since we provids the motion JPEG throgh the HTTP server. The motion JPEG access name should be
+        modifiable, the user can access the motion JPEG by connect to "http://IP_address:Port/Accessname"
+        </p>
+
+        <div class="subtitle">FTP</div>
+        <p>
+            The system also provides a FTP server to update firmware.
+            User should able to change the FTP connection port.
+        </p>
+
+        <div class="subtitle">RTSP Streaming</div>
+        <p>The MPEG-4 video is streaming by RTSP server, the access name should be modifiable. The 
+        user can access the streaming by connected to rtsp://IP_address:Port/Accessname by other player.
+        Since the RTSP technique is connect RTCP and RTP for audio and video respectively, these connection port
+        should be changable for security issue.
+        </p>
+    </div>
+</body>
+
+</html>

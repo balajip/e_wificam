@@ -1,0 +1,33 @@
+README for venc_receiver_SampleApp
+
+SYNOPSIS
+  ----------------
+  This sample program shows you how to retrieve the video bitstream from "venc" of Kilrogg(reference software) 
+  The sample program also dump the bitstream to files.
+
+  We will use two IPCs between receiver application and venc:
+   -- FIFO           : for command communication between process, 
+   -- SharedBuffMgr  : for bitstream sharing between process, ex venc and rtsps
+
+  The operations of a receiver program need to do
+   1. Send start command message to venc with reqired stream number.
+      looping from setp 2 to step 4
+   2. Request the buffer from ShardBuffMgr
+   3. Do you operation on the buffer, ex. dump bitstream to file or others.
+   4. Release the buffer to ShardBuffMgr
+   5. Send stop command message to venc when you don't need stream.
+
+BUILD
+  ----------------
+  type 
+   > make
+
+
+USAGE
+  ----------------
+   Usage: ./venc_receiver istream_no(0/1/2) frame_num
+
+   EX.
+   to get 30 frame bitreams from stream0 of venc
+   > ./venc_receiver 0 30
+

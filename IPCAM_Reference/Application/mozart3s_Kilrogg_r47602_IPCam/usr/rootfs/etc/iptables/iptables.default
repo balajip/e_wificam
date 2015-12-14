@@ -1,0 +1,19 @@
+#!/bin/sh
+# 
+# This script will set our firewall
+
+# reset for all rule 
+
+/usr/sbin/iptables -F
+/usr/sbin/iptables -X
+/usr/sbin/iptables -Z
+#/sbin/iptables -F -t nat
+#/sbin/iptables -X -t nat
+#/sbin/iptables -Z -t nat
+
+/usr/sbin/iptables -P INPUT ACCEPT
+/usr/sbin/iptables -P OUTPUT ACCEPT
+/usr/sbin/iptables -P FORWARD ACCEPT
+#/sbin/iptables -t nat -P PREROUTING ACCEPT
+#/sbin/iptables -t nat -P POSTROUTING ACCEPT
+#/sbin/iptables -t nat -P OUTPUT ACCEPT

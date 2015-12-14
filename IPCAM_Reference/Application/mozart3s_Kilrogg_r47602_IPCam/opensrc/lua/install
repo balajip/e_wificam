@@ -1,0 +1,92 @@
+#!/bin/bash
+# This script will install expat. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=lua
+VERSION=1.95.8
+SOVERSION=0.5.0
+TARBALL=$APP_NAME-$VERSION.tar.bz2
+PACKAGE_DIR=$APP_NAME-5.1.2
+UNTAR_ARG='-jxf'
+HOST='arm-linux-'
+OBJDUMP=${HOST}objdump
+
+# check if you have the proper objdump
+which $OBJDUMP > /dev/null || exit 1 
+
+LIB_SO="lib$LIB_NAME.so.$SOVERSION"
+
+install ${APP_NAME} $1/usr/bin/
+
+#install luaexpat
+PATH=/usr/bin:/bin:$PATH
+LIB_NAME=luaexpat
+VERSION=1.95.8
+SOVERSION=1.1.0
+TARBALL=$LIB_NAME-$VERSION.tar.bz2
+PACKAGE_DIR=$LIB_NAME-1.1
+UNTAR_ARG='-jxf'
+HOST='arm-linux-'
+OBJDUMP=${HOST}objdump
+
+# check if you have the proper objdump
+which $OBJDUMP > /dev/null || exit 1
+
+LIB_SO="lxp.so.${SOVERSION}"
+
+mkdir -p $1/usr/local/lib/lua/5.1/
+install ${LIB_SO} $1/usr/local/lib/lua/5.1/
+test -h $1/usr/local/lib/lua/5.1/lxp.so || ln -s ${LIB_SO} $1/usr/local/lib/lua/5.1/lxp.so
+
+#install luasocket
+PATH=/usr/bin:/bin:$PATH
+LIB_NAME=luasocket
+VERSION=1.95.8
+MIME_SOVERSION=1.0.1
+SOCKET_SOVERSION=2.0.1
+TARBALL=$LIB_NAME-$VERSION.tar.bz2
+PACKAGE_DIR=$LIB_NAME-2.0.1
+UNTAR_ARG='-jxf'
+HOST='arm-linux-'
+OBJDUMP=${HOST}objdump
+SMTP_DIR=${PACKAGE_DIR}/app/smtp
+FTP_DIR=${PACKAGE_DIR}/app/ftp
+
+# check if you have the proper objdump
+which $OBJDUMP > /dev/null || exit 1
+
+LIB_SO="mime.so.${MIME_SOVERSION}"
+mkdir -p $1/usr/local/lib/lua/5.1/mime/
+install ${LIB_SO} $1/usr/local/lib/lua/5.1/mime/core.so
+
+LIB_SO="socket.so.${SOCKET_SOVERSION}"
+mkdir -p $1/usr/local/lib/lua/5.1/socket/
+install ${LIB_SO} $1/usr/local/lib/lua/5.1/socket/core.so
+
+test -d $1/usr/local/share/lua/5.1/ || mkdir -p $1/usr/local/share/lua/5.1/
+install ${SMTP_DIR}/ltn12.lua ${SMTP_DIR}/mime.lua ${SMTP_DIR}/smtp.lua \
+	${SMTP_DIR}/socket.lua ${SMTP_DIR}/tp.lua ${SMTP_DIR}/url.lua \
+	${FTP_DIR}/ftp.lua $1/usr/local/share/lua/5.1/
+
+install ${SMTP_DIR}/smtp_app.lua ${FTP_DIR}/ftp_app.lua $1/usr/sbin/
+
+test -d $1/etc/conf.d/ || mkdir -p $1/etc/conf.d/
+install ${SMTP_DIR}/smtp_config.xml ${FTP_DIR}/ftp_config.xml $1/etc/conf.d/
+
+#test -d $1/tmp/event/ || mkdir -p $1/tmp/event/
+#install ${FTP_DIR}/event_test.jpg $1/tmp/event/
+
+install ${FTP_DIR}/event_test.jpg $1/etc/conf.d/
+
+
+#### Install luafilesystem Start ####
+PATH=/usr/bin:/bin:$PATH
+LIB_NAME=luafilesystem
+PACKAGE_DIR=$LIB_NAME-1.6.2
+HOST='arm-linux-'
+LIB_SO="lfs.so"
+
+mkdir -p $1/usr/local/lib/lua/5.1/
+install ${LIB_SO} $1/usr/local/lib/lua/5.1/
+#### Install luafilesystem End ####
+
+

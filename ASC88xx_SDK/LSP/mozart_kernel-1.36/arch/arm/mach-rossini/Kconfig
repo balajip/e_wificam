@@ -1,0 +1,87 @@
+if ARCH_ROSSINI
+
+menu "ROSSINI Options"
+
+#config ARCH_BACH
+#	bool "Support Bach platforms"
+#	help
+#	  Include support for the VN Bach platforms.
+
+# ----------------------------------------------------------
+comment "clock/oscillator"
+
+config SYS_CLK
+    int "System (AHB) clock"
+    default "20000000"
+    help
+        Set system clock in Hz.
+
+
+menu "UART Options"
+config UART_CLK
+    int "UART clock"
+    default "18432000"
+    help
+        Set External UART clock in Hz.
+
+config UART_BAUDRATE_VALUE
+    int "UART baudrate value setting"
+    default "38400"
+
+choice
+    prompt "UART Console Port number"
+    default ROSSINI_UART_PORT_NUM_2
+
+config ROSSINI_UART_PORT_NUM_0
+        bool "Port#0"
+
+config ROSSINI_UART_PORT_NUM_1
+        bool "Port#1"
+
+config ROSSINI_UART_PORT_NUM_2
+        bool "Port#2"
+
+config ROSSINI_UART_PORT_NUM_3
+        bool "Port#3"
+
+endchoice
+endmenu
+
+
+# ----------------------------------------------------------
+comment "timer"
+
+	choice
+    		prompt "System timer"
+    		default ROSSINI_TMR0
+    		config ROSSINI_TMR0
+        	bool "timer 0"
+    		config ROSSINI_TMR1
+        	bool "timer 1"
+    		config ROSSINI_TMR2
+        	bool "timer 2"
+    		config ROSSINI_TMR3
+        	bool "timer 3"
+
+	endchoice
+# ----------------------------------------------------------
+comment "gpio/agpo"
+
+config ROSSINI_GPIO
+	tristate "GPIOC"
+	depends on GENERIC_GPIO
+	help
+		This is Rossini GPIOC driver
+
+# ----------------------------------------------------------
+
+config ROSSINI_AGPO
+	tristate "AGPOC"
+	depends on ROSSINI_GPIO
+	depends on GENERIC_GPIO
+	help
+		This is Rossini AGPOC driver
+
+endmenu
+
+endif

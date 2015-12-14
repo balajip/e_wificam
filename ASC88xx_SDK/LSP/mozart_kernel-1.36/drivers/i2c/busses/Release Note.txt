@@ -1,0 +1,9 @@
+************************************************************
+* I2C GPIO-based BUS driver for Mozart Release Note *
+************************************************************
+[Version 1.0.0.1]
+Release at 2010.01.14
+
+[Version 1.0.0.0]
+First release
+Release at 2009.11.12

@@ -1,0 +1,32 @@
+#!/bin/bash
+
+PATH=/usr/bin:/bin:$PATH
+VERSION=0.0.1
+APP_NAME=firmware_write
+PACKAGE_DIR=firmware_write-${VERSION}
+HOST='arm-linux-'
+CC=${HOST}gcc
+
+# check if you have the proper gcc
+which $CC > /dev/null || exit 1 
+#tar $UNTAR_ARG $TARBALL
+
+[ -d "$PACKAGE_DIR" ] || exit 1
+
+cd $PACKAGE_DIR
+
+# configure it for $HOST
+#[ -f "Makefile" ] || ./configure --host=$HOST &> /dev/null
+
+# simply make it
+make --quiet clean > /dev/null 2>&1
+
+cd - > /dev/null
+if [ -f  ${APP_NAME} ];then 
+	rm -f ${APP_NAME}
+fi
+
+if [ -f ${APP_NAME}.sh ];then
+	rm -f ${APP_NAME}.sh
+fi
+

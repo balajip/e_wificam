@@ -1,0 +1,17 @@
+#!/bin/bash
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=live555_rtsp
+A_VERSION=${VERSION}i
+LIB_NAME=librtspsrvr_live555.a
+PACKAGE_DIR=$APP_NAME
+PKG_ROOT=${PWD}
+LIB_DIR=lib
+
+cd $PACKAGE_DIR
+
+make clean --quiet
+
+rm -rf ${PKG_ROOT}/${LIB_DIR}/${LIB_NAME}
+
+cd $PKG_ROOT
+

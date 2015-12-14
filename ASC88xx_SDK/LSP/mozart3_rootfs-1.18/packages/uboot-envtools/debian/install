@@ -1,0 +1,3 @@
+fw_printenv                         usr/sbin
+fw_env.config                       usr/share/doc/uboot-envtools/examples
+debian/uboot-envtools-examples/*    usr/share/doc/uboot-envtools/examples

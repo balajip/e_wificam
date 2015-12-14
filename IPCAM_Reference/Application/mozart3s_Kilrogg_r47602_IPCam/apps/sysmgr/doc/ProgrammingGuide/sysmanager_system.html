@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=big5">
+    <title>System Manager - System</title>
+    <link rel="stylesheet" type="text/css" href="template/vivo_doc.css">
+</head>
+
+<body>
+    <!------ An intra link flag "top"------>
+    <a name="top"></a>
+
+    <!------ Document title ------>
+    <div class="title">System Manager - System</div>
+    <div class="banner">
+        <div class="spacer"></div>
+        <span class="left">System Section</span>
+        <span class="right"><a href="#top">[Top]</a></span>
+        <div class="spacer"></div>
+    </div>
+    <!------ Section content ------>
+    <div class="content">
+        <p>System provides the functionality to modify the system time settings.</p>
+        <p>The Command Format:<p>
+        <p><li>CMD_SET_SYSTEM &nbsp;&nbsp;&nbsp;  <i>temporal_system_xml_file</i>  &nbsp;&nbsp;&nbsp; END_OF_COMMAND</li></p>
+        <p>SysMgr parses the <i>temporal_system_xml_file</i> and write back it to Kilrogg' system xml configuration file 
+           (<font color="red">/mnt/flash/etc/conf.d/system.xml</font> in default). Then we call the system calls to modify the system settings. 
+           The system calls includes : /usr/sbin/setntpcron, /etc/init.d/bbcrond and /etc/init.d/heartbeat.</p>
+        <table class="clear_blue">
+            <thead>
+                <tr>
+                    <th> </th>
+                    <th></th>
+                    <th></th>
+            </thead>
+            <tfoot>
+                <th></th>
+                <td><td>
+            </tfoot>
+            <tbody>
+                <tr class="odd">
+                    <th>/usr/sbin/setntpcron</th>
+                    <td>Reads the ntp settings from /mnt/flash/etc/conf.d/system.xml and modify the crontab. 
+                <tr>
+                    <th>/etc/init.d/bbcrond</th>
+                    <td>Restart the crond.
+                <tr class="odd">
+                    <th>/etc/init.d/heartbeat</th>
+                    <td>Turn on/off the led according to the led setting in /mnt/flash/etc/conf.d/system.xml.
+            </tbody>
+        </table>       
+    </div>
+</body>
+</html>

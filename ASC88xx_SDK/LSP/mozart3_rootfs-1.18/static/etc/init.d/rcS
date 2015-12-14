@@ -1,0 +1,30 @@
+#! /bin/sh
+
+/sbin/start-udev
+/sbin/udevadm settle
+/bin/mount -a
+
+MODELNAME=`/usr/bin/fw_printenv -n modelname`
+echo "rcS file for $MODELNAME"
+/bin/hostname $MODELNAME
+
+/usr/sbin/swttyS
+
+if [ -f "/mnt/flash/etc/rc.local" ]; then
+	/mnt/flash/etc/rc.local
+else
+
+ETHADDR=`/usr/bin/fw_printenv -n ethaddr`
+/sbin/ifconfig eth0 hw ether $ETHADDR
+IPADDR=`/usr/bin/fw_printenv -n ipaddr`
+/sbin/ifconfig eth0 $IPADDR
+/sbin/ifconfig lo 127.0.0.1
+/sbin/route add default gw 172.17.0.1
+/usr/sbin/inetd /etc/inetd.conf &
+/bin/mount -t nfs 172.17.0.5:/home /home -o nolock,tcp
+/bin/mount -t nfs 172.17.0.3:/share /share -o nolock,tcp,noauto
+syslogd
+fi
+
+sleep 2
+

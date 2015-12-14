@@ -1,0 +1,81 @@
+#
+# Makefile for DWC_common library
+#
+#
+### Path to the kernel directory
+KDIR =
+ifneq ($(KDIR),)
+override KERNELSRC := $(KDIR)
+endif
+
+ifeq ($(CPU),andes)
+EXTRA_CFLAGS += -Wa,-mno-small-text
+CROSS_COMPILE   = nds32le-linux-
+ARCH 		:= nds32
+else
+CROSS_COMPILE   = arm-linux-
+ARCH 		:= arm
+endif
+
+####################### 2nd stage #######################
+### included by kbuild
+###
+ifneq ($(KERNELRELEASE),)
+
+EXTRA_CFLAGS	+= -DDWC_LINUX
+#EXTRA_CFLAGS	+= -DDEBUG
+#EXTRA_CFLAGS	+= -DDWC_DEBUG_REGS
+#EXTRA_CFLAGS	+= -DDWC_DEBUG_MEMORY
+
+EXTRA_CFLAGS	+= -DDWC_LIBMODULE
+EXTRA_CFLAGS	+= -DDWC_CCLIB
+#EXTRA_CFLAGS	+= -DDWC_CRYPTOLIB
+EXTRA_CFLAGS	+= -DDWC_NOTIFYLIB
+EXTRA_CFLAGS	+= -DDWC_UTFLIB
+#EXTRA_CFLAGS += -Wa,-mno-small-text
+
+### the name of module
+MODULE_NAME = dwc_common_port_lib
+
+### the objects linked into the module
+$(MODULE_NAME)-objs := dwc_cc.o
+$(MODULE_NAME)-objs += dwc_modpow.o
+$(MODULE_NAME)-objs += dwc_dh.o
+$(MODULE_NAME)-objs += dwc_crypto.o
+$(MODULE_NAME)-objs += dwc_notifier.o
+$(MODULE_NAME)-objs += dwc_common_linux.o
+$(MODULE_NAME)-objs += dwc_mem.o
+
+obj-m += $(MODULE_NAME).o
+
+####################### 1st stage #######################
+else
+
+ifeq ($(DOXYGEN),)
+DOXYGEN		:= doxygen
+endif
+
+all := $(filter-out all Makefile,$(MAKECMDGOALS))
+
+.PHONY: all module $(MAKECMDGOALS)
+
+module:
+	$(MAKE) CROSS_COMPILE=$(CROSS_COMPILE) ARCH=$(ARCH) -C $(KERNELSRC) M=$(PWD) modules
+
+all:
+	$(MAKE) CROSS_COMPILE=$(CROSS_COMPILE) ARCH=$(ARCH) -C $(KERNELSRC) M=$(PWD) $(all)
+
+$(all): all
+	@:
+
+docs:	$(wildcard *.[hc]) doc/doxygen.cfg
+	$(DOXYGEN) doc/doxygen.cfg
+
+tags:	$(wildcard *.[hc])
+	$(CTAGS) -e $(wildcard *.[hc]) $(wildcard linux/*.[hc]) $(wildcard $(KDIR)/include/linux/usb*.h)
+
+endif
+#########################################################
+
+#clean:
+#	rm -rf *.o *.ko .*.cmd *.mod.c .*.o.d .*.o.tmp modules.order Module.markers Module.symvers .tmp_versions/

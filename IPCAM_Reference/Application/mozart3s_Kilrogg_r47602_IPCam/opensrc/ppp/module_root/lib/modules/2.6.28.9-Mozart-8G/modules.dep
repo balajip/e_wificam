@@ -1,0 +1,9 @@
+/lib/modules/2.6.28.9-Mozart-8G/kernel/lib/crc-ccitt.ko:
+/lib/modules/2.6.28.9-Mozart-8G/kernel/drivers/net/ppp_synctty.ko: /lib/modules/2.6.20.4/kernel/drivers/net/ppp_generic.ko /lib/modules/2.6.20.4/kernel/drivers/net/slhc.ko
+/lib/modules/2.6.28.9-Mozart-8G/kernel/drivers/net/ppp_async.ko: /lib/modules/2.6.20.4/kernel/drivers/net/ppp_generic.ko /lib/modules/2.6.20.4/kernel/drivers/net/slhc.ko /lib/modules/2.6.20.4/kernel/lib/crc-ccitt.ko
+/lib/modules/2.6.28.9-Mozart-8G/kernel/drivers/net/ppp_generic.ko: /lib/modules/2.6.20.4/kernel/drivers/net/slhc.ko
+/lib/modules/2.6.28.9-Mozart-8G/kernel/drivers/net/slhc.ko:
+/lib/modules/2.6.28.9-Mozart-8G/kernel/drivers/net/bsd_comp.ko: /lib/modules/2.6.20.4/kernel/drivers/net/ppp_generic.ko /lib/modules/2.6.20.4/kernel/drivers/net/slhc.ko
+/lib/modules/2.6.28.9-Mozart-8G/kernel/drivers/net/pppox.ko: /lib/modules/2.6.20.4/kernel/drivers/net/ppp_generic.ko /lib/modules/2.6.20.4/kernel/drivers/net/slhc.ko
+/lib/modules/2.6.28.9-Mozart-8G/kernel/drivers/net/pppoe.ko: /lib/modules/2.6.20.4/kernel/drivers/net/pppox.ko /lib/modules/2.6.20.4/kernel/drivers/net/ppp_generic.ko /lib/modules/2.6.20.4/kernel/drivers/net/slhc.ko
+/lib/modules/2.6.28.9-Mozart-8G/kernel/drivers/net/ppp_deflate.ko: /lib/modules/2.6.20.4/kernel/drivers/net/ppp_generic.ko /lib/modules/2.6.20.4/kernel/drivers/net/slhc.ko

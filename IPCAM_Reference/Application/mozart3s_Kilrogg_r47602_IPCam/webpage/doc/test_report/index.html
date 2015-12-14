@@ -1,0 +1,69 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=big5">
+    <title>Kilrogg Webpage Test Report</title>
+    <link rel="stylesheet" type="text/css" href="../template/vivo_doc.css">
+    <style type="text/css" media="screen">
+        iframe {
+            width:100%;
+            height:100%;                
+        }
+        div.best_view{
+            position:absolute;
+            left:0px;
+            bottom:0px;
+            width:99%
+            text-align: center;
+            font-size: 11px;
+        }
+    </style>
+    <script type="text/javascript">
+    <!--
+        function treeview(childID) {
+            document.getElementById(childID).style.display
+                =(document.getElementById(childID).style.display =='none')?'block':'none';
+        }
+    //-->
+    </script>
+</head>
+<body style= "margin:0px; overflow:hidden;">
+    <!------ Menu ------>
+    <div id="left">
+        <!------ Document title ------>
+        <div class="title">
+            <p>&nbsp;Kilrogg Webpage &nbsp;Test Report</p>
+        </div>
+        <ul>
+            <!------ Document list ------>
+            <li><p><a href="overview.html" target="docs">Overview</a></p></li>
+            <li>
+            <a href="#" class="treeview" onclick="treeview('verification')">
+                <p>Verification List</p></a>
+            </li>
+            <ul><div id="verification" style="display:none">
+                <a href="test_display.html" target="docs"><li><p>Display</p></li></a>
+                <a href="test_system.html" target="docs"><li><p>System</p></li></a>
+                <a href="test_security.html" target="docs"><li><p>Security</p></li></a>
+                <a href="test_network.html" target="docs"><li><p>Network</p></li></a>
+                <a href="test_accesslist.html" target="docs"><li><p>Access List</p></li></a>
+                <a href="test_audiovideo.html" target="docs"><li><p>Audio and Video</p></li></a>
+                <a href="test_motion.html" target="docs"><li><p>Motion Detection</p></li></a>
+                <a href="test_syslog.html" target="docs"><li><p>System Log</p></li></a>
+                <a href="test_viewparam.html" target="docs"><li><p>View parameters</p></li></a>
+                <a href="test_maintains.html" target="docs"><li><p>Maintains</p></li></a>
+                <a href="test_clientsetting.html" target="docs"><li><p>Client Settings</p></li></a>
+                </div>
+            </ul>            
+            <li><p><a href="info.html" target="docs">Info.</a></p></li>
+        </ul>
+        <div class="best_view">
+            Best viewed with Firefox 1.5+
+        </div>
+    </div>
+
+    <!------ Document content ------>
+    <div id="right">
+        <iframe name=docs frameborder=0 src="overview.html"></iframe>
+    </div>
+</body>
+</html>

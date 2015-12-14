@@ -1,0 +1,16 @@
+#!/bin/bash
+# This script will untar a tarball from source, patch it, and build it. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=msntp
+VERSION=1.6
+PACKAGE_DIR=$APP_NAME-$VERSION
+HOST='arm-linux-'
+OBJDUMP=${HOST}objdump
+setconf_script=setntpcron
+
+# check if you have the proper objdump
+which $OBJDUMP > /dev/null || exit 1
+
+install ${APP_NAME} $1/sbin/
+install ${setconf_script} $1/usr/sbin/
+

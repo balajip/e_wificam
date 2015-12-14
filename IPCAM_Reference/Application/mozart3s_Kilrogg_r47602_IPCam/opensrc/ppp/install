@@ -1,0 +1,31 @@
+#!/bin/bash
+# This script will untar a ppp tarball from Debian, patch it, and build it. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=ppp
+VERSION=2.4.4rel
+DEB_ORIG_TARBALL=${APP_NAME}_${VERSION}.orig.tar.gz
+DEB_PATCH=${APP_NAME}_${VERSION}-10.1.diff.gz
+PACKAGE_DIR=$APP_NAME-$VERSION
+UNTAR_ARG='-zxf'
+HOST='arm-linux-'
+OBJDUMP=${HOST}objdump
+CP="cp"
+
+# check if you have the proper objdump
+which $OBJDUMP > /dev/null || exit 1
+
+#echo "install ppp"
+${CP} -dR root/* $1
+
+#echo "install ppp kernel modules"
+${CP} -dR module_root/* $1
+find $1/lib/ -type d -name '.svn' | xargs rm -rf
+
+mkdir -p $1/etc/network/if-pre-up.d/
+mkdir -p $1/etc/network/if-post-down.d/
+install "if-pre-up-ppp" $1/etc/network/if-pre-up.d/ppp
+install "if-post-down-ppp" $1/etc/network/if-post-down.d/ppp
+
+mkdir -p $1/etc/ppp/peers
+
+

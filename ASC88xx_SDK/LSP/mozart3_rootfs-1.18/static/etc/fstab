@@ -1,0 +1,6 @@
+# /etc/fstab
+none			/proc			proc	defaults
+tmpfs       	/tmp        	tmpfs   size=16m
+tmpfs       	/root       	tmpfs   size=4m
+sysfs       	/sys        	sysfs
+/dev/mtdblock3	/mnt/flash		jffs2

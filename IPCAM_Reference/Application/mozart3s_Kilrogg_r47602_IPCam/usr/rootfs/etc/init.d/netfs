@@ -1,0 +1,39 @@
+#!/bin/sh
+# /etc/init.d/netfs: mount/umount network file system (nfs, smbfs)
+
+PATH=/sbin:/bin:/usr/bin
+
+RETVAL=0
+
+prog="netfs"
+
+start(){
+    echo -n "Starting $prog: "
+	sed -e '/^#/d' /etc/fstab | awk '$3 == "nfs"{print $2}' | xargs mount
+	echo "."
+}
+
+stop(){
+    echo -n "Stopping $prog: "
+	mount | awk '$5 == "nfs"{print $3}' | xargs umount
+	echo "."
+}
+
+# See how we were called.
+case "$1" in
+    start)
+	start
+	;;
+    stop)
+	stop
+	;;
+    restart)
+    stop
+    start
+	;;
+    *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit 0

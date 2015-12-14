@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=big5">
+    <title>Kilrogg Webpage Specification</title>
+    <link rel="stylesheet" type="text/css" href="../template/vivo_doc.css">
+</head>
+    <body>
+    <!------ An intra link flag "top"------>
+    <a name="top"></a>
+
+    <!------ Document title ------>
+    <div class="title">Kilrogg Webpage Test Report</div>
+
+    <!------ Section title ------>
+    <div class="banner">
+        <div class="spacer"></div>
+        <span class="left">Introduction</span>
+        <span class="right"><a href="#top">[Top]</a></span>
+        <div class="spacer"></div>
+    </div>
+    <!------ Section content ------>
+    <div class="content">
+        <p>The Kilrogg webpages use the AJAX (Asynchronous JavaScript and XML) technologies 
+        to instead the form submit method.</p>
+        <p>The operation path of loading pages and submit modification form
+        is described in the following diagram.</p>
+        <p><img src="dia/web_arch.png" border="0" width="881" height="529" /><p>
+        <p>There are three key entries effect the operation result,
+            <ul>
+                <li>HTML input form design</li>
+                <li>JavaScript</li>
+                <li>Lua CGIs</li>
+            </ul>
+        </p>
+        <p>
+        The input form is for display current settings in loading path and 
+        in setting path the form should catch the user modified value.
+        </p>
+        <p>
+        Either on loading or setting path, there is a JavaScript for each page to parse the XML document object.
+        In the loading path, the scripts parse the server returned XML document to change the input form to 
+        display current setting. And in the setting path, the scripts parse the modified form to modify XML 
+        document, then send back to server.</p>
+        <p> On the server, there is a CGI program for each page to handle 
+        the client request. In the loading path, the CGI programs fetch the relate XML file and send to client.
+        And in the setting path, the CGI programs replace the client returned XML file to relate file and tell the
+        correct process to reload or relate system application to reset.
+        </p>
+        <p>
+        Assume the sever processes pass the standalone test and work correctly.
+        If these three entries are design well, the user operation will be set correctly.
+        Otherwise, some of these three entries might be wrong designed.
+        </p>
+        <p>
+        We follow the verification list to test each page.
+        </p>
+    </div>
+
+</body>
+</html>

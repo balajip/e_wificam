@@ -1,0 +1,9 @@
+root:x:0:root
+tty:x:5:
+ftp:x:50:ftp
+nobody:x:99:nobody
+users:x:100:user
+disk::6:root
+vaadmin::102:
+vaviewer::103:
+vaoperator::104:

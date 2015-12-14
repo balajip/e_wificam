@@ -1,0 +1,62 @@
+#!/bin/sh
+echo "Content-type:text/html"
+echo 
+echo 
+echo "<BODY>"
+CHANNEL=`echo -n "$QUERY_STRING" | sed -n 's/^.*channel=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
+RESOLUTION=`echo -n "$QUERY_STRING" | sed -n 's/^.*resolution=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
+QUALITY=`echo -n "$QUERY_STRING" | sed -n 's/^.*quality=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
+
+LOCATIONDIR=/mnt/ramdisk/tmpjpg
+
+if [ ! -d "${LOCATIONDIR}" ]; then
+    mkdir ${LOCATIONDIR}
+fi
+
+LOCATION=${LOCATIONDIR}/video.jpg
+
+if [ -n "$CHANNEL" ]; then
+	if [ "$CHANNEL" != "0" ] && [ "$CHANNEL" != "1" ] ; then
+		ERR_STRING="<BR/>invalid channel number"
+		echo "$ERR_STRING"
+	fi
+else
+	CHANNEL=0
+fi
+
+if [ -n "$RESOLUTION" ]; then
+	DIM_X=`echo "$RESOLUTION" | sed -n 's/\([^.]*\)x.*$/\1/p'`
+	DIM_Y=`echo "$RESOLUTION" | sed -n 's/^.*x\([^.]*\)$/\1/p'`
+
+	if [ "$DIM_X" -gt 1600 ]; then
+		ERR_STRING="<BR/>invalid resolution(x)"
+		echo "$ERR_STRING"
+	fi
+	
+	if [ "$DIM_Y" -gt 1200 ]; then
+		ERR_STRING="<BR/>invalid resolution(y)"
+		echo "$ERR_STRING"
+	fi
+	RESOLUTIONOPT="-s $RESOLUTION"
+else
+	RESOLUTIONOPT=""
+fi
+
+if [ -z "$QUALITY" ]; then
+	QUALITYOPT=""
+else
+	QUALITYOPT="-q $QUALITY"
+fi
+
+if [ -z "$ERR_STRING" ]; then
+	/usr/bin/snapshot -c $CHANNEL $RESOLUTIONOPT $QUALITYOPT -l $LOCATION > /dev/null
+fi
+
+###------------------------------------
+### to display the snapshot image
+###------------------------------------
+#cp /mnt/ramdisk/video.jpg /mnt/flash/www/video.jpg
+ln -s ${LOCATION} /mnt/flash/www/pic/video.jpg
+echo "<img border=0 src=\"/pic/video.jpg\">"
+
+echo "</BODY>"

@@ -1,0 +1,14 @@
+waittodie() {
+    if [ -e "$1" ]; then
+        read p < $1
+        usleep 100000
+        if [ -d /proc/$p ] && sleep 1 && [ -d /proc/$p ] && sleep 3 &&
+           [ -d /proc/$p ] && sleep 3 && [ -d /proc/$p ] && sleep 3 &&
+           [ -d /proc/$p ] && sleep 3 && [ -d /proc/$p ] && sleep 3 &&
+           [ -d /proc/$p ] ; then
+           start-stop-daemon --stop --signal 9 --exec $2
+           usleep 100000
+        fi
+    fi
+}
+

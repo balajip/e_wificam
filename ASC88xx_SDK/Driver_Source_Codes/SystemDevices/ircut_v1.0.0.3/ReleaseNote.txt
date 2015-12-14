@@ -1,0 +1,20 @@
+*************************************************************
+* IRCut device driver, Linux Device Driver, Release Note *
+*************************************************************
+[Version 1.0.0.3]
+Release at 2013.01.14
+1.Recompile for kernel symbol change, support mozart_kernel-1.30
+
+[Version 1.0.0.2]
+Release at 2012.10.03
+1. Support Mozart V3 RDK/EVM 
+2. This version is for V3 RDK/EVM only
+
+[Version 1.0.0.0]
+Release at 2012.08.07
+1. FEATURE: First Released - DONE.
+2. Support Mozart EVM and RDK IRCut control
+	i.  EVM (1-Wire control) : GPIO 10 ; 
+				   controlmode=1
+	ii. RDK (2-Wire control) : GPIO 10 and UART0_nDTR ; 
+				   controlmode=2 

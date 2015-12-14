@@ -1,0 +1,72 @@
+#!/bin/sh
+#
+# vrecd: This starts and stops vrec.
+#
+# chkconfig: 2345 24 36
+# description:SD manager 
+#
+# processname: /usr/sbin/sdmgr
+# pidfile: /var/run/sdmgr.pid
+
+# automatically export variables to the environment
+set -a
+
+PATH=/sbin:/bin:/usr/bin:/usr/sbin
+
+# Source function library.
+. /etc/init.d/functions
+
+# Get config.
+
+#RETVAL=0
+
+prog="sdmgr"
+binpath="/usr/sbin/sdmgr"
+pidfile="/var/run/sdmgr.pid"
+
+args="-D -p $pidfile"
+
+[ -f $binpath ] || exit 1
+
+start(){
+	echo -n "Starting $prog: "
+	start-stop-daemon --start -n $prog --exec $binpath -- $args
+	echo
+	#usleep 300000
+}
+
+stop(){
+	echo -n "Stopping $prog: "
+	start-stop-daemon --stop -s 2  --quiet -n $prog --pidfile $pidfile
+	sleep 1
+#	waittodie $pidfile $binpath
+	echo "."
+}
+
+reload(){
+	echo -n "Reloading configuration $prog: "	
+	start-stop-daemon -K -s 1 -q -n $prog -p $pidfile
+	echo "."
+}
+
+# See how we were called.
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	reload)
+		reload
+		;;
+	restart)
+		stop
+		start
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart|reload}"
+		exit 1
+esac
+
+exit 0

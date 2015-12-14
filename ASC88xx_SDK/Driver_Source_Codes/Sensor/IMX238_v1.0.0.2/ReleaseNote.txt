@@ -1,0 +1,17 @@
+*************************************************************
+* IMX238 sensor device driver, Linux Device Driver, Release Note *
+*************************************************************
+[Version 1.0.0.2]
+Release at 2014.03.27
+1. FEATURE: Update register to improve image quality - DONE.
+2. BUG: Horizontal shift 8 pixels randomly - FIXED.
+
+[Version 1.0.0.1]
+Release at 2013.12.12
+1. FEATURE: Support I2C interface control - DONE.
+2. FEATURE: Add insmod param. "sckEnSPIIF" to define I2C or SPI control - DONE.
+3. FEATURE: Enable DOM[6] and DCKM pin output to instead of XVS and XHS - DONE.
+
+[Version 1.0.0.0]
+Release at 2013.10.21
+1. FEATURE: First Released - DONE.

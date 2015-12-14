@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+    <remote_syslog_config>
+        <enable_remote_log>1</enable_remote_log>
+        <server_ip>192.168.22.227</server_ip>
+        <server_port>514</server_port>
+    </remote_syslog_config>
+</root>

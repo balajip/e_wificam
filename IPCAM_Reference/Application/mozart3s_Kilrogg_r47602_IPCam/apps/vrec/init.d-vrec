@@ -1,0 +1,92 @@
+#!/bin/sh
+#
+# vrecd: This starts and stops vrec.
+#
+# chkconfig: 2345 27 32
+# description: Video Recoder 
+#
+# processname: /usr/sbin/vrec
+# config: /etc/conf.d/vrec_conf.xml
+# pidfile: /var/run/vrec.pid
+
+# automatically export variables to the environment
+set -a
+
+PATH=/sbin:/bin:/usr/bin:/usr/sbin
+
+# Source function library.
+. /etc/init.d/functions
+
+# Get config.
+
+#RETVAL=0
+
+prog="vrec"
+binpath="/usr/sbin/vrec"
+pidfile="/var/run/vrec.pid"
+configfile="/etc/conf.d/vrec_conf.xml"
+
+args="-D -c $configfile -p $pidfile"
+
+[ -f $binpath ] || exit 1
+
+off_vrec(){
+
+if cat $configfile | grep -n "<switch>1</switch>"  > /dev/null  2>&1;then
+
+sed -i "s/<switch>1<\/switch>/<switch>0<\/switch>/g" $configfile
+
+fi
+
+if cat $configfile | grep -n "<record>1</record>"  > /dev/null  2>&1;then
+
+sed -i "s/<record>1<\/record>/<record>0<\/record>/g" $configfile
+
+fi
+
+}
+start(){
+	echo -n "Starting $prog: "
+	#start-stop-daemon --start -n $prog --exec $binpath -- $args
+	$binpath $args > /dev/null 2>&1
+	echo
+	#usleep 300000
+	#usleep 300000
+}
+
+stop(){
+	echo -n "Stopping $prog: "
+	start-stop-daemon --stop -s 2  --quiet -n $prog --pidfile $pidfile
+	sleep 1
+#	waittodie $pidfile $binpath
+	echo "."
+}
+
+reload(){
+	echo -n "Reloading configuration $prog: "	
+	start-stop-daemon -K -s 1 -q -n $prog -p $pidfile
+	echo "."
+}
+
+# See how we were called.
+case "$1" in
+	start)
+		off_vrec
+		start
+		;;
+	stop)
+		stop
+		;;
+	reload)
+		reload
+		;;
+	restart)
+		stop
+		start
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart|reload}"
+		exit 1
+esac
+
+exit 0

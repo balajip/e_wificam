@@ -1,0 +1,11 @@
+* ____ AUDIO DRIVER
+** Codec : TW2866 
+
+[ATTENTION]
+1. You must install video driver at first, then install audio driver.
+2. You must copy alsa.conf and alsa libirary to the proper locations.
+3. If you want to install the driver on VS8801, please follows the install command :
+	insmod TW2866_AUDIO.ko CodecNum=2
+4. If you want to install the driver on VS8401, please follows the install command :
+	insmod TW2866_AUDIO.ko CodecNum=1
+

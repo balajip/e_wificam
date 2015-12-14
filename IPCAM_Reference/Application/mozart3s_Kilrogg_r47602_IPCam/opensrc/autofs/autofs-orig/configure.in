@@ -1,0 +1,140 @@
+# $Id: configure.in,v 1.16 2000/11/04 06:43:16 hpa Exp $
+# configure.in for the autofs daemon
+
+#
+# Disable caching (the script is tiny, and it doesn't work with --with-path)
+# then start autofs
+#
+define([AC_CACHE_LOAD], )dnl
+define([AC_CACHE_SAVE], )dnl
+AC_INIT(.autofs-3.1.7)
+
+#
+# autofs installs by default in /usr
+#
+AC_PREFIX_DEFAULT(/usr)
+
+#
+# The user can specify --with-path=PATH rather than relying on the default
+#
+searchpath="/usr/bin:/bin:/usr/sbin:/sbin"
+AC_ARG_WITH(path,
+--with-path=PATH	  look in PATH for binaries needed by the automounter,
+	if test -z "$withval" -o "$withval" = "yes" -o "$withval" = "no"
+	then
+		:
+	else
+		searchpath="${withval}"
+	fi
+)
+
+AC_MSG_CHECKING([for binaries in])
+AC_MSG_RESULT([$searchpath])
+
+#
+# Programs needed for various system functions or modules
+#
+AF_PATH_INCLUDE(MOUNT, mount, /bin/mount, $searchpath)
+AF_PATH_INCLUDE(UMOUNT, umount, /bin/umount, $searchpath)
+AF_PATH_INCLUDE(E2FSCK, fsck.ext2 e2fsck, , $searchpath)
+
+#
+# Newer mounts have the -s (sloppy) option to ignore unknown options,
+# good for portability
+#
+AF_SLOPPY_MOUNT()
+
+#
+# glibc/libc 6 new libraries
+#
+AC_CHECK_LIB(nsl, yp_match, LIBNSL="-lnsl")
+AC_SUBST(LIBNSL)
+
+AC_CHECK_LIB(resolv, res_query, LIBRESOLV="-lresolv")
+AC_SUBST(LIBRESOLV)
+
+#
+# Hesiod support?  Expect that this may have a special directory...
+#
+AF_tmp_ldflags="$LDFLAGS"
+LIBHESIOD=''
+HAVE_HESIOD=''
+AC_ARG_WITH(hesiod,
+--with-hesiod=DIR	  enable Hesiod support (libs and includes in DIR),
+	if test "$withval" = no
+	then
+		HAVE_HESIOD=0	# Disable
+	elif test -z "$withval" -o "$withval" = 'yes'
+	then
+		: Search for Hesiod in normal directory path
+	else
+		: Search for Hesiod in specific directory
+		LDFLAGS="$LDFLAGS -L${withval}/lib"
+		LIBHESIOD="-L${withval}/lib"
+		HESIOD_FLAGS="-I${withval}/include"
+	fi
+)	
+
+if test -z "$HAVE_HESIOD"
+then
+	HAVE_HESIOD=0
+	AC_CHECK_LIB(hesiod, hes_resolve, HAVE_HESIOD=1 LIBHESIOD="$LIBHESIOD -lhesiod", ,
+		     $LIBRESOLV)
+fi
+AC_SUBST(HAVE_HESIOD)
+AC_SUBST(LIBHESIOD)
+AC_SUBST(HESIOD_FLAGS)
+LDFLAGS="${AF_tmp_ldflags}"
+
+# NIS+ support?
+HAVE_NISPLUS=0
+AC_CHECK_HEADER(rpcsvc/nis.h, HAVE_NISPLUS=1)
+AC_SUBST(HAVE_NISPLUS)
+
+#
+# OpenLDAP support?  Expect that this may have a special directory...
+#
+AF_tmp_ldflags="$LDFLAGS"
+LIBLDAP=''
+HAVE_LDAP=''
+AC_ARG_WITH(openldap,
+--with-openldap=DIR	  enable OpenLDAP map support (libs and includes in DIR),
+	if test "$withval" = 'no'; then
+		HAVE_LDAP=0	# Disable 
+	elif test -z "$withval" -o "$withval" = 'yes'
+	then
+		: Search for LDAP in normal directory path
+	else
+		: Search for LDAP in specific directory
+		LDFLAGS="$LDFLAGS -L${withval}/lib"
+		LIBLDAP="-L${withval}/lib"
+		LDAP_FLAGS="-I${withval}/include"
+	fi
+)
+if test -z "$HAVE_LDAP"; then
+	HAVE_LDAP=0
+	AC_CHECK_LIB(ldap, ldap_init, HAVE_LDAP=1 LIBLDAP="$LIBLDAP -lldap -llber", ,
+		     -llber)
+fi
+
+AC_SUBST(LDAP_FLAGS)
+AC_SUBST(HAVE_LDAP)
+AC_SUBST(LIBLDAP)
+LDFLAGS="${AF_tmp_ldflags}"
+	
+#
+# Location of init.d directory?
+#
+AF_INIT_D()
+AC_SUBST(initdir)
+
+#
+# Write Makefile.conf and include/config.h
+#
+AC_CONFIG_HEADER(include/config.h)
+AC_OUTPUT(Makefile.conf)
+
+#
+# Run make clean since we don't explicitly code the header file dependencies
+#
+AC_OUTPUT_COMMANDS([make clean])

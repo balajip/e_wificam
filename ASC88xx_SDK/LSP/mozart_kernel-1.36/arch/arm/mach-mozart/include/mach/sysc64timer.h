@@ -1,0 +1,28 @@
+#ifndef ARCH_MOZART_SYSC64TIMER_H
+#define ARCH_MOZART_SYSC64TIMER_H
+
+#include "mach/hardware.h"
+#include "mozart.h"
+    
+//#define MOZART_SYSC_CPU_BASE (IO_ADDRESS(MOZART_SYSC_MMR_BASE))
+#define MOZART_SYSC_CNT_CTRL 0x18
+#define MOZART_SYSC_CNT_LO_DATA 0x1C
+#define MOZART_SYSC_CNT_HI_DATA 0x20
+
+//interface
+//#define VPL_SYSC_CPU_BASE MOZART_SYSC_CPU_BASE
+#define VPL_SYSC_CNT_CTRL MOZART_SYSC_CNT_CTRL
+#define VPL_SYSC_CNT_HI_DATA MOZART_SYSC_CNT_HI_DATA
+#define VPL_SYSC_CNT_LO_DATA MOZART_SYSC_CNT_LO_DATA
+
+#define CNT_TO_TICK (1000000/HZ)
+#define LOW_PART_OVERFLOW_TIME (0xffffffff / CNT_TO_TICK) 
+
+#if (AHB_CLK == 200000000)
+extern u64 usec_in_64timer ;
+#elif ((AHB_CLK == 166666666) || (AHB_CLK == 133333333))
+#define NANOSEC_PER_ABPCLK (1000000000 / APB_CLK) 
+#endif
+extern u64 cyclenum_in_64timer ;
+    
+#endif	// __ASM_ARCH_MOZART_PORTING_H__

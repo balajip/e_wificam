@@ -1,0 +1,12 @@
+* Released date : 2012/12/21
+* Modification :
+  - minor changes to coding style
+
+* Released date : 2011/07/04
+* File list :
+  - NVP1114A_AUDIO.ko : audio driver for NVP1114A
+  - install_nvp1114a_audio.sh : install the audio driver
+  - snddevices             : create device files
+* Features :
+  - Preliminary release -- it has all playback/capture/mixer functions, but some captured files has very serious noise.
+                        -- Add u-Law/a-Law encode function, but not yet test it.

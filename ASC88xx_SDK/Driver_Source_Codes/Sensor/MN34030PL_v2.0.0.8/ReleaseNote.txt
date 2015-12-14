@@ -1,0 +1,85 @@
+*************************************************************
+* MN34030PL sensor device driver, Linux Device Driver, Release Note *
+*************************************************************
+[Version 2.0.0.8]
+Release at 2012.12.26
+1. MODIFICATION: Update MODULE_AUTHOR - DONE.
+
+[Version 2.0.0.7]
+Release at 2012.10.05
+1. BUG: Black clamp in FPGA is reset by core reset. - DONE.
+
+[Version 2.0.0.6]
+Release at 2012.09.04
+1. MODIFICATION: Add sensor Max gain call back function. - DONE.
+2. MODIFICATION: Disable output offset. - DONE.
+3. MODIFICATION: Disable AWB & Black clamp on FPGA. - DONE.
+
+[Version 2.0.0.5] 
+Release at 2011.11.09
+1. Bug: Modify smallest shutter time to 8 lines - DONE
+2. MODIFICATION: Switch frame rate according to VIDEO_SIGNAL_OPTION_SET_FREQUENCY. - DONE
+
+[Version 2.0.0.4] 
+Release at 2011.08.17
+1. MODIFICATION: Add FPGA DPC enable in sensor reset - DONE
+
+[Version 2.0.0.3] 
+Release at 2011.08.11
+BUG: AWB issue on Mozart V2(fixed by Delay Vsync waveform) - FIXED.
+
+[Version 2.0.0.2] 
+Release at 2011.06.22
+BUG: Auto Exposure instability when change shutter - FIXED.
+
+[Version 2.0.0.1] 
+Release at 2011.01.26
+1. MODIFICATION: Modify smallest shutter time to 8 lines - DONE
+
+[Version 2.0.0.0] 
+Release at 2011.01.21
+1. MODIFICATION: Modify shutter and gain function for new AE logic - DONE
+2. FEATURE: Add SENSOR_INTERFACE_VERSION for sensor version check - DONE.
+3. MODIFICATION: Remove shutter and gain table, so this version should be sychronized with vpl_vic.ko version 7.0.0.13 and AutoExposure.ko version 3.0.0.0 - DONE.
+
+[Version 1.0.0.8]
+Release at 2010.09.10
+1. BUGFIX: Fix the incorrect shutter tables which will cause AE going wrong in high luminance - FIXED.
+
+[Version 1.0.0.7]
+Release at 2010.08.30
+1. FEATURE: Support VPL_LVDS2RGBC version 2.1.0.1 - DONE.
+2. FEATURE: Support 60 fps. Use the installing parameter "iEnSerialIF" for enabling the function of 60 fps.
+	    For example, if you want to enable the function of 60 fps, the installing command is "insmod  MN34030PL.ko iEnSerialIF=1".
+
+[Version 1.0.0.6]
+Release at 2010.08.18
+1. BUGFIX: reset shutter idx to framerate idx after update shutter table  - DONE.
+
+[Version 1.0.0.5]
+Release at 2010.08.02
+1. MODIFICATION: Remove video_sensor_width and video_sensor_height setting by VIC to synchronize with vpl_vic.ko v_7.0.0.2 - DONE.
+2. MODIFICATION: Add semaphore for ioctl function. - DONE
+
+[Version 1.0.0.4]
+Release at 2010.08.02
+1. FEATURE: Add the supporting of serial interface- DONE.
+
+[Version 1.0.0.3]
+Release at 2010.06.21
+1. FEATURE: Add group_access call-back function for sensors with grouping access function - DONE.
+2. MODIFICATION: remove redundent prink - DONE.
+3. BUGFIX: fix sysfs_create_file and sysfs_remove_file mismatch - DONE.
+
+[Version 1.0.0.2]
+Release at 2010.06.03
+1. FEATURE: Add get_remaining_line_num call-back function for VIC AE delay issue workaround - DONE. 
+
+[Version 1.0.0.1]
+Release at 2010.06.01
+1. MODIFICATION: Add device number information into the interface between VIC and sensor device - DONE.
+2. MODIFICATION: Remove the mutex in IOCTL function - DONE
+
+[Version 1.0.0.0]
+Release at 2010.04.30
+1. FEATURE: First Released - DONE.

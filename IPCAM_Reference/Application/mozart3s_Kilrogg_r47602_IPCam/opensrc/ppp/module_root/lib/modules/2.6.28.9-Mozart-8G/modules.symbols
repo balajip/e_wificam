@@ -1,0 +1,22 @@
+# Aliases for symbols, used by symbol_request().
+alias symbol:register_pppox_proto pppox
+alias symbol:unregister_pppox_proto pppox
+alias symbol:ppp_output_wakeup ppp_generic
+alias symbol:slhc_remember slhc
+alias symbol:crc_ccitt crc-ccitt
+alias symbol:crc_ccitt_table crc-ccitt
+alias symbol:ppp_unregister_compressor ppp_generic
+alias symbol:ppp_register_channel ppp_generic
+alias symbol:ppp_channel_index ppp_generic
+alias symbol:slhc_compress slhc
+alias symbol:ppp_input ppp_generic
+alias symbol:slhc_toss slhc
+alias symbol:slhc_init slhc
+alias symbol:ppp_unregister_channel ppp_generic
+alias symbol:pppox_unbind_sock pppox
+alias symbol:slhc_free slhc
+alias symbol:ppp_unit_number ppp_generic
+alias symbol:ppp_input_error ppp_generic
+alias symbol:pppox_ioctl pppox
+alias symbol:ppp_register_compressor ppp_generic
+alias symbol:slhc_uncompress slhc

@@ -1,0 +1,34 @@
+#!/bin/bash
+
+PATH=/usr/bin:/bin:$PATH
+VERSION=0.0.1
+APP_NAME=aenc_receiver
+PACKAGE_DIR=${APP_NAME}-${VERSION}
+HOST='arm-linux-'
+CC=${HOST}gcc
+
+# check if you have the proper gcc
+which $CC > /dev/null || exit 1 
+
+
+
+[ -d "$PACKAGE_DIR" ] || exit 1
+
+cd $PACKAGE_DIR
+
+# configure it for $HOST
+[ -f "Makefile" ] || ./configure --host=${HOST%-} &> /dev/null
+
+# simply make it
+#make --quiet MAKEFLAGS= 
+MAKEFLAGS=
+make --quiet > /dev/null
+
+cd - > /dev/null
+if [ -f  "${PACKAGE_DIR}/${APP_NAME}" ];then
+	${HOST}strip -o ${APP_NAME} $PACKAGE_DIR/${APP_NAME}
+fi
+
+cp -f  $PACKAGE_DIR/${APP_NAME}.sh  ${APP_NAME}.sh 
+
+

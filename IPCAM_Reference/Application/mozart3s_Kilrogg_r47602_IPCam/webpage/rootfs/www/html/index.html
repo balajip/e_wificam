@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tab Pane Demo (WebFX)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="/css/default.css" />
+    <link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="/css/tab.css" />
+    <img src="NXP_logo.jpg" hspace="57" vspace="10" align="top" border="0" />
+    
+    <style type="text/css">
+        html{
+            background: white none repeat scroll 0%; 
+            -moz-background-clip: -moz-initial; 
+            -moz-background-origin: -moz-initial; 
+            -moz-background-inline-policy: -moz-initial;
+        }
+        .dynamic-tab-pane-control .tab-page {
+            height:                 auto;
+        }
+        /* over ride styles from webfxlayout */
+        body {
+            margin:        0px;
+            width:        auto;
+            height:        auto;
+        }
+        .dynamic-tab-pane-control h2 {
+            text-align:    center;
+            width:        auto;
+        }
+        iframe {
+            width:      100%;
+            height:     600px;
+            float:      left;
+        }
+        .bestview {
+            position:fixed;
+            z-index:100;
+            right: 10px;
+            color:              #627EB7; 
+            font-family:        Verdana, Arial, sans-serif;
+            font-size:            10px;
+        }
+    </style>
+    <script type="text/javascript" src="js/tabpane.js"></script>
+    <script type="text/javascript">
+        function resizeIframe(page) {
+            // Must launched on the body onload event handler for IE
+            // Use document.documentElement if you are in Compat mode
+            i = parent.document.getElementById(page)
+            j = parent.document.getElementById("tabPane1")
+            iHeight = document.body.clientHeight
+            i.style.height = (iHeight - j.offsetHeight - 2)+ "px"
+        }
+        function resizeAllIframe() {
+            resizeIframe("pageFrame")
+        }
+    </script>
+</head>
+<!--<body onload="resizeAllIframe()"> -->
+<body>
+    <script type="text/javascript">
+        onresize=function(){
+            //alert('changed');
+            var pf = document.getElementById("pageFrame");
+            pf.style.height = 0 + "px";
+            var iHeight = document.documentElement.clientHeight;
+            pf.style.height = (iHeight - pf.offsetTop) + "px";
+        };
+    </script>
+    <div class="bestview">This page is best viewed with Internet Explorer 7+</div>
+    <div class="tab-pane" id="pane1">
+        <script type="text/javascript">
+            var tabPane1 = new WebFXTabPane( document.getElementById( "pane1" ) );
+        </script>
+        <div class="tab-page" id="page1">
+            <h2 class="tab"><a class="tabL" target="pageFrame" href="display.html"><span class="tabR">Display</span></a></h2>
+            <script type="text/javascript">
+                tabPane1.addTabPage( document.getElementById( "page1" ) );
+            </script>
+        </div>
+        <div class="tab-page" id="page2">
+            <h2 class="tab"><a class="tabL" href="#"><span class="tabR">Configuration</span></a></h2>
+            <script type="text/javascript">
+                tabPane1.addTabPage( document.getElementById( "page2" ) );
+            </script>
+            <div class="tab-pane" id="tabPane2" style="background:#F4F4F4;"> 
+                <script type="text/javascript">
+                    var tabPage2Pane1 = new WebFXTabPane( document.getElementById( "tabPane2" ) );
+                </script>
+                <div class="tab-page" id="page2_1">
+                    <h2 class="tab"><a class="tabLSub" target="pageFrame" href="setup/system.html"><span class="tabRSub">System</span></a></h2>
+                    <script type="text/javascript">
+                        tabPage2Pane1.addTabPage( document.getElementById( "page2_1" ) );
+                    </script>
+                </div>
+
+                <div class="tab-page" id="page2_2">
+                    <h2 class="tab"><a class="tabLSub" target="pageFrame" href="setup/security.html"><span class="tabRSub">Security</span></a></h2>
+                    <script type="text/javascript">
+                        tabPage2Pane1.addTabPage( document.getElementById( "page2_2" ) );
+                    </script>   
+                     
+                </div>
+
+                <div class="tab-page" id="page2_3">
+                    <h2 class="tab"><a class="tabLSub" target="pageFrame" href="setup/network.html"><span class="tabRSub">Network</span></a></h2>
+                    <script type="text/javascript">
+                        tabPage2Pane1.addTabPage( document.getElementById( "page2_3" ) );
+                    </script>
+                </div>
+<!--
+                <div class="tab-page" id="page2_4">
+                    <h2 class="tab"><a class="tabLSub" target="pageFrame" href="setup/ddns.html"><span class="tabRSub">DDNS</span></a></h2>
+                    <script type="text/javascript">
+                        tabPage2Pane1.addTabPage( document.getElementById( "page2_4" ) );
+                    </script>
+                </div>
+-->
+
+                <div class="tab-page" id="page2_5">
+
+                    <h2 class="tab"><a class="tabLSub" target="pageFrame" href="setup/accesslist.html"><span class="tabRSub">Access List</span></a></h2>
+<!-- start: open Access List Option by jesi 2009/02/06
+                    <h2 class="tab"><a class="tabLSub" target="pageFrame" href="constructing.html"><span class="tabRSub" style="color:#CCCCCC;">Access List</span></a></h2>
+end: open Access List Option by jesi 2009/02/06 -->
+                    <script type="text/javascript">
+                        tabPage2Pane1.addTabPage( document.getElementById( "page2_5" ) );
+                    </script>
+                </div>
+
+                <div class="tab-page" id="page2_6">
+                    <h2 class="tab"><a class="tabLSub" target="pageFrame" href="setup/audiovideo.html"><span class="tabRSub">Video and Audio</span></a></h2>
+                    <script type="text/javascript">
+                        tabPage2Pane1.addTabPage( document.getElementById( "page2_6" ) );
+                    </script>
+                </div>
+
+                <div class="tab-page" id="page2_7">
+                    <h2 class="tab"><a class="tabLSub" target="pageFrame" href="setup/isp.html"><span class="tabRSub">Image Signal Processing</span></a></h2>
+                    <script type="text/javascript">
+                        tabPage2Pane1.addTabPage( document.getElementById( "page2_7" ) );
+                    </script>
+                </div>
+                
+                <div class="tab-page" id="page2_8">
+                    <h2 class="tab"><a class="tabLSub" target="pageFrame" href="setup/motion.html"><span class="tabRSub">Motion Detection</span></a></h2>
+                    <script type="text/javascript">
+                        tabPage2Pane1.addTabPage( document.getElementById( "page2_8" ) );
+                    </script>
+                </div>
+                <div class="tab-page" id="page2_17">
+                    <h2 class="tab"><a class="tabLSub" target="pageFrame" href="setup/roi.html"><span class="tabRSub">ROI</span></a></h2>
+                    <script type="text/javascript">
+                        tabPage2Pane1.addTabPage( document.getElementById( "page2_17" ) );
+                    </script>
+                </div>
+
+                <div class="tab-page" id="page2_9">
+                    <h2 class="tab"><a class="tabLSub" target="pageFrame" href="setup/ssl.html"><span class="tabRSub">SSL</span></a></h2>
+                    <script type="text/javascript">
+                        tabPage2Pane1.addTabPage( document.getElementById( "page2_9" ) );
+                    </script>
+                </div>
+                <div class="tab-page" id="page2_10">
+                    <h2 class="tab"><a class="tabLSub" target="pageFrame" href="setup/syslog.html"><span class="tabRSub">System Log</span></a></h2>
+                    <script type="text/javascript">
+                        tabPage2Pane1.addTabPage( document.getElementById( "page2_10" ) );
+                    </script>
+                </div>
+                <div class="tab-page" id="page2_11">
+                    <h2 class="tab"><a class="tabLSub" target="pageFrame" href="setup/emailftp.html"><span class="tabRSub">Email and FTP</span></a></h2>
+                    <script type="text/javascript">
+                        tabPage2Pane1.addTabPage( document.getElementById( "page2_11" ) );
+                    </script>
+                </div>
+                <div class="tab-page" id="page2_12">
+                    <h2 class="tab"><a class="tabLSub" target="pageFrame" href="setup/event.html"><span class="tabRSub">Event</span></a></h2>
+                    <script type="text/javascript">
+                        tabPage2Pane1.addTabPage( document.getElementById( "page2_12" ) );
+                    </script>
+                <div class="tab-page" id="page2_13">
+                    <h2 class="tab"><a class="tabLSub" target="pageFrame" href="setup/parafile.html"><span class="tabRSub">View Parameters</span></a></h2>
+                    <script type="text/javascript">
+                        tabPage2Pane1.addTabPage( document.getElementById( "page2_13" ) );
+                    </script>
+                </div>
+
+                <div class="tab-page" id="page2_14">
+                    <h2 class="tab"><a class="tabLSub" target="pageFrame" href="setup/maintain.html"><span class="tabRSub">Maintenance</span></a></h2>
+                    <script type="text/javascript">
+                        tabPage2Pane1.addTabPage( document.getElementById( "page2_14" ) );
+                    </script>
+                </div>
+                <div class="tab-page" id="page2_15">
+                    <h2 class="tab"><a class="tabLSub" target="pageFrame" href="setup/storage.html"><span class="tabRSub">Local Storage</span></a></h2>
+                    <script type="text/javascript">
+                        tabPage2Pane1.addTabPage( document.getElementById( "page2_15" ) );
+                    </script>
+                </div>               
+                </div>
+            </div>
+        </div>
+
+        <!-- div class="tab-page" id="page3">
+
+            <h2 class="tab"><a class="tabL" target="pageFrame" href="clientset.html"><span class="tabR">Client Settings</span></a></h2>
+            <script type="text/javascript">
+                tabPane1.addTabPage( document.getElementById( "page3" ) );
+            </script>
+        </div !-->
+    </div>
+    <iframe class="page-frame" id="pageFrame" name="pageFrame" frameborder="0" scrolling="auto" src="display.html"></iframe>
+</body>
+</html>
+
+
+

@@ -1,0 +1,63 @@
+#!/bin/sh
+# /etc/init.d/mdnsd: start the mdnsd daemon.
+# config file: /etc/mdnsd.conf
+# chkconfig: 2345 42 42
+
+set -a
+PATH=/sbin:/bin:/usr/bin
+
+[ -f /etc/conf.d/timezone ] && . /etc/conf.d/timezone
+RETVAL=0
+
+prog="mDNSResponderPosix"
+binpath="/sbin/mDNSResponderPosix"
+conffile="/etc/mDNSResponderPosix.conf"
+options="-b -f /etc/mDNSResponderPosix.conf"
+pidfile="/var/run/mDNSResponder.pid"
+setconf="/usr/sbin/setmdnsconf"
+
+test -x $binpath || exit 0
+
+start(){
+    [ -f $conffile ] || echo "Generate new conf!"; sh $setconf
+    echo -n "Starting $prog: "
+    start-stop-daemon --start --quiet --exec $binpath -- $options
+    #echo "."
+	echo 
+}
+
+stop(){
+    echo -n "Stopping $prog: "
+	start-stop-daemon --stop --quiet --pidfile $pidfile --signal 2 --exec $binpath
+	echo "."
+}
+
+reload(){
+    echo -n "Reloading configuration $prog: "
+	start-stop-daemon --stop --quiet --pidfile $pidfile --signal 1 --exec $binpath
+	echo "."
+}
+
+# See how we were called.
+case "$1" in
+    start)
+	start
+	;;
+    stop)
+	stop
+	;;
+	reload)
+	reload
+	;;
+    restart)
+    stop
+    start
+	;;
+
+    *)
+	echo "Usage: $0 {start|stop|restart|reload}"
+	exit 1
+esac
+
+exit 0
+

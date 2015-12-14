@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<root>
+      <switch>0</switch> <!--the tag is for changing the running status of vrec--> 
+      <record>0</record> <!--0:disable record, 1:enable record-->
+      <path>/usr/share/www/html/vrecord/videoclips</path>
+       <format>avi</format> <!--avi,mp4-->
+      <length>60</length> <!--recording length (secs)-->
+      <size>-1</size> <!--recording file size (bytes)-->
+      <reversedSize>1024</reversedSize> <!--The reversed size on the recording partition. The unit is MBytes.-->
+      <cyclic_storage>1</cyclic_storage> <!--0:disable cyclic storage, 1:enable cyclic storage-->
+      <!--  <storage>/dev/mmcblk0</storage>--> <!-- /dev/mmcblk0 (sd), tmpfs(ram), 172.17.0.3:/share(nfs) --> 
+      <!-- <filesystem>vfat</filesystem> --><!--vfat,nfs, tmpfs-->
+      <video_bitstream>
+	<enable>1</enable> <!--1:recieve bistream 0:not recieve bistream-->
+	<mechanism>sharedbuffer</mechanism> <!--sharedbuffer-->
+	<path>/dev/buff_mgr##</path>
+	<cmd_fifo>/tmp/venc/c0/command.fifo@##</cmd_fifo>
+      </video_bitstream>
+      <audio_bitstream>
+	<enable>1</enable> <!--1:recieve bistream 0:not recieve bistream-->
+	<mechanism>socket</mechanism>
+	<ioid>1</ioid>
+	<path>/tmp/aenc/c0/audio1.sck</path>
+	<cmd_fifo>/tmp/aenc/c0/command.fifo</cmd_fifo>
+      </audio_bitstream>
+</root>
+
+
+
+

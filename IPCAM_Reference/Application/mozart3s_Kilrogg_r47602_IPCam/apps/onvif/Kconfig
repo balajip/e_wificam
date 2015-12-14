@@ -1,0 +1,14 @@
+# This is a sample of video encoder Kconfig. 
+# Here shows how to use "choice" in Kconfig. 
+
+menu "ONVIF Support"
+
+config ONVIF
+	bool "Enable ONVIF support"
+	default n
+
+
+endmenu
+
+
+

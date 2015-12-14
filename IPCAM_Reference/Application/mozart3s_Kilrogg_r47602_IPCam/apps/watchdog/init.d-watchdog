@@ -1,0 +1,69 @@
+#!/bin/sh
+#
+# watchdog   This starts and stops watchdog
+#
+# chkconfig: 2345 09 66
+# description: watchdog is watchdog
+#
+# processname: /usr/sbin/watchdog
+# pidfile: /var/run/watchdog.pid
+
+# automatically export variables to the environment
+set -a
+
+PATH=/sbin:/bin:/usr/bin:/usr/sbin
+
+# Source function library.
+. /etc/init.d/functions
+
+# Get config.
+
+#RETVAL=0
+
+prog="watchdog"
+binpath="/usr/sbin/watchdog"
+pidfile="/var/run/watchdog.pid"
+args="-D -t 20 -k 5 -p $pidfile"
+
+[ -f $binpath ] || exit
+
+start(){
+    echo -n "Starting $prog ... "
+        start-stop-daemon --start -n $prog --exec $binpath -- $args
+      echo 
+}
+
+stop(){
+    echo -n "Stopping $prog: "
+#        start-stop-daemon --stop --quiet -n $prog --pidfile $pidfile
+        echo "."
+}
+
+reload(){
+    echo -n "Reloading $prog ... "
+        start-stop-daemon --stop --signal 1 -n $prog --pidfile $pidfile
+        echo "."
+}
+
+# See how we were called.
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+	reload)
+        reload
+        ;;
+    restart)
+    	stop
+		sleep 1
+    	start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|reload}"
+        exit 1
+esac
+
+exit 0

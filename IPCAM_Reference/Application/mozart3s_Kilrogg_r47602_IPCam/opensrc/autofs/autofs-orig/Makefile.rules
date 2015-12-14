@@ -1,0 +1,61 @@
+# -*- makefile -*-
+# $Id: Makefile.rules,v 1.11 1999/03/07 22:36:55 hpa Exp $
+#
+# Makefile rules for autofs project
+#
+
+# Root directory contents
+SUBDIRS = daemon modules man
+INCDIRS = include samples
+INCFILES = COPYING COPYRIGHT NEWS README* TODO Makefile Makefile.rules \
+	   Makefile.conf.in .version .autofs-* configure.in aclocal.m4 \
+	   configure *.patch autofs.spec
+
+# Compilers, linkers and flags
+# The STRIP defined here *must not* remove any dynamic-loading symbols
+
+ifdef DEBUG
+CFLAGS    = -O2 -g -DDEBUG
+LDFLAGS   = -g
+STRIP     = :
+else
+CFLAGS    = -O3 -fomit-frame-pointer -Wall
+LDFLAGS   = -s
+STRIP     = arm-linux-strip --strip-debug
+endif
+
+CC        = arm-linux-gcc
+CXX       = arm-linux-g++
+CXXFLAGS  = $(CFLAGS)
+LD        = arm-linux-ld
+SOLDFLAGS = -shared
+
+# Kernel compilation rules (this is for "make kernel" to work; not needed
+# if you're compiling the autofs kernel code as a part of the kernel itself.
+# For "make kernel" to work you need the kernel code to be in the "kernel"
+# directory; not included with the autofs distribution.)
+
+# 1. Comment this out if your kernel is *not* SMP
+#KFLAGS   = -D__SMP__
+# 2. Set this to your kernel include files
+KINCLUDE = $(PRJROOT)/kernel/linux-2.4.19/include
+# 3. Comment this out if you do *not* use versioned modules
+#MODFLAGS = -DMODVERSIONS -include $(KINCLUDE)/linux/modversions.h
+
+# Directory to install modules
+moddir = $(INSTALLROOT)/lib/modules/`uname -r`
+fsmoddir = $(moddir)/fs
+
+# Standard rules
+
+.SUFFIXES: .c .o .s .so
+
+.c.o:
+	$(CC) $(CFLAGS) -c $<
+
+.c.s:
+	$(CC) $(CFLAGS) -S $<
+
+.c.so:
+	$(CC) $(SOLDFLAGS) $(CFLAGS) -o $*.so $<
+	$(STRIP) $*.so

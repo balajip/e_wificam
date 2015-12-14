@@ -1,0 +1,24 @@
+#!/bin/bash
+
+PATH=/usr/bin:/bin:$PATH
+MOD_ROOT=$PWD
+TARGET_ROOT=`readlink -f $1`
+
+VREC_CONF="vrec_conf.xml"
+
+
+RECORD_STREAM_NUM=`cat $TARGET_ROOT/../.config |  grep CONFIG_RECORDSTREAMNUM | cut -d'=' -f 2`
+echo "RECORD_STREAM_NUM="$RECORD_STREAM_NUM
+
+
+if [ -d $TARGET_ROOT/usr/share/www/html/vrecord ];then
+
+  echo "Found the recording dir:"$TARGET_ROOT/usr/share/www/html/vrecord
+else
+   mkdir -p $TARGET_ROOT/usr/share/www/html/vrecord
+fi
+
+
+sed -i "s/buff_mgr##/buff_mgr$RECORD_STREAM_NUM/g" $TARGET_ROOT/etc/conf.d/$VREC_CONF
+
+sed -i "s/command.fifo@##/command.fifo@$((RECORD_STREAM_NUM-1))/g" $TARGET_ROOT/etc/conf.d/$VREC_CONF

@@ -1,0 +1,14 @@
+#!/bin/sh
+
+FLASH_PATH="/mnt/flash"
+FILE="/usr/local/firmware/default_flashfs_files.tar.gz"
+
+if mountpoint /etc
+then
+	umount /etc
+fi
+
+cd $FLASH_PATH
+rm -rf $FLASH_PATH/etc/*
+tar -zxf $FILE
+sync

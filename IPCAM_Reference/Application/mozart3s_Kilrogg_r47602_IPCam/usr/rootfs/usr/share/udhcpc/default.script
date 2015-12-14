@@ -1,0 +1,96 @@
+#!/bin/sh
+set -a
+
+PATH=/bin:/usr/bin:/sbin:/usr/sbin
+
+NET_TYPE='dhcp'
+
+RESOLV_CONF="/etc/resolv.conf"
+DUMPNETIF="/usr/sbin/dumpnetif"
+AUTOIP="/usr/sbin/autoip -I $interface -q 192.168.0.99"
+
+TAG="udhcpc"
+PRIORITY="daemon.notice"
+
+get_auto_ip()
+{
+  NET_TYPE='autoip'
+  ip=`$AUTOIP`
+}
+
+update_interface()
+{
+  [ -n "$broadcast" ] && BROADCAST="broadcast $broadcast"
+  [ -n "$subnet" ] && NETMASK="netmask $subnet"
+  /sbin/ifconfig $interface $ip $BROADCAST $NETMASK
+  /usr/bin/logger -t $TAG -p $PRIORITY "IP $ip $BROADCAST $NETMASK"
+}
+
+update_routes()
+{
+  if [ -n "$router" ]
+  then
+    echo "deleting routes"
+    while /sbin/route del default gw 0.0.0.0 dev $interface
+    do :
+    done
+
+    for i in $router
+    do
+      /sbin/route add default gw $i dev $interface
+    done
+    /usr/bin/logger -t $TAG -p $PRIORITY "router $router"
+  fi
+}
+
+update_dns()
+{
+  echo -n > $RESOLV_CONF
+  [ -n "$domain" ] && echo domain $domain >> $RESOLV_CONF
+  for i in $dns
+  do
+    echo adding dns $i
+    echo nameserver $i >> $RESOLV_CONF
+  done
+  /usr/bin/logger -t $TAG -p $PRIORITY "dns $dns"
+}
+
+deconfig()
+{
+  /sbin/ifconfig $interface 0.0.0.0
+  /usr/bin/logger -t $TAG -p $PRIORITY "deconfig"
+}
+
+case "$1" in
+  bound)
+    update_interface;
+    update_routes;
+    update_dns;
+	$DUMPNETIF
+  ;;
+
+  renew)
+    update_interface;
+    update_routes;
+    update_dns;
+	$DUMPNETIF
+  ;;
+
+  deconfig)
+    deconfig;
+  ;;
+
+  leasefail)
+    get_auto_ip;
+    update_interface;
+    $DUMPNETIF
+	exit 1
+  ;;
+
+  *)
+    echo "Usage: $0 {bound|renew|deconfig}"
+    exit 1
+    ;;
+esac
+
+exit 0

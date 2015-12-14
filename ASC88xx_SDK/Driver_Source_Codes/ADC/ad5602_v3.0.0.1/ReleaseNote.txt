@@ -1,0 +1,42 @@
+*************************************************************
+* AD5602 device driver, Linux Device Driver, Release Note *
+*************************************************************
+[Version 3.0.0.1]
+Release at 2013.01.10
+1. FEATURE: Update MODULE_AUTHOR - DONE.
+
+[Version 3.0.0.0]
+Release at 2012.09.21
+1. MODIFICATION: Modify control interface - DONE.
+2. MODIFICATION: Move "EXPORT_SYMBOL(iris_motor_dev)" to vpl_vic driver & assign DCIris_dev_ops to iris_motor_dev when module_init() - DONE
+3. FEATURE: Synchronized with VPL_VIC version 11.0.0.1.
+
+[Version 2.0.0.1]
+Release at 2011.11.17
+MODIFICATION: Modify motor control flow - DONE.
+
+[Version 2.0.0.0]
+Release at 2011.06.20
+MODIFICATION: Modify I2C control interface to be compatible with standard kernel interface - DONE.
+
+[Version 1.0.0.4]
+Release at 2011.01.26
+MODIFICATION: Speed up iris initial position - DONE.
+
+[Version 1.0.0.3]
+Release at 2011.01.21
+MODIFICATION: Modify motor driving parameters - DONE.
+FEATURE: Add DC iris control to largest position - DONE.
+
+[Version 1.0.0.2]
+Release at 2010.09.28
+BUG: AE not steady when source light was high - FIXED.
+MODIFICATION: Modify motor driving parameters - DONE.
+
+[Version 1.0.0.1]
+Release at 2010.08.10
+1. MODIFICATION: Modify motor driving parameters - DONE.
+
+[Version 1.0.0.0]
+Release at 2010.07.24
+1. FEATURE: First Released - DONE.

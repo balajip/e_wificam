@@ -1,0 +1,254 @@
+******************************************************************
+*                                                                *
+* Kilrogg Reference Software for Mozart SoC, Release Note	 *
+*                                                                *
+******************************************************************
+
+==================================================================
+[Version 1.2.1]
+------------------------------------------------------------------
+Release at 2014 [[Huanyu.Wang]
+------------------------------------------------------------------
+Device Driver List:
+AutoWhiteBalance version 3.0.0.1
+AR0130		version  1.0.0.0
+AR0330		version  1.0.0.0
+AR0331 		version  1.0.0.14
+ap1513		version  1.0.0.2
+OV10633		version  1.0.0.3
+OV5653		version  1.0.0.3
+OV5658		version  1.0.0.0
+adv7391 	version  3.0.0.0
+AutoExposure 	version  6.0.0.3
+buff_mgr 	version  1.0.0.7
+dwc_otg 	version  2.1.0.3
+Godshand 	version  1.0.0.2
+gpio_i2c 	version  3.1.0.8
+i2c-algo-bit 	version  1.0.0.2
+i2c-gpio 	version  1.0.0.2
+IICCtrl 	version  1.0.0.2
+CAT6011 	version  2.0.0.3
+CAT6612		version  1.2.0.2
+IMX122          version  2.0.0.4
+IMX035 		version  2.0.0.4
+IMX104		version  1.0.0.2
+IMX138          version  1.0.0.1
+IMX222		version  1.0.0.0
+IMX238		version  1.0.0.2
+lv8044lp	version  1.0.0.1
+MN34030PL 	version  2.0.0.8
+MN34041PL 	version  1.0.0.5
+MT9P031 	version  2.0.0.5
+MT9M034         version  1.0.0.6
+NULLSensor 	version  2.0.0.3
+OV2710 		version  2.0.0.5
+OV9710 		version  2.0.0.6
+irrc 		version  1.1.0.2
+ircut		version  1.0.0.3
+SSM2603 	version  1.2.0.6
+TW2866_AUDIO 	version  1.1.0.6
+NVP1114A 	version  3.0.0.2
+TW2866 		version  3.0.0.3
+vma_dce 	version  4.0.0.3
+vma_h4ee 	version  3.2.0.2
+vma_ibpe 	version  7.0.0.2
+vma_ire 	version  2.0.0.11
+vma_jebe 	version  5.0.0.9
+vma_meae 	version  5.0.0.11
+vpl_dmac 	version  8.0.0.7
+vpl_edmc 	version  6.0.0.9
+vpl_mmc 	version  2.0.0.6
+vpl_tmrc 	version  3.0.0.4
+vpl_vic 	version  12.0.0.3
+vpl_voc 	version  6.0.0.2
+wdt 		version  1.2.0.0
+WAU8822		version	 1.0.0.7
+WM8978 		version	 1.0.0.7
+CAT6011_Audio   version  1.0.0.3
+autofocus 	version  3.0.0.1
+NVP1114A_AUDIO  version  1.0.0.3
+vaudio-evm	version  4.0.0.1
+vaudio-i2s	version  4.0.0.1
+vaudio		version  3.0.0.4
+ad5602		version  3.0.0.1
+pwmiriscontrol	version  1.0.0.0
+IT6604		version  1.0.0.0
+IT6604_Audio	version  1.0.0.0
+------------------------------------------------------------------
+Libraries List:
+
+AAC4Enc			version  2.1.0.14
+AutoScene		version  4.0.0.2
+DataCrypto		version  2.0.0.8
+DefectPixelCorrect      version  1.0.0.0
+G711Dec			version  1.0.0.11
+G711Enc			version  1.0.0.11
+G726Enc			version  1.0.0.7
+GAMREnc			version  4.0.0.7
+H264Enc			version  5.2.0.0
+SVCEnc			version  3.0.0.5
+ImgBackEndProcess	version  11.0.0.1
+JPEGEnc			version  4.4.0.3
+MassMemAccess	        version  9.1.0.1
+MemMgr			version  4.0.0.12
+Mp4VEnc			version  12.0.0.2
+PBEngine		version  3.1.0.1
+Resize			version  5.0.0.7
+VideoCap		version  13.0.0.3
+VideoDisp		version  5.0.0.1
+ASOUND			version  2.0.0
+bitmaskresizer		version  1.0.0.1
+frameratectrl		version  2.0.0.0
+freetype		version  6.3.20
+msgreader		version  2.2.0.0
+png12			version  0.42.0
+secretskin		version  1.0.0.14
+SharedBuffMgr		version  2.1.0.1
+xmlmgr			version  1.1.0.20
+xmlwrapper		version  4.0.0.2
+z			version  1.2.3
+mp4			version  1.0.0.0
+vlist 		version  1.0.0.1
+
+[Driver and Library Change Item List]
+. Device Driver Version:
+
+. Libraries Version:
+
+[NOTE]
+
+[Feature]
+	
+
+
+==================================================================
+Release Note
+==================================================================
+[Version 1.2.1]
+[Driver and Library Change Item List]
+. Device Driver Version:
+   . IMX238                             v1.0.0.1 to v1.0.0.2
+   . vpl_edmc                           v6.0.0.8 to v6.0.0.10
+   . AR0331                             v1.0.0.13 to v1.0.0.14
+   . SSM2603                            v1.2.0.5 to v1.2.0.6
+   . TW2866_AUDIO                       v1.1.0.5 to v1.1.0.6
+   . NVP1114A_AUDIO                     v1.0.0.2 to v1.0.0.3
+   . vaudio                             v3.0.0.3 to v3.0.0.4
+   . IMX222				first release
+
+. Libraries Version:
+   . H264Enc                            v5.1.0.9 to v5.2.0.0
+   . SVCEnc                             v3.0.0.4 to v3.0.0.5
+   . SharedBuffMgr                      v2.1.0.0 to v2.1.0.1
+   . MassMemAccess			v9.1.0.1 to v9.2.0.0
+
+------------------------------------------------------------------
+
+[Version 1.2.0]
+[Driver and Library Change Item List]
+. Device Driver Version:
+   . AutoExposure                       v6.0.0.1 to v6.0.0.3
+   . vpl_vic                            v12.0.0.0 to v12.0.0.3
+   . AutoWhiteBalance                   v2.0.0.5 to v3.0.0.1
+   . vpl_mmc                            v2.0.0.3 to v2.0.0.6
+   . dwc_otg                            v2.1.0.1 to v2.1.0.3
+   . AR0331                             v1.0.0.8 to v1.0.0.13
+   . AR0330                             first release
+   . OV5658                             first release
+   . MT9M034                            v1.0.0.5 to v1.0.0.6
+   . vpl_edmc                           v6.0.0.7 to v6.0.0.8
+   . wdt                                v1.1.1.0 to v1.2.0.0
+   . WAU8822                            v1.0.0.6 to v1.0.0.7
+
+. Libraries Version:
+   . VideoCap                           v12.1.0.0 to v13.0.0.3
+   . H264Enc                            v5.1.0.0 to v5.1.0.9
+   . Mp4VEnc                            v12.0.0.0 to v12.0.0.2
+   . SVCEnc                             v2.1.0.3 to v3.0.0.4
+   . ImgBackEndProcess                  v10.0.0.4 to v11.0.0.1
+   . AutoScene                          v4.0.0.1 to v4.0.0.2
+
+------------------------------------------------------------------
+
+[Version 1.0.0]
+[Driver and Library Change Item List]
+. Device Driver Version:
+   . vma_dce 				v4.0.0.2 to v4.0.0.3
+   . SSM2603 				v1.2.0.2 to v1.2.0.4
+   . ircut				v1.0.0.2 to v1.0.0.3
+   . AutoWhiteBalance.ko  	        v2.0.0.1 to v2.0.0.4
+   . ap1513				v1.0.0.0 to v1.0.0.2
+   . lv8044lp				v1.0.0.0 to v1.0.0.1
+   . vma_ibpe             	        v6.1.0.0 to v7.0.0.1
+   . vpl_vic		  		v10.0.0.7 to v11.0.0.6
+   . AutoExposure 			v4.0.0.0  to v5.0.0.3
+   . autofocus 				v2.0.0.0 to v3.0.0.1
+   . MT9P031  	      		        v2.0.0.2 to v2.0.0.5
+   . vma_h4ee 		 		v3.1.0.1 to v3.2.0.2
+   . vpl_voc 				v5.0.0.2 to v6.0.0.0
+   . AR0331 				v1.0.0.1 to v1.0.0.6
+   . CAT6011 				v2.0.0.1 to v2.0.0.3
+   . IMX035    				v2.0.0.2 to v2.0.0.4
+   . MN34030PL  			v2.0.0.5 to v2.0.0.8
+   . IMX122    				v2.0.0.2 to v2.0.0.4
+   . MN34041PL 				v1.0.0.2 to v1.0.0.4
+   . MT9M034         			v1.0.0.0 to v1.0.0.5
+   . NULLSensor 			v2.0.0.0 to v2.0.0.3
+   . OV2710				v2.0.0.3 to v2.0.0.5
+   . OV5653				v1.0.0.1 to v1.0.0.3
+   . OV9710 				v2.0.0.3 to v2.0.0.6
+   . NVP1114A 				v2.0.0.1 to v3.0.0.1
+   . TW2866 				v3.0.0.1 to v3.0.0.3
+   . buff_mgr 				v1.0.0.5 to v1.0.0.7
+   . gpio_i2c				v3.1.0.6 to v3.1.0.8
+   . dw_otg 				v1.0.0.14 to v2.0.0.2
+   . vma_ibpe				v7.0.0.1 to v7.0.0.2
+   . vpl_mmc				v2.0.0.2 to v2.0.0.3
+   . dwc_otg				v1.0.0.14 to v2.0.1.0
+   . Godshand				v1.0.0.1 to v1.0.0.2
+   . irrc				v1.1.0.0 to v1.1.0.1
+   . TW2866_AUDIO			v1.1.0.2 to v1.1.0.4
+   . vpl_dmac				v8.0.0.6 to v8.0.0.7
+   . wdt				v1.0.0.1 to v1.0.0.2
+   . WAU8822				v1.0.0.4 to v1.0.0.6
+   . WM8978				v1.0.0.6 to v1.0.0.7
+   . CAT6011_Audio			v1.0.0.0 to v1.0.0.1
+   . NVP1114A_AUDIO			v1.0.0.0 to v1.0.0.1
+   . vaudio-evm				v3.0.0.1 to v4.0.0.1
+   . vaudio-i2s				v3.0.0.1 to v4.0.0.1
+   . vaudio				v3.0.0.1 to v3.0.0.2
+   . OV10633				v1.0.0.2 to v1.0.0.2
+   . CAT6612				v1.2.0.0 to v1.2.0.0
+. Libraries Version:
+  . ImgBackEndProcess    		v7.3.0.3 to v10.0.0.1
+  . Mp4VEnc		  		v10.5.0.0 to v10.5.0.6
+  . VideoCap             		v11.1.0.0 to v12.0.0.4
+  . H264Enc		 		v4.2.0.8 to v4.5.0.0
+  . VideoDisp 				v4.0.0.3 to v5.0.0.1
+  . SharedBuffMgr			v2.0.0.0 to v2.1.0.0
+  . SVCEnc		 		v2.0.0.1 to v2.1.0.3
+  . GAMREnc				v4.0.0.5 to v4.0.0.7
+  . G711Dec				v1.0.0.9 to v1.0.0.11
+  . G726Enc                 		v1.0.0.4 to v1.0.0.7
+  . AAC4Enc				v2.1.0.11 to v2.1.0.13
+  . G711Enc				v1.0.0.9 to v1.0.0.11
+  . MassMemAccess	        	v9.0.0.4 to v9.1.0.1
+  . AutoScene				v2.0.0.0 to v3.0.0.0
+  . DataCrypto				v2.0.0.7 to v2.0.0.8
+  . JPEGEnc				v4.0.0.2 to v4.4.0.3
+  . MemMgr				v4.0.0.10 to v4.0.0.12
+  . PBEngine				v3.0.0.10 to v3.0.0.12
+  . Resize				v5.0.0.6 to v5.0.0.7
+[NOTE]
+[Feature]
+. H264 supports new rate control mode: RATE_CTRL_ADPT.
+. Motion detection triggers H264 ROI function.
+. H264 export deblocking option. (version 5.1.0.0)
+
+[Bug Fixed]
+. Bug 361 : [SDK6.0 r45152][Mozart 395s EVM][MT9P031][MN34041]incorrect streaming when enable Lens Correction Photometric
+. Bug 369 : [SDK6.0][Mozart 395s EVM][Kilrogg r45370]Through HTTPS to connect streaming for a while, the frame rate of display will be down to 1.0 ~ 2.0 fps
+. Bug 380 : [SDK6.0][M395s_RDK][AutoScene][Kilrogg r45487]incorrect Autoscene performance when enable Autoscene on Kilrogg.
+. Bug 375 : [SDK5.1/5.2/6.0][NVP1114A] Analogy Camera PAL format has no chroma (B/W)
+. Bug 381 : [SDK6.0][Mozart V3 EVM][NullSensor] With Analogy input, NTSC PAL format output VOC Abnormal
+[Known issue]

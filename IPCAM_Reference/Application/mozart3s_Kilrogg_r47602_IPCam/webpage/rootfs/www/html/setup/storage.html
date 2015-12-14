@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Local Storage</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="/include/common.js"></script>
+    <script type="text/javascript" src="/include/jQuery/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="/include/jQuery/jquery-ui-1.8.6.custom.min.js"></script>
+    <script type="text/javascript" src="/include/jQuery/jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="/include/jQuery/jquery.tablesorter.pager.js"></script>
+    <link type="text/css" rel="stylesheet" href="/include/jQuery/jquery-ui-1.8.6.custom.css" />
+    <script type="text/javascript" src="/include/storage.js"></script>
+    <link href="../css/default.css" rel="stylesheet" type="text/css" />
+    <link href="../css/table.css" rel="stylesheet" type="text/css" />
+    <style>
+        .sd {
+            background-color:#AAFFFF;
+        } 
+        button {
+            vertical-align: bottom;
+        }
+        #result {
+            width: 700px;
+        }
+        #entries {
+            margin-left: 300px;
+        }
+        #controlButton {
+            margin-top: 10px;
+            margin-bottom: 10px;           
+        }
+        h3 {
+            width: 700px;
+            border-bottom: #ababab 1px solid;
+        }
+    </style>
+</head>
+
+<body>
+  <fieldset>
+    <legend><strong>SD card Management</strong></legend>
+    <br><br>
+    <dl>
+      <dt>SD card status: <span id="status" class="sd"></span></dt>
+      <dd>
+        <table>
+          <tr>
+            <td width="70px">Total size: </td>
+            <td width="75px" align="right"><span id="total" class="sd">0</span></td>
+            <td width="70px" align="left">&nbsp;KBytes</td>
+            <td width="70px">Free size: </td>
+            <td width="75px" align="right"><span id="free" class="sd">0</span></td>
+            <td width="30px">&nbsp;KBytes</td>
+          </tr>
+          <tr>
+            <td>Used size: </td>
+            <td align="right"><span id="used" class="sd">0</span></td>
+            <td align="left">&nbsp;KBytes</td>
+            <td>Use(%): </td>
+            <td align="right"><span id="percent" class="sd">0</span></td>
+            <td align="left">&nbsp;%</td>
+          </tr>
+        </table>
+        <input type="button" class="button" value="Format" onclick="format()"/>
+      </dd> 
+      <br>
+      <dt>SD card control:</dt>    
+      <dd>
+        <input type="checkbox" id="cyclic"/>
+        <span>Enable cyclic storage</span><br>
+        <input type="button" class="button" value="Save" onclick="save()"/>
+      </dd>
+      <!--dd>
+        <input type="checkbox" id="clean"/>
+        <span>Enable automatic disk cleanup</span>
+      </dd>          
+      <dd>
+        <span style="padding-left:23px;">Maximum duration for keeping files: </span>
+        <input type="text" class="text" id="days" size="4" maxlength="4"/>
+        <span> days</span>        
+      </dd-->               
+     </dl>
+  </fieldset>  
+  <fieldset>
+    <legend><strong>Searching and viewing the records</strong></legend>
+    <br><br>
+    <dl>
+      <dt>Trigger time:</dt>
+      <dt>
+        <table>
+          <tr>
+            <td width="20px"></td>
+            <td><span width="80px">Date (yyyy-mm-dd)&nbsp;</span></td>
+            <td><span width="80px">Time (hh:mm:ss)</span></td>
+          </tr>
+          <tr>
+            <td>From: </td>
+            <td><input type="text" class="text" id="dateFrom" maxlength="10"/></td>
+            <td><input type="text" class="text" id="timeFrom" value="00:00:00" maxlength="8"/></td>
+          </tr>
+          <tr>
+            <td>To: </td>
+            <td><input type="text" class="text" id="dateTo" maxlength="10"/></td>
+            <td><input type="text" class="text" id="timeTo" value="00:00:00" maxlength="8"/></td>
+          </tr>
+        </table>
+      </dt> 
+      <dt><input type="button" class="button" value="Search" onclick="searchClips()"/></dt>              
+     </dl>
+  </fieldset>
+    <div>         
+    <h3>Search results</h3>
+    <table id="result" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Trigger time</th>
+          <th id="media" class="masc">Media type</th>
+        </tr>
+      </thead>
+      <tbody align="center">
+        
+      </tbody>
+    </table>
+    <div id="pager" class="pager">
+        <form>
+            <button class="button first">
+                <span class="ui-icon ui-icon-seek-first"></span>
+            </button>
+            <button class="button prev">
+                <span class="ui-icon ui-icon-triangle-1-w"></span>
+            </button>
+            <input type="text" class="pagedisplay" size="6"/>
+            <button class="button next">
+                <span class="ui-icon ui-icon-triangle-1-e"></span>
+            </button>
+            <button class="button last">
+                <span class="ui-icon ui-icon-seek-end"></span>
+            </button>
+            <span id="entries"> Show </span>
+            <select class="pagesize">
+              <option selected="selected" value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="40">40</option>
+            </select>
+            <span> entries </span>
+        </form>
+        <div id="controlButton">
+          <input type="button" class="button" value="View" onclick="view()"/>
+          <input type="button" class="button" value="Download" onclick="downloadChecked()"/>
+          <input type="button" class="button" value="Uncheck All" onclick="uncheckAll()"/>
+          <input type="button" class="button" value="Remove" onclick="remove()"/>
+        </div>
+    </div>
+   </div>
+   <div id="playDialog" title="Clip Player">
+     <OBJECT ID="Player" CLASSID="CLSID:6BF52A52-394A-11d3-B153-00C04F79FAA6"
+             width="640px" height="480px">
+       <PARAM name="autoStart" value="True">
+     </OBJECT>
+   </div>
+  <div id="ajaxMask"><span id="ajaxImg"></span></div>
+  <iframe id="video" style="display:none;"></iframe> 
+</body>
+</html>

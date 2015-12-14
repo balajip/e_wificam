@@ -1,0 +1,30 @@
+#!/bin/bash
+# This script will untar a tarball from source, patch it, and build it. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=mDNSResponder
+TARGET_NAME=${APP_NAME}Posix
+VERSION=379.37
+ORIG_TARBALL=${APP_NAME}-${VERSION}.tar.gz
+PACKAGE_DIR=$APP_NAME-$VERSION
+UNTAR_ARG='-zxf'
+HOST='arm-linux-'
+OBJDUMP=${HOST}objdump
+TARGET_ROOT=`readlink -f $1`
+
+flashfs_etc_config_example=${TARGET_NAME}.conf
+daemon_init_script=init.d-${TARGET_NAME}
+
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_APPS_LIGHTTPD=y"  > /dev/null  2>&1;then
+	setconf_script=setmdnsconf.lighttpd
+else
+	setconf_script=setmdnsconf
+fi
+
+# check if you have the proper objdump
+which $OBJDUMP > /dev/null || exit 1 
+
+install ${TARGET_NAME} $1/sbin/
+install ${setconf_script} $1/usr/sbin/setmdnsconf
+install ${daemon_init_script} $1/etc/init.d/${TARGET_NAME}
+install ${flashfs_etc_config_example} $1/etc/
+

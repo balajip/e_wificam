@@ -1,0 +1,79 @@
+#!/bin/sh
+#
+# vencd: This starts and stops venc.
+#
+# chkconfig: 2345 33 21
+# description: keepcurrentwb
+#
+
+# automatically export variables to the environment
+set -a
+
+PATH=/sbin:/bin:/usr/bin:/usr/sbin
+
+# Source function library.
+. /etc/init.d/functions
+
+# Get config.
+
+#RETVAL=0
+
+
+
+#msgctrl -f <command_fifo> -h <host> -c <content>
+
+
+
+prog="msgctrl"
+command_fifo="/tmp/venc/c0/command.fifo"
+binpath="/usr/bin/msgctrl"
+host="videoin"
+content="keepCurrentWBFromFile"
+file=/etc/conf.d/keep_current_wb
+
+[ -f $binpath ] || exit
+
+start(){
+    echo -n "Starting $prog ... "
+    if [ -f $file  ];then
+      if cat  /etc/conf.d/c0/vencmaster_conf.xml   | grep -n "<select_mode>Manual</select_mode>" > /dev/null 2>&1
+      then
+	$binpath -f $command_fifo -h $host -c $content
+      fi
+    fi 
+    echo "."
+}
+
+#default --stop send signal 15 (SIGTERM)
+stop(){
+    echo -n "Stopping $prog ... "
+    echo "."
+}
+
+reload(){
+    echo -n "Reloading $prog ... "
+    echo "."
+}
+
+# See how we are called.
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    reload)
+        reload
+        ;;
+    restart)
+        stop
+	sleep 1
+        start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|reload}"
+        exit 1
+esac
+
+exit 0

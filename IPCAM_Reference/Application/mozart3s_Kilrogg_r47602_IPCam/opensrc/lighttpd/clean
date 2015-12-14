@@ -1,0 +1,22 @@
+#!/bin/bash
+#This script clean the package
+PATH=/usr/bin:/bin:$PATH
+PKG_ROOT=${PWD}
+APP_NAME=lighttpd
+VERSION=1.4.31
+PACKAGE_DIR=$APP_NAME-$VERSION
+PKG_ROOT=${PWD}
+
+if [[ -e "$APP_NAME" ]]
+then 
+  rm $APP_NAME
+fi
+
+cd $PACKAGE_DIR
+
+make distclean > /dev/null
+
+cd $PKG_ROOT
+
+
+

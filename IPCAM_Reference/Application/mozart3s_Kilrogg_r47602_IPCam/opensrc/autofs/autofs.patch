@@ -1,0 +1,113 @@
+diff -Nurp autofs-old/daemon/automount.c autofs-new/daemon/automount.c
+--- autofs-old/daemon/automount.c	2005-12-16 14:32:26.540661000 +0800
++++ autofs-new/daemon/automount.c	2010-12-10 10:04:43.841929054 +0800
+@@ -811,4 +811,5 @@ int main(int argc, char *argv[])
+ 
+   umount_autofs(1);
+   cleanup_exit(0);
++  return 0;
+ }
+diff -Nurp autofs-old/daemon/mount.c autofs-new/daemon/mount.c
+--- autofs-old/daemon/mount.c	2005-12-16 14:32:26.540661000 +0800
++++ autofs-new/daemon/mount.c	2010-12-10 10:04:43.841929054 +0800
+@@ -21,6 +21,7 @@
+ 
+ #include <syslog.h>
+ #include <stdlib.h>
++#include <string.h>
+ #include "automount.h"
+ 
+ /* These filesystems are known not to work with the "generic" module */
+diff -Nurp autofs-old/modules/lookup_file.c autofs-new/modules/lookup_file.c
+--- autofs-old/modules/lookup_file.c	2005-12-16 14:32:26.540661000 +0800
++++ autofs-new/modules/lookup_file.c	2010-12-10 10:04:48.238449306 +0800
+@@ -115,7 +115,8 @@ int lookup_mount(const char *root, const
+       if ( ch == '\\' ) {
+ 	/* Handle continuation lines */
+ 	if ( (nch = getc(f)) == '\n' )
+-	  goto next_char;
++	  continue;
++	  //goto next_char;
+ 	ungetc(nch,f);
+ 	escape = esc_char;
+       }
+@@ -197,8 +198,8 @@ int lookup_mount(const char *root, const
+       }
+       break;
+     }
+-  next_char:			/* End of loop, since we can't continue;
+-				   inside a switch */
++ // next_char:			/* End of loop, since we can't continue;
++//				   inside a switch */
+   }
+   
+ got_it:
+diff -Nurp autofs-old/modules/mount_bind.c autofs-new/modules/mount_bind.c
+--- autofs-old/modules/mount_bind.c	2005-12-16 14:32:26.540661000 +0800
++++ autofs-new/modules/mount_bind.c	2010-12-10 10:04:48.238449306 +0800
+@@ -26,7 +26,7 @@
+ #include <sys/param.h>
+ #include <sys/types.h>
+ #include <sys/stat.h>
+-
++#include <alloca.h>
+ #define MODULE_MOUNT
+ #include "automount.h"
+ 
+diff -Nurp autofs-old/modules/mount_ext2.c autofs-new/modules/mount_ext2.c
+--- autofs-old/modules/mount_ext2.c	2005-12-16 14:32:26.540661000 +0800
++++ autofs-new/modules/mount_ext2.c	2010-12-10 10:04:48.238449306 +0800
+@@ -24,7 +24,7 @@
+ #include <sys/param.h>
+ #include <sys/types.h>
+ #include <sys/stat.h>
+-
++#include <alloca.h>
+ #define MODULE_MOUNT
+ #include "automount.h"
+ 
+diff -Nurp autofs-old/modules/mount_generic.c autofs-new/modules/mount_generic.c
+--- autofs-old/modules/mount_generic.c	2005-12-16 14:32:26.540661000 +0800
++++ autofs-new/modules/mount_generic.c	2010-12-10 10:04:48.223226848 +0800
+@@ -24,7 +24,7 @@
+ #include <sys/param.h>
+ #include <sys/types.h>
+ #include <sys/stat.h>
+-
++#include <alloca.h>
+ #define MODULE_MOUNT
+ #include "automount.h"
+ 
+diff -Nurp autofs-old/modules/mount_nfs.c autofs-new/modules/mount_nfs.c
+--- autofs-old/modules/mount_nfs.c	2005-12-16 14:32:26.540661000 +0800
++++ autofs-new/modules/mount_nfs.c	2010-12-10 10:04:48.238449306 +0800
+@@ -27,7 +27,7 @@
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <netinet/in.h>
+-
++#include <alloca.h>
+ #define MODULE_MOUNT
+ #include "automount.h"
+ 
+diff -Nurp autofs-old/modules/parse_sun.c autofs-new/modules/parse_sun.c
+--- autofs-old/modules/parse_sun.c	2005-12-16 14:32:26.540661000 +0800
++++ autofs-new/modules/parse_sun.c	2010-12-10 10:04:48.238449306 +0800
+@@ -30,6 +30,8 @@
+ #include <sys/stat.h>
+ #include <sys/utsname.h>
+ #include <netinet/in.h>
++#include <alloca.h>
++
+ 
+ #define MODULE_PARSE
+ #include "automount.h"
+@@ -464,7 +466,7 @@ int parse_mount(const char *root, const 
+     if ( !strncmp(q, "fstype=", 7) ) {
+       fstype = alloca(strlen(q+7)+1);
+       if ( !fstype ) {
+-	syslog(LOG_ERR, MODPREFIX "alloca: %s");
++	syslog(LOG_ERR, MODPREFIX "alloca: %s",fstype);
+ 	return 1;
+       }
+       strcpy(fstype, q+7);

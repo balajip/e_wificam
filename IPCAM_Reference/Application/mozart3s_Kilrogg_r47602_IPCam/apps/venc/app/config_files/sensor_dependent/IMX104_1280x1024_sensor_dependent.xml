@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- 
+in <max_resolution> and <stream_resolution>
+1. the content between tags matches config file, which is used to load and save
+2. restriction of number: nonNegativeInteger
+   Since the options of stream resolution changes with max_resolution dynamically,
+   number determines the select options of stream resolution. 
+   (stream resolution <= max resolution)
+3. text will display on the select box in the webpage, for user friendly issue.   
+
+for instacne, 
+    <support_resolution number="11" text="5 M">2560x1920</support_resolution>
+    1. "2560x1920" is used to load and save to config file, 
+    2. "5 M" will display on the select box in the webpage
+    3. <support_resolution> in <stream_resolution> will add to frame size select box
+       if its number <= 11
+-->
+
+<root>
+    <sensor_type>imx104</sensor_type>
+    <sensor_dependent_info>
+        <imx104>
+	  <prenr>##</prenr>
+	  <wdr>##</wdr>
+	  <autofocus>##</autofocus> <!--on:with autofocus, off:without autofocus-->
+	   <autoiris>##</autoiris> <!--on:with autoiris, off:without autoiris-->
+	   <autoscene>##</autoscene> <!--on:with autoscene,off:without autoscene-->
+	   <record>##</record> <!--on:with recording, off:without recording-->
+	   <white_balance>
+	   	<Green_Gain>off</Green_Gain>
+	    </white_balance>
+	    <max_framerate>30</max_framerate>
+            <max_resolution>
+                <support_resolution number="10" text="1280x1024">1280x1024</support_resolution>
+            </max_resolution>
+            <stream_resolution>
+                <support_resolution number="13" text="2560x1920">2560x1920</support_resolution>
+                <support_resolution number="12" text="Full HD">1920x1080</support_resolution>
+                <support_resolution number="11" text="1600x1200">1600x1200</support_resolution>
+                <support_resolution number="10" text="1280x1024">1280x1024</support_resolution>
+                <support_resolution number="9" text="1280x800">1280x800</support_resolution>
+                <support_resolution number="8" text="1280x720">1280x720</support_resolution>
+                <support_resolution number="7" text="704x576">704x576</support_resolution>
+                <support_resolution number="6" text="704x480">704x480</support_resolution>
+                <support_resolution number="5" text="640x480">640x480</support_resolution>
+                <support_resolution number="4" text="352x288">352x288</support_resolution>
+                <support_resolution number="3" text="352x240">352x240</support_resolution>
+                <support_resolution number="2" text="320x240">320x240</support_resolution>
+                <support_resolution number="1" text="176x144">176x144</support_resolution>
+            </stream_resolution>
+            <gain>
+				<option text="1x">1</option>
+				<option text="2x">2</option>
+				<option text="4x">4</option>
+				<option text="8x">8</option>
+				<option text="16x">16</option>
+				<option text="32x">32</option>
+				<option text="64x">64</option>
+				<option text="128x">128</option>
+				<option text="256x">256</option>
+				<option text="512x">512</option>
+				<option text="1024x">1024</option>
+				<option text="2048x">2048</option>
+				<option text="4096x">4096</option>
+            </gain>
+        </imx104>
+    </sensor_dependent_info>
+</root>

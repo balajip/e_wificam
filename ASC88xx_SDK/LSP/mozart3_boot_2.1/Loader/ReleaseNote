@@ -1,0 +1,167 @@
+== VERSION INFO ==
+VERSION#14031801:
+  -FIXED       : 1. Split training on/off define in configuration file to 2 separate defines for each DRAM.
+		 2. Turn off DRAM1 training for v3-DDR2 as default training suggestion.
+
+VERSION#13101801:
+  -FIXED       : 1.Change value setting of dynamic ODT enable in initial time to refering configuration.
+		 2.Add 4g Die configuration
+
+VERSION#13090401
+  - FIXED      : 1. Change default DDR3 training to off 
+
+VERSION#13082901
+  - FIXED      : 1. Fix MPR setting at DDR2, and arrange configuration. 
+
+VERSION#13053101
+  - FIXED      : 1. FPGA dram timing & config(polarity).
+
+VERSION#13051501
+  - FIXED      : 1. Nand preloader define, make rule.
+
+VERSION#13051401
+  - FIXED      : 1. Fix Nand preloader error addressing.
+
+VERSION#13050301
+  - FIXED      : 1. Support to 8G map.
+
+
+VERSION#13032001
+  - FIXED      : 1. Turn off ODT in training, to synchoronize with function mode.
+
+VERSION#13011701
+  - FIXED      : 1. Fix makefiles.
+
+VERSION#12122801
+  - FIXED      : 1. Copyright refined.
+
+VERSION#12122101
+  - FIXED      : 1. ddr: Cancel config WL in DDR1.
+                 2. ddr: Update DDR0/1 CL config for dynamic read ODT.
+                 3. ddr: Add fix for MR2_RTT_WR not enable for dynamic write ODT.
+                 4. ddr: For CONFIG_DYNAMIC_WRITE_ODT, controller dynamic write ODT enable bit = 0,
+                         set RTT_WR to 40/60.
+                 5. nand: support multi-boot for NAND.
+
+VERSION#12100901
+  - FIXED      : 1. default-configs.h: fix setting of CFG_DCR_DDRMD.
+                 2. workaround for M3 EVM Mozart_3s_EVM_B.b.
+                    A workaround for "no 18.432 MHz" issue is connecting SYS_O_MON_CLK[1] to SYS_I_OSC_1_CLK.
+                    So select MSHC 0 positive card clock output of monitor clock 1.
+
+VERSION#12091901
+  - FEATURE    : 1. Update paramters for PUB builting training.
+  							 2. Set static read ODT as default for Mozart v2.
+  							 3. Refine _copy_uboot() of sf.S
+  - FIXED      : 1. Fix wrong bit setting of PUB.S
+                 2. Update DCR setting for both DDR2/2
+                 3. CL odd value for ddr1, even value for ddr0
+                 4. Fix _ssic_read() of sf.S
+
+VERSION#12080601
+  - FEATURE    : 1. Support Mozart v3.
+  - FIXED      : 1. ep_init() used register sp as internal usage. Fixed!
+                 2. Fix training error of only 1 enabled DRAM.
+
+VERSION#12070301
+  - FIXED      : 1. Booting from NAND fail. Fix link address to 0x1200 for NAND.
+  - MISC       : 1. Rename CHANGELOG to ReleaseNote.
+
+VERSION#12050801
+  - FIXED      : 1. Fixed dram base address and size setting.
+                    With EDMC driver v6.0.0.5, the base address and size settings
+                    in dram controller are identical with AHB slave settings in
+                    AHB controller.
+                 2. Fix Read ODT setting.
+                    ZQ0CR1.ZPROG is the index of divide ratio, rather than divide ratio itself.
+                 3. Initial Read ODT and output impedance settings before impedeance calibration.
+                 4. Add CONFIG_DYNAMIC_WRITE_ODT
+                 5. A smaller remapper instead of the whole loader does the job of remap.
+                 6. Add option -MT,$(@) to preprocessor.
+                    Fix the target of the rule emitted by dependency generation.
+                    For nf_preloader, fix the target from
+                        nf_preloader.o :
+                    to
+                        nf_preloader/nf_preloader.o :
+  - FEATURE    : 1. Configs(CFG_CL, CFG_CWL) added
+
+VERSION#12030701
+  - FIXED      : 1. Fix settings for read ODT.
+                 2. Add configuration CONFIG_DYNAMIC_READ_ODT.
+
+VERSION#11122001
+  - FEATURE    : 1. Enable all internal pull up/down in case lack of external pull resistors.
+
+VERSION#11120801
+  - FEATURE    : 1. Update 330.ddr3.evm.config for AHB 160 MHz.
+                 2. Rename 395.*.config to 390A.*.config.
+
+VERSION#11112301
+  - FIXED      : 1. Fix wrong address of PCIEC registers.
+
+VERSION#11102801
+  - FIXED      : 1. Larger eye window than the correct one.
+                 2. Update nf loader flow. Now it can find valid nf-blocks and read Uboot from them.
+
+VERSION#11091303
+  - FIXED      : 1. Kernel stuck and reboot with buffer allocation by venc.
+                    Limited to EDMC driver, DDR32SDMC_SIZE_CFG.BASE_ADDR of physical DRAM 1
+                    will be treated as address of virtual DRAM 1 instead of physical DRAM 1 !
+  - FEATURE    : 1. Add two pages of pad configurations in U-Boot and Linux kernel to Mozart_Loader_Check_List.pdf
+
+VERSION#11091302
+  - FIXED      : 1. SSTL IO cannot be disabled.
+
+VERSION#11091301
+  - FEATURE    : 1. Change system DRAM to physical DRAM 1 by default.
+                 2. Add SYSC configurations from v1. See file Mozart_Loader_Check_List.pdf.
+                 3. Add CONFIG_READ_DOT(default off), rename CONFIG_ODT to CONFIG_WRITE_ODT.
+                 4. Set PGCR1, DXCCR, ODTCR, ZQ0CR1 explicitly.
+                 5. Disable unavailable data byte (DATX8).
+                 6. Disable SSTL IO (DDR32SDMC_IO_BIT_ENABLE = 0x0) of unused DDR port. 
+                 7. Add config files for 395.
+                 8. CFG_CKEN default to 0x2.
+                    The 2nd and 3th clock are disable in RTL.
+                 9. Rename PHY_PVT_AUTOUPDATE to MCI_IOPHY_UPDATE.
+                10. Add configurations: CONFIG_SYSTEM_DDR
+                11. Add configurations: CONFIG_T_REF_MODE.
+                12. Move data training statistics to 0x30002010(remaped).
+                13. Add configuration version (CONFIG_VERSION) to 0x30002008(remaped).
+  - FIXED      : 1. CONFIG_WRITE_ODT default config typo.
+                 2. Field MDLEN of PGCR1 should be MDLEN_PGCR1.
+                 3. Merge bug fix of sf.S from v1.
+                 4. Fix wrong USB SRAM size (0x1180 -> 0x1000 bytes).
+                 5. Fix destination address when copy loader from BRC SRAM to USB FIFO.
+
+VERSION#11081801
+  - FEATURE    : 1. 330/370 supported.
+                 2. Add dualboot marker 'DUAL' before storage address of U-Boot.
+                 3. Add mode register config mechanism.
+                 4. VT compensation on (PUREN && MCI_IOPHY_UPDATE_EN).
+                 5. only enable WLLVT/WDLVT/RGLVT.
+
+VERSION#11081502
+  - FEATURE    : 1. Skip data training, disable VT compensation for all configurations.
+                 2. Restore settings at the end of initialization.
+                 3. ZUEN default off.
+                 4. SLAVE_CORE_SYNC_EN default on.
+                 5. DYNAMIC_ODT_EN default off.
+                 6. NF Preloader added.
+
+VERSION#11080201
+  - FEATURE    : 1. Data training integrated.
+
+VERSION#11080201
+  - FEATURE    : 1. Data training integrated.
+
+VERSION#11071501
+  - FEATURE    : 1. Disable Read DQS LCDL Delay VT Compensation (RDLVT).
+
+VERSION#11071401
+  - FEATURE    : 1. Enable all VT compensation update.
+		 2. Change Read DQS/DQSN delay to 0x24 manually.
+		 3. Revert DDR PHY output impedance divide select (ZQ0CR1[3:0]) as default value: 0xB.
+
+VERSION#11070801
+  - FEATURE    : 1. Add configuration mechanism.
+

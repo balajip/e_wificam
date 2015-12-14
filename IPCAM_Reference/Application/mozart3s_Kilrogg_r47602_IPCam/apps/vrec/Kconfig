@@ -1,0 +1,16 @@
+# This is a sample of video encoder Kconfig. 
+# Here shows how to use "choice" in Kconfig. 
+
+menu "Video Recorder"
+
+config RECORD
+	bool "Enable the video recording"
+	default n
+
+config RECORDSTREAMNUM
+	int "Record Stream Num (begin from 1)"
+	default 4
+endmenu
+
+
+

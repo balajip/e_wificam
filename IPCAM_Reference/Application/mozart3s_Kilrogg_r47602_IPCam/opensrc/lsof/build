@@ -1,0 +1,38 @@
+#!/bin/bash
+# This script will build expat. 
+# It will also copy the header files and the library to the current directory
+# in a VN conventional way, i.e., ./lib and ./src. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=lsof
+VERSION=4.81.dfsg.1
+TARBALL=$APP_NAME-$VERSION.tar.gz
+PACKAGE_DIR=$APP_NAME-$VERSION
+UNTAR_ARG='-zxvf'
+HOST='arm-linux-'
+CC=${HOST}gcc
+
+# check if you have the proper gcc
+which $CC > /dev/null || exit 1 
+
+tar $UNTAR_ARG $TARBALL > /dev/null
+
+[ -d "$PACKAGE_DIR" ] || exit 1
+
+cd $PACKAGE_DIR
+
+
+
+# simply make it
+#make --quiet MAKEFLAGS= 
+MAKEFLAGS=
+make --quiet
+
+cd - > /dev/null
+
+
+# if i have the shared stripped library and it is newer than the original one, 
+# ignore it. 
+[ -f "${APP_NAME}" ] && [ "${PACKAGE_DIR}/${APP_NAME}" -ot "${APP_NAME}" ] && exit 0
+
+${HOST}strip -o ${APP_NAME} $PACKAGE_DIR/${APP_NAME}
+

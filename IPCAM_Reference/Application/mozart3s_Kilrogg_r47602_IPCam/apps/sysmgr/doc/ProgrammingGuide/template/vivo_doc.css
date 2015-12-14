@@ -1,0 +1,281 @@
+body {
+	font-size: 16px; 
+	font-family: georgia, "Book Antiqua", palatino, serif;
+    text-align: left;
+	margin:0;
+    padding:0;
+    background:#fff;
+    height:100%; /* this is the key! */
+    
+    background-image:url("vivobg.jpg"); 
+    background-repeat:no-repeat; 
+    background-attachment:fixed;
+    background-position:right top; 
+}
+a {
+	color: #6495ed;
+	text-decoration: none;
+}
+a:hover {
+	left: 1px; 
+	position: relative; 
+	top: 1px
+}
+a:visited {
+    color: #718ABE;
+    text-decoration: none;
+}
+#left {
+    position:absolute;
+    left:0;
+    bottom:0px;
+    padding:0px 0px 0px 10px;
+    width:20%;
+    height:98%; /* works only if parent container is assigned a height value */
+    color:#333;
+    background:#eaeaea;
+}
+#right {
+    position:absolute;
+    right:0;
+    bottom:0px;
+    padding:0;
+    width:80%;
+    height:100%; /* works only if parent container is assigned a height value */
+    color:#333;
+    background:#eaeaea;
+}
+div.content{
+    clear: both;
+    width: 90%; 
+    padding: 0px; 
+    margin: 3px auto;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+div.console{
+    clear: both;
+    width: 99%; 
+    padding: 6px; 
+    margin: 20px auto;
+    color:#ffffff;
+    background-color:#000000;
+    border: 1px solid #999999;
+    border-style:groove;
+    font-size: 11px; 
+	font-family: monaco, courier, monospace; 
+}
+div.title {
+    clear: both;
+    width: 90%; 
+    margin: 20px auto;
+    font-size: 24px; 
+}
+div.subtitle {
+    clear: both;
+    width: 100%; 
+    padding: 0px; 
+    margin: 10px auto;
+    font-size: 18px; 
+    margin-top: 30px;
+}
+div.banner {
+    clear: both;
+    width: 90%; 
+    background-color: #6495ed;
+    border: 1px solid #333; 
+    padding: 3px; 
+    margin: 0px auto;
+    
+    /* Transparency for kinds of browser */
+    filter:alpha(opacity=70);   /* IE */
+    -moz-opacity:0.7;           /* Moz + FF */
+    opacity: 0.7;               /* support browsers of CSS3 (include FF 1.5) */
+}
+div.banner span.left {
+    float: left;
+    text-align: left;
+    font-size: 20px; 
+    width: 75%;
+}
+div.banner span.right {
+    float: right;
+    text-align: right;
+    color: #fff;
+    width: 20%;
+    padding: 0px 5px 0px 0px;
+    position:relative;
+}
+div.banner a {
+    color: #ffffff;
+}
+
+div.spacer {
+  clear: both;
+}
+pre { /* to control text avoid goes outside the div */
+    white-space: pre-wrap;                  /* css-3 */
+    white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;                 /* Opera 4-6 */
+    white-space: -o-pre-wrap;               /* Opera 7 */
+    word-wrap: break-word;                  /* Internet Explorer 5.5+ */
+}
+img { 
+    display: block;     /* no text is beside the image */
+    margin: 10px auto;  /* center */
+    padding: 10px;
+}
+img.float-right{
+    float: right;
+    margin: 0px 0px 20px 20px;
+    padding: 0px;
+}
+div.treeview{
+    color:#999999;
+}
+div.treeview:hover {
+	left: 1px; 
+	position: relative; 
+	top: 1px
+}
+/**************************************************************************** 
+ *   codesample 
+ **************************************************************************** 
+ */
+div.codesample {
+    clear: both;
+   	margin: 20px 0;
+   	width:99%;
+    border-collapse: collapse;
+    background-color: #f1f5f9;
+    border: 1px solid #6c90b4;
+    padding: 6px;
+    margin-top: -1px;
+    margin-bottom: 6px;
+    
+    /* Transparency for kinds of browser */
+    filter:alpha(opacity=70);   /* IE */
+    -moz-opacity:0.7;           /* Moz + FF */
+    opacity: 0.7;               /* support browsers of CSS3 (include FF 1.5) */
+}
+.codesample pre {
+	font-size: 11px; 
+	font-family: monaco, courier, monospace; 
+	margin: 15px;
+	white-space: pre;
+}
+.codesample p {
+	margin: 15px; 
+    font: 11px monaco, courier, monospace; 
+}
+
+p.codesample {
+    margin-top: 20px;
+    margin-bottom: -15px; 
+    font: 11px monaco, courier, monospace; 
+}
+font.codesample {
+    font-family: monaco, courier, monospace; 
+}
+
+/**************************************************************************** 
+ *   notebox
+ **************************************************************************** 
+ */
+.notebox {
+    clear: both;
+    margin: 20px 0;
+    width:99%;
+    border-collapse: collapse;
+    background-color: #f7f7f7;
+	border: 1px solid #a1a5a9;
+	padding: 8px;
+	text-align: left;
+	font: 12px lucida grande, geneva, helvetica, arial, sans-serif;
+	
+    /* Transparency for kinds of browser */
+    filter:alpha(opacity=70);   /* IE */
+    -moz-opacity:0.7;           /* Moz + FF */
+    opacity: 0.7;               /* support browsers of CSS3 (include FF 1.5) */
+}
+font.note {
+    font-weight: bold;
+    color:red;
+}
+
+/*-----------------------------------
+		CSS TABLE GALLERY
+		STYLESHEET: CLEAR BLUE
+		AUTHOR: ROBERT HARTL
+------------------------------------*/
+
+table.clear_blue {
+    width:100%; 
+    margin-bottom: 30px;
+    
+	line-height: 1.2em;
+	color: #333;
+	background-color: #fff;
+	border-collapse: collapse;
+	text-align: left;
+	font-size: 90%;
+
+    /* Transparency for kinds of browser */
+    filter:alpha(opacity=70);   /* IE */
+    -moz-opacity:0.7;           /* Moz + FF */
+    opacity: 0.7;               /* support browsers of CSS3 (include FF 1.5) */
+}
+
+.clear_blue caption {
+	padding-bottom: 8px;
+	text-align: center;
+	font-weight: normal;
+	text-transform: uppercase;
+	letter-spacing:.6em;
+	background: transparent;
+	font-size: 11px;
+}
+  
+.clear_blue thead th, .clear_blue tfoot th, .clear_blue tfoot td {
+	padding-left:5px;
+	font-variant:small-caps;
+	letter-spacing:0.1em;
+	color: #fff;
+	background: #009;
+}
+  
+.clear_blue tfoot th, .clear_blue tfoot td {
+	border-top: 2pt double #009;
+}
+
+.clear_blue td, th {
+	padding:4px;
+}
+
+.clear_blue tbody tr th, .clear_blue tbody tr td {
+	border-bottom: 1px dotted #009;
+}
+
+.clear_blue tbody tr:hover td, .clear_blue tbody tr:hover th {
+	border-bottom: 1px solid #333;
+}
+
+.clear_blue tbody td a, tbody th a {
+	background: transparent;
+	color: #009;
+	text-decoration: none;
+	border:none;
+}
+
+.clear_blue .odd {
+	background: #e3e3f4;
+}
+
+.clear_blue tbody tr:hover {
+	color: #333;
+	background: #c6c6e8;
+}
+
+.clear_blue tbody tr th:hover {
+	background:#fff;
+}

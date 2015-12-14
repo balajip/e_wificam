@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>System Log</title>
+	<script type="text/javascript" src="/include/jQuery/jquery-1.7.1.min.js"></script>  
+	<script type="text/javascript" src="/include/common.js"></script>
+	<script type="text/javascript" src="/include/ajaxcommon.js"></script>
+	<script type="text/javascript" src="/include/syslog.js"></script>
+	<link href="/css/default.css" rel="stylesheet" type="text/css" />
+</head>
+<body>       
+    <div id="content" class="confContent">        
+        <fieldset>
+            <legend><strong>Remote log</strong></legend>
+            <br /><br />
+            <form name="syslog">
+                <dl>
+                    <dt><input type="checkbox" id="enableRemoteLog" />Enable remote log</dt>                    
+                    <dd>Log server settings:</dt>
+                    <dd>IP address
+                        <input type="text" id="logIp"   class="text" size="16" maxlength="15" />
+                    </dd>                   
+                    <dd>Port
+                        <input type="text" id="logPort" class="text" size="5"  maxlength="5"/>
+                    </dd>
+                </dl>
+            </form>
+        </fieldset>
+        <input type="button" class="button" onclick="submit()" value="save" />
+        <fieldset>
+            <legend><strong>Current log</strong></legend>
+            <iframe id="currLog" src="/cgi-bin/admin/showlog.lua" width="100%" frameborder="0" /> </iframe>
+        </fieldset>
+    </div>
+    <div id="ajaxMask"><span id="ajaxImg"></span></div>
+</body>
+</html>

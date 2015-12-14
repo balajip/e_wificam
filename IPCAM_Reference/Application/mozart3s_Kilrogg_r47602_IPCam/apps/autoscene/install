@@ -1,0 +1,103 @@
+#!/bin/bash
+
+
+
+
+TARGET_ROOT=`readlink -f $1`
+AUTOCENE_REFERENCE_CONF=""
+if cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX035=y"  > /dev/null  2>&1;then
+
+AUTOCENE_REFERENCE_CONF="config/autoscene_imx035.cfg"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX104=y"  > /dev/null  2>&1;then
+
+AUTOCENE_REFERENCE_CONF="config/autoscene_imx104.cfg"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX138=y"  > /dev/null  2>&1;then
+
+AUTOCENE_REFERENCE_CONF="config/autoscene_imx138.cfg"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX238=y"  > /dev/null  2>&1;then
+
+AUTOCENE_REFERENCE_CONF="config/autoscene_imx238.cfg"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_MT9P031=y"  > /dev/null  2>&1;then
+
+  if cat $TARGET_ROOT/../.config | grep -n "CONFIG_R2560x1920=y" > /dev/null  2>&1;then
+    AUTOCENE_REFERENCE_CONF="config/autoscene_mt9p0315m.cfg"
+  else
+    AUTOCENE_REFERENCE_CONF="config/autoscene_mt9p031.cfg"
+  fi
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_OV5653=y"  > /dev/null  2>&1;then
+  if cat $TARGET_ROOT/../.config | grep -n "CONFIG_R2560x1920=y" > /dev/null  2>&1;then
+    AUTOCENE_REFERENCE_CONF="config/autoscene_ov56535m.cfg"
+  else
+    AUTOCENE_REFERENCE_CONF="config/autoscene_ov5653.cfg"
+  fi
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_OV5658=y"  > /dev/null  2>&1;then
+
+AUTOCENE_REFERENCE_CONF="config/autoscene_ov56585m.cfg"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX122=y"  > /dev/null  2>&1;then
+AUTOCENE_REFERENCE_CONF="config/autoscene_imx122.cfg"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX222=y"  > /dev/null  2>&1;then
+AUTOCENE_REFERENCE_CONF="config/autoscene_imx222.cfg"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_OV2710=y"  > /dev/null  2>&1;then
+AUTOCENE_REFERENCE_CONF="config/autoscene_ov2710.cfg"
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_OV9710=y"  > /dev/null  2>&1;then
+AUTOCENE_REFERENCE_CONF="config/autoscene_ov9710.cfg"
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_OV10630=y"  > /dev/null  2>&1;then
+AUTOCENE_REFERENCE_CONF="config/autoscene_ov10630.cfg"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_OV10633=y"  > /dev/null  2>&1;then
+AUTOCENE_REFERENCE_CONF="config/autoscene_ov10633.cfg"
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_MN34030PL=y"  > /dev/null  2>&1;then
+AUTOCENE_REFERENCE_CONF="config/autoscene_mn34030pl.cfg"
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_MN34030PL_60FPS=y"  > /dev/null  2>&1;then
+AUTOCENE_REFERENCE_CONF="config/autoscene_mn34030pl60fps.cfg"
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_MN34041PL=y"  > /dev/null  2>&1;then
+AUTOCENE_REFERENCE_CONF="config/autoscene_mn34041pl.cfg"
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_CAT6011=y"  > /dev/null  2>&1;then
+AUTOCENE_REFERENCE_CONF="config/autoscene_cat6011.cfg"
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IT6604=y"  > /dev/null  2>&1;then
+AUTOCENE_REFERENCE_CONF="config/autoscene_it6604.cfg"
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_NULLSensor=y"  > /dev/null  2>&1;then
+AUTOCENE_REFERENCE_CONF="config/autoscene_nullsensor.cfg"
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_NVP1114A=y"  > /dev/null  2>&1;then
+AUTOCENE_REFERENCE_CONF="config/autoscene_nvp1114a.cfg"
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_TW2866=y"  > /dev/null  2>&1;then
+AUTOCENE_REFERENCE_CONF="config/autoscene_tw2866.cfg"
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_AR0331=y"  > /dev/null  2>&1;then
+    if cat $TARGET_ROOT/../.config | grep -n "CONFIG_R2048x1536=y" > /dev/null  2>&1;then
+      AUTOCENE_REFERENCE_CONF="config/autoscene_ar03313m.cfg"
+    else
+      AUTOCENE_REFERENCE_CONF="config/autoscene_ar0331.cfg"
+    fi
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_MT9M033=y"  > /dev/null  2>&1;then
+AUTOCENE_REFERENCE_CONF="config/autoscene_mt9m033.cfg"
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_MT9M034=y"  > /dev/null  2>&1;then
+AUTOCENE_REFERENCE_CONF="config/autoscene_mt9m034.cfg"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_AR0130=y"  > /dev/null  2>&1;then
+
+AUTOCENE_REFERENCE_CONF="config/autoscene_ar0130.cfg"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_AR0330=y"  > /dev/null  2>&1;then
+
+AUTOCENE_REFERENCE_CONF="config/autoscene_ar0330.cfg"
+
+elif cat $TARGET_ROOT/../.config | grep -n "CONFIG_IMX036=y"  > /dev/null  2>&1;then
+
+AUTOCENE_REFERENCE_CONF="config/autoscene_imx036.cfg"
+fi
+
+
+
+
+
+
+cp -f -v  $AUTOCENE_REFERENCE_CONF  $TARGET_ROOT/etc/conf.d/autoscene_reference_config.xml

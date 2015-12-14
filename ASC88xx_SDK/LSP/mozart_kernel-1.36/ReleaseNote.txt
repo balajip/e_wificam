@@ -1,0 +1,340 @@
+******************************************************
+*   Linux kernel for Mozart3 Release Note            *
+******************************************************
+[version 1.36]
+release on 2013/12/26
+1. mm: fix a case of wrap-around in check_membank_valid
+2. mm: fix bug triggered by appling memory holes
+3. mmc: To issue a mmc_request_done() before enabling interrupts' mask could probably lead mmcqd to permanent sleep
+4. mmc: To fix asymmetrically hold and release the mutex lock of workqueues
+
+[version 1.35]
+release on 2013/09/04
+1. timer: bugfix: tick is considered to be 10ms, hense HZ can't be configured to other values except 100.
+2. mmc: fix kernel panic when card is removed in writing process.
+3. net: gmac: undefined non-useful STMMAC_VLAN_TAG_USED.
+
+[version 1.34]
+release on 2013/05/31
+1. Add support for MXIC flash 35F with 35E in 4-byte mode.
+
+[version 1.33]
+release on 2013/05/28
+1. fixbug: M370 gettimeofday us is truncated
+2. 8250: revert ISR handling flow to that in mainline.
+3. uart: fix the hard-coded fifo control.
+
+[version 1.32]
+release on 2013/05/03
+1. pcie: prevent infinite config read.
+         Return PCIBIOS_FUNC_NOT_SUPPORTED if the device is not in the
+         supported device list.
+2. 8250: rename COUTINV to CVPLOUTINV.
+3. misc: Typo fixed.RT -> RTL for Realtek
+4. spi & nand: use global macro define instead of hard code address
+5. pcie: fix hard-coded register addresses.
+   And replace some values with more readable symbols.
+6. mach-mozart: Upgrade MMR BASE address to support maximum 8Gb DRAM addressing for each DRAM port.
+                Change mach/mozart.h to include one of mach/maps.h and mach/maps_legacy.h base on Kernel configurations.
+                Two configurations, mozart3_2g_defconfig and mozart2_2g_defconfig, are added for legacy MMR BASE address,
+		i.e support maximum 2Gb DRAM addressing for each DRAM port.
+
+[version 1.31]
+release on 2013/03/05
+1. gmac: Add stmmac_disable_irq after dma reset and stmmac_enable_irq after napi_enable.
+   This avoid ISR was triggered befoer napi_enable, which napi_schedule will not schedule
+   stmmac_poll() function. In this case, the irq was disabled in ISR but never be enabled
+   anymore due to stmmac_poll not be scheduled.
+2. gmac: Add free_dma_desc_resources in open fail error handle.
+3. nand: fix NAND flash ecc correction false alarm.
+
+
+[version 1.30]
+release on 2012/12/28
+1. gmac:reduce pbl for maximum TCP package with eth header,1514bytes
+2. gmac: sync with Kernel main stream, Remove bus_id from mdio platform data,
+         use the same one as stmmac plat bus_id
+3. gmac: sync with kernel main stream, remove skb recycling due to the
+         infrastructure in kernel is buggy
+4. gmac: TX interrupt tuning is experiment only
+5. misc: Fix some compile warnnings
+6. misc: rename spi_VN_gpio.c to spi_mozart_gpio.c and keyword replacement.
+
+[version 1.29]
+release on 2012/11/26
+1. Fix CONFIG_RR_PATCH naming error.
+2. vpl_mmc: add 3 mins timeout for error handling.
+3. vpl_mmc: bug fixed, un-plug sd card while read/write causes kernel core dump.
+4. gmac: fix bug, wrong string compare in case phy_mode=xxx is not last of command line.
+5. i2c: enable i2c chardev interface.
+6. rtc: set NXP PCF8563 as default for mozart3_defconfig.
+
+[version 1.28.1]
+release on 2012/10/15
+1. Refine Mozart register definitions.
+
+[version 1.28]
+release on 2012/09/27
+1. Add a new config, CONFIG_RR_PATCH, to enable/disable the workaround of RR issue.
+
+[version 1.27]
+release on 2012/09/26
+1. mmc: add timeout break for dma callback
+2. gmac: adapt new driver which base on stmmac from Linux Kernel mainstream and phy lib support
+3. usb: UVC patch
+4. GPIO: Disable muxed AGPO pin when request pin for use as GPIO is 0~7.
+
+[version 1.26]
+release on 2012/08/06
+1. agpo: does not touch input/ouput settings in initialize.
+   In order to keep the status before get in kernel.
+2. usb: Add -ENOMEM error handle, change kmalloc flags from GFP_ATOMIC to
+        GFP_KERENL and clear warning messages.
+3. usb: usb_submit_urb could be called in ISR
+4. UART: handle sync issue by adding resonable delay(3 baud clock) to fix it.
+5. UART: suprot UART CLK Configuration in menuconfig.
+6. Reduce round-robin patch overhead.
+
+[version 1.25.1]
+release on 2012/07/02
+1. nand: Add timing support for AHB 160 MHz.
+2. kernel: Fix csum_partial_copy_from_user().
+   Using the parent functions frame pointer to access our arguments is
+   completely wrong, whether or not we're building with frame pointers
+   or not.  What we should be using is the stack pointer to get at the
+   word above the registers we stacked ourselves.
+
+[version 1.25]
+release on 2012/06/15
+1. spi_flash: Eliminate CONFIG_MTD_SF_NO1_PAGE_NUM.
+2. timer: Remove the nonsense patch which caused time rollback.
+3. timer: Clean up and fix the possible overflow case.
+4. mmc: Patch for 330 with 30MHz XTAL.
+
+
+[version 1.24]
+release on 2012/06/07
+1. mmc: Replace plat_loop to udelay.
+2. mmc: CD/DATA3 share pin implement.
+3. gpio: Bugix(sg => sp).
+4. nand: For safety, sometimes jiffies incease by 2 in M330.
+5. nand: 5.1. for read error issue: remove delay workaround (root cause's the inaccurate jiffies and has been fixed).
+         5.2. add volatile in DevReady function.
+6. timer: Fix the shortage error.
+7. spi_flash: 4-byte address mode supported.
+
+
+[version 1.23]
+release on 2012/03/22
+1. [BUGFIX] cifs: fix CIFS memory leak problem.
+2. dw_spi: refined for testing mn34041pl/mn34030pl sensor.
+3. mmc: check host->data is NULL or not.
+4. Add support for MICREL KSZ8051 10Mbps/100Mbps Phy
+
+
+[version 1.22]
+release on 2011/12/23
+1. SPI Flash
+ - Jeff Liao
+ - [New Feature] Modify the driver of DW SPI controller for supporting odd-len data reading of serial flash.
+                 Refine the driver of DW SPI controller.
+		 Modify dw_spi_simple.c for setting correct value to SER reg.
+		 Modify dw_spi_simple.c for testing the id-reading function.
+		 Modify dw_spi_simple for testing the flash-erasing function.
+		 Modify dw_spi_simple.c for testing the erasing and writing (even-len) functions  of  SPI flash.
+2. Nand Flash
+ - James Lin
+ - [Bug Fixed] Add HYNIX NFC Timing on M370/M330.
+3. GMAC
+ - James Lin
+ - [Bug Fixed] Add full/half duplex mode support to IC+101A.
+
+
+[version 1.21]
+release on 2011/12/01
+1. USB
+  - Poplar Yang
+  - [New Feature] Select USB_DEVICEFS as default setting.
+2. SPI Flash
+  - Jeff Liao
+  - [New Feature] The driver of DW SPI controller can support the TX and RX respectively.
+  - [New Feature] DW spi controller driver supports reading the even-length data from flash.
+3. Ethernet MAC
+  - James Lin
+  - [Bug Fixed] Adjust MDC divider value according to AHB Clock.
+4. JFFS2
+  - Morgan Chang
+  - [Bug Fixed] JFFS2 usable space will be shrinked sometimes.
+    Use uninterruptible lock instead of interruptible one in SPI Flash driver.
+5. GPIO
+ - Poplar Yang
+ - [Bug Fixed] Remove pin default setting in GPIO_open.
+6. I2C
+ - James Lin
+ - [New Feature] Extend I2C protocol support for SSM2603/AIC3104 read.
+7. Misc
+  - Morgan Chang
+  - [Refinement] Refine generation of symbol link include/asm/arch/.
+    Workable for either the same or separated src/obj trees.
+
+
+[version 1.20]
+release on 2011/11/03
+1. pcie: probe devices dynamically.
+ - Probing PCIe devices dynamically.
+ - Add configurations of supported PCIe devices in: System Type -> Mozart Options -> PCIe Devices
+ - Change LTSSM flow: assert PERST -> deassert PERST -> start LTSSM.
+2. USB
+ - DW_USB_PATCH just need DWORD align, not for buf_len
+3. Add round-robin timer interrupt handler in exception stubs.
+4. Add RTC Chip "NXP PFC8563" device driver.
+5. SPI : fix write_only parameter scenarios.
+6. Nand : Update NFC timing.
+
+[version 1.19]
+release on 2011/09/29
+1. Add RTL8211 Network PHY support in 10/100 mode.
+2. SPI Flash
+ - Replace all ERESTARTSYS to EAGAIN.
+ - Set retlen to 0 before any return in haydn_spiflash_write().
+
+[version 1.18]
+release on 2011/09/16
+1. Force the net speed as 10/100Mbps mode on Mozart325/330 platform.
+2. We add a new option in menuconfig to let user can enable/disable CPU mode of SF driver.
+3. Unlimit the AHB CLK speed of kernel.
+4. SPI flash driver bug fix : wrong address as write offset parameter.
+5. MMC driver
+   - add MSHC_0/MSHC_1 defconfig
+   - version 1.0.0.15 modify the mechanism from workqueue to tasklet
+6. Set NFC drv-strength as 2mA.
+
+[version 1.17]
+release on 2011/08/04
+1. nand driver : Use Mozart_vmalloc/Mozart_free instead of vmalloc/vfree in UBI layer.
+2. mmc driver : bug fix for release memory from dma_alloc_consistent or kzalloc
+3. gmac driver : Add the mechanism that gmac driver can switch its speed between 100Mbps and 1Gbps automatically in MozartV2
+
+[version 1.16]
+release on 2011/07/18
+1. Fix the bug that kernel dump will occur as long as removing the i2c-gpio driver.
+2. Refine MMC driver -- add pull_high resister parameters, add cache/non-cache selection for descriptor.
+3. Add support for I2C-EEPROM AC24.
+4. Fix Add IC+101/1001 support for Mozart V2 network driver.
+
+
+[version 1.15]
+release on 2011/03/11
+1. Fix MSHC bug :
+ - fix CMD12 fail handling.
+ - fix dmac_inv_range usage issue
+ - mmc_block: fix queue cleanup
+2. Nand enhancement :
+ - Add Toshiba nand support.
+3. JFFS2
+ - Fix return value from jffs2_do_readpage_nolock()
+4. GMAC enhancement :
+ - add PPPoE support as kernel module.
+
+[Version 1.14]
+Release on 2011/02/16
+1. Fix skbuffer memory leakage of IPV6 layer.
+2. Fix tx-skbuffer memory leakage of gmac driver.
+
+[Version 1.13]
+1. Refine GMAC driver - fix BUG message when tx descriptor full in 10Mbps speed
+
+2. Refine nand driver.
+3. Fix PCIE driver bug - Incorrect data payload size.
+4. Refine MSHC driver - add mshc #0/ #1 select
+5. Fix address alignment for SPI flash driver write function.
+6. Add mtd-part support in nand driver.
+7. Add AHBCLK 160/150MHz support.
+8. Support E1000E/JMB363 PCIe cards.
+
+[Version 1.12]
+Release on 2010/09/30
+1. Remove some test codes.
+
+[Version 1.11]
+Release on 2010/09/29
+1. Add support for different revision of IC+ PHY.
+
+[Version 1.10]
+Release on 2010/09/13
+1.fix some MMC problems.
+2.add AGPO functions.
+3.add some Ethernet's supports.
+4.fix some timer's bugs.
+5.fix PCIe's reset problem.
+6.add USB High-speed Host Electrical Test Support
+7.Add dwc_otg pcd support
+8.fix JFFS2's bug.
+
+[Version 1.09]
+Release on 2010/06/04
+
+[Version 1.08]
+Release on 2010/05/14
+1.Refine MMC functions.
+2.Fix I2C-GPIO module removal bug.
+3.Add UART configure options in menuconfig.
+4.Refine timer functions to support Mozart325.
+
+[Version 1.07]
+Release on 2010/04/29
+1.Refine PCIE functions.
+2.Refine SPI-Flash functions -- add PIO-Mode support and refine the code.
+3.Fix JFFS2 deadlock bug.
+4.Refine MMC functions and add CMD12 to fix core bug.
+5.Turn off Auto-RTC-SYNC.
+
+[Version 1.06]
+Release on 2010/03/26
+1.Refine AGPOC functions
+2.Refine timer isr to support AHBCLK 166666666 Hz
+3.Disable NAND-Driver/UBIFS in the default kernel config
+
+[Version 1.05]
+Release on 2010/03/19
+1. Fix APBC DMA ISR issue
+2. Refine AGPO/GPIO header file for user space application
+3. Add ethtool support in GMAC driver
+4. Add PCI Express support (disabled by default)
+5. Add ioctl command AGPO_DISABLE to disable AGPO
+
+
+[Version 1.04]
+Release on 2010/02/02
+1. MSHC driver refinement and fix MSHC hot plug issue
+2. rename MSHC driver module
+3. AGPO/GPIO driver refinement and add i2c-gpio NULL pin
+4. Add RS485 support
+5. Adjust JFFS2 sector size
+
+
+[Version 1.03]
+Release on 2010/01/15
+1. Reduce I2C timeout interval
+2. Support 2 Bank SPI flash
+3. SPI flash partition modification
+
+
+[Version 1.02]
+Release on 2010/01/05
+1. Add ramdisk support
+2. Fix GMAC driver open/close bug
+
+
+[Version 1.01]
+Release on 2009/12/24
+1. Enable NAND flash support
+2. Enable AGPOC support
+3. Fix GPIOC interrupt mechanism that may cause GPIO_I2C interrupts vanish
+4. Add GMAC auto speed switch mechanism depending on IC plus PHY
+5. Add GMAC multicast support
+
+
+[Version 1.00]
+Release on 2009/12/04
+1. First released

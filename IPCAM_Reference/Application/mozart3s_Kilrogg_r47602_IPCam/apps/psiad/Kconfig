@@ -1,0 +1,14 @@
+# This is a sample of video encoder Kconfig. 
+# Here shows how to use "choice" in Kconfig. 
+
+menu "PSIA Support"
+
+config PSIA
+	bool "Enable the PSIA support"
+	default n
+
+
+endmenu
+
+
+

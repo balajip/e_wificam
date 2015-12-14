@@ -1,0 +1,2256 @@
+<?xml version="1.0" standalone="yes"?>
+<root>
+	<venc_master>
+		<setting>
+			<ircut>on</ircut>
+			<resolution>#venc_master_resolution#</resolution>
+			<pline_freq>60</pline_freq>
+			<flip_enable>0</flip_enable>
+			<mirror_enable>0</mirror_enable>
+			<color_mode>1</color_mode>
+			<auto_focus>
+			      <current_cmd>changevalue</current_cmd> <!--changevalue,changespeed,changewindow,changezoomspeed,changenoisethreshold,changerefocus-->
+			      <value>0</value> <!--0:near,1:far-->
+			      <zoom>0</zoom> <!--0:zoom-in,1:zoom-out-->
+			      <speed>0</speed> <!--focus speed level:0,1,2,3,4,5,6-->
+			      <startX>0</startX>
+			      <startY>0</startY>
+			      <width>320</width>
+			      <height>240</height>
+			      <view_resolution>640x480</view_resolution>
+			      <zoomspeed>0</zoomspeed><!--zoom speed level:0,1,2,3,4,5,6-->
+			      <noisethreshold>3</noisethreshold><!--noise threshold:0,1,2,3,4,5,6,7-->
+			      <refocus>off</refocus> <!--re-focus:on/off-->
+			</auto_focus>
+		</setting> 
+		<isp>
+			<wdr>
+			    <enable>off</enable> <!--on,off-->
+			    <level>1</level> <!--(1)1, (2)2, (3)3, (4)customized-->
+			    <levelvalue>12</levelvalue> <!--(1)1->12dB, (2)2->30dB, (3)3->48dB (4)custmized (OV10630)-->
+			</wdr>
+			<auto_exposure>
+				<mode>0</mode> <!--0:auto,1:backlight,2:customized-->
+				<autoiris>#venc_master_autoiris#</autoiris>
+				<max_shutter>#venc_master_max_shutter#</max_shutter>
+				<max_gain>#venc_master_max_gain#</max_gain>
+				<min_shutter>#venc_master_min_shutter#</min_shutter>
+				<min_gain>#venc_master_min_gain#</min_gain>
+				<target_luminance>#venc_master_target_luminance#</target_luminance>
+				<target_offset>#venc_master_target_offset#</target_offset>
+	        	<Transformation>
+	        		<Translate>
+	        			<x>-1.0</x>
+	        			<y>1.0</y>
+	        		</Translate>
+	        		<scale>
+	        			<x>#venc_master_x_scale#</x>
+	        			<y>#venc_master_y_scale#</y>
+	        		</scale>
+	        	</Transformation>
+	  			<!-- windows infos--> 
+	  			<win id="0">
+					<startX>0</startX>
+					<startY>0</startY>
+					<width>#venc_master_width#</width>
+					<height>#venc_master_height#</height>
+				  	<weight>1</weight> <!-- 0 ~ 255 -->
+		  		</win>
+	  			<win id="1">
+					<startX>160</startX>
+					<startY>0</startY>
+					<width>160</width>
+					<height>120</height>
+				  	<weight>0</weight> <!-- 0 ~ 255 -->
+		  		</win>
+	  			<win id="2">
+					<startX>0</startX>
+					<startY>120</startY>
+					<width>160</width>
+					<height>120</height>
+				  	<weight>0</weight> <!-- 0 ~ 255 -->
+		  		</win>
+	  			<win id="3">
+					<startX>160</startX>
+					<startY>120</startY>
+					<width>160</width>
+					<height>120</height>
+				  	<weight>0</weight> <!-- 0 ~ 255 -->
+		  		</win>
+	  			<win id="4">
+					<startX>0</startX>
+					<startY>0</startY>
+					<width>160</width>
+					<height>120</height>
+				  	<weight>0</weight> <!-- 0 ~ 255 -->
+		  		</win>
+	  			<win id="5">
+					<startX>0</startX>
+					<startY>0</startY>
+					<width>160</width>
+					<height>120</height>
+				  	<weight>0</weight> <!-- 0 ~ 255 -->
+		  		</win>
+				  <grid_range>
+				    <startX>0</startX>
+				    <startY>0</startY>
+				    <width>#venc_master_width#</width>
+				    <height>#venc_master_height#</height>
+				  </grid_range> 
+				  <grid id="0">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="1">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="2">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="3">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="4">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="5">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="6">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="7">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="8">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="9">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="10">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="11">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="12">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="13">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="14">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="15">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="16">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="17">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="18">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="19">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="20">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="21">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="22">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="23">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="24">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="25">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="26">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="27">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="28">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="29">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="30">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="31">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="32">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="33">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="34">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="35">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="36">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="37">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="38">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="39">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="40">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="41">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="42">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="43">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="44">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="45">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="46">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="47">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="48">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="49">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="50">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="51">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="52">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="53">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="54">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="55">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="56">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="57">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="58">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="59">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="60">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="61">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="62">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="63">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="64">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="65">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="66">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="67">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="68">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="69">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="70">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="71">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="72">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="73">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="74">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="75">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="76">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="77">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="78">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="79">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="80">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="81">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="82">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="83">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="84">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="85">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="86">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="87">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="88">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="89">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="90">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="91">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="92">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="93">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="94">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="95">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="96">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="97">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="98">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="99">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="100">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="101">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="102">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="103">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="104">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="105">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="106">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="107">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="108">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="109">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="110">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="111">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="112">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="113">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="114">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="115">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="116">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="117">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="118">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="119">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="120">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="121">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="122">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="123">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="124">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="125">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="126">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="127">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="128">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="129">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="130">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="131">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="132">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="133">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="134">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="135">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="136">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="137">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="138">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="139">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="140">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="141">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="142">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="143">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="144">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="145">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="146">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="147">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="148">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="149">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="150">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="151">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="152">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="153">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="154">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="155">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="156">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="157">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="158">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="159">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="160">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="161">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="162">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="163">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="164">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="165">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="166">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="167">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="168">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="169">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="170">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="171">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="172">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="173">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="174">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="175">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="176">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="177">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="178">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="179">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="180">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="181">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="182">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="183">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="184">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="185">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="186">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="187">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="188">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="189">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="190">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="191">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="192">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="193">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="194">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="195">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="196">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="197">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="198">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="199">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="200">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="201">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="202">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="203">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="204">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="205">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="206">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="207">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="208">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="209">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="210">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="211">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="212">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="213">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="214">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="215">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="216">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="217">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="218">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="219">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="220">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="221">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="222">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="223">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="224">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="225">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="226">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="227">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="228">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="229">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="230">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="231">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="232">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="233">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="234">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="235">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="236">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="237">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="238">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="239">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="240">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="241">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="242">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="243">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="244">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="245">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="246">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="247">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="248">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="249">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="250">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="251">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="252">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="253">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="254">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="255">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+			</auto_exposure>
+			<white_balance>
+				<select_mode>Auto</select_mode> <!-- Auto, Manual, IncandescentLight, CoolWhiteFluorescentLight, SunLight, Cloudy, SunShade, UserDefine1, UserDefine2-->
+				<mode id="Auto">
+					<Red_Gain>64</Red_Gain> <!-- 0~255 -->
+					<Blue_Gain>64</Blue_Gain> <!-- 0~255 -->
+					<Green_Gain>64</Green_Gain> <!-- 0~255 -->				
+				</mode>
+				<mode id="Simple">
+					<Red_Gain>64</Red_Gain> <!-- 0~255 -->
+					<Blue_Gain>64</Blue_Gain> <!-- 0~255 -->
+					<Green_Gain>64</Green_Gain> <!-- 0~255 -->				
+				</mode>
+				<mode id="Manual">
+					<Red_Gain>64</Red_Gain> <!-- 0~255 -->
+					<Blue_Gain>64</Blue_Gain> <!-- 0~255 -->
+					<Green_Gain>64</Green_Gain> <!-- 0~255 -->
+				</mode>
+				<mode id="IncandescentLight">
+					<Red_Gain>64</Red_Gain> <!-- 0~255 -->
+					<Blue_Gain>64</Blue_Gain> <!-- 0~255 -->
+					<Green_Gain>64</Green_Gain> <!-- 0~255 -->
+				</mode>
+				<mode id="CoolWhiteFluorescentLight">
+					<Red_Gain>64</Red_Gain> <!-- 0~255 -->
+					<Blue_Gain>64</Blue_Gain> <!-- 0~255 -->
+					<Green_Gain>64</Green_Gain> <!-- 0~255 -->	
+				</mode>
+				<mode id="SunLight">
+					<Red_Gain>64</Red_Gain> <!-- 0~255 -->
+					<Blue_Gain>64</Blue_Gain> <!-- 0~255 -->
+					<Green_Gain>64</Green_Gain> <!-- 0~255 -->
+				</mode>
+				<mode id="Cloudy">
+					<Red_Gain>64</Red_Gain> <!-- 0~255 -->
+					<Blue_Gain>64</Blue_Gain> <!-- 0~255 -->
+					<Green_Gain>64</Green_Gain> <!-- 0~255 -->
+				</mode>
+				<mode id="SunShade">
+					<Red_Gain>64</Red_Gain> <!-- 0~255 -->
+					<Blue_Gain>64</Blue_Gain> <!-- 0~255 -->
+					<Green_Gain>64</Green_Gain> <!-- 0~255 -->
+				</mode>
+				<mode id="UserDefine1">
+					<Red_Gain>64</Red_Gain> <!-- 0~255 -->
+					<Blue_Gain>64</Blue_Gain> <!-- 0~255 -->
+					<Green_Gain>64</Green_Gain> <!-- 0~255 -->
+				</mode>
+				<mode id="UserDefine2">
+					<Red_Gain>64</Red_Gain> <!-- 0~255 -->
+					<Blue_Gain>64</Blue_Gain> <!-- 0~255 -->
+					<Green_Gain>64</Green_Gain> <!-- 0~255 -->
+				</mode>
+				<full_frame_grid>true</full_frame_grid>
+				<grid id="0">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="1">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="2">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="3">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="4">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="5">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="6">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="7">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="8">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="9">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="10">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="11">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="12">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="13">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="14">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="15">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="16">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="17">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="18">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="19">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="20">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="21">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="22">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="23">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="24">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="25">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="26">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="27">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="28">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="29">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="30">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="31">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="32">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="33">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="34">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="35">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="36">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="37">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="38">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="39">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="40">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="41">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="42">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="43">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="44">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="45">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="46">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="47">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="48">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="49">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="50">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="51">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="52">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="53">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="54">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="55">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="56">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="57">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="58">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="59">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="60">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="61">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="62">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="63">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="64">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="65">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="66">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="67">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="68">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="69">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="70">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="71">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="72">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="73">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="74">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="75">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="76">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="77">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="78">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="79">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="80">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="81">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="82">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="83">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="84">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="85">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="86">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="87">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="88">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="89">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="90">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="91">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="92">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="93">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="94">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="95">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="96">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="97">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="98">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="99">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="100">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="101">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="102">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="103">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="104">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="105">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="106">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="107">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="108">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="109">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="110">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="111">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="112">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="113">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="114">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="115">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="116">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="117">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="118">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="119">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="120">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="121">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="122">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="123">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="124">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="125">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="126">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="127">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="128">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="129">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="130">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="131">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="132">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="133">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="134">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="135">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="136">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="137">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="138">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="139">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="140">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="141">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="142">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="143">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="144">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="145">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="146">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="147">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="148">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="149">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="150">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="151">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="152">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="153">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="154">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="155">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="156">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="157">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="158">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="159">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="160">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="161">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="162">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="163">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="164">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="165">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="166">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="167">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="168">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="169">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="170">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="171">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="172">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="173">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="174">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="175">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="176">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="177">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="178">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="179">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="180">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="181">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="182">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="183">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="184">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="185">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="186">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="187">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="188">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="189">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="190">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="191">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="192">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="193">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="194">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="195">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="196">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="197">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="198">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="199">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="200">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="201">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="202">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="203">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="204">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="205">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="206">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="207">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="208">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="209">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="210">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="211">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="212">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="213">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="214">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="215">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="216">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="217">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="218">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="219">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="220">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="221">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="222">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="223">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="224">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="225">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="226">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="227">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="228">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="229">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="230">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="231">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="232">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="233">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="234">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="235">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="236">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="237">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="238">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="239">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="240">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="241">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="242">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="243">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="244">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="245">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="246">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="247">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="248">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="249">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="250">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="251">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="252">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="253">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="254">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+				  <grid id="255">
+					  <selected>false</selected>
+					  <weight>0</weight>
+				  </grid>
+			</white_balance>
+			<color_correction>
+				<coeff_RR>#venc_master_coeff_RR#</coeff_RR> 		<!-- -4.000 ~ 4.000 -->
+				<coeff_GR>#venc_master_coeff_GR#</coeff_GR>  	<!-- -2.000 ~ 2.000 -->
+				<coeff_BR>#venc_master_coeff_BR#</coeff_BR> 		<!-- -2.000 ~ 2.000 -->
+				<coeff_RG>#venc_master_coeff_RG#</coeff_RG> 	<!-- -2.000 ~ 2.000 -->
+				<coeff_GG>#venc_master_coeff_GG#</coeff_GG> 		<!-- -4.000 ~ 4.000 -->
+				<coeff_BG>#venc_master_coeff_BG#</coeff_BG> 	<!-- -2.000 ~ 2.000 -->
+				<coeff_RB>#venc_master_coeff_RB#</coeff_RB> 	<!-- -2.000 ~ 2.000 -->
+				<coeff_GB>#venc_master_coeff_GB#</coeff_GB> 	<!-- -2.000 ~ 2.000 -->
+				<coeff_BB>#venc_master_coeff_BB#</coeff_BB> 		<!-- -4.000 ~ 4.000 -->
+				<offset_R>#venc_master_offset_R#</offset_R> 			<!-- 0 ~ 15 -->
+				<offset_G>#venc_master_offset_G#</offset_G> 			<!-- 0 ~ 15 -->
+				<offset_B>#venc_master_offset_B#</offset_B> 			<!-- 0 ~ 15 -->
+			</color_correction>
+			<gamma_table>#venc_master_gamma_table#</gamma_table>
+			<image_adjustment>
+				<select_mode>day</select_mode> <!--day, night, auto-->
+				<bright>#venc_master_bright#</bright> <!-- (-128~127, 0:off) -->
+				<contrast>#venc_master_contrast#</contrast> <!-- (-128~127, 0:off) -->
+				<saturation>#venc_master_saturation#</saturation> <!-- (0~255, 128:off, 0:mono) -->
+				<start_lum>#venc_master_start_lum#</start_lum>
+				<end_lum>#venc_master_end_lum#</end_lum>
+				<tolerance>#venc_master_tolerance#</tolerance>
+			</image_adjustment>
+			<tone_mapping>
+				<enable>off</enable>
+				<level>0</level> <!-- 0~4 -->
+			</tone_mapping>
+			<contrast_enhancement>
+				<enable>off</enable> <!-- on, off -->
+				<mode>Auto</mode> <!--Auto,User,Default-->
+				<brightness>3</brightness> <!-- 0~6 -->
+				<default_method>2</default_method> <!-- 0~3 -->
+				<user_table>0,20,24,27,29,30,32,34,35,36,38,39,39,40,41,43,45,47,49,51,53,55,58,59,61,63,65,67,68,71,72,75,76,79,80,81,84,86,87,90,91,93,94,97,98,100,101,103,104,106,109,110,112,113,115,116,118,119,121,122,124,125,127,128,130,131,133,134,136,138,139,141,142,142,144,145,147,148,150,151,153,153,155,156,158,159,161,161,162,164,165,167,167,168,170,171,173,173,174,176,177,177,178,180,181,181,183,184,185,185,187,188,188,189,191,192,192,193,194,194,196,197,197,198,199,199,200,201,201,203,204,204,205,206,206,207,208,208,209,210,210,211,211,212,213,213,214,215,215,216,216,217,218,218,219,219,219,220,220,221,221,222,222,223,224,224,225,225,225,226,226,227,227,228,228,229,229,229,230,230,231,231,232,232,232,232,233,233,234,235,235,235,235,236,236,237,237,237,237,238,238,239,239,239,239,240,240,241,241,241,241,242,242,243,243,243,243,244,244,245,245,245,245,246,246,246,246,247,247,248,248,248,248,249,249,250,250,250,250,251,251,251,251,251,252,252,253,253,253,253,254,254,254,254,255,255</user_table>
+			</contrast_enhancement>
+			<black_clamp>
+			  <gr>#venc_master_black_clamp_gr#</gr><!--0~255-->
+			  <r>#venc_master_black_clamp_r#</r><!--0~255-->
+			  <gb>#venc_master_black_clamp_gb#</gb><!--0~255-->
+			  <b>#venc_master_black_clamp_b#</b><!--0~255-->
+			 </black_clamp>
+			 <deimpulse>
+			   <enable>off</enable> <!--on,off-->
+			   <dc_bot_threshold>256</dc_bot_threshold><!--0x100,0~65535-->
+			   <dc_top_threshold>65535</dc_top_threshold><!--0xffff,0~65535-->
+			   <max_top_level>16384</max_top_level><!--0x4000,0~65535-->
+			   <max_bot_level>8192</max_bot_level><!--0x2000,0~65535-->
+			    <min_top_level>16384</min_top_level><!--0x4000,0~65535-->
+			   <min_bot_level>8192</min_bot_level><!--0x2000,0~65535-->
+			 </deimpulse>
+	
+		</isp>
+    </venc_master>
+</root>

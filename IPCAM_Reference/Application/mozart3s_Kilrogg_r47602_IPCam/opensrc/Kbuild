@@ -1,0 +1,16 @@
+#subdir-$(CONFIG_APPS_BOA) += boa
+subdir-$(CONFIG_APPS_LIGHTTPD) += lighttpd
+subdir-$(CONFIG_APPS_LUA) += lua
+subdir-$(CONFIG_APPS_DDNS) += ddns
+subdir-$(CONFIG_APPS_SYSKLOGD) += sysklogd
+subdir-$(CONFIG_APPS_PPP) += ppp
+subdir-$(CONFIG_APPS_MDNSRESPONDER) += mDNSResponder
+subdir-$(CONFIG_APPS_MSNTP) += msntp
+subdir-$(CONFIG_APPS_OPENSSL) += openssl
+subdir-$(CONFIG_APPS_STUNNEL) += stunnel
+subdir-$(CONFIG_RECORD) += autofs
+subdir-y += expat
+subdir-y += lsof
+subdir-y += i2c-tools
+subdir-$(CONFIG_APPS_LIVE555_RTSPS) += rtspsrvr_live555
+subdir-$(CONFIG_APPS_DHCP_SERVER) += dhcp-server  

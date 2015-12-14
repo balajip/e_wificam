@@ -1,0 +1,14 @@
+*************************************************************
+* IMX122 sensor device driver, Linux Device Driver, Release Note *
+*************************************************************
+[Version 2.0.0.4]
+Release at 2013.01.15
+1. MODIFICATION: Update MODULE_AUTHOR - DONE.
+
+[Version 2.0.0.3] Release at 2012.09.04
+1. MODIFICATION: Modify sensor output size. - DONE.
+2. MODIFICATION: Add sensor Max gain call back function. - DONE.
+
+[Version 1.0.0.0]
+Release at 2011.12.12
+1. FEATURE: First Released - DONE.

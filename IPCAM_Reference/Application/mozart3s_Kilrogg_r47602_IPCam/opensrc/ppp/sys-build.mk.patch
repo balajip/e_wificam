@@ -1,0 +1,11 @@
+--- ppp-2.4.4rel/debian/sys-build.mk	2011-07-22 13:19:22.000000000 +0800
++++ sys-build.mk.new	2011-07-22 13:23:34.000000000 +0800
+@@ -157,7 +157,7 @@
+ DIR_TARGETS+=$(STAMP_DIR)
+ $(STAMP_DIR_TARGETS): $(STAMP_DIR)
+ 
+-$(DIR_TARGETS)/:
++$(DIR_TARGETS):
+ 	mkdir -p $@
+ 
+ source.clean: unfix.source.patch

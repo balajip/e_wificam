@@ -1,0 +1,18 @@
+#!/bin/bash
+# This script will build expat.
+# It will also copy the header files and the library to the current directory
+# in a VN conventional way, i.e., ./lib and ./src.
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=lsof
+VERSION=4.81.dfsg.1
+TARBALL=$APP_NAME-$VERSION.tar.gz
+PACKAGE_DIR=$APP_NAME-$VERSION
+UNTAR_ARG='-zxvf'
+HOST='arm-linux-'
+CC=${HOST}gcc
+
+
+
+rm -rf ${APP_NAME}
+rm -fr $PACKAGE_DIR
+

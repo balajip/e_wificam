@@ -1,0 +1,6 @@
+#!/bin/sh
+
+[ -f /var/run/netstatus ] && . /var/run/netstatus
+
+arping -c 1 -s $IP_ADDR $IP_ADDR
+

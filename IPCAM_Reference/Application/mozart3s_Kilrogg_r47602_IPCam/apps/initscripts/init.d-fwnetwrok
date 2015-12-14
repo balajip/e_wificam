@@ -1,0 +1,55 @@
+#!/bin/sh
+# /etc/init.d/synctime: sync system time to RTC
+# chkconfig: 2345 01 70
+
+PATH=/sbin:/bin:/usr/bin
+
+RETVAL=0
+
+prog="fwnetwrok"
+
+
+start(){
+    echo -n "Starting $prog: "
+	#echo "."
+	ipaddr=`/usr/bin/fw_printenv |  grep ipaddr  | awk -F'=' '{ print $2 }'`
+	netmask=`/usr/bin/fw_printenv |  grep netmask | awk -F'=' '{ print $2 }'`
+	getwayip=`/usr/bin/fw_printenv |  grep gatewayip | awk -F'=' '{ print $2 }'`
+	dnsaddress="192.168.0.21"
+
+	sed -i "s/#ipaddrsss#/$ipaddr/g" /etc/network/interfaces
+	sed -i "s/#netmask#/$netmask/g" /etc/network/interfaces 
+	sed -i "s/#gwaddress#/$getwayip/g" /etc/network/interfaces 
+	sed -i "s/#dnsaddress#/$dnsaddress/g" /etc/network/interfaces 
+      
+	sed -i "s/#static_ip_address#/$ipaddr/g" /etc/network/network_conf.xml 
+	sed -i "s/#newmask#/$netmask/g" 	/etc/network/network_conf.xml 
+	sed -i "s/#default_gateway_address#/$getwayip/g"  /etc/network/network_conf.xml	
+	sed -i "s/#dnsaddress#/$dnsaddress/g"    /etc/network/network_conf.xml
+	echo
+
+}
+
+stop(){
+    echo -n "Stopping $prog: "
+	echo "."
+}
+
+# See how we were called.
+case "$1" in
+    start)
+	start
+	;;
+    stop)
+	stop
+	;;
+    restart)
+    stop
+    start
+	;;
+    *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit 0

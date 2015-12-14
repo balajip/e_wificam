@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <script type="text/javascript" src="/include/jQuery/jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="/include/common.js"></script>
+  <script type="text/javascript" src="/include/ajaxcommon.js"></script>
+  <script type="text/javascript" src="/include/language.js"></script>
+  <script type="text/javascript" src="/include/system.js"></script>
+  <link href="../css/default.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div class="confContent" id="content">
+  <fieldset>    
+    <legend><strong><span>System</span></strong></legend><br>
+    <dl>      
+      <dt>
+        <span>Host name : </span>
+        <input id="sysName" type="text" class="text" size="40" maxlength="40"/>
+      </dt>
+    <!--dt>
+      <input name="system_ledoff" type="hidden" title="param"/-->
+      <!-- start: hide Turn On/Off LED Indicator by jesi 2009/01/09 -->
+      <!--input style="display:none" type="checkbox" onchange="updatecheck(this.form.system_ledoff, this)"/>
+      <span title="symbol" style="display:none">turn_off_the_led_indicator</span></dt-->
+<!-- end: hide Turn On/Off LED Indicator by jesi 2009/01/09 -->
+    </dl>
+  </fieldset>
+  <fieldset>
+    <legend><strong><span>System time</span></strong></legend><br>
+    <dl>      
+      <dt>
+        <span>Time zone : </span>
+        <select id="timezone" class="select">
+          <option value="MHT-12" title="symbol">gmt-12_00_eniwetok_kwajalein</option>
+          <option value="SST11" title="symbol">gmt-11_00_midway_island_samoa</option>
+          <option value="HST10" title="symbol">gmt-10_00_hawaii</option>
+          <option value="AKST9AKDT,M3.2.0,M11.1.0" title="symbol">gmt-09_00_alaska</option>
+          <option value="PST8PDT,M3.2.0,M11.1.0" title="symbol">gmt-08_00_las_vegas_san_francisco_vancouver</option>
+          <option value="MST7MDT,M3.2.0,M11.1.0" title="symbol">gmt-07_00_mountain_time_denver</option>
+          <option value="MST7" title="symbol">gmt-07_00_arizona</option>
+          <option value="CST6CDT,M3.2.0,M11.1.0" title="symbol">gmt-06_00_central_america_central_time_mexico_city_saskatchewan</option>
+          <option value="EST5EDT,M3.2.0,M11.1.0" title="symbol">gmt-05_00_eastern_time_new_york_toronto</option>
+          <option value="COT5" title="symbol">gmt-05_00_bogota_lima_quito_indiana</option>
+          <option value="AST4ADT" title="symbol">gmt-04_00_atlantic_time_canada_caracas_la_paz_santiago</option>
+          <option value="NST3:30NDT" title="symbol">gmt-03_30_newfoundland</option>
+          <option value="ART3ARST,M10.1.0/0,M3.3.0/0" title="symbol">gmt-03_00_brasilia_buenos_aires_georgetown_greenland</option>
+          <option value="GST2" title="symbol">gmt-02_00_mid-atlantic</option>
+          <option value="AZOT1AZOST,M3.5.0/0,M10.5.0/1" title="symbol">gmt-01_00_azores_cape_verde_is_</option>
+          <option value="WET0" title="symbol">gmt_casablanca_greenwich_mean</option>
+          <option value="CET-1CEST,M3.5.0,M10.5.0/3" title="symbol">gmt_01_00_amsterdam_berlin_rome_stockholm_vienna_madrid_paris</option>
+          <option value="CET-1CEST,M3.5.0,M10.5.0/3" title="symbol">gmt_01_00_warsaw_budapest_bern</option>
+          <option value="EET-2EEST,M3.5.0/3,M10.5.0/4" title="symbol">gmt_02_00_athens_helsinki_istanbul_riga</option>
+          <option value="EET-2EEST,M3.5.0/0,M10.5.0/3" title="symbol">gmt_02_00_lebanon_minsk</option>
+          <option value="IST-2" title="symbol">gmt_02_00_israel</option>
+          <option value="AST-3" title="symbol">gmt_03_00_baghdad_kuwait_riyadh_moscow_st_petersburg_nairobi</option>
+          <option value="AST-3ADT,J91/3,J274/4" title="symbol">gmt_03_00_iraq</option>
+          <option value="IRST-3:30" title="symbol">gmt_03_30_tehran</option>
+          <option value="GST-4" title="symbol">gmt_04_00_abu_dhabi_muscat_baku_tbilisi_yerevan</option>
+          <option value="AFT-4:30" title="symbol">gmt_04_30_kabul</option>
+          <option value="PKT-5" title="symbol">gmt_05_00_ekaterinburg_islamabad_karachi_tashkent</option>
+          <option value="IST-5:30" title="symbol">gmt_05_30_calcutta_chennai_mumbai_new_delhi</option>
+          <option value="NPT-5:45" title="symbol">gmt_05_45_kathmandu</option>
+          <option value="NOVT-6NOVST,M3.5.0,M10.5.0/3" title="symbol">gmt_06_00_almaty_novosibirsk_astana_dhaka_sri_jayawardenepura</option>
+          <option value="MMT-6:30" title="symbol">gmt_06_30_rangoon</option>
+          <option value="ICT-7" title="symbol">gmt_07_00_bangkok_hanoi_jakarta_krasnoyarsk</option>
+          <option value="CST-8" title="symbol">gmt_08_00_beijing_chongging_hong_kong_kuala_lumpur_singapore_taipei</option>
+          <option value="JST-9" title="symbol">gmt_09_00_osaka_sapporo_tokyo_seoul_yakutsk</option>
+          <option value="CST-9:30" title="symbol">gmt_09_30_adelaide_darwin</option>
+          <option value="EST-10" title="symbol">gmt_10_00_brisbane_canberra_melbourne_sydney_guam_vladivostok</option>
+          <option value="MAGT-11MAGST,M3.5.0,M10.5.0/3" title="symbol">gmt_11_00_magadan_solomon_is_new_caledonia</option>
+          <option value="FJT-12" title="symbol">gmt_12_00_aucklan_wellington_fiji_kamchatka_marshall_is_</option>
+          <option value="TOT-13" title="symbol">gmt_13_00_nuku_alofa</option>
+        </select>
+      </dt>
+      <dt>
+        <input type="radio" name="method" value="ntp"/>
+        <span>Automatic</span>
+      </dt>
+      <dd>
+        <span>NTP server : </span>
+        <input type="text" class="text" id="ntpSever" size="40" maxlength="128"/>
+      </dd>
+      <dd>
+        <span>Update interval : </span>
+        <select id="updateInterval" class="select">
+          <option value="3600">One hour</option>
+          <option value="86400">One day</option>
+          <option value="604800">One week</option>
+          <option value="2592000">One month</option>
+        </select>
+      </dd>
+      <dt>
+        <input type="radio" name="method" value="keep"/>
+        <span title="symbol">keep_current_date_and_time</span>  
+      </dt>      
+    </dl>
+    <input type="button" class="button" id="changeDT" value="Change date and time" onclick="openPanel()"/>     
+    <dl>
+      <dd>
+        <dl id="manualPanel">
+          <dt>
+            <input type="radio" name="method" value="pc"/>
+            <span>Computer time</span>      
+          </dt>
+          <dd>
+            <span>Date : </span>
+            <input type="text" class="text" id="pcDate" size="11" maxlength="10" disabled="disabled"/>
+          </dd>
+          <dd>
+            <span>Time : </span>
+            <input type="text" class="text" id="pcTime" size="8" maxlength="8" disabled="disabled"/>
+          </dd>
+          <dt>
+            <input type="radio" name="method" value="assign"/>
+            <span>Assign value</span>      
+          </dt>
+          <dd>
+            <span>Date : </span>
+            <input type="text" class="text" id="assignDate" size="11" maxlength="10"/>
+            <span title="symbol">yyyy_mm_dd</span>
+          </dd>
+          <dd>
+            <span>Time : </span>
+            <input type="text" class="text" id="assignTime" size="8" maxlength="8"/>
+            <span title="symbol">hh_mm_ss</span>
+          </dd>
+        </dl> 
+      </dd>
+    </dl>     
+  </fieldset>
+  <input type="button" class="button" onclick="submitform()" value="Save"/>
+  <div id="ajaxMask"><span id="ajaxImg"></span></div>
+</div>
+</body>
+</html>

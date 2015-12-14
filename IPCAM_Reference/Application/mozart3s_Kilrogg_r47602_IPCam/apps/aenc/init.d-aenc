@@ -1,0 +1,86 @@
+#!/bin/sh
+#
+# aencd: This starts and stops aenc.
+#
+# chkconfig: 2345 25 10
+# description: aenc
+#
+# processname: /usr/sbin/aenc
+# config: /etc/conf.d/aenc_conf.xml
+# pidfile: /var/run/aenc.pid
+
+# automatically export variables to the environment
+set -a
+
+PATH=/sbin:/bin:/usr/bin:/usr/sbin
+
+# Source function library.
+. /etc/init.d/functions
+
+# Get config.
+
+#RETVAL=0
+
+prog="aenc"
+binpath="/usr/sbin/aenc"
+pidfile="/var/run/aenc.0.pid"
+configfile="/etc/conf.d/aenc_conf.xml"
+command_fifo="/tmp/aenc/c0/command.fifo"
+args="-c $configfile -f $command_fifo -p $pidfile -D"
+
+[ -f $binpath ] || exit
+
+start(){
+    echo -n "Starting $prog ... "
+    start-stop-daemon --start --pidfile $pidfile --exec $binpath -- $args
+	#usleep 1000
+    # if ! pidof  rtsps  > /dev/null  2>&1;then                                  
+	#	count=0                                                              
+	#	while [ $count -le 10000 ]                                           
+	#	do
+	#		count=$((count + 1))
+	#		if pidof rtsps  > /dev/null  2>&1;then                              
+	#			echo "rtsps exist(2)!!"                                           
+	#			break                                                            
+	#		fi
+	#	done                                                                 
+	#fi 
+	#$binpath $args > /dev/null 2>&1
+ 	echo
+}
+
+#default --stop send signal 15 (SIGTERM)
+stop(){
+    echo -n "Stopping $prog ... "
+    start-stop-daemon --stop --signal 9 --quiet -n $prog --pidfile $pidfile
+	echo "."
+}
+
+reload(){
+    echo -n "Reloading $prog ... "
+    start-stop-daemon --stop --signal 1 -n $prog --pidfile $pidfile
+	sleep 1
+    echo "."
+}
+
+# See how we are called.
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    reload)
+        reload
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|reload}"
+        exit 1
+esac
+
+exit 0

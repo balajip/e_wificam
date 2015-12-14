@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Event</title>
+        <script type="text/javascript" src="/include/jQuery/jquery-1.7.1.min.js"></script>  
+        <script type="text/javascript" src="/include/common.js"></script>
+        <script type="text/javascript" src="/include/ajaxcommon.js"></script>
+        <script type="text/javascript" src="/include/event.js"></script>
+        <link href="/css/default.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <div id="div_mask" style="display:none;"></div>
+        <div class="confContent" id="content">
+            <fieldset>
+                <legend><strong>Motion Alarm</strong></legend><br>
+                <dl>
+                    <dt>Schedule</dt>
+                    <dd><label><input type="radio" value="disable"  name="sche" onclick="scheChange()"/>Disabled</label></dd>
+                    <dd><label><input type="radio" value="always"   name="sche" onclick="scheChange()"/>Always</label></dd>
+                    <dd><label><input type="radio" value="schedule" name="sche" onclick="scheChange()"/>Schedule</label>
+                        
+                        <dl class="cSche">
+                            <dd><label><input id="chkDay0" type="checkbox" />SUN</label>
+                                <label><input id="chkDay1" type="checkbox" />MON</label>
+                                <label><input id="chkDay2" type="checkbox" />TUE</label>
+                                <label><input id="chkDay3" type="checkbox" />WED</label>
+                                <label><input id="chkDay4" type="checkbox" />THU</label>
+                                <label><input id="chkDay5" type="checkbox" />FRI</label>
+                                <label><input id="chkDay6" type="checkbox" />SAT</label>
+                            </dd>
+                            <dd>
+                                From &nbsp;<select class="select time" id="scheHourS"></select>&nbsp;:&nbsp;
+                                <select class="select time" id="scheMinS"></select>&nbsp;
+                                To &nbsp;  <select class="select time" id="scheHourE"></select>&nbsp;:&nbsp;
+                                <select class="select time" id="scheMinE"></select> 
+                            </dd>                       
+                        </dl>              
+                    </dd>
+                </dl>
+                <dl class="cAct">
+                    <dt>Actions</dt>
+                    <dd>Interval Between Alarm
+                        <select class="select" id="alarmInterval">
+                            <option value= "1">1 sec</option>
+                            <option value= "3">3 sec</option>
+                            <option value="15">15 sec</option>
+                            <option value="30">30 sec</option>
+                            <option value="60">1 min</option>
+                        </select>
+                    </dd>
+                    <dd><label><input id="sendFtp"   type="checkbox" />Send FTP Notification</label></dd>
+                    <dd><label><input id="sendEmail" type="checkbox" />Send E-mail Notification </label></dd>                    
+                    <dd class="cTODO"><label><input id="activeDO" type="checkbox" />Active Digital Output</label>
+                        <dl>
+                            <dd>Action Duration
+                                <select class="select" id="actionDuration">
+                                    <option value="1">1 sec</option>
+                                </select>
+                            </dd>
+                        </dl>
+                    </dd>                                                           
+                </dl>
+            </fieldset>
+            <input type="button" class="button" value="Save" onclick="submitEvt()" />
+        </div>
+        <div id="ajaxMask"><span id="ajaxImg"></span></div>
+<!--
+        <iframe name="ret_page" style="display:none"></iframe>
+-->        
+    </body>
+</html>
+
+

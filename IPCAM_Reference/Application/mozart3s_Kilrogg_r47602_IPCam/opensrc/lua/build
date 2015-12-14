@@ -1,0 +1,148 @@
+#!/bin/bash
+# This script will build expat. 
+# It will also copy the header files and the library to the current directory
+# in a VN conventional way, i.e., ./lib and ./src. 
+PATH=/usr/bin:/bin:$PATH
+APP_NAME=lua
+VERSION=1.95.8
+SOVERSION=0.5.0
+TARBALL=$APP_NAME-$VERSION.tar.bz2
+PACKAGE_DIR=$APP_NAME-5.1.2
+UNTAR_ARG='-jxf'
+HOST='arm-linux-'
+CC=${HOST}gcc
+
+# check if you have the proper gcc
+which $CC > /dev/null || exit 1 
+
+#tar $UNTAR_ARG $TARBALL
+
+[ -d "$PACKAGE_DIR" ] || exit 1
+
+cd $PACKAGE_DIR
+
+# configure it for $HOST
+[ -f "Makefile" ] || ./configure --host=${HOST%-} &> /dev/null
+
+# simply make it
+#make --quiet MAKEFLAGS= 
+MAKEFLAGS=
+make --quiet
+
+cd - > /dev/null
+
+
+# if i have the shared stripped library and it is newer than the original one, 
+# ignore it. 
+[ -f "${APP_NAME}" ] && [ "${PACKAGE_DIR}/src/${APP_NAME}" -ot "${APP_NAME}" ] && exit 0
+
+${HOST}strip -o ${APP_NAME} $PACKAGE_DIR/src/${APP_NAME}
+
+#build luaexpat-1.1
+LIB_NAME=luaexpat
+VERSION=1.95.8
+SOVERSION=1.1.0
+TARBALL=$LIB_NAME-$VERSION.tar.bz2
+PACKAGE_DIR=$LIB_NAME-1.1
+UNTAR_ARG='-jxf'
+HOST='arm-linux-'
+CC=${HOST}gcc
+
+# check if you have the proper gcc
+which $CC > /dev/null || exit 1 
+
+#tar $UNTAR_ARG $TARBALL
+
+[ -d "$PACKAGE_DIR" ] || exit 1
+
+cd $PACKAGE_DIR
+
+# configure it for $HOST
+[ -f "Makefile" ] || ./configure --host=${HOST%-} &> /dev/null
+
+# simply make it
+#make --quiet MAKEFLAGS= 
+MAKEFLAGS=
+make --quiet
+
+cd - > /dev/null
+
+LIB_SO="lxp.so.${SOVERSION}"
+# if i have the shared stripped library and it is newer than the original one, 
+# ignore it. 
+[ -f "${LIB_SO}" ] && [ "${PACKAGE_DIR}/src/${LIB_SO}" -ot "${LIB_SO}" ] && exit 0
+
+${HOST}strip -o ${LIB_SO} $PACKAGE_DIR/src/${LIB_SO}
+#ln -fs ${LIB_SO} lxp.so
+
+#build luasocket-2.0.1
+LIB_NAME=luasocket
+VERSION=1.95.8
+MIME_SOVERSION=1.0.1
+SOCKET_SOVERSION=2.0.1
+TARBALL=$LIB_NAME-$VERSION.tar.bz2
+PACKAGE_DIR=$LIB_NAME-2.0.1
+UNTAR_ARG='-jxf'
+HOST='arm-linux-'
+CC=${HOST}gcc
+
+# check if you have the proper gcc
+which $CC > /dev/null || exit 1
+
+#tar $UNTAR_ARG $TARBALL
+
+[ -d "$PACKAGE_DIR" ] || exit 1
+
+cd $PACKAGE_DIR
+
+# configure it for $HOST
+[ -f "Makefile" ] || ./configure --host=${HOST%-} &> /dev/null
+
+# simply make it
+#make --quiet MAKEFLAGS=
+MAKEFLAGS=
+make --quiet
+
+cd - > /dev/null
+
+LIB_MIME_SO="mime.so.${MIME_SOVERSION}"
+# if i have the shared stripped library and it is newer than the original one,
+# ignore it.
+[ -f "${LIB_MIME_SO}" ] && [ "${PACKAGE_DIR}/src/${LIB_MIME_SO}" -ot "${LIB_MIME_SO}" ] && exit 0
+
+${HOST}strip -o ${LIB_MIME_SO} $PACKAGE_DIR/src/${LIB_MIME_SO}
+
+LIB_SOCKET_SO="socket.so.${SOCKET_SOVERSION}"
+# if i have the shared stripped library and it is newer than the original one,
+# ignore it.
+[ -f "${LIB_SOCKET_SO}" ] && [ "${PACKAGE_DIR}/src/${LIB_SOCKET_SO}" -ot "${LIB_SOCKET_SO}" ] && exit 0
+
+${HOST}strip -o ${LIB_SOCKET_SO} $PACKAGE_DIR/src/${LIB_SOCKET_SO}
+
+
+#### build luafilesystem-1.6.2 Start ####
+LIB_NAME=luafilesystem
+PACKAGE_DIR=$LIB_NAME-1.6.2
+HOST='arm-linux-'
+CC=${HOST}gcc
+
+# check if you have the proper gcc
+which $CC > /dev/null || exit 1
+
+[ -d "$PACKAGE_DIR" ] || exit 1
+
+cd $PACKAGE_DIR
+
+# simply make it
+make --quiet
+
+cd - > /dev/null
+
+LIB_SO="lfs.so"
+# if i have the shared stripped library and it is newer than the original one, 
+# ignore it. 
+[ -f "${LIB_SO}" ] && [ "${PACKAGE_DIR}/src/${LIB_SO}" -ot "${LIB_SO}" ] && exit 0
+
+${HOST}strip -o ${LIB_SO} $PACKAGE_DIR/src/${LIB_SO}
+#### build luafilesystem-1.6.2 End ####
+
